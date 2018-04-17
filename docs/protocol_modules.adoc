@@ -1,0 +1,268 @@
+= Protocol Modules
+
+== Overview
+
+The SIPmsg test port provides a connection between the executable test suite and the system under test. The test port opens IPv4 sockets, closes the sockets, encodes and sends SIPmsg messages through the socket and decodes the received SIPmsg messages.
+
+Figure 1: The overview of the test system using SIPmsg test port
+
+== Installation
+
+Since the SIPmsg test port is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of the SIPmsg test port. For more details on the installation of TTCN-3 Test Executor see the relevant section of [3].
+
+The SIPmsg test port install package is available via ClearCase, from the following vob:
+
+/vobs/ttcn/TCC_Release/TestPorts/SIPmsg_CNL113319
+
+The package contains
+
+one or more TTCN-3 files with the messages and attributes supported by the test port
+
+one or more C++ header and source files using the test port template as described in [3].
+
+The packages include the following files:
+
+SIPmsg_Types.ttcn
+
+SIPmsg_PortTypes.ttcn
+
+SIP_parse.h
+
+SIP_parse.l
+
+SIP_parse.y
+
+SIP_parse_.tab.c
+
+SIP_parse_.tab.h
+
+lex.SIP_parse_.c
+
+SIPmsg_PT.hh
+
+SIPmsg_PT.cc
+
+Note: All files need to be added to the .prj project file in TITAN GUI, except the .l and .y files.
+
+=== Description of the files in the package
+
+[[sipmsg-types-ttcn-and-sipmsg-porttype-ttcn]]
+==== SIPmsg_Types.ttcn and SIPmsg_PortType.ttcn
+
+Contains the TTCN-3 structure of the SIP messages, the definitions of message types, attributes, parameters, types and ports. The user should never change this file.
+
+[[sipmsg-pt-hh-sip-parse-h]]
+==== SIPmsg_PT.hh, SIP_parse.h
+
+C++ header file of the SIPmsg test port. The user should never change this file.
+
+[[sipmsg-pt-cc-sip-parse-tab-c-sip-parse-tab-h-lex-sip-parse-c]]
+==== SIPmsg_PT.cc, SIP_parse_.tab.c, SIP_parse_.tab.h, lex.SIP_parse_.c
+
+The files containing the implementation of the SIPmsg test port. The user should never change this files.
+
+[[sip-parse-l-sip-parse-y]]
+==== SIP_parse.l, SIP_parse.y
+
+Parser and lexer source files. Not needed for the compilation of the test port. Used to generated SIP_parse_.tab.c, SIP_parse_.tab.h, lex.SIP_parse_.c files. The user should never change this files.
+
+== Configuration
+
+The executable test program behaviour is determined via the run-time configuration file. This is a simple text file, which contains various sections (e.g. [TESTPORT_PARAMETERS]) after each other. The usual suffix of configuration files is .cfg. For further information on the configuration file see [3].
+
+=== SIP parameters in the configuration file
+
+The test port parameters section is introduced by the keyword [TESTPORT_PARAMETERS].
+
+In this section you can specify parameters that are passed to the SIPmsg test port. Each parameter definition consists of a component name, a port name, a parameter name and a parameter value. The component name can be either an identifier or a component reference (integer) value. The port and parameter names are identifiers while the parameter value must be always a charstring (with quotation marks). Instead of component name or port name (or both of them) the asterisk (“*``) sign can be used, which means''all components" or ``all ports of the component''.
+
+All parameters are optional. Because the listening is not enabled by default it should be enabled with parameter listen_enabled.
+
+The following parameters are allowed:
+
+[[local-sip-port]]
+==== local_sip_port
+
+The UDP/TCP port number used for incoming SIP messages. Default value is _``5061''_.
+
+[[default-local-adress]]
+==== default_local_adress
+
+The address of the local network interface on which the local UDP or TCP port is opened. If it is not specified the test port will use any of the interfaces.
+
+[[default-sip-protocol]]
+==== default_sip_protocol
+
+The default transport protocol used by SIP. Allowed values: _TCP, UDP_. It can be changed during the test. Default value is _UDP._
+
+[[default-dest-port]]
+==== default_dest_port
+
+The default UDP/TCP port number of the remote host, used for outgoing SIP messages. It can be changed during the test. Default value is _``5060''_.
+
+[[default-dest-address]]
+==== default_dest_address
+
+The name or the IP address of the remote host. If it is supplied the test port automatically connects to the host when mapped.
+
+[[length-calculation]]
+==== length_calculation
+
+If enabled the test port automatically calculates the value of the Content-Length header if the original value of the header is zero. There is no automatic calculation of the Content-Length header if the sent value is differing from zero or the length calculation is disabled.
+
+Allowed values:
+
+“disabled“
+
+“enabled“ Default value
+
+[[listen-enabled]]
+==== listen_enabled
+
+If enabled the test port opens a listening socket and ready to accept incoming requests after mapped. The parameter has only effect during mapping. The listening ports can be opened and closed in advanced mode with ASP_SIP_open regardless of the value of the listen_enabled parameter.
+
+Allowed values in basic mode: _“Enabled“,“Disabled“_. Default value is _“Disabled“_.
+
+Allowed values in advanced mode:
+
+“disabled“ Default value
+
+“enabled“ The listening is enabled on both UDP and TCP.
+
+“TCP_only“ The listening is enabled only on TCP.
+
+“UDP_only“ The listening is enabled only on UDP.
+
+Note: see clause 4.3.1.12.
+
+==== debug
+
+If enabled the test port will log some debug and miscellaneous information. Allowed values: _”enabled”, ”disabled”_. Default value is _”disabled”_.
+
+[[asp-or-msg]]
+==== ASP_or_MSG
+
+Determines the usage of test port interface. If it is set to _``ASP''_ than the test port will use the “ASP interface and if it is set to _``MSG''_ the test port will use the MSG interface. The default value is _``MSG''._
+
+[[error-mode]]
+==== error_mode
+
+Determines the error behaviour of the test port. Possible values:
+
+``ignore'' The test port ignore any erroneous messages and discard them without notice.
+
+``Warning'' The test port will issue a warning if erroneous message received and pass the message as RAW message to the test case.
+
+``error'' The test port will generate error if erroneous message received.
+
+The default value is “_error”._
+
+[[header-format]]
+==== header_format
+
+Determines if the test port use the long or the sort format of the SIP header during encoding. Possible values:
+
+``short'' The test port will use the short format of the SIP header.
+
+``long'' The test port will use the long format of the SIP header.
+
+The default value is _``long''._
+
+[[raw-mode]]
+==== raw_mode
+
+In raw mode the decoding of the message is disabled and all received SIP messages are passed to the test case as raw messages.
+
+Allowed values: _``Enabled'', ``Disabled''_. Default value is _``Disabled''_.
+
+[[port-mode]]
+==== port_mode
+
+Determines the network handling of the port.
+
+``basic'' In the basic mode the test port can handle only one TCP connection or one UDP socket. It is not possible to send and receive the messages using both protocols at the same time, but the test port can switch between protocols and remote hosts.
+
+``advanced'' In advanced mode the test port can handle several TCP connections and listen on both UDP and TCP at the same time.
+
+The default mode is the _``basic''_ mode.
+
+[[multiple-headers]]
+==== multiple_headers
+
+Multiple header fields can be encoded as a comma separated list or several header rows.
+
+``enabled'' The multiple header fields encoded as several header rows.
+
+``disabled'' The multiple header fields encoded as comma separated list.
+
+The default value is _``disabled''_.
+
+[[mtu-size]]
+==== MTU_size
+
+Defines the used MTU size. The MTU size checking can be disabled if the MTU_size is set to _``disabled''_.
+
+The default value is _``1300''_.
+
+[[random-udp-sending-port]]
+==== random_udp_sending_port
+
+When the SIP test port sends UDP packets the source port number can be either the listening port number or a random port number chosen by the operating system.
+
+``enabled'' The UDP source port is selected by the operating system.
+
+``disabled'' The UDP source port is the listening port.
+
+The default value is _``disabled''_.
+
+[[transport-error-reporting]]
+==== transport_error_reporting
+
+This parameter controls the transport error reporting behaviour of the test port.
+
+``enabled'' _The test port use ASP_SIP_error ASP to report transport errors._
+
+``disabled'' _The test port will generate TTCN error in the case of the transport error_.
+
+The default value is _``disabled''_.
+
+==== IPv6enabled
+
+When set to _``false'',_ ip addresses are handled as is. Otherwise, IPv6 addresses are enclosed in [].The default value of the parameter is _``true''._
+
+[[wildcarded-uri]]
+==== wildcarded_uri
+
+Enables or disables the support of the wildcarded URI format.
+
+``enabled'' The wilcarded URI support is enabled.
+
+``disabled'' The wilcarded URI support is disabled.
+
+The default value is _``disabled''_.
+
+[[sipmsg-binary-body-modeit-controls-where-the-body-is-decoded-when-using-the-decoder-function-f-sip-decode-binary]]
+==== SIPmsg_binary_body_modeIt controls where the body is decoded when using the decoder function f_SIP_decode_binary.
+
+``COMPATIBLE'' The body is always returned in field messageBody regardless the presence of 8 bit binary octets.
+
+``AUTOMATIC'' The messageBody is used if the body doesn't contain binary octets. The payload is used if the body contains any binary octets.
+
+``PAYLOAD'' The body always returned in field payload regardless the presence of 8 bit binary octets.
+
+``BOTH'' The body is copied into the both fields.
+
+=== SIPmsg Moduleparmeters
+
+[[tsp-sipmsg-ipv6enabled]]
+==== tsp_SIPmsg_ipv6enabled
+
+The module parameter is used in the standalone encoding/decoding functions and controls the ipv6 support when transforming the messages. Default value is true.
+
+== Upgrading from previous versions
+
+Few changes are possibly needed on the existing test suites to upgrade to the new version of the test port if a new headers have been added to the new version.
+
+In order to avoid the continuous update of the templates, the SIP test port provides a template (t_SIP_msgHeader_any) and a constant (c_SIP_msgHeader_empty) which can be used as a base of the template structure of the test suite.
+
+The new header fields are listed in the Product Revision Infromation document [3].

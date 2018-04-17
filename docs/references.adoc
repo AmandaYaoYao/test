@@ -1,0 +1,95 @@
+= References
+
+xref:1[ETSI ES 201 873-1 v.3.1.1 (2005-06)The Testing and Test Control Notation version 3. Part 1: Core Language]
+
+109 21-CNL 113 319-16SIPmsg Test Port for TTCN-3 Toolset with TITAN, Product Revision Information 2/198 17-CRL 113 200 Uen
+
+1/198 17-CRL 113 200/6 UenUser Guide for TITAN TTCN–3 Test Executor
+
+RFC3261SIP: Session Initiation Protocol
+
+RFC2806URLs for Telephone Calls
+
+RFC2976The SIP INFO Method
+
+RFC3262Reliability of Provisional Responses in the Session Initiation Protocol (SIP)
+
+RFC3311The Session Initiation Protocol (SIP) UPDATE Method
+
+RFC3323A Privacy Mechanism for the Session Initiation Protocol (SIP)
+
+RFC3325Private Extensions to the Session Initiation Protocol (SIP) for Asserted Identity within Trusted Networks
+
+RFC3326The Reason Header Field for the Session Initiation Protocol (SIP)
+
+RFC3265Session Initiation Protocol (SIP)-Specific Event Notification
+
+RFC3455Private Header (P-Header) Extensions to the Session Initiation Protocol (SIP) for the 3rd-Generation Partnership Project (3GPP)
+
+IETF Draft draft-ietf-dip-session-timer-15.txtSession Timers in the Session Initiation Protocol (SIP)draft-ietf-sip-session-timer-15
+
+RFC3428Session Initiation Protocol (SIP) Extension for Instant Messaging
+
+RFC3515The Session Initiation Protocol (SIP) Refer Method
+
+RFC3841Caller Preferences for the Session Initiation Protocol (SIP)
+
+RFC3313Private Session Initiation Protocol (SIP) Extensions for Media Authorization
+
+RFC3327Session Initiation Protocol (SIP) Extension Header Field for Registering Non-Adjacent Contacts
+
+RFC3329Security Mechanism Agreement for the Session Initiation Protocol (SIP)
+
+RFC3603Private Session Initiation Protocol (SIP) Proxy-to-Proxy Extensions for Supporting the PacketCable Distributed Call Signalling Architecture
+
+RFC3608Session Initiation Protocol (SIP) Extension Header Field for Service Route Discovery During Registration
+
+RFC3891The Session Initiation Protocol (SIP) ``Replaces'' Header
+
+RFC3892The Session Initiation Protocol (SIP) Referred-By Mechanism
+
+RFC3903Session Initiation Protocol (SIP) Extension for Event State Publication
+
+RFC3911The Session Initiation Protocol (SIP) ``Join'' Header
+
+RFC 3420 Internet Media Type message/sipfrag
+
+IETF Draft draft-levy-sip-diversion-08.txtDiversion Indication in SIP - draft-levy-sip-diversion-08
+
+RFC 4244An Extension to the Session Initiation Protocol (SIP) for Request History Information
+
+RFC4488Suppression of Session Initiation Protocol (SIP) REFER Method Implicit Subscription
+
+draft-ietf-sip-refer-with-norefersub-04Suppression of Session Initiation Protocol REFER Method Implicit Subscription
+
+draft-allen-sipping-poc-p-headers-01Private Header (P-Header) Extensions to the Session Initiation Protocol (SIP) for the Open Mobile Alliance (OMA) Push to talk over Cellular (PoC)
+
+RFC 5009Private Header (P-Header) Extension to the Session Initiation Protocol (SIP) for Authorization of Early Media
+
+draft-kaplan-sip-session-id-02A Session Identifier for the Session Initiation Protocol (SIP)
+
+RFC5502The SIP P-Served-User Private-Header (P-Header) for the 3GPP IP Multimedia (IM) Core Network (CN) Subsystem
+
+RFC5002The Session Initiation Protocol (SIP) P-Profile-Key Private Header (P-Header)
+
+RFC4457The Session Initiation Protocol (SIP) P-User-Database Private-Header (P-Header)
+
+66/1594-FCP 101 6059 Uen CSCF Support of wildcarded IMPU
+
+RFC4412Communications Resource Priority for the Session Initiation Protocol (SIP)
+
+draft-ott-sip-serv-indication-notification-00Private Header (P-Header) Extensions to the Session Initiation Protocol (SIP) for the support of the Services for the European Telecommunications Standards Institute
+
+RFC6442Location Conveyance for the Session Initiation Protocol
+
+Indication of features supported by proxy draft-holmberg-sipcore-proxy-feature-04
+
+RFC4538Request Authorization through Dialog Identification in the Session Initiation Protocol (SIP)
+
+RFC6086Session Initiation Protocol (SIP) INFO Method and Package Framework
+
+RFC6086Session Initiation Protocol (SIP) INFO Method and Package Framework
+
+531/0363-FCP 101 5091 Rev. PD2FEATURE CONCEPT STUDYICBS and Flexible Charging Support for Japan
+
+CPM Conversation FunctionsOpen Mobile AllianceOMA-TS-CPM_Conv_Fnct-V1_0-20101012-Chttp://www.openmobilealliance.org

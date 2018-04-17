@@ -1,0 +1,37 @@
+= How to find the faulty header in case of parse error
+
+The following error or warning message indicates a faulty SIP message:
+
+*-> unexpected character at character position:*
+
+The behaviour of the test port in case of the faulty SIP message is controlled by the ``error_mode'' test port parameter:
+
+``ignore'' The test port ignore any erroneous messages and discard them without notice.
+
+``Warning'' The test port will issue a warning if erroneous message received and pass the message as RAW message to the test case.
+
+``error'' The test port will generate error if erroneous message received.
+
+The default value is “_error”._
+
+In order to avoid the TTCN error during the test campaign it is recommended to set it to ``warning''. The default value are kept for backward compatibility reason.
+
+The decoder function, f_SIP_decode, returns the erroneous message as RAW message.
+
+== Identify the error
+
+The error message contains the faulty character and its position within the faulty SIP message. In order to find the fault the message should be logged.
+
+The faulty message is logged if the ``debug'' is enabled or the test case should log the received RAW message.
+
+The place of the fault is indicated in the error message, so SIP parser found the fault at the nth character.
+
+== Example
+
+Warning: SIP Test Port: syntax error ``='' -> unexpected character at character position 170.
+
+f_EPTF_SIP_Message_MsgHandlerUnhandled raw message: \{ raw := &quot;SIP/2.0 200 OK-Length: 0: <sip:46750000001@thule.lugv.ericsson.se>;tag=ft1copij-8p7: <sip:10.64.66.134:5060;fid=traffic_instance_PL_2_8_1;bekey=sip=46750000001%40thule.lugv.ericsson.se>: 2125564419 REGISTER: SIP/2.0/TCP 130.100.127.147:37000;branch=z9hG4bK1633698T000001-Id: TTCN3293710000000@130.100.127.147: <sip:130.100.127.147:37000>;tag=168211000000: PGM5.0_RLS" }"
+
+The faulty character, which is the 170th character of the message, is indicated by red mark.
+
+Please note that the and the represents only 1 character.

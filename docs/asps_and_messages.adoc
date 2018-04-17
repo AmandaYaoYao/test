@@ -1,0 +1,53 @@
+[[asp-s-and-messages]]
+= ASP’s and messages
+
+The test port has a message based and an ASP based interface for sending and receiving SIP messages.
+
+The test case can use both interfaces simultaneously to send messages and control connections on different test port instances, but a single test port can use message based interface or ASP interface to communicate with the test case. The test port behaviour is determined by the parameter ASP_or_MSG.
+
+== Message based interface
+
+The following messages can be used:
+
+PDU_SIP_Request Carries a SIP request message.
+
+PDU_SIP_Response Carries a SIP response message.
+
+PDU_SIP_Raw Raw messages. It contains the SIP message in encoded form.
+
+== ASP interface
+
+The following ASP’s can be used in both basic and advanced modes (see clause 4.3.1.13):
+
+ASP_SIP_Request
+
+ASP_SIP_Response
+
+ASP_SIP_Raw
+
+All ASP’s contain an address field. The remote_host, remote_port and the protocol determines the target of the message. If any of it is omitted the specified default value will be used. If the address field completely omitted the messages will be sent on the last used connection.
+
+The following ASP’s can be used in advanced mode only:
+
+ASP_SIP_open Open a new connection. The remote_host and remote_port fields determine the remote side and the protocol field specifies the transport protocol to be used. To open a new connection towards the SUT the remote_host must be specified. If the remote_port or protocol are omitted default values will be used.If the remote_host is not specified the port will open a new listening socket. The listening socket can be opened regardless of the value of listen_enabled parameter.
+
+ASP_SIP_close Close the connection. All parameter of the connection (remote_host, remote_port and protocol) should be specified to identify the connection to be closed.If only the protocol field is defined the port will close the listening socket on the defined protocol.
+
+ASP_SIP_error This ASP used by the test port to report transport layer errors instead of generating TTCN error. The test port parameter `transport_error_reporting' controls the usage of the ASP.The test port fills the error_code field with the error code of the operating system. The error_text field holds the textual representation of the error code. The failed_operation field contains the failed operation. The possible values:
+
+[cols=",",options="header",]
+|==================================================================
+|SIP operation |Description
+|SIP_OP_CREATE_SOCKET |Socket creation failed
+|SIP_OP_SET_SOCKET_OPT |setsockopt system call failed
+|SIP_OP_SOCKET_FCNTL |fcntl system call failed
+|SIP_OP_SOCKET_BIND |bind system call failed
+|SIP_OP_SOCKET_LISTEN |listen system call failed
+|SIP_OP_SOCKET_CONNECT |connect system call failed
+|SIP_OP_ACCEPT |accept system call failed
+|SIP_OP_RECEIVE |receive system call failed
+|SIP_OP_LONG_MESSAGE |The SIP message is too long to send over UDP.
+|SIP_OP_SEND |send system call failed
+|==================================================================
+
+The addr field contains the source and target address of the failed operation when the information is available. The SIP_message field is filed with the encoded SIP message if the error is occurred during the sending of the message, after the encoding.

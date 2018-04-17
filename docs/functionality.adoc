@@ -1,0 +1,38 @@
+= Functionality
+
+The SIPmsg test port implements the message structure of the SIP protocol in a formalized way, using the standard specification language TTCN-3. It also implements the connection between test suite and SUT using TCP/IP or UDP/IP protocol.
+
+== Implemented protocols
+
+The test port implements all protocol messages and elements described in RFC3261, RFC2806, RFC2976, RFC3262, RFC3311, RFC3323, RFC3325, RFC3326, RFC3265, RFC3455, IETF Draft draft-ietf-dip-session-timer-15.txt, RFC3428, RFC3515, RFC3841, RFC3313, RFC3327, RFC3329, RFC3603, RFC3608, RFC3891, RFC3892, RFC3903, RFC3911, RFC 3420 [28], IETF Draft draft-levy-sip-diversion-08.txt, RFC4244, RFC4488, draft-ietf-sip-refer-with-norefersub-04, draft-allen-sipping-poc-p-headers-01, RFC5009, draft-kaplan-sip-session-id-02, RFC5502, RFC5002, RFC4457, RFC4412, draft-ott-sip-serv-indication-notification-00, RFC6442, Indication of features supported by proxy draft-holmberg-sipcore-proxy-feature-04, RFC4538, RFC6086, RFC6050,FEATURE CONCEPT STUDY ICBS and Flexible Charging Support for Japan
+
+CPM Conversation Functions [47]
+
+[[non-standard-wildcarded-uri-support]]
+== Non-standard wildcarded uri support.
+
+The decoder supports a wildcarded URI format described in. The support is controlled by a test port and function parameters.
+
+== Routing Functionality
+
+Routing functionality is not performed.
+
+== Modified and non-implemented Protocol Elements
+
+* 
+
+== Ericsson-specific changes
+
+There is no Ericsson specific change in this product.
+
+== Backward incompatibilities
+
+* 
+
+== System Requirements
+
+In order to operate the SIPmsg test port the following system requirements must be satisfied:
+
+* TITAN TTCN-3 Test Executor R7A (1.7.pl0) or higher installed. For installation guide see [3]. Please note: This version of the test port is not compatible with TITAN releases earlier than R7A. The usage of TITAN releases earlier than R8A is not recommended because this version of the test port is prepared to handle the big integer numbers which feature is introduced in TITAN R8A. The usage of TITAN releases earlier than R8A can result a dynamic test case error.
+* _gcc_, _make, makedepend_ utilities installed
+* Network interface

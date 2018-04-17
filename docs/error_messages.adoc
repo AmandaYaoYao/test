@@ -1,0 +1,56 @@
+= Error messages
+
+=== Structure of Error Messages
+
+The structure of an error message is
+
+<__Time stamp__> Dynamic test case error: <__error message__>
+
+The error messages - listed below - are considered to be self-explanatory. However an error explanation and/or some advice, how to try to solve the problem that caused the error, have been added after some error messages.
+
+[[error-messages-0]]
+=== Error Messages
+
+*Listening socket creation failed.* or *Socket creation failed.*
+
+This is an unexpected error returned by the UNIX operating system. A typical reason for such errors is that you have run out of some resources, like file descriptors in your machine.
+
+*Listening socket bind failed.* or *Socket bind failed.*
+
+The binding of the file descriptor to the IP address was unsuccessful. Check the local IP address.
+
+*Fcntl error.*
+
+This is an unexpected error returned by the UNIX operating system. A typical reason for such errors is that you have run out of some resources, like file descriptors in your machine.
+
+*Listen failed.*
+
+The test port failed to listen on the given port. A typical reason for such errors is that you have run out of some resources.
+
+*-> unexpected character at character position: .*
+
+The SIP test port found an error in the message. The error message contains the erroneous character and its position within the message. For more details see
+
+*Error during accepting connection request.*
+
+The test port failed to accept an incoming TCP connection request. A typical reason for such errors is that you have run out of some resources, like file descriptors in your machine.
+
+*Message too long for UDP.*
+
+The sip message too long for UDP packet. Redesign the testcase to use TCP connection.
+
+*UDP/TCP recvfrom failed.*
+
+There was an error during receiving data from the socket. This is an unexpected error returned by the UNIX operating system. A typical reason for such errors is that you have run out of some resources, like file descriptors in your machine.
+
+*Getting of IP address of remote host failed.*
+
+The test port cannot determine the IP address of remote host. Check the name or the IP address of the remote host.
+
+*There is no valid destination address available. Message can not be sent!*
+
+The destination address was not given. Specify the destination host.
+
+*Send failed.*
+
+This is an unexpected error returned by the UNIX operating system. A typical reason for such errors is that you have run out of some resources, like file descriptors in your machine.

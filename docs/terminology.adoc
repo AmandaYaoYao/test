@@ -1,0 +1,31 @@
+= Terminology
+
+No specific terminology used.
+
+== Abbreviations
+
+SIP Session Initiation Protocol
+
+ETSI European Telecommunication Standards Institute
+
+IETF Internet Engineering Task Force
+
+IP Internet Protocol
+
+IUT Implementation Under Test
+
+RFC Request For Comments
+
+SCTP Stream Control Transmission Protocol
+
+SUT System Under Test
+
+TCP Transmission Control Protocol
+
+TTCN-3 Testing and Test Control Notation version 3
+
+UDP User Datagram Protocol
+
+TP Test Port An adaptation between TTCN-3 Test Executor and SUT
+
+MTU Maximum Transmission Unit

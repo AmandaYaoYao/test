@@ -1,0 +1,65 @@
+= Examples
+
+You can find some example files in the demo directory of the product.
+
+== Script to modify Makefile (for development purposes)
+
+The following script can be used to modify the generated Makefile in the TITAN GUI. The modified Makefile can be used to compile the Bison and Flax sources. Typically the compilation of Bison and Flex sources is needed during development and fault correction.
+
+#!/bin/sh
+
+editcmd='
+
+/(PLATFORM)_LIBS)/\{
+
+a +
+
+a +
+
+SIP_parse_.tab.c SIP_parse_.tab.h: SIP_parse.y
+
+a +
+
+ bison -dv -p SIP_parse_ -b SIP_parse_ $<
+
+a +
+
+a +
+
+lex.SIP_parse_.c: SIP_parse.l
+
+a +
+
+ flex -Bvpp -PSIP_parse_ SIP_parse.l
+
+a +
+
+}
+
+/ -$(RM) ./ \{
+
+a +
+
+SIP_parse_.output \
+
+}
+
+/# Add your rules here if necessary…/ \{
+
+a +
+
+SipPort.cc: SIP_parse_.tab.h
+
+a +
+
+lex.SIP_parse_.c: SIP_parse_.tab.h
+
+a +
+
+SDP_parse_.tab.c: SDP_TypesAndConf.hh
+
+}
+
+'
+
+sed -e ``$editcmd'' <$1 >$2
