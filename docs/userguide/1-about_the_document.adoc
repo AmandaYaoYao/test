@@ -6,7 +6,7 @@ The purpose of this document is to provide detailed information on using the TIT
 
 == Target Groups
 
-This document is intended for users of the TITAN TTCN–3 Test Toolset (product number: CRL 113 200/4). In addition to this document, readers requiring additional information on creating and building test suites or writing test ports are referred to the <<../referenceguide/README.adoc,TITAN Programmer´s Technical Reference for TITAN TTCN-3 Test Executor>>.
+This document is intended for users of the TITAN TTCN–3 Test Toolset (product number: CRL 113 200/4). In addition to this document, readers requiring additional information on creating and building test suites or writing test ports are referred to the link:https://github.com/nagim/master/docs/referenceguide/README.adoc[TITAN Programmer´s Technical Reference for TITAN TTCN-3 Test Executor].
 
 *Note:* Test port writing requires a sound knowledge of C++ programming.
 
