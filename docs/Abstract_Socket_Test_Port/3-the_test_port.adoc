@@ -32,130 +32,126 @@ In the `[TESTPORT_PARAMETERS]` section the following parameters can be set for t
 [[abstract-socket-test-port-parameters-in-the-test-port-configuration-file-if-the-transport-channel-is-tcp-ip]]
 ==== Abstract Socket Test Port Parameters in the Test Port Configuration File if the Transport Channel is TCP/IP
 
-`use_connection_ASPs`
-
+* `use_connection_ASPs`
++
 The parameter is optional, and can be used to specify whether the Abstract Socket is controlled by connection ASPs. The default value is `_"no"_`.
-
++
 If the value is `_"yes"_`, the functionalities of the Abstract Socket have to be controlled by calling its `open_client_connection`, open_listen_port, `remove_client`, `remove_all_clients` and `close_listen_port` functions. The Abstract Socket will not create any connection or listening port when calling the `map_user` function. Using this parameter, more than one connection can be opened in client mode operation. The Abstract Socket will call the `listen_port_opened`, `client_connection_opened`, `peer_connected` and `peer_disconnected` functions of the test port implementing it when corresponding events happen. This allows test ports and TTCN code to directly handle TCP connection initiations and events.
 
-`server_mode`
-
+* `server_mode`
++
 The parameter is optional, and can be used to specify whether the test port shall act as a server or a client. If the value is `_"yes"_`, the test port will act as a server. If the value is `_"no"_`, the test port will act as a client. The default value is `_"no"_` .The parameter has no meaning if `use_connection_ASPs` is set to `_"yes"_` because the `open_listen_port` initiates the listening on a server port.
 
-`socket_debugging`
-
+* `socket_debugging`
++
 The parameter is optional, and can be used to enable debug logging related to the transport channel (TCP socket and SSL operations) in the test port. The default value is `_"no"_`.
 
-`halt_on_connection_reset`
-
+* `halt_on_connection_reset`
++
 The parameter is optional, and can be used to specify whether the test port shall stop on errors occurred during connection setup (including connection refusing), sending and receiving, disconnection (including the detection of the disconnection). The value `_"yes"_` means the test port will stop, the value `_"no"_` means that it will not stop on such errors. The default value is `_"no"_` in server mode and `_"yes"_` in client mode.
-
++
 The parameter has no meaning if `use_connection_ASPs` is set to `_"yes"_`, because the `peer_disconnected` function of the test port is called on the event.
 
-`nagling`
-
+* `nagling`
++
 The parameter is optional, and can be used to specify whether concatenation occurs on TCP layer. If value is `_"yes"_`, concatenation is enabled. If value is `_"no"_`, it is disabled.
++
+NOTE: The `nagling` setting is valid only for the outgoing messages. The `nagling` for the incoming messages shall be set by the sending party. The default value is `_"no"_`.
 
-NOTE: The nagling setting is valid only for the outgoing messages. The nagling for the incoming messages shall be set by the sending party. The default value is `_"no"_`.
-
-`remote_address`
-
+* `remote_address`
++
 The parameter can be used to specify the server's IP address. Mandatory in client mode and not used in server mode.
-
++
 The parameter has no meaning if `use_connection_ASPs` is set to `_"yes"_`, because the `open_client_connection` function receives the remote and optionally the local address.
 
-`remote_port`
-
+* `remote_port`
++
 The parameter can be used to specify the server's listening port. Mandatory in client mode and not used in server mode.
-
++
 The parameter has no meaning if `use_connection_ASPs` is set to `_"yes"_`, because the `open_client_connection` function receives the remote and optionally the local address.
 
-`local_port`
-
+* `local_port`
++
 The parameter can be used to specify the port where the server is listening for connections. Mandatory in server mode and optional in client mode.
-
++
 The parameter serves as a default if `use_connection_ASPs` is set to `_"yes"_`.
 
-`ai_family`
-
+* `ai_family`
++
 The parameter can be used to specify the address family to use when opening listening ports or creating client connections. If its value is set to `_"IPv4"_` or `_"AF_INET"_` only IPv4 addresses are used. If it is set to `_"IPv6"_` or `_"AF_INET6"_` only IPv6 connections are allowed. The values "UNSPEC" and `"AF_UNSPEC"` can be used if the address family is not specified. The `"UNSPEC"` value allows using IPv4 and IPv6 addresses at the same time. The selection is made automatically depending on the actual value of the local and remote addresses.
-
++
 This parameter is optional. The default value is `"AF_UNSPEC"`.
 
-`server_backlog`
-
+* `server_backlog`
++
 The parameter can be used to specify the number of allowed pending (queued) connection requests on the port the server listens. It is optional in server mode and not used in client mode. The default value is `_"1"_`.
 
-`TCP_reconnect_attempts`
-
+* `TCP_reconnect_attempts`
++
 This parameter can be used to specify the maximum number of times the connection is attempted to be established in TCP reconnect mode. The default value is `_"5"_`.
-
++
 The parameter has no meaning if `use_connection_ASPs` is set to `_"yes"_`, because the `peer_disconnected` function is called when the event happens, and it’s up to the test port or TTCN code how to continue.
 
-`TCP_reconnect_delay`
-
+* `TCP_reconnect_delay`
++
 This parameter can be used to specify the time (in seconds) the test port waits between to TCP reconnection attempt. The default value is `_"1"_`.
-
++
 The parameter has no meaning if `use_connection_ASPs` is set to `_"yes"_`, because the `peer_disconnected` function is called when the event happens, and it’s up to the test port or TTCN code how to continue.
 
-`client_TCP_reconnect`
-
+* `client_TCP_reconnect`
++
 If the test port is in client mode and the connection was interrupted by the other side, it tries to reconnect again. The default value is ``no''.
-
++
 The parameter has no meaning if `use_connection_ASPs` is set to `_"yes"_`, because the `peer_disconnected` function is called when the event happens, and it’s up to the test port or TTCN code how to continue.
 
-`use_non_blocking_socket`
-
+* `use_non_blocking_socket`
++
 This parameter can be used to specify whether the Test Port shall use blocking or non-blocking TCP socket. Using this parameter, the `send` TTCN-3 operation will block until the data is sent, but an algorithm is implemented to avoid TCP deadlock.
-
++
 The parameter is optional, the default value is `_"no"_`.
 
 ==== Additional Abstract Socket Test Port Parameters in the Test Port Configuration File if the Transport Channel is SSL
 
 These parameters available only if `AS_USE_SSL` macro is defined during compilation.
 
-`ssl_use_ssl`
-
+* `ssl_use_ssl`
++
 The parameter is optional, and can be used to specify whether to use SSL on the top of the TCP connection or not. The default value is `_"no"_`.
 
-`ssl_verify_certificate`
-
+* `ssl_verify_certificate`
++
 The parameter is optional, and can be used to tell the test port whether to check the certificate of the other side. If it is defined `_"yes"_`, the test port will query and check the certificate. If the certificate is not valid (i.e. the public and private keys do not match), it will exit with a corresponding error message. If it is defined `_"no"_`, the test port will not check the validity of the certificate. The default value is `_"no"_`.
 
-`ssl_use_session_resumption`
-
+* `ssl_use_session_resumption`
++
 The parameter is optional, and can be used to specify whether to use/support SSL session resumptions or not. The default value is `_"yes"_`.
 
-`ssl_certificate_chain_file`
-
+* `ssl_certificate_chain_file`
++
 It specifies a PEM encoded file’s path on the file system containing the certificate chain. Mandatory in server mode and optional in client mode. Note that the server may require client authentication. In this case no connection can be established without a client certificate.
 
-`ssl_private_key_file`
-
+* `ssl_private_key_file`
++
 It specifies a PEM encoded file’s path on the file system containing the server’s RSA private key. Mandatory in server mode and optional in client mode.
 
-`ssl_private_key_password`
-
+* `ssl_private_key_password`
++
 The parameter is optional, and can be used to specify the password protecting the private key file. If not defined, the SSL toolkit will ask for it.
 
-`ssl_trustedCAlist_file`
-
+* `ssl_trustedCAlist_file`
++
 It specifies a PEM encoded file’s path on the file system containing the certificates of the trusted CA authorities to use. Mandatory in server mode, and mandatory in client mode if `ssl_verify_certificate="yes"`.
 
-`ssl_allowed_ciphers_list`
-
+* `ssl_allowed_ciphers_list`
++
 The parameter is optional, and can be used to specify the allowed cipher list. The value is passed directly to the SSL toolkit.
 
-`ssl_disable_SSLv2`
-
-`ssl_disable_SSLv3`
-
-`ssl_disable_TLSv1`
-
-`ssl_disable_TLSv1_1`
-
+* `ssl_disable_SSLv2` +
+`ssl_disable_SSLv3` +
+`ssl_disable_TLSv1` +
+`ssl_disable_TLSv1_1` +
 `ssl_disable_TLSv1_2`
-
++
 The usage of a specific SSL/TLS version can be disabled by setting the parameter to `_"yes"_`. Please note that the available SSL/TLS versions are depends of the used OpenSSL library.
 
 == The `AbstractSocket` API
