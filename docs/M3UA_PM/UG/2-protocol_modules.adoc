@@ -1,0 +1,48 @@
+= Protocol Modules
+
+== Overview
+
+Protocol modules implement the message structures of the corresponding protocol in a formalized way, using the standard specification language TTCN-3. This allows defining of test data (templates) in the TTCN-3 language <<4-references.adoc#_1, [1]>> and correctly encoding/decoding messages when executing test suites using the TITAN TTCN-3 test environment.
+
+Protocol modules are using TITAN’s RAW encoding attributes <<4-references.adoc#_2, [2]>> and hence are usable with the TITAN test toolset only.
+
+The table below contains the implemented M3UA messages and the corresponding TTCN-3 type records. Using those type records, templates can be defined to send and receive a given message.
+
+[width="100%",cols="35%,15%,50%",options="header",]
+|=======================================================================
+|Message name |Reference |Corresponding type record in *M3UA_Types.ttcn*
+|Payload Data Message |<<4-references.adoc#_5, [5]>> 3.3.1. |M3UA_DATA
+|Destination Unavailable |<<4-references.adoc#_5, [5]>> 3.4.1. |M3UA_DUNA
+|Destination Available |<<4-references.adoc#_5, [5]>> 3.4.2. |M3UA_DAVA
+|Destination State Audit |<<4-references.adoc#_5, [5]>> 3.4.3. |M3UA_DAUD
+|Signalling Congestion |<<4-references.adoc#_5, [5]>> 3.4.4. |M3UA_SCON
+|Destination User Part Unavailable |<<4-references.adoc#_5, [5]>> 3.4.5. |M3UA_DUPU
+|Destination Restricted |<<4-references.adoc#_5, [5]>> 3.4.6. |M3UA_DRST
+|ASP Up |<<4-references.adoc#_5, [5]>> 3.5.1. |M3UA_ASPUP
+|ASP Up Acknowledgement |<<4-references.adoc#_5, [5]>> 3.5.2. |M3UA_ASPUP_Ack
+|ASP Down |<<4-references.adoc#_5, [5]>> 3.5.3. |M3UA_ASPDN
+|ASP Down Acknowledgement |<<4-references.adoc#_5, [5]>> 3.5.4. |M3UA_ASPDN_Ack
+|Heartbeat |<<4-references.adoc#_5, [5]>> 3.5.5. |M3UA_BEAT
+|Heartbeat Acknowledgement |<<4-references.adoc#_5, [5]>> 3.5.6. |M3UA_BEAT_Ack
+|Registration Request |<<4-references.adoc#_5, [5]>> 3.6.1. |M3UA_REG_REQ
+|Registration Response |<<4-references.adoc#_5, [5]>> 3.6.2. |M3UA_REG_RSP
+|Deregistration Request |<<4-references.adoc#_5, [5]>> 3.6.3. |M3UA_DEREG_REQ
+|Deregistration Response |<<4-references.adoc#_5, [5]>> 3.6.4. |M3UA_DEREG_RSP
+|ASP Active |<<4-references.adoc#_5, [5]>> 3.7.1. |M3UA_ASPAC
+|ASP Active Ack |<<4-references.adoc#_5, [5]>> 3.7.2. |M3UA_ASPAC_Ack
+|ASP Inactive |<<4-references.adoc#_5, [5]>> 3.7.3. |M3UA_ASPIA
+|ASP Inactive Ack |<<4-references.adoc#_5, [5]>> 3.7.4. |M3UA_ASPIA_Ack
+|Error |<<4-references.adoc#_5, [5]>> 3.8.1. |M3UA_ERR
+|Notify |<<4-references.adoc#_5, [5]>> 3.8.2. |M3UA_NOTIFY
+|=======================================================================
+
+== Installation
+
+The set of protocol modules can be used in developing TTCN-3 test suites using any text editor. However to make the work more efficient a TTCN-3-enabled text editor is recommended (e.g. `nedit`, `xemacs`). Since the M3UA protocol module is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor and a C compiler be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant parts of <<4-references.adoc#_2, [2]>>.
+
+== Encoding and Decoding Functions
+
+For encoding and decoding the message two functions are available:
+
+* Function `enc_PDU_M3UA` makes simple RAW encoding without any modification on the input M3UA message.
+* Function `dec_PDU_M3UA` makes simple RAW decoding without any modification on the input octetstring.

@@ -1,0 +1,70 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following files:
+
+* __RingBuffer_demo.ttcn__ - This module contains the demo use cases.
+* __MyMessageTypeRingBuffer_Functions.ttcnpp__ - This module contains the type definitions needed by the demo use cases. It illustrates how to instantiate the code for supporting a ring buffer built from a user defined type.
+
+== Demo Module
+
+The demo module (__RingBuffer_demo.ttcn__) illustrates a typical usage of the ring buffer. It defines a special message type and generates instances of it. The generated messages are stored in a ring buffer until a certain message arrives and then all the messages are dumped from the ring buffer. It is possible to traverse the ring buffer from both begin-to-end and end-to-begin.
+
+Step 1 Preparation: define an arbitrary TTCN3 type and instantiate the code for managing ring buffer of this new defined type
+
+[source]
+----
+module MyMessageTypeRingBuffer_Functions
+{
+  type record MyMessageType {
+    enumerated {OK, ERROR} severity,
+    charstring data
+  }
+#define EPTF_BASE_TYPE MyMessageType
+#include "EPTF_CLL_GenericRingBuffer_Functions.ttcnin"
+#undef EPTF_BASE_TYPE
+}
+----
+
+Step 2 Initialization: define and initialise a ring buffer
+
+[source]
+----
+import from MyMessageTypeRingBuffer_Functions all;
+var MyMessageTypeRingBuffer v_buffer;
+f_EPTF_MyMessageType_RB_init(v_buffer, 50);
+----
+
+Step 3 Collect Data: store messages in ring buffer (assume, that `f_GenerateMessage()` generates a new message)
+
+[source]
+----
+var MyMessageType v_myMessage;
+do
+{
+  f_GenerateMessage(v_myMessage);
+  f_EPTF_MyMessageType_RB_push_back(v_buffer, v_myMessage);
+}
+while ( v_myMessage.severity != ERROR);
+----
+
+Step 4 Dump: empty ring buffer from begin-to-end,
+
+[source]
+----
+while (not f_EPTF_MyMessageType_RB_empty(v_buffer))
+{
+  log( f_EPTF_MyMessageType_RB_front(v_buffer) );
+  f_EPTF_MyMessageType_RB_pop_front(v_buffer);
+}
+----
+
+Dump from reverse direction:
+
+[source]
+----
+while (not f_EPTF_MyMessageType_RB_empty(v_buffer))
+{
+  log( f_EPTF_MyMessageType_RB_back(v_buffer) );
+  f_EPTF_MyMessageType_RB_pop_back(v_buffer);
+}
+----

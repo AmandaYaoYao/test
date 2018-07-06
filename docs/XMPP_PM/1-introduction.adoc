@@ -1,0 +1,9 @@
+= Introduction
+
+== How to Read This Document
+
+This is the Function Specification for the set of XMPP protocol modules. XMPP protocol modules are developed for the TTCN-3 Toolset with TITAN.
+
+== Scope
+
+The purpose of this document is to specify the content of the XMPP protocol modules. Basic knowledge of TTCN-3 <<5-references.adoc#_1, [1]>> and TITAN TTCN-3 Test Executor <<5-references.adoc#_2, [2]>> is valuable when reading this document.

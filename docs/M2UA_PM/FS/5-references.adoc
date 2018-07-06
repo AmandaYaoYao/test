@@ -1,0 +1,12 @@
+= References
+
+[[_1]]
+[1] https://tools.ietf.org/html/rfc3331[RFC 3331] +
+Signaling System 7 (SS7) Message Transfer Part 2 (MTP2) – User Adaptation Layer
+
+[[_2]]
+[2] ETSI ES 201 873-1 v.3.1.1 (06/2005) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_3]]
+[3] Document Survey for the TITAN TTCN-3 Test Executor

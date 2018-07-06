@@ -1,0 +1,44 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 v4.5.1 (2013-04) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] User Guide for TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] Programmer’s Technical Reference for Titan TTCN–3 Test Executor
+
+[[_4]]
+[4] 3GPP TS 24.008 V13.4.0 (2015-12), +
+3rd Generation Partnership Project; +
+Technical Specification Group Core Network and Terminals; +
+Mobile radio interface Layer 3 specification; +
+Core network protocols; Stage 3 (Release 13)
+
+[[_5]]
+[5] 3GPP TS 44.018 V13.0.0 (2015-12), +
+3rd Generation Partnership Project; +
+Technical Specification Group GSM/EDGE Radio Access Network; +
+Mobile radio interface Layer 3 specification; +
+Radio Resource Control (RRC) protocol; (Release 13)
+
+[[_6]]
+[6] 3GPP TS 24.011 V13.0.0 (2015-12), +
+3rd Generation Partnership Project; +
+Technical Specification Group Core Network and Terminals; +
+Point-to-Point (PP) Short Message Service (SMS) support on mobile radio interface (Release 13)
+
+[[_7]]
+[7] 3GPP TS 23.040 V13.0.0 (2015-12), +
+3rd Generation Partnership Project; +
+Technical Specification Group Core Network and Terminals; +
+Technical Realization of the Short Message Service (SMS) (Release 13)
+
+[[_8]]
+[8] 3GPP TS 24.080 V13.0.0 (2015-12), +
+3rd Generation Partnership Project; +
+Technical Specification Group Core Network and Terminals; +
+Mobile radio interface layer 3 supplementary services platform; +
+Formats and coding (Release 13)

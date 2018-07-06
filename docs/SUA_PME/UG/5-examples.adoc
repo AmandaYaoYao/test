@@ -1,0 +1,87 @@
+= Examples
+
+This is a simple example configuration file for testing. The relevant information can be found under the sections `TESTPORT_PARAMETERS` and `MODULE_PARAMETERS`.
+
+[source]
+----
+[LOGGING]
+FileMask := LOG_ALL | TTCN_DEBUG | TTCN_MATCHING
+ConsoleMask := TTCN_WARNING | TTCN_ERROR | TTCN_TESTCASE | TTCN_PORTEVENT
+LogSourceInfo := Yes
+
+[TESTPORT_PARAMETERS]
+system.*.Hostname := ``rhea.eth.ericsson.se'' // SEA server name
+system.*.DestinationName := ``testtest''
+system.*.HttpPort := ``5000'' // SEA http port
+system.*.SUAServiceType := ``TargetSUA''
+system.*.TesterAPC := ``1''
+system.*.EntityName := ``SCTP-10.2.112.34:14001-10.2.112.32:14001'' // SEA Entity
+system.*.RoutingContext0 := ``1111''
+system.*.RoutingContext1 := ``2222''
+system.*.RoutingContext2 := ``3333''
+system.*.RoutingContext3 := ``4444''
+
+// required for Target testing
+// location of SUA Server component
+system.*.socket_debugging := ``yes''
+system.*.SUAtarget_TCP_IPAddr := ``159.107.197.130''
+system.*.SUAtarget_TCP_Port := ``17705''
+
+[MODULE_PARAMETERS]
+tsp_maxLocalReference := 16777216.0; //loc ref= 0…tsp_maxLocalReference-1
+tsp_max_ConnectionId := 16777216.0; //max connection id =
+0..tsp_max_ConnectionId -1
+tsp_SUA_data_maxlen := 261;
+tsp_SSN := 0;
+
+tspc_timer_T_conn_est:=120.0;
+  //Delay to send a message on a conn IT on a
+  //connection section when there are no
+  //messages to send
+  //5 to 10 minutes
+
+tspc_timer_T_ias:=600.0;
+  //Waiting to receive a message on a connection
+  //section
+  //11 to 21 minutes
+
+tspc_timer_T_iar:=1260.0; //Waiting for release complete message -10 to 20 seconds
+
+tspc_timer_T_rel:=20.0;
+  //Waiting for release complete message; or to
+  //repeat sending released message after the
+  //initial T(rel) expiry
+  //10 to 20 seconds
+
+tspc_timer_T_repeat_rel:=20.0;
+  //Waiting for release complete message; or to
+  //release connection resources, freeze the LRN
+  //and alert a maintenance function after the
+  //initial T(rel) expiry
+  //extending to 1 minute
+
+tspc_timer_T_int:=60.0;
+  //Waiting to resume normal procedure for
+  //temporary connection sections during the
+  //restart procedure
+  //23 to 25 minutes
+
+tspc_timer_T_guard:=1500.0;
+  //Waiting to release temporary connection
+  //section or alert maintenance function after
+  //reset request message is sent
+  //10 to 20 seconds
+
+tspc_timer_T_reset:=20.0;
+  //Waiting to receive all the segments of the
+  //remaining segments single segmented
+  //message after receiving the first segment
+  //10 to 20 seconds
+
+tspc_timer_T_internal_reset:=0.0; //zero-only for sending internal signals!!
+tspc_timer_guard :=120.0 //the same as tspc_timer_T_conn_est:1 or 2 minutes
+
+[MAIN_CONTROLLER]
+TCPPort := 7000
+NumHCs := 1
+----

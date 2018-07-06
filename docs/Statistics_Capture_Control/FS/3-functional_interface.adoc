@@ -1,0 +1,5 @@
+= Functional Interface
+
+Apart from this description, a cross-linked reference guide for the EPTF Core Library Functions can be reached for online reading <<9-references.adoc#_4, [4]>>.
+
+In this function description, the functions of the main functionality (`EPTF_StatCapture_CT`) and the optional, automatic capture control functionality (`EPTF_StatCaptureControl_CT`) are described separately in the following chapters.

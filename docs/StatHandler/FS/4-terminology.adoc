@@ -1,0 +1,33 @@
+= Terminology
+
+*Core Library(CLL):* +
+It is that part of the TitanSim software that is totally project independent. (i.e., which is not protocol-, or application-dependent). The Core Library is to be supplied and supported by the TCC organization. Any Core Library development is to be funded centrally by Ericsson.
+
+*Statistics:* +
+They are temporary statistics of EPTF Variables measured by the `StatMeasure` feature. The value of a statistics is calculated from a single EPTF Variable, as it changes throughout the time of execution.
+
+*Aggregated Stat:* +
+EPTF Variables calculated from other EPTF Variables (data sources). The word stat or statistics refers aggregated statistics throughout this document.
+
+*Auxiliary Statistics:* +
+Aggregated statistics that are not declared by the user of `StatHandler` directly, but as a result of declaring another stat. That statistics use the calculated value of the auxiliary stat in its calculations.
+
+*Auxiliary Variable:* +
+EPTF Variable used by aggregated statistics to store some data.
+
+*Provider Variable:* +
+Variable that affects the value of a given EPTF Variable.
+
+= Abbreviations
+
+API:: Application Programming Interface
+
+CLL:: Core Library
+
+EPTF:: Ericsson Performance Test Framework
+
+GUI:: Graphics User Interface
+
+TitanSim:: New synonym for the EPTF Framework
+
+TTCN-3:: Testing and Test Control Notation version 3 <<5-references.adoc#_1, [1]>>.

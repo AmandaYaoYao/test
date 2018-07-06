@@ -1,0 +1,17 @@
+= General Description
+
+This document specifies the Base feature of the Core library.
+
+The EPTF Base component is a fundamental component that handles common tasks that should be implemented in all EPTF components. All EPTF components should extend this component (i.e. explicitly) or a component that extends this component (i.e. implicitly).
+
+This component
+
+* stores the name of the component
+* manages the clean up so that the component could terminate gracefully. This solution is similar to the C++ "destructor" concept.
+* provides relative and absolute time querying functions
+* provides functions to convert the component type to/from integer
+* makes negative testing possible with error and assert functions
+* provides process information on every PTC running on components extending the EPTF Base component
+* enables/disables DTE handling functionality in the whole CLL
+
+To be able to use EPTF Base, the user component should extend the `EPTF_Base_CT` component and call its initializing function. When the component terminates it should call one of the `cleanup`/`stop`/`stopAll` functions of the Base component.

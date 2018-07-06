@@ -1,0 +1,16 @@
+= Terminology
+
+== Abbreviations
+
+EAP Extensible Authentication Protocol
+
+PDU Protocol Data Unit
+
+IETF Internet Engineering Task Force
+
+TTCN-3 Testing and Test Control Notation version 3
+
+[[terminology-0]]
+== Terminology
+
+TITAN TTCN-3 Test Executor (see [2]).

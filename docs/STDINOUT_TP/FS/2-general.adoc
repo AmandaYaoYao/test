@@ -1,0 +1,7 @@
+= General
+
+The STDINOUT Test Port provides a simple interface between the TTCN-3 test suite and operator.
+
+The operator can enter text in a terminal (stdin) and the test port transmits this text as a charstring to the TTCN-3 test suite.
+
+The TTCN-3 test suite can send a charstring and the test port outputs this to the terminal (stdout).

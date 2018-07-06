@@ -1,0 +1,44 @@
+= General Usage
+
+The following GUI xml creates a table of two columns with a column of type `statusLED` and one of type string. Let us take a look at the highlighted part:
+
+[source]
+----
+<Widgets xmlns='http://ttcn.ericsson.se/protocolModules/xtdp/xtdl'>
+   <window height='300.000000' id='Window' orientation='vertical' title='tc_EPTF_StatManager_Test_base' width='800.000000'>
+    <hbox flex='1.000000' orientation='horizontal'>
+          <tree flex='1.0' hidecolumnpicker='true' id='myTable'>
+            <treecols>
+              <treecol label='Status' widgetType='statusLEDWithText'/>
+              <treecol label='Value' widgetType='string'/>
+            </treecols>
+           <treechildren>
+            <treeitem>
+             <treerow>
+          <externalvalue id='srcVar' element='sourceVar' source='StatManagerTest'>
+                <treecell>
+                 <externaldata element='LEDlimit' source='StatManager' ptcname='StatManagerTest'>
+                  <params>
+                   <dataparam name='VarId' value='%srcVar::ref%'/>
+                   <dataparam name='redLimit' value='25.0' />
+	       <dataparam name='yellowLimit' value='50.0' />
+	       <dataparam name='greenLimit' value='75.0' />
+                   <dataparam name='defaultColor' value='black'/>
+                   <dataparam name='enableValueInLEDText' value='yes'/>
+                  </params>
+                 </externaldata>
+                </treecell>
+                <treecell label='value0'/>
+               </externalvalue>
+             </treerow>
+            </treeitem>
+           </treechildren>
+          </tree>
+        </hbox>
+   </window>
+  </Widgets>
+----
+
+It specifies the first cell of the table which is a `statusLED`. It uses the `StatManager` feature to retrieve a `statusLED` that is connected to a source variable specified by the external value. The color of the LED will be red if the source variable’s value exceeds `_25.0_`, yellow above `_50.0 _`and green above `_75.0_`. The default color is set to black and the value of the source parameter will be printed in the label of the `statusLED` widget.
+
+NOTE: If we wanted to specify a reference data, we could do that the same way as we did it in case of the source data. We specified it via `externalvalue` and queried the id( `%srcVar::ref%``) of it in the `VarId` parameter of the `LEDlimit` externaldata.

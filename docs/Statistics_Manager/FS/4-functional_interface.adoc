@@ -1,0 +1,17 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading <<6-references.adoc#_4, ‎[4]>>.
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_StatManager_`
+
+== General Public Functions
+
+=== Initialization
+
+Before using the EPTF Statistics Manager feature the
+
+`f_EPTF_StatManager_init_CT(componentName)`
+
+function should be called. This initializes the EPTF Statistics Manager feature. Currently this is the only API function of the feature. No other functions need to be called to use it.

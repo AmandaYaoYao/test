@@ -1,0 +1,7 @@
+= Error Messages
+
+NOTE: Besides the below described error messages, error messages shown in <<7-references.adoc#_2, ‎[2]>> or those of other used features or product may also appear.
+
+`*"(EVAL: Error: Division by zero.)"*`
+
+It is not a classical error, since the execution is not stopped and there is not ERROR message in the logs. Only the above string is printed into the String Template as a resolved value. It occurs when the divisor is zero in case of division or remainder.

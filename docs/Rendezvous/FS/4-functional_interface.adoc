@@ -1,0 +1,89 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading ‎<<6-references.adoc#_4, [4]>>.
+
+== Naming Conventions
+
+All functions have the prefix http://mwlx122.eth.ericsson.se:8080/EPTF_CORE_REFERENCE_GUIDE/R2/files/Logging/EPTF_CLL_Logging_Functions-ttcnpp.html[f_EPTF_Rendezvous_] or `f_EPTF_RendezvousClient_`.
+
+== Public Functions
+
+=== Initialization of Rendezvous
+
+Before using the EPTF Rendezvous functions the
+
+`f_EPTF_Rendezvous_init_CT()`
+
+function should be called. This initializes the EPTF Rendezvous feature and starts the Rendezvous server component. There should be one server component.
+
+=== Initialization of `RendezvousClient`
+
+Before using the EPTF `RendezvousClient` functions the
+
+`f_EPTF_RendezvousClient_init_CT()`
+
+function should be called. This initializes the EPTF `RendezvousClient` feature. Every client who would like to use Rendezvous server should extend `EPTF_RendezvousClient_CT` and should call this `init` function.
+
+=== Start a Wait For A Trigger Type Rendezvous
+
+`f_EPTF_RendezvousClient_StartWaitForATrigger (pl_rendezvousID)`
+
+With the call of this function a client can start a 'Wait For A Trigger' type rendezvous. The parameter `pl_rendezvousID` is the ID of the rendezvous type. The function returns an ID which can be used for the waiting of the response.
+
+=== Start a Wait For N Trigger Type Rendezvous
+
+`f_EPTF_RendezvousClient_StartWaitForNTrigger (pl_rendezvousID, pl_numberOfClients)`
+
+With the call of this function a client can start a 'Wait For N Trigger' type rendezvous. The parameter `pl_rendezvousID` is the ID of the rendezvous type, `pl_numberOfClients` are the number of requestors. The function returns an ID which can be used for the waiting of the response. It does not have to add the number of requestors. In that case the requestors haven’t been added the rendezvous starts with 2 requestors. The maximum number of requestors will be the maximum value `pl_numberOfClients` reaches. A client can start this type of rendezvous more than one time. In that case a client will get more than one response.
+
+=== Subscribe for a State-Change Rendezvous
+
+[source]
+----
+function f_EPTF_RendezvousClient_SubscribeToState(
+in charstring pl_rendezvousID,
+in ft_EPTF_Rendezvous_NotifyAction pl_action,
+in boolean pl_permanentsubs := false)
+----
+
+This function will register the call-back function named `pl_action` provided and send a subscription note to the server, registering the ID the client is waiting for. Setting the `pl_permanentsubs` parameter will make the subscription permanent, subscriptions will not be erased after a state-change what is the default. There is no need to wait for the trigger to come; the call-back function will be automatically called at the triggering.
+
+Calling
+
+`function f_EPTF_RendezvousClient_Unsubscribe(in charstring pl_rendezvousID)`
+
+will result in the deletion of a previously taken subscription.
+
+=== Triggering a New State
+
+[source]
+----
+function f_EPTF_RendezvousClient_NewState(
+in charstring pl_rendezvousID,
+in integer pl_rendezvousID_int := -1)
+----
+
+With this function a new state can be published to the clients subscribed to Rendezvous ID as the state. This will trigger the state-change and every client subscribed to this state will be notified and every call-back functions will be called by the clients automatically. An additional integer can be specified if necessary.
+
+=== Wait the trigger of the Wait For A Trigger or a Wait For N Trigger Type Rendezvous
+
+`f_EPTF_RendezvousClient_WaitForResponse (pl_semaphore)`
+
+This function is used for waiting the response for the Wait For A Trigger type or a Wait For N Trigger type message. The variable returned by the function `f_EPTF_RendezvousClient_StartWaitForATrigger()` or `f_EPTF_RendezvousClient_StartWaitForNTrigger()` can be used as a parameter to this function (`pl_semaphore`). The function is blocking the execution until the response arrives. If the response arrives the function returns true. If the function called after the response has arrived, the execution won’t be blocked.
+
+== Summary Table of All Public Functions for EPTF Rendezvous
+
+See summary of EPTF Rendezvous functions in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|===============================================================================================================================
+|Function name |Description
+|`f_EPTF_Rendezvous_init_CT` |Initializes the EPTF `Rendezvous_CT` component
+|`f_EPTF_RendezvousClient_init_CT` |Initializes the EPTF `RendezvousClient_CT` component
+|`f_EPTF_RendezvousClient_StartWaitForATrigger` |Function to send a `WaitForATrigger` type request
+|`f_EPTF_RendezvousClient_StartWaitForNTrigger` |Function to send a `WaitForNTrigger` type request
+|`f_EPTF_RendezvousClient_WaitForResponse` |Function to wait for the `WaitForATrigger` type or `WaitForNTrigger` type response message
+|`f_EPTF_RendezvousClient_SubscribeToState` |Sends a subscription note for a `StateTrigger` type of rendezvous
+|`f_EPTF_RendezvousClient_Unsubscribe` |Sends an unsubscription note for a `StateTrigger` type of rendezvous
+|`_EPTF_RendezvousClient_NewState` |Changes the client’s state to the ID, triggering subscribed clients
+|===============================================================================================================================

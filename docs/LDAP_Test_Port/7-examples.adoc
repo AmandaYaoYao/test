@@ -1,0 +1,61 @@
+= Examples
+
+== Configuration File
+
+[source]
+----
+[TESTPORT_PARAMETERS]
+// CLIENT settings
+*.LDAP_PCO.remote_address := ``127.0.0.1''
+*.LDAP_PCO.remote_port := ``5019''
+*.LDAP_PCO.socket_debugging := ``YES''
+*.LDAP_PCO.ssl_certificate_chain_file := ``certificates/CAcert.pem''
+*.LDAP_PCO.ssl_private_key_password := ``abcd''
+*.LDAP_PCO.ssl_private_key_file := ``certificates/CAkey.pem''
+*.LDAP_PCO.ssl_trustedCAlist_file := ``certificates/CAcert.pem''
+*.LDAP_PCO.ssl_use_ssl := ``yes''
+
+// SERVER settings
+*.LDAP_PCO_server.server_mode:=``yes''
+*.LDAP_PCO_server.local_port:=``5019''
+*.LDAP_PCO_server.socket_debugging := ``YES''
+*.LDAP_PCO_server.ssl_certificate_chain_file := ``certificates/CAcert.pem''
+*.LDAP_PCO_server.ssl_private_key_password := ``abcd''
+*.LDAP_PCO_server.ssl_private_key_file := ``certificates/CAkey.pem''
+*.LDAP_PCO_server.ssl_trustedCAlist_file := ``certificates/CAcert.pem''
+*.LDAP_PCO_server.ssl_use_ssl:=``yes''
+----
+
+== Example Use of `ImportLDIF` Function
+
+[source]
+----
+module LDAPtest \{
+
+import from LDAPmsg_PortType all;
+import from LDAPmsg_Types all;
+import from Lightweight_Directory_Access_Protocol_V3 language ``ASN.1:1997'' all;
+import from LDIF all;
+type component LDAPcomp \{
+  port LDAPmsg_PT LDAP;
+}
+
+testcase tc1() runs on LDAPcomp \{
+  map(system:LDAP, self:LDAP);
+  timer T2 := 100.0;
+  T2.start;
+
+  var LDIFData information;
+  information := f_ImportLDIF(``test1.ldif'',false);
+  f_PopulateLDAPServer(information,false,LDAP);
+
+  setverdict(pass);
+  timer T3 := 3.0;
+  T3.start;
+  T3.timeout;
+
+  unmap(system:LDAP, self:LDAP);
+
+}
+}
+----

@@ -1,0 +1,7 @@
+= Warning Messages
+
+NOTE: Besides the below described warning messages, warning messages shown in <<7-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+The EPTF CLL Scheduler defines the following warning messages:
+
+``*Warning: getNewTimerVal: scheduler is behind clock, timerval: <value>, event: <event>*`

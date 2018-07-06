@@ -1,0 +1,35 @@
+= Warning Messages
+
+NOTE: Besides the below described warning messages, warning and error messages shown in <<8-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+`*DsRestAPI cannot listen on port: port_number*`
+
+This warning indicates that the port assigned to DsRestAPI is already in use.
+
+`*HTTPServer_directory does not exist: dir_name*`
+
+This warning occurs if the given directory for the HTTP server does not exist and it is not the empty string.
+
+`*CustomizableApp directory does not exist: dir_name*`
+
+This warning occurs if the given directory for the customizable app symlink does not exist and it is not the empty string.
+
+`*DsRestAPI API directory does not exist: dir_name*`
+
+This warning occurs if the given directory for the JavaScript API symlink does not exists and it is not the empty string.
+
+`*Symlink creation was unsuccessful for …*`
+
+This warning means that a symlink could not be created.
+
+`*… directory does not exist and could not be created it in …*`
+
+This warning means that a directory creation failed.
+
+`*Symlink cannot be removed: symlink_name*`
+
+This warning appears if a symlink cannot be removed during cleanup.
+
+`*Failed to get absolute path of …*`
+
+This warning means that a relative path could not be resolved.

@@ -1,0 +1,25 @@
+= Terminology
+
+TITAN TTCN-3 Test Executor (see <<5-references.adoc#_4, [4]>>).
+
+= Abbreviations
+
+ASP:: Application Server Process
+
+DASS:: Digital Access Signaling System
+
+DLC:: Data Link Connection
+
+DPNSS:: Digital Private Network Signaling System
+
+DUA:: DPNSS/DASS 2 User Application Layer Protocol
+
+ISDN:: Integrated Services Digital Network
+
+IUA:: ISDN User Application Layer Protocol
+
+PDU:: Protocol Data Unit
+
+TEI:: Terminal Endpoint Identifier
+
+TTCN-3:: Testing and Test Control Notation version 3

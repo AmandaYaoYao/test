@@ -1,0 +1,25 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 v.3.2.1 (2007-02) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] Telnet Test Port for TTCN-3 Toolset with TITAN, User Guide
+
+
+[[_3]]
+[3] https://tools.ietf.org/html/rfc854[RFC 854] +
+Telnet protocol specification
+
+[[_4]]
+[4] https://tools.ietf.org/html/rfc857[RFC 857] +
+Telnet echo option
+
+[[_5]]
+[5] https://tools.ietf.org/html/rfc1073[RFC 1073] +
+Telnet Window Size Option
+
+[[_6]]
+[6] https://tools.ietf.org/html/rfc1091[RFC 1091] +
+Telnet Terminal-Type Option

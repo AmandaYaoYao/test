@@ -1,0 +1,46 @@
+= Functional Specification
+
+== Protocol Version Implemented
+
+This set of protocol modules implements protocol messages and constants of the SCTP with the modifications specified in <<modifications-deviations-related-to-the-protocol-specification, Modifications/Deviations Related to the Protocol Specification>>.
+
+Supported RFCs: https://tools.ietf.org/html/rfc4960[RFC 4960], https://tools.ietf.org/html/rfc4895[RFC 4895], https://tools.ietf.org/html/rfc5061[RFC 5061], https://tools.ietf.org/html/rfc6525[RFC 6525], https://tools.ietf.org/html/rfc4820[RFC 4820], https://tools.ietf.org/html/rfc3758[RFC 3758]
+
+[[modifications-deviations-related-to-the-protocol-specification]]
+== Modifications/Deviations Related to the Protocol Specification
+
+The standard SCTP protocol modules contain the following modifications.
+
+=== Unimplemented Messages, Information Elements and Constants
+
+None.
+
+[[protocol-modifications-deviations]]
+=== Protocol Modifications/Deviations
+
+None.
+
+=== Additional Information Element
+
+None.
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product also contains encoding/decoding functions, which assure correct encoding of messages when sent from TITAN and decoding of messages when received by TITAN.
+
+The encoder function fills in the `CRC` field of the *_SCTP_* header with the correct value.
+
+The decoder function checks the validity of the CRC header field.
+
+Implemented encoding/decoding functions:
+
+[cols=3*,options=header]
+|===
+
+|Name |Type of formal parameters |Type of return value
+
+|`f_SCTP_enc` |in SCTP_Packet |octetstring
+|`f_SCTP_dec` |in octetstring +
+out SCTP_Packet |integer
+|===

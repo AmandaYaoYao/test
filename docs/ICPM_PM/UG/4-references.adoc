@@ -1,0 +1,50 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873–1 v.3.1.1 (06/2005) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] Programmer’s Technical Reference for the TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] Installation Guide for the TITAN TTCN-3 Test Executor
+
+[[_4]]
+[4] ICMP Protocol Modules for TTCN-3 Toolset with TITAN, Function Specification
+
+[[_5]]
+[5] IETF https://tools.ietf.org/html/rfc792[RFC 792] +
+Internet Control Message Protocol
+
+[[_6]]
+[6] IETF https://tools.ietf.org/html/rfc950[RFC 950] +
+Internet Standard Subnetting Procedure
+
+[[_7]]
+[7] IETF https://tools.ietf.org/html/rfc1256[RFC 1256] +
+ICMP Router Discovery Messages
+
+[[_8]]
+[8] IETF https://tools.ietf.org/html/rfc1393[RFC 1393] +
+Traceroute Using an IP Option
+
+[[_9]]
+[9] IETF https://tools.ietf.org/html/rfc1475[RFC 1475] +
+TP/IX: The Next Internet
+
+[[_10]]
+[10] IETF https://tools.ietf.org/html/rfc1788[RFC 1788] +
+ICMP Domain Name Messages
+
+[[_11]]
+[11] IETF https://tools.ietf.org/html/rfc2521[RFC 2521] +
+ICMP Security Failures Messages
+
+[[_12]]
+[12] IETF https://tools.ietf.org/html/rfc3344[RFC 3344] +
+IP Mobility Support for IPv4
+
+[[_13]]
+[13] IETF https://tools.ietf.org/html/rfc3012[RFC 3012] +
+Mobile IPv4 Challenge/Response Extensions

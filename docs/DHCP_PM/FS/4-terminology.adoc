@@ -1,0 +1,11 @@
+= Terminology
+
+No specific terminology is used.
+
+= Abbreviations
+
+DHCP:: Dynamic Host Configuration Protocol
+
+TLV:: Type, Length, Value
+
+TTCN-3:: Testing and Test Control Notation version 3

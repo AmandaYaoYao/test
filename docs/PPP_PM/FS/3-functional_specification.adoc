@@ -1,0 +1,98 @@
+= Functional Specification
+
+== Protocol Version Implemented
+
+This protocol module contains the protocol messages and elements of PPP <<5-references.adoc#_3, [3]>> and its associated protocols IP <<5-references.adoc#_4, [4]>>, IPCP <<5-references.adoc#_4, [4]>>, PPP Extensions for Name Server Address <<5-references.adoc#_5, [5]>>, CHAP <<5-references.adoc#_6, [6]>>, PAP <<5-references.adoc#_7, [7]>>, EAP <<5-references.adoc#_9, [9]>>-<<5-references.adoc#_11, [11]>> and the `Address` and `Control` fields are defined in <<5-references.adoc#_8, [8]>>.
+
+[[modifications-deviations-related-to-the-protocol-specification]]
+== Modifications/Deviations Related to the Protocol Specification
+
+=== Implemented Messages
+
+All message types listed in protocol descriptions are implemented.
+
+[[protocol-modifications-deviations]]
+=== Protocol Modifications/Deviations
+
+None.
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product also contains encoding/decoding functions that provide for the correct encoding of messages when sent from TITAN and correct decoding of messages when received by TITAN. Implemented encoding/decoding functions:
+
+[cols=3*,options=header]
+|===
+
+|Name |Type of formal parameters |Type of return value
+|`enc_PDU_PPP` |PDU_PPP |octetstring
+|`dec_PDU_PPP` |octetstring |PDU_PPP
+|===
+
+NOTE: The `Address` and `Control` fields defined in <<5-references.adoc#_9, [9]>> are treated as a single optional field in the beginning of `PDU_PPP`.
+
+Implemented PPP EAP functions (useful in RADIUS Protocol Module Generator):
+
+[cols=3*,options=header]
+|===
+
+|Name |Type of parameters |Type of return value
+
+|`f_enc_PDU_EAP` |PDU_EAP |octetstring
+
+|`f_dec_PDU_EAP` |octetstring |PDU_EAP
+
+|`f_enc_PDU_EAP_list` |PDU_EAP_list |octetstring
+
+|`f_dec_PDU_EAP_list` |octetstring |PDU_EAP_list
+
+|`f_enc_eap_sim_attrib_list` |eap_sim_attrib_list |octetstring
+
+|`f_dec_eap_sim_attrib_list` |octetstring |eap_sim_attrib_list
+
+|`f_enc_eap_aka_attrib_list` |eap_aka_attrib_list |octetstring
+
+|`f_dec_eap_aka_attrib_list` |octetstring |eap_aka_attrib_list
+
+|`f_calc_HMAC` |octetstring, octetstring, integer |octetstring
+
+|`f_initEAPPortDescriptor` |EAP_port_descriptor (inout) |
+
+|`f_get_EAP_parameters` |octetstring (inout), +
+EAP_port_descriptor (inout), Boolean |
+
+|`f_set_Ki` |integer, octetstring, +
+EAP_port_descriptor (inout) |
+
+|`f_set_K` |integer, octetstring, +
+EAP_port_descriptor (inout) |
+
+|`f_set_SQN` |integer, octetstring, +
+EAP_port_descriptor (inout) |
+
+|`f_set_SQN_MS` |integer, octetstring, +
+EAP_port_descriptor (inout) |
+
+|`f_set_AMF` |integer, octetstring, +
+EAP_port_descriptor (inout) |
+
+|`f_calc_AKA_Keys` |octetstring, octetstring, +
+octetstring octetstring, octetstring (inout), +
+octetstring (inout), octetstring (inout) |octetstring
+
+|`f_calc_A3A8` |octetstring, octetstring |octetstring
+
+|`f_calc_SRES` |octetstring, octetstring |octetstring
+
+|`f_calc_Kaut` |octetstring, octetstring |octetstring
+
+|`f_encrypt_at_encr` |octetstring, octetstring +
+octetstring, boolean |octetstring
+
+|`f_crypt_atSimEncrData` |at_sim_encr_data +
+octetstring, octetstring, +
+boolean |at_sim_encr_data
+
+|`f_crypt_atAKAEncrData` |at_aka_encr_data +
+octetstring, octetstring, +
+boolean |at_aka_encr_data

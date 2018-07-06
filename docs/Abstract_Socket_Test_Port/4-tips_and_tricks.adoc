@@ -1,0 +1,231 @@
+= Tips and Tricks
+
+== Usage
+
+In order to build a test port based on `Abstract_Socket` the following steps must be completed:
+
+1.  Deriving the test port class (see <<deriving_the_test_port_class, Deriving the Test Port Class>>)
+2.  Implementation of the logger functions if needed (see <<implementation_of_the_logger_functions, Implementation of the Logger Functions>>)
+3.  Function translations (see <<function_translations, Function Translations>>)
+4.  Installing the handlers (see <<functions_for_manipulating_the_set_of_events_for_which_the_port_waits, Functions for Manipulating the Set of Events for Which the Port Waits>>)
+5.  Final steps (see <<final_steps, Final Steps>>)
+
+These steps are discussed in detail in the following subsections.
+
+[[deriving_the_test_port_class]]
+=== Deriving the Test Port Class
+
+Inherit your test port class beside the test port base also from the `Abstract_Socket` class, if you do not want to use SSL at all. If you plan to use SSL, inherit the test port from the `SSL_Socket` class. In case your SSL implementation is just optional, you have to make sure that it is possible to disable SSL related code parts at compile time. In the AS if the `AS_USE_SSL` macro is defined, then SSL is enabled, otherwise disabled.
+
+Example:
+
+[source]
+----
+#ifdef AS_USE_SSL
+class myport__PT : public SSL_Socket, public myport__PT_BASE \{
+#else
+class myport__PT : public Abstract_Socket, public myport__PT_BASE \{
+#endif
+----
+
+[[implementation_of_the_logger_functions]]
+=== Implementation of the Logger Functions
+
+Implement the `log_debug`, `log_error`, `log_warning` and `log_hex` virtual functions if you need other implementation than the default. (they can be empty implementations if logging is not needed)
+
+[width="100%",cols="20%,80%",options="header",]
+|===============================================================
+|Function |Description
+|`log_debug` |does the debug-logging
+|`log_hex` |does the logging of the message content in hex format
+|`log_warning` |does the logging of warning messages
+|`log_error` |is expecting the test port to stop with a TTCN_ERROR
+|===============================================================
+
+You can use the logger functions implemented in the AS. In this case you have to call the AS constructor with your test port type and name. In this way the AS will log messages acting like your test port.
+
+[[function_translations]]
+=== Function Translations
+
+Translate the port's functions to the socket's functions. By translating we mean a function call with unchanged parameters like this:
+
+[source]
+----
+void myport__PT::set_parameter(const char *parameter_name,
+  const char* parameter_value) \{
+    parameter_set(parameter_name ,parameter_value);
+}
+----
+
+The list of functions to be translated:
+
+[cols=",",options="header",]
+|====================================
+|Port functions: |Socket functions:
+|`set_parameter` |`parameter_set`
+|`Handle_Fd_Event` |`Handle_Socket_Event`
+|`Handle_Timeout` |`Handle_Timeout_Event`
+|`user_map` |`map_user`
+|`user_unmap` |`unmap_user`
+|====================================
+
+If you might need other functions also to be performed during `map`, `unmap` or `set_parameter`, you can add them right after the socket's function calls.
+
+Example:
+
+[source]
+----
+void myport__PT::set_parameter(const char *parameter_name,
+  const char *parameter_value)
+\{
+parameter_set(parameter_name ,parameter_value);
+if(strcmp(parameter_name,``dallas_addr'') == 0)\{
+          destHostId = getHostId(parameter_value);
+          destAddr.sin_family = AF_INET;
+          destAddr.sin_addr.s_addr = htonl(destHostId);
+          return;
+}
+}
+----
+
+The translation of the `outgoing_send` to `send_outgoing` function needs some parameter formatting since the `outgoing_send` has parameters inherited from your TTCN-3 structures, while `Abstract_Socket`'s `outgoing_send` has parameters as ``(char* message, int messageLength, int client_id)``.
+
+The same applies for the incoming function calls where you have to write your own `message_incoming` to `incoming_message` translation.
+
+Example:
+
+[source]
+----
+void myport__PT::outgoing_send(const TTCN3__Structure& send_par)
+\{
+  if(send_par.client__id().ispresent()) \{
+    send_outgoing((char__)(const unsigned char__)send_par.data(),
+        send_par.data().lengthof(), send_par.client__id()());
+  } else \{
+    send_outgoing((char__)(const unsigned char__)send_par.data(),
+        send_par.data().lengthof());
+  }
+}
+----
+
+[[functions_for_manipulating_the_set_of_events_for_which_the_port_waits]]
+=== Functions for Manipulating the Set of Events for Which the Port Waits
+
+Add the following (virtual) member functions to your port (class definition) unchanged:
+
+[source]
+----
+void Add_Fd_Read_Handler(int fd) \{ Handler_Add_Fd_Read(fd); }
+void Add_Fd_Write_Handler(int fd) \{ Handler_Add_Fd_Write(fd); }
+void Remove_Fd_Read_Handler(int fd) \{ Handler_Remove_Fd_Read(fd); }
+void Remove_Fd_Write_Handler(int fd) \{ Handler_Remove_Fd_Write(fd); }
+void Remove_Fd_All_Handlers(int fd) \{ Handler_Remove_Fd(fd); }
+void Handler_Uninstall() \{ Uninstall_Handler(); }
+void Timer_Set_Handler(double call_interval, boolean is_timeout = TRUE,
+  boolean call_anyway = TRUE, boolean is_periodic = TRUE) \{
+  Handler_Set_Timer(call_interval, is_timeout, call_anyway, is_periodic);
+}
+----
+
+NOTE: These member functions are required and used by Abstract Socket. They are defined in Abstract Socket as virtual and are to be overridden in the descendant Test Port class. They are implemented in the (Test Port) class definition only for the sake of simplicity.)
+
+[[final_steps]]
+=== Final Steps
+
+Finally, the function definitions must be added to the header file accordingly. Then, you are ready to go ahead and develop your test port.
+
+[[using-ttcn-buffer-in-test-ports]]
+== Using `TTCN_Buffer` in Test Ports
+
+The Abstract Socket uses a `TTCN_Buffer` <<8-references.adoc#_2, [2]>> to store incoming message portions. If the test port also would like to store incoming messages, here is a description how to do that:
+
+The test port can access the `TTCN_Buffer` with `get_buffer`() and can operate on it. If the test port uses the buffer to store data, it must set the `ttcn_buffer_usercontrol` variable to `_true_`, so that the AS will not clear the buffer content.
+
+In this case the test port can use the buffer in the following ways:
+
+* `get_buffer`() to fetch the `TTCN_Buffer` associated with the client
+* Optionally modify content; or wait for complete TLV
+* Once a message portion is sent to the TTCN-3 test suite, cut the sent message from the buffer because the AS will not do that. In case the test port simply passed the message to the test suite and uses no storage of it (e.g. TCP Test Port), it can leave `ttcn_buffer_usercontrol` in false (which is the default value) so that the AS will take care of buffer cleanups.
+
+== Using SSL on Top of a TCP Connection
+
+SSL can be used on top of the TCP connection. The authentication mode can be configured via a test port parameter.
+
+=== Server Mode
+
+In server mode, first a TCP socket is created. The server starts to listen on this port (upon the `user_map`() operation or in case of connection ASPs, calling the `open_listen_port`() operation). Once a TCP connect request is received, the TCP connection is set up. After this the SSL handshake begins. The SSL is mapped to the file descriptor of the TCP socket. The BIO, which is an I/O abstraction that hides many of the underlying I/O details from an application, is automatically created by OpenSSL inheriting the characteristics of the socket (non-blocking mode). The BIO is completely transparent. The server always sends its certificate to the client. If configured so, the server will request the certificate of the client and check if it is a valid certificate. If not, the SSL connection is refused. If configured not to verify the certificate, the server will not request it from the client and the SSL connection is accepted. If usage of the SSL session resumption is enabled and the client refers to a previous SSL session, the server will accept it, unless it is not found in the SSL context cache. Once the connection is negotiated, data can be sent/received. The SSL connection is shut down using an `unmap`() operation. The shutdown process does not follow the standard: the server simply shuts down and does not expect any acknowledgement from the client.
+
+Clients connected to the server are distinguished with their file descriptor numbers. When a message is received, the file descriptor number is also passed, so the client can be identified.
+
+=== Client Mode
+
+In client mode, first a TCP connection is requested to the server (upon the `user_map`() operation or in case of connection ASPs, calling the `open_client_connection`() operation). Once it is accepted, the SSL endpoint is created. If configured so, the client tries to use the SSL session Id from the previous connection, if available (e.g. it is not the first connection). If no SSL session Id is available, or the server does not accept it, a full handshake is performed. If configured so, the certificate of the server is verified. If the verification fails, the SSL connection is interrupted by the client. If no verification required, the received certificate is still verified, however the result does not affect the connection even though it failed.
+
+=== Authentication Flow
+
+In summary, the authentication is done according to this flow:
+
+* ssl handshake begins (new client tries to connect)
+* `virtual int ssl_verify_certificates_at_handshake(int preverify_ok, X509_STORE_CTX *ssl_ctx)` is called. During this handshake you can perform additional authentication.
+* If the connection is accepted, the SSL handshake is finished and SSL is established. Now the function virtual `bool ssl_verify_certificates`() is called where you may perform other authentication if you want.
+
+`ssl_verify_certificates`() is a virtual function. It is called after the SSL connection is up. Test ports may use it to check other peer's certificate and do actions. If the return value is 0, then the SSL connection is closed. In case of client mode, the test port exits with an error (`*verification_error*`). In server mode the test port just removes client data, but keeps running.
+
+== Adapting Derived Test Ports to Support IPv6
+
+Derived test ports should be updated in the following way to support IPv4 and IPv6:
+
+All calls of functions
+
+[source]
+----
+const struct sockaddr_in & get_remote_addr()
+const struct sockaddr_in & get_local_addr()
+----
+
+should be removed. They can be replaced by calling these functions:
+
+[source]
+----
+virtual const char* local_port_name();
+virtual const char* local_address_name();
+virtual const char* remote_port_name();
+virtual const char* remote_address_name();
+----
+
+The function `int open_listen_port(const struct sockaddr_in & localAddr);` does not support IPv6. The function below should be used instead:
+
+`int open_listen_port(const char* localHostname, const char* localServicename);`
+
+The same has to be done for the `open_client_connection` function. Replace any call of the function
+
+[source]
+int open_client_connection(const struct sockaddr_in & new_remote_addr, const struct sockaddr_in & new_local_addr)
+
+
+with the function:
+
+[source]
+----
+int open_client_connection(const char* remoteHostname, const char* remoteService, const char* localHostname, const char* localService);
+----
+
+If the following callback function is overridden in the derived test port:
+
+[source]
+----
+virtual void peer_connected(int client_id, sockaddr_in& remote_addr);
+----
+
+it should be removed and the following function should be overridden instead:
+
+[source]
+----
+virtual void peer_connected(int client_id, const char * host, const int port)
+----
+
+The following function should not be used:
+
+`void get_host_id(const char* hostName, struct sockaddr_in *addr)`
+
+The socket API function `getaddrinfo` should be used instead.

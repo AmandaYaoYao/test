@@ -1,0 +1,15 @@
+= Terminology
+
+TITAN TTCN-3 Test Executor.
+
+= Abbreviations
+
+IETF:: Internet Engineering Task Force
+
+ICMPv6:: Internet Control Message Protocol for IPv6
+
+IPv6:: Internet Protocol Version 6
+
+RFC:: Request for Comments
+
+TTCN-3:: Testing and Test Control Notation version 3

@@ -1,0 +1,142 @@
+= Functional Interface
+
+Currently there are three kinds of trees in the Red Black Tree feature, distinguished by the key type of the items. These are:
+
+* integer tree
+* float tree
+* charstring tree
+
+There are separate functions for each tree type if the function has the key as parameter or if it returns the key. These functions refer to the key type with their name (e.g. `f_EPTF_RBT_insertIntItem`)
+
+Other functions that do not depend on the key type are unified (e.g. `f_EPTF_RBT_removeItem`).
+
+The component `EPTF_RBT_CT` must be extended and initialized (<<init, Initialization>>) to use the Red Black Tree feature. The external functions in this feature do not have a runs-on clause, but they must be handled as if they would run on `EPTF_RBT_CT`.
+
+All functions have the prefix `f_EPTF_RBT_`.
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading ‎<<6-references.adoc#_4, [4]>>.
+
+[[init]]
+== Initialization
+
+The function `f_EPTF_RBT_init_CT(pl_selfName)` must be called before using the Red Black Tree feature.
+
+== Creating a Tree
+
+The following functions can be used to create a new Red Black Tree:
+
+[source]
+----
+f_EPTF_RBT_createIntTree(pl_name) return EPTF_RBT_TreeId
+
+f_EPTF_RBT_createFloatTree(pl_name) return EPTF_RBT_TreeId
+
+f_EPTF_RBT_createCharstringTree(pl_name) return EPTF_RBT_TreeId
+----
+
+== Deleting a Tree
+
+The function `f_EPTF_RBT_deleteTree(pl_tree)` can be used to delete a tree and free all its resources.
+
+== Inserting an Item
+
+The following functions can be used to insert (create) a new item in a tree:
+
+[source]
+----
+f_EPTF_RBT_insertIntItem(pl_tree, pl_key) return EPTF_RBT_ItemIdx
+
+f_EPTF_RBT_insertFloatItem(pl_tree, pl_key) return EPTF_RBT_ItemIdx
+
+f_EPTF_RBT_insertCharstringItem(pl_tree, pl_key) return EPTF_RBT_ItemIdx
+----
+
+== Removing an Item
+
+The function `f_EPTF_RBT_removeItem(pl_tree, pl_item)` can be used to remove an item from a tree. Removed items will be reused in subsequent insertions.
+
+== Getting the Smallest Item
+
+The function `f_EPTF_RBT_getItemWithSmallestKey(pl_tree)` returns the index of the item with the smallest key in the tree, or `_−1_` if the tree is empty. The index of the smallest item is cached, and its cache is updated at both insertion and removal in a way that searching for the smallest item is never needed.
+
+== Getting the Key of an Item
+
+The following functions return the key of an item in a tree:
+
+[source]
+----
+f_EPTF_RBT_getKeyOfIntItem(pl_tree, pl_item) return integer
+
+f_EPTF_RBT_getKeyOfFloatItem(pl_tree, pl_item) return float
+
+f_EPTF_RBT_getKeyOfCharstringItem(pl_tree, pl_item) return charstring
+----
+
+== Finding an Item by Key
+
+The following functions return the index of the first item with a given key or `_−1_` if no item is found:
+
+[source]
+----
+f_EPTF_RBT_findFirstItemByIntKey(pl_tree, pl_key) return EPTF_RBT_ItemIdx
+
+f_EPTF_RBT_findFirstItemByFloatKey(pl_tree, pl_key) return EPTF_RBT_ItemIdx
+
+f_EPTF_RBT_findFirstItemByCharstringKey(pl_tree, pl_key) return EPTF_RBT_ItemIdx
+----
+
+Use `f_EPTF_RBT_getNextInChain` to get further items with the same keys (if any), see <<other_getter_functions, Other Getter Functions>>.
+
+[[other_getter_functions]]
+== Other Getter Functions
+
+In addition to the functions in previous sections, the following getter functions are defined:
+
+* `f_EPTF_RBT_getRoot(pl_tree)`: returns the root node or `_−1_` if tree is empty
+* `f_EPTF_RBT_getLeft(pl_tree, pl_item)`: returns the left child of a node or −1 if none (no child or item is not node)
+* `f_EPTF_RBT_getRight(pl_tree, pl_item`): returns the right child of a node or −1 if none (no child or item is not node)
+* `f_EPTF_RBT_getParent(pl_tree, pl_item)`: returns the parent of a node or −1 if none (item is root or not a node)
+* `f_EPTF_RBT_getNextInChain(pl_tree, pl_item)`: returns the next item with the same key as the key of `pl_item` or `_−1_` if none
+* `f_EPTF_RBT_getPrevInChain(pl_tree, pl_item)`: returns the previous item with the same key as the key of `pl_item` or `_−1_` if none
+
+== Iterating Through Items
+
+The function `f_EPTF_RBT_iterateIncremental(pl_tree, pl_item)` can be used to iterate through the items of the tree, including items with the same key (in insertion order).
+
+== Sorting Items
+
+The following function returns the item order (including items with same key) in its out parameter `pl_itemsSorted`:
+
+`f_EPTF_RBT_sortIncremental(pl_tree, pl_itemsSorted)`
+
+== Summary Table of All Public Functions for EPTF Red Black Tree
+
+See summary of Red Black Tree functions in the table below:
+
+[cols=",",options="header",]
+|====================================================================
+|Function name |Description
+|`f_EPTF_RBT_init_CT` |Init the Red Black Tree feature
+|`f_EPTF_RBT_createIntTree` |Create an integer tree
+|`f_EPTF_RBT_createFloatTree` |Create a float tree
+|`f_EPTF_RBT_createCharstringTree` |Create a charstring tree
+|`f_EPTF_RBT_deleteTree` |Delete a tree
+|`f_EPTF_RBT_insertIntItem` |Insert an item with integer key
+|`f_EPTF_RBT_insertFloatItem` |Insert an item with float key
+|`f_EPTF_RBT_insertCharstringItem` |Insert an item with charstring key
+|`f_EPTF_RBT_removeItem` |Remove an item
+|`f_EPTF_RBT_getItemWithSmallestKey` |Get item with the smallest key
+|`f_EPTF_RBT_getKeyOfIntItem` |Get integer key of an item
+|`f_EPTF_RBT_getKeyOfFloatItem` |Get float key of an item
+|`f_EPTF_RBT_getKeyOfCharstringItem` |Get charstring key of an item
+|`f_EPTF_RBT_findFirstItemByIntKey` |Find item by integer key
+|`f_EPTF_RBT_findFirstItemByFloatKey` |Find item by float key
+|`f_EPTF_RBT_findFirstItemByCharstringKey` |Find item by charstring key
+|`f_EPTF_RBT_getRoot` |Get root node
+|`f_EPTF_RBT_getLeft` |Get left child node
+|`f_EPTF_RBT_getRight` |Get right child node
+|`f_EPTF_RBT_getNextInChain` |Get next item with same key
+|`f_EPTF_RBT_getPrevInChain` |Get previous item with same key
+|`f_EPTF_RBT_iterateIncremental` |Iterate through the items
+|`f_EPTF_RBT_sortIncremental` |Sort the items
+|====================================================================

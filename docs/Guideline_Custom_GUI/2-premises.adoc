@@ -1,0 +1,5 @@
+= Premises
+
+In the former WoW the component types published their data directly on the GUI. The layout of the GUI was built into the code; therefore each customization request needed the change of the code.
+
+No one can design a GUI which is suitable for all use cases. The complaints and change requests have been mushroomed, and the customization became more and more complicated. Therefore, a new, customizable GUI description API had to be implemented.

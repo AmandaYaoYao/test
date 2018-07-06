@@ -1,0 +1,121 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading <<5-references.adoc_4, [4]>>.
+
+== Naming Conventions
+
+All functions in Host Admin Base have the prefix `f_EPTF_HostAdmin_Base`.
+
+All functions in Host Admin have the prefix `f_EPTF_HostAdmin`.
+
+== Host Admin Base Public Functions
+
+=== Initialization
+Before using the EPTF Host Admin Base feature the
+
+`f_EPTF_HostAdmin_Base_InitMeasInterface()`
+
+function should be called. This initializes the EPTF Host Admin Base feature.
+
+=== Cleanup
+
+The function `f_EPTF_HostAdmin_Base_CleanupMeasInterface()` should be called before stopping the component.
+
+=== Updating Masurement Data
+
+The function `f_EPTF_HostAdmin_Base_update()` can be used to update the measurement data stored as component variables in the component `EPTF_HostAdmin_Base_CT`.
+
+=== Get the Name of a Process
+
+The function `f_EPTF_HostAdmin_Base_getProcessName()` function returns the name (command) of a process by its PID.
+
+=== Add Process Statistics
+
+The function `f_EPTF_HostAdmin_Base_addProcessStat()` function can be used to start measurement of CPU and memory usage of a process. The PID of the process has to be passed in as a parameter. The function returns the internal index of the process statistics.
+
+=== Remove Process Statistics
+
+The function `f_EPTF_HostAdmin_Base_removeProcessStat()` function can be used to remove process statistics previously added by `f_EPTF_HostAdmin_Base_addProcessStat`, with the PID of the process as the input parameter.
+
+The function `f_EPTF_HostAdmin_Base_removeProcessStatByIdx()` function is the same as `f_EPTF_HostAdmin_Base_removeProcessStat`, but the statistics index (as returned by `f_EPTF_HostAdmin_Base_addProcessStat`) has to be specified instead of the PID.
+
+=== Get CPU Load of a Process
+
+The function `f_EPTF_HostAdmin_Base_getProcessCpuLoad()` and `f_EPTF_HostAdmin_Base_getProcessCpuLoadByIdx()` can be used to get the CPU load of a process by its PID or statistics index respectively.
+
+=== Get Memory Usage of a Process
+
+The function `f_EPTF_HostAdmin_Base_getProcessMemUsage()` and `f_EPTF_HostAdmin_Base_getProcessMemUsageByIdx()` can be used to get the memory usage of a process.
+
+== Host Admin Public Functions
+
+=== Behavior Function
+
+The following function should be started on the EPTF Host Admin component:
+
+`f_EPTF_HostAdmin_behavior(pl_selfName)`
+
+This function automatically initializes the Host Admin component and periodically updates the measurement variables and dependent EPTF Variables.
+
+== Host Admin Server Public Functions
+
+[[initialization-0]]
+=== Initialization
+Before using the EPTF Host Admin Server feature the
+
+`f_EPTF_HostAdminServer_init_CT(pl_selfName, pl_dataSource_compRef)`
+
+function should be called. This initializes the EPTF Host Admin Base feature.
+
+=== Setting the Sort Order
+
+The sort order of process statistics can be set with the following function:
+
+`f_EPTF_HostAdminServer_setSortBy(pl_sortBy)`
+
+=== Getting Variable Name Prefix for Process Stats
+The function
+
+`f_EPTF_HostAdminServer_getProcessVarNamePrefix(pl_processSelfName)`
+
+can be used to get a variable name prefix for process statistics by the EPTF `selfName` of a process.
+
+Currently, the following constants are defined for variable name suffixes:
+
+* `c_HostAdminServer_dataElementHostName`: the host name of the process, type: charstring.
+* `c_HostAdminServer_dataElementPID`: process id, type: integer.
+* `c_HostAdminServer_dataElementCpuLoad`: CPU load, type: float.
+* `c_HostAdminServer_dataElementMemUsage`: memory usage in kilobytes, type: integer.
+* `c_HostAdminServer_dataElementMemUsageHRF`: memory usage in human readable format, type: charstring.
+
+For example, the Variable name for the CPU usage statistics of EPTF component with `selfName` "SIPLGen2" can be get with the following:
+
+`f_EPTF_HostAdminServer_getProcessVarNamePrefix("IPLGen2") & c_HostAdminServer_dataElementCpuLoad`
+
+== Summary Table of All Public Functions for EPTF Host Admin
+
+See Summary of Host Admin functions below:
+
+[width="100%",cols="50%,50%",options="header",]
+|==========================================================================================================
+|Function name |Description
+|`f_EPTF_HostAdmin_Base_InitMeasInterface` |Initializes the Host Admin Base Component
+|`f_EPTF_HostAdmin_Base_CleanupMeasInterface` |Should be called before stopping the Host Admin Base component
+|`f_EPTF_HostAdmin_Base_update` |Updates measurement data
+|`f_EPTF_HostAdmin_Base_getProcessName` |Get the name of a process by PID
+|`f_EPTF_HostAdmin_Base_addProcessStat` |Add process statistics by PID
+|`f_EPTF_HostAdmin_Base_removeProcessStat` |Remove process statistics by PID
+|`f_EPTF_HostAdmin_Base_removeProcessStatByIdx` |Remove process statistics by index
+|`f_EPTF_HostAdmin_Base_getProcessCpuLoad` |Get CPU load of process by PID
+|`f_EPTF_HostAdmin_Base_getProcessCpuLoadByIdx` |Get CPU load of process by index
+|`f_EPTF_HostAdmin_Base_getProcessMemUsage` |Get memory usage of process by PID
+|`f_EPTF_HostAdmin_Base_getProcessMemUsageByIdx` |Get memory usage of process by index
+|`f_EPTF_HostAdmin_behavior` |Behavior function that should be started on Host Admin component
+|`f_EPTF_HostAdminServer_init_CT` |Initilize Host Admin Server
+|`f_EPTF_HostAdminServer_setSortBy` |Set the sort order for pre host process statistics
+|`f_EPTF_HostAdminServer_getProcessVarNamePrefix` |Get Variable name prefix for process stats by `selfName`
+|==========================================================================================================
+
+== `DataSource` Client Functionality
+
+The Host Admin feature provides `DataSourceClient` functionality. This means that a `HostAdmin` component has several Variables, that are available to use with the help of a `DataSource` server, for example the `UIHandler`. With the call of the function `f_EPTF_UIHandler_createGUI()`, a custom GUI is built, and the data of the features are freely to use. For more info about the `DataSource` feature, see the `UIHandler` Function Description <<5-references.adoc_7, [7]>>. For the list of the existing iterators and external data elements, see the natural documentation.

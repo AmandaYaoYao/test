@@ -1,0 +1,62 @@
+= Terminology
+*Core Library (CLL):* +
+It is that part of the TitanSim software that is totally project independent. (That is, which is not protocol-, or application-dependent). The EPTF Core Library is to be supplied and supported by the TCC organization. Any EPTF Core Library development is to be funded centrally by Ericsson.
+
+*ExecCtrl:* +
+It is function set for provisioning and executing test _scenarios_ with TitanSim based load generators.
+
+*ExecCtrl CLI:* +
+This provides ExecCtrl commands on the Command Line Interface.
+
+*ExecCtrl UI Handler:* +
+It extends the _ExecCtrl_ functionality with user interface.
+
+*ExecCtrlClient:* +
+The client for _ExecCtrl_, it is the interface of LGenBase towards _ExecCtrl_ used to control the LGenBase.
+
+*ExecCtrlClient UI Handler:* +
+Extends the _ExecCtrlClient_ functionality with user interface.
+
+*Behavior type:* +
+Realizing methods conforming to given function signatures prescribed by the LGenBase feature. Behavior types are to be declared dynamically during run-time to the LGenBase by the component-type initialization founction of some AppLib. Usually an AppLib product has only one behavior type, but it is permitted for AppLibs to declare more than one behavior types, if necessary. Behavior types are identified by their indices determined by the order of declaration and the declarations are stored in v_LGenBase_behaviorTypes.
+
+*Entities:* +
+These are ``things/objects'' that are simulated by the LGen. Such ``things'' are usually the ``users'', ``calls'', ``servers'', ``terminations'', or anything whose external behavior is to be simulated by the LGen. Usually an LGen simulates more than one entity.
+
+*Entity context:* +
+It is an index-able generic data record describing an entity. It serves as a hub connecting all information related to the entity together by referring the respective associated _behavior contexts_ and _FSM contexts_ via their indices. The entity contexts are identified via their indices with respect to the entity context database stored in the v_LGenBase_entities component variable.
+
+*Entity type:* +
+It is a named list of references to declared _behavior types_. As such, it declares what types of behavior contexts are available on entities of this type.
+
+*Entity group:* +
+A group of entities with homogenous entity type. The indices of the entities of the group make a continuous interval that does not overlap with the indices range of any other entity group.
+
+*LGen:* +
+Load Generator that uses the LGenBase feature, _ExecCtrlClients_ are also LGens.
+
+*Scenario:* +
+It is a collection of traffic cases deployed on an entity group.
+
+*Finite State Machine:* +
+It is a formal description of _Control Logic_. It is a tabular description of what _test steps_ to call when a given _reported event_ occurs, when the entity is in a given declared _state of the FSM_. After executing these _test steps_ an optional next _FSM state_ can be also defined.
+
+*FSM table:* +
+It is a formal specification of the communication rules of Finite State Machines. These indexable records are stored in v_LGenBase_fsmTables. FSM tables realizing _traffic cases_ must obey certain rules.
+
+*Traffic case type:* +
+It is a prototype used as an input for instantiating traffic case instances on a specific entity group. It defines what _FSM table_ to use, what _entity type_ must be used by the _entity group_ where the _traffic case_ is to be deployed.
+
+*Traffic case:* +
+It is a behavior, defined by an FSM table, that is executed on a given entity group. All entities of the entity group participate in executing the traffic case. An entity group may have more than one concurrent traffic cases.
+
+= Abbreviations
+CLI:: Command Line Interface, its functionality is provided by the EPTF CommandLineInterface feature
+
+CLL:: Core Library
+
+EPTF:: Ericsson Performance Test Framework
+
+TitanSim:: New synonym for the EPTF Framework
+
+TTCN-3:: Testing and Test Control Notation version 3 <<5-references.adoc#_1, [1]>>

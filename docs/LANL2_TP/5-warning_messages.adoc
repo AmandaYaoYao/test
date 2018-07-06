@@ -1,0 +1,43 @@
+= Warning Messages
+
+`*Unsupported Test Port parameter: `<parameter>'.*`
+
+The test port parameter <parameter> in the configuration file is not supported for the LANL2 test port.
+
+`*Parameter 'packet_filter' is an empty string. All type of packets is received!*`
+
+The filtering expression is empty in the configuration file. Every sent and received packet will be captured.
+
+`*Parameter 'packet_filter' is not set. All type of packets is received.*`
+
+No filtering expression is set in the configuration file. Every sent and received packet will be captured.
+
+`*Interface `<interface>' was down, now it is set up and running.*`
+
+The test port set up <interface> because it was down when starting.
+
+`*Unbound argument 'eth_src_addr'. Source MAC address was not set in 'ASP_LANL2'. It is now set to `<value>' from HW.*`
+
+The source MAC address was not set in the ASP_LANL2. The test port filled the field from the HW of the given interface.
+
+`*Unbound argument 'eth_mac_source'. Source MAC was not set in config file. It is now set to `<value>' from HW.*`
+
+The source MAC address was not set in the configuration file. The test port filled the field from the HW of the given interface.
+
+`*Size of captured packet is not correct (expected: 14-1514 byte, received: <value>).*`
+
+The size of the received packet is not a correct Ethernet II frame size. The packet is not sent to TITAN.
+
+`*Erroneous packet (size of captured packet is not correct: <value> bytes).*`
+
+If test port parameter `dump_erroneous_frame` is set true and the received packet is smaller than 60 bytes (without CRC) but bigger than 14 bytes the packet is dumped and sent to TITAN.
+
+[[makefile]]
+== Makefile
+
+=== Linux
+
+The `–lpcap` has to be added to `LINUX_LIBS` in order to use Libpcap.
+
+[source]
+LINUX_LIBS = -lpcap

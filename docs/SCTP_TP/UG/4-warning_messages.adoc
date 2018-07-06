@@ -1,0 +1,11 @@
+= Warning Messages
+
+`*%s: unknown & unhandled parameter: %s*`
+
+`*Connect error!*`
+
+`*Setsockopt error!*`
+
+`*Sendmsg error! Strerror=%s*`
+
+`*Unknown notification type!*`

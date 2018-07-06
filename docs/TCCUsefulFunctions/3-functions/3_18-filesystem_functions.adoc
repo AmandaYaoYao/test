@@ -1,0 +1,10 @@
+= FileSystem Functions
+
+== Overview
+
+The FileSystem functions get information about the file system that contains the file named by the filename argument
+
+FileSystem Functions are implemented in the following files:
+
+* __TCCFileSystem_Functions.ttcn__
+* _TCCFileSystem.cc_

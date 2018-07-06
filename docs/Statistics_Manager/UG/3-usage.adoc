@@ -1,0 +1,3 @@
+= Usage
+
+To use the `StatManager` feature you have to extend `EPTF_StatManager_CT` and call the `f_EPTF_StatManager_init_CT` function.

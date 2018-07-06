@@ -1,0 +1,37 @@
+= References
+
+[[_1]]
+[1] https://tools.ietf.org/html/rfc791[RFC 791] +
+Internet Protocol, Version 4 (IPv4)
+
+[[_2]]
+[2] https://tools.ietf.org/html/rfc2460[RFC 2460] +
+Internet Protocol, Version 6 (IPv6)
+
+[[_3]]
+[3] ETSI ES 201 873-1 v.3.1.1 (2005-06) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_4]]
+[4] 1/1553-CRL 113 200/5 Uen +
+User Documentation for the TITAN TTCN-3 Test Executor
+
+[[_5]]
+[5] https://tools.ietf.org/html/rfc2004[RFC 2004] +
+Minimal Encapsulation within IP
+
+[[_6]]
+[6] https://tools.ietf.org/html/rfc2402[RFC 2402] +
+IP Authentication Header
+
+[[_7]]
+[7] https://tools.ietf.org/html/rfc2406[RFC 2406] +
+IP Encapsulating Security Payload (ESP)
+
+[[_8]]
+[8] https://tools.ietf.org/html/rfc2784[RFC 2784] +
+Generic Routing Encapsulation (GRE)
+
+[[_9]]
+[9] https://tools.ietf.org/html/rfc2890[RFC 2890] +
+Key and Sequence Number Extension to GRE

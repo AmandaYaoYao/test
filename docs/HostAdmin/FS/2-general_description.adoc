@@ -1,0 +1,26 @@
+= General Description
+
+The aim of the EPTF CLL Host Admin feature is to provide processor and memory usage measurement for a given host it is started on. Supported platforms are Solaris 5.6 and 5.8, Linux and Win32/Cygwin.
+
+This document specifies the Host Admin feature of the TitanSim CLL.
+
+The EPTF Host Admin feature makes it possible to
+
+* Measure average processor load of the host it is started on
+* Query the number of processors
+* Measure per-processor load
+* Query the physical memory size
+* Get the amount of free (available) memory
+* Monitor the CPU load and memory usage of processes
+
+The Host Admin feature is divided in two parts: Host Admin Base and Host Admin. The former provides local measurements for components that extend it, and the latter provides remote measurements through the EPTF Variables <<5-references.adoc_5, [5]>> (or a local measurement interface running in a separate component).
+
+To be able to use EPTF CLL Host Admin Base, the user component should extend the `EPTF_HostAdmin_Base_CT` component.
+
+To be able to use the EPTF CLL Host Admin, a new component of type `EPTF_HostAdmin_CT` should be created and the function `f_EPTF_HostAdmin_behavior()` should be started on it. The measurement data can be accessed by subscribing to the respective EPTF variables.
+
+== Host Admin Server
+
+There is an additional component called Host Admin Server as a sub-feature of Host Admin. This component periodically queries the running EPTF processes from the Base feature. If it finds a process that was started on a new host, it automatically starts a Host Admin component on that host. Host and process statistics are collected from the started Host Admins by the server and provided as data sources/Variables.
+
+The process statistics that are collected by the Host Admin Server are only for EPTF components. These can be displayed on the GUI per host, sorted either by name, CPU load or memory usage. Statistics are also available by the `selfName` parameter of the EPTF processes. An example use-case can be seen in the demo of the feature.

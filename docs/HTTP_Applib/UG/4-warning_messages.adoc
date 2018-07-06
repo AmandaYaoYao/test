@@ -1,0 +1,181 @@
+= Warning Messages
+
+[[eptf-http-functions-ttcn]]
+== __EPTF_HTTP_Functions.ttcn__
+
+`*Status code of incoming message is invalid: <Status code>*`
+
+The status code of the message is outside of valid range [100 .. 600)
+
+`*Entity cannot be determined to message on session: <SessionId>*`
+
+A message has been received to which no HTTP user belongs. The most possible cause is that the port related to the message reception is not assigned to an HTTP user yet.
+
+`*Entity cannot be determined to event: <EventId> on session: <SessionId>*`
+
+An event has been received to which no HTTP user belongs. The most possible cause is that the port related to the event reception is not assigned to an HTTP user yet. E.g. the port is opened but it will be assigned to an entity only after one sends on it and the connection closed event from the remote side occurs before sending.
+
+`*Entity cannot be determined to socket error on session: <SessionId>*`
+
+A socket error message has been received to which no HTTP user belongs. The most possible cause is that the port related to the message reception is not assigned to an HTTP user yet (it occurs mainly on instant connection opens).
+
+`*You should set your sender function with f_EPTF_HTTP_ setSendRequestFunction*`
+
+The send request function is not yet set
+
+`*Setting invalid template parameter*`
+
+The user can add optional template parameters to the pre-defined template type. Before getting the template content, values must be assigned to each optional parameter. This warning indicates that optional parameter could not be found in the indexed database.
+
+`*Unhandled message type received <message>*`
+
+The registered message handler could not handle the incoming message
+
+[[eptf-http-logger-functions-ttcn]]
+== __EPTF_HTTP_Logger_Functions.ttcn__
+
+None exists.
+
+[[eptf-http-transport-functions-ttcn]]
+== __EPTF_HTTP_Transport_Functions.ttcn__
+
+`*Cannot add/remove ports to port groups created in Port mode*`
+
+Addition of ports to a port object is disabled
+
+`*Port selection is unsuccessful for group: <GroupId>*`
+
+If a port is occupied for sending or a port group occupies all its ports for sending, then no more ports can be selected on the object to send.
+
+`*Group already deleted: <GroupId> - <GroupName>*`
+
+The port or port group subject to the previous operation is already deleted
+
+`*Already sending on group: <GroupId> - <GroupName>*`
+
+The port object is already occupied for sending. New send is not possible till previous send operation is not finished.
+
+`*Connection id was not found in Connection id to port id hash map. Message dropped!*`
+
+The message arrives on a port or on a port of a port group to which no group and port id is associated. This should be an error.
+
+`*No more free ports available*`
+
+It is not possible to send on the given port or port group object because all ports are Busy for sending.
+
+`*Connection is not in Idle state, state: <State>*`
+
+Instant connection open is attempted on port but it is not in Idle state (so it is not closed, cannot be reopened).
+
+`*Instant connection opening is unsuccessful on port at: <Group and Port info>*`
+
+Instant connection opening was attempted to a port or to a port of a port group, but the operation failed.
+
+`*Sending on port which has already been removed! <GroupId> / <PortId>*`
+
+Trying to send on a port which existed once but it has already been removed. For example, a port is removed on-the-fly from a port group.
+
+`*Connection is not Opened state, state: <State>*`
+
+Trying to send on a port or on a port of a port group, but its state is not Opened.
+
+`*Port already closed: <Group and Port info>*`
+
+A message is received with activated instant connection close mode, but the port cannot be closed as it is already closed.
+
+`*Connection opening is unsuccessful for port (<Result>) at <Group and port info>*`
+
+Open connection operation failed for a port or a port in a port group
+
+`*Connection already opened: <Group and Port info>*`
+
+The open connection operation was applied to a port which is already opened.
+
+`*Port 0 is already deleted from group: <GroupId>*`
+
+The port to be removed is already deleted.
+
+`*Connection (<ConnectionId>) is already closed for port at <Group and port info>*`
+
+The port in the port group is already closed
+
+`*Connection already closed*`
+
+The port is already closed.
+
+`*Connection already half closed*`
+
+The port is already in half closed state
+
+`*Group does not exist.*`
+
+The port or port group to which the previous operation referred does not exist
+
+`*Invalid group index*`
+
+The port or port group index used by the previous operation is invalid
+
+`*Creation of port group failed for group: <Group info>*`
+
+The creation of port group failed. This message is received in case of remote port group creation.
+
+`*Creation of port failed for port: <Port info>*`
+
+The creation of port failed. This message is received in case of remote port creation.
+
+`*Wrong port group index: <GroupId>*`
+
+The port or port group id used for addition/removal/close/halfclose of a port is invalid. This message is received in case of remote port creation.
+
+`*Port addition to group failed: <GroupInfo>*`
+
+Addition of a port to a port group failed. This message is received in case of remote port creation.
+
+`*Open connection is unsuccessful for port group: <GroupId>*`
+
+Open connection operation on group failed. This message is received in case of remote port creation.
+
+`*A component reference for session id (<SessionId>) is already stored! Message not sent.*`
+
+The session id associated for the message is already used. Without a valid session id the message cannot be sent.
+
+`*Session id (<SessionId>) is not found in the hash map! Possibly connection closed remotely!*`
+
+The session id is not found in the routing database hash map. This possibly indicates that the connection has been closed remotely to ports to which a session id is not yet associated.
+
+`*Could not find port identifier!*`
+
+In case of sending a response, a unique port identifier must be provided by the HTT user that identifies the connection to send the response. The warning probably means that the connection has been closed.
+
+`*Error while sending buffered responses.*`
+
+When the client pipelines the requests, responses are buffered in the server so they can be sent in the order that the requests were received. This warning indicates that the buffered responses could not be sent out properly.
+
+`*Send message unsuccessful! <GroupInfo>*`
+
+Socket error, message could not be sent properly.
+
+`*Listening unsuccessful for port (<error>) at <GroupInfo>*`
+
+Listening operation unsuccessful.
+
+`*Error removing incoming connection: port(<portId>) is not busy : <GroupInfo>*`
+
+Internal error.
+
+Buffer warnings:
+
+`*Re-using slot! Replacing old message with new.*`
+
+Internal error. The application library tries to store a response with a busy sequence number. A sequence number is busy if the response associated with the sequence number is still in the buffer. The new message will overwrite the old one.
+
+`*Buffer is full, dropping message: <HTTPmessage>*`
+ Response could not be stored since the message buffer is full. The message will not be processed.
+
+`*Error while sending buffered responses, clearing buffer.*`
+
+Sending error. It can mean either a socket error or that the socket has already been closed. All of the buffered messages will be deleted.
+
+`*Inconsistency in message buffer!*`
+
+The ring buffer is not consistent with the message buffer. Either a sequence number could not be found in the message buffer or the given message buffer slot is not busy. All of the buffered messages will be deleted.

@@ -1,0 +1,95 @@
+= Obsolete Functional Interface
+
+Currently, the following *obsolete* functionality is also included.
+
+NOTE: These functions will be removed in a later release of the Core Load Library.
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading ‎<<6-references.adoc#_4, [4]>>.
+
+== Naming Conventions
+
+All integer Red Black Tree functions have the prefix `f_EPTF_RBTreeI`.
+
+All float Red Black Tree functions have the prefix `f_EPTF_RBTreeF`.
+
+== Public Functions
+
+=== Initialization
+
+Before using the EPTF Red Black Tree functions the
+
+`f_EPTF_RBTreeI_initIntegerTree(rb_Tree)` or
+
+`f_EPTF_RBTreeF_initFloatTree(rb_Tree)`
+
+function should be called. This initializes the Red Black Tree passed as the parameter.
+
+=== Creating a New Node
+
+The function `f_EPTF_RBTreeI_createNewIntegerNode(rb_Tree, key, data)` or `f_EPTF_RBTreeF_createNewFloatNode(rb_Tree, key, data)` can be used to create a new node in the tree.
+
+=== Removing a Node
+
+The following functions can be used to remove a node from the tree:
+
+[source]
+----
+f_EPTF_RBTreeI_removeIntegerNodeWithSameKey(rb_Tree, pl_nodeToDeleteIndex)
+
+f_EPTF_RBTreeI_removeIntegerNode(rb_Tree, pl_z, pl_destroyNode)
+
+f_EPTF_RBTreeF_removeFloatNodeWithSameKey(rb_Tree, pl_nodeToDeleteIndex)
+
+f_EPTF_RBTreeF_removeFloatNode(rb_Tree, pl_z, pl_destroyNode)
+----
+
+=== Getting Elements From the Tree
+
+The following functions can be used to get elements from the tree:
+
+[source]
+----
+f_EPTF_RBTreeI_getIntegerElementNodeByKey(rb_Tree, key, nodeFound, indexFound)
+
+f_EPTF_RBTreeI_searchSmallestIntegerNode(tree, nodeFound, indexFound)
+
+f_EPTF_RBTreeI_getSmallestNodeFromCache(rb_Tree, nodeFound)
+
+f_EPTF_RBTreeI_getBusyEventHeadIndex(rb_Tree, idx)
+
+f_EPTF_RBTreeF_getFloatElementNodeByKey(rb_Tree, key, nodeFound, indexFound)
+
+f_EPTF_RBTreeF_searchSmallestFloatNode(tree, nodeFound, indexFound)
+
+f_EPTF_RBTreeF_getSmallestNodeFromCache(rb_Tree, nodeFound)
+
+f_EPTF_RBTreeF_getBusyEventHeadIndex(rb_Tree, idx)
+
+f_EPTF_RBTreeF_getNextSmallestFloatElementIndex(pl_tree, pl_curSmallestIndex, pl_indexFound)
+----
+
+== Summary Table of Obsolete Functions for EPTF Red Black Tree
+
+See summary of obsolete Red Black Tree functions in the table below:
+
+[cols=",",options="header",]
+|==========================================================================
+|Function name |Description
+|`f_EPTF_RBTreeI_initIntegerTree` |initialize an integer red black tree
+|`f_EPTF_RBTreeF_initFloatTree` |initialize a float red black tree
+|`f_EPTF_RBTreeI_createNewIntegerNode` |create a new integer node
+|`f_EPTF_RBTreeF_createNewFloatNode` |create a new float node
+|`f_EPTF_RBTreeI_removeIntegerNodeWithSameKey` |remove a node
+|`f_EPTF_RBTreeI_removeIntegerNode` |remove a node
+|`f_EPTF_RBTreeF_removeFloatNodeWithSameKey` |remove a node
+|`f_EPTF_RBTreeF_removeFloatNode` |remove a node
+|`f_EPTF_RBTreeI_getIntegerElementNodeByKey` |get an element by key
+|`f_EPTF_RBTreeI_searchSmallestIntegerNode` |get smallest element
+|`f_EPTF_RBTreeI_getSmallestNodeFromCache` |get smallest element
+|`f_EPTF_RBTreeI_getBusyEventHeadIndex` |get smallest element
+|`f_EPTF_RBTreeF_getFloatElementNodeByKey` |get an element by key
+|`f_EPTF_RBTreeF_searchSmallestFloatNode` |get smallest element
+|`f_EPTF_RBTreeF_getSmallestNodeFromCache` |get smallest element
+|`f_EPTF_RBTreeF_getBusyEventHeadIndex` |get smallest element
+|`f_EPTF_RBTreeF_getNextSmallestFloatElementIndex` |get next smallest element
+|==========================================================================

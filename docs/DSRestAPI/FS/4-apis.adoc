@@ -1,0 +1,51 @@
+= APIs
+
+DsRestAPI provides three RESTful APIs that can communicate with the Data Source.
+
+== JavaScript
+
+The JavaScript API can be used in a web application.
+
+Since the API functions are asynchronous, a callback function is called with the returned response in every case.
+
+The following public functions can be used:
+
+* `getData(aHandler`, `aSource`, `aElement`, `aParams`, `aPtcName`): +
+Issues a single `getData` request with the given members. The `aHandler` callback will be called with the response.
+* `setData(aHandler` , `aSource`, `aElement`, `aContent`, `aType`, `aParams`, `aPtcName`, `aIndxs`): +
+Issues a single `setData` request with the given members and calls `aHandler` with the response.
+* `getList(aParam, aHandler)`: +
+Issues a list of requests contained in the `aParam` parameter.
+* `getHelp(callback, source, element)`: +
+Gets the help of the given Data Source and element. If the element is missing, the help of the Data Source client will be returned. If the source is also missing, the help of all Data Source Clients is returned. See <<7-references.adoc#_5, [5]>> for more details about the help.
+* `putFile(url, data, callback)`: +
+Saves the data in a file specified by the url.
+* `loadFile(url, callback)`: +
+Calls the callback function with the contents of the specified file.
+* `getDirectory(url, callback)`: +
+Calls the callback function with the contents of the given directory. The returned value is an object of the form `\{"contentList": [dir_contents]}`.
+* `createDirectory(url, callback)`: +
+Creates the given directory and invokes the callback when server responds.
+* `importJsFile(file, callback)`: +
+Imports the given JavaScript file and calls the callback when finished.
+
+== Python
+
+The Python interface is similar to the JavaScript API but it does not contain the file specific functions and the functions are synchronous so the response is simply returned.
+
+The following public functions are available:
+
+* `getData(aSource`, `aElement`, `aParams`, `aPtcName`): +
+Issues a single getData request and returns the response.
+* `setData(aSource, aElement, aContent, aType, aParams, aPtcName, aIndxs)`: +
+Issues a single setData request and returns the response.
+* `getList(aParam)`: +
+Issues a list of requests contained in the aParam parameter.
+* `getHelp(aSource, aElement)`: +
+Gets the help of the given Data Source and element.
+
+NOTE: see the corresponding JavaScript function.
+
+== TTCN
+
+See the description of the API function in <<5-functional_interface.adoc#processing_JSON_requests, Processing JSON requests>>.

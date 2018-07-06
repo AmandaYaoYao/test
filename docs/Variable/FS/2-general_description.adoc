@@ -1,0 +1,51 @@
+= General Description
+
+This document specifies the Variable feature of the EPTF CLL.
+
+The EPTF Variable feature makes it possible to
+
+* access component variables in remote components
+* create automatically calculated variables triggered by the refresh of other parameters
+
+To be able to use EPTF Variable, the user component should extend the `EPTF_Var_CT` component.
+
+== Variable Creation
+
+EPTF Variables can be assigned to existing component variables or can be created on their own. The two different classes based on this are:
+
+* Direct content
+* Referenced content
+
+The EPTF Variables with direct content store the value of the Variable in their content without using any external component variables. The place of storage is created automatically in the background. However, the Variables with referenced content need a component variable where their values are actually stored. These kinds of EPTF Variables contain references to the component variables in their content. This reference is basically the memory address of the referred component variable. Changing the value of these variables will change the value of the referenced component variable and vice versa. But the EPTF Variables that depend on this Variable are only notified if the change of the value is registered into the system.
+
+== Type of Providers
+
+The value of EPTF Variables can depend on the values of other EPTF Variables. We call those Variables which determine the value of the EPTF Variable providers. The Variable is notified automatically about the change of the value of any of its providers by the built-in refresh mechanism.
+
+The EPTF Variables can have one of the following types of providers:
+
+* no provider (the Variable is parameter)
+* local (the value of the Variable is calculated from other Variables)
+* remote (the Variable is a link to another EPTF Variable in a remote component)
+
+Using EPTF Variables, it is possible to view the value of another EPTF Variable from a different (remote) component. We call the EPTF Variable which shows the value of another EPTF Variable in a remote component the remote subscriber, and the one which provides the value, the provider. The EPTF Variables can only have one remote provider.
+
+In case of changing the value of an EPTF Variable, the value of any calculated Variables that depend on this Variable (subscribers) is updated automatically. Also the value of all remote subscribers to this EPTF Variable is updated by the refresh mechanism built into the EPTF Variable feature. The rate of the refresh can be specified during subscription. The period of the refresh is calculated as the minimal refresh interval multiplied by the refresh rate.
+
+The values of the EPTF Variables are returned and can be accessed via the type `ETPF_Var_DirectContent`, which is simply the union of types supported by the EPTF Variable feature.
+
+== Supported Value Types
+
+The EPTF Variables can be created with the following types:
+
+* integer
+* float
+* boolean
+* charstring
+* octetstring
+* hexstring
+* bitstring
+* EPTF_IntegerList
+* EPTF_FloatList
+* EPTF_CharstringList
+* EPTF_StatusLED

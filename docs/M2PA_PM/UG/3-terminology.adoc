@@ -1,0 +1,15 @@
+= Terminology
+
+TITAN TTCN-3 Test Executor.
+
+= Abbreviations
+
+IETF:: Internet Engineering Task Force
+
+MTP2:: Message Transfer Part 2
+
+M2PA:: MTP2 User Peer-to-Peer Adaptation Layer
+
+RFC:: Request for Comments
+
+TTCN-3:: Testing and Test Control Notation version 3

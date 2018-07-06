@@ -1,0 +1,23 @@
+= Terminology
+
+*SUA Protocol Emulation:* +
+Implementation of SUA as specified in ‎<<7-references.adoc#_6, [6]>>.
+
+*SCCP User:* +
+Protocol that uses services of SCCP.
+
+= Abbreviations
+
+ASP:: Abstract Service Primitive
+
+PE:: Protocol Emulation
+
+SCCP:: Signalling Connection Control Part
+
+SUA:: SCCP User Adaptation Layer
+
+SUA PE:: SUA Protocol Emulation
+
+SS7:: Signalling System No 7
+
+TTCN-3:: Testing and Test Control Notation version 3.

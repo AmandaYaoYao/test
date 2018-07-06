@@ -1,0 +1,51 @@
+= GUIViewer
+
+== Overview
+
+The EPTF CLL `GUIViewer` component is a component providing a solution to see the custom GUI xml layout without the knowledge of `dataelements`. The displayed data comes a presaved database file. If this file does not contain it, random data will be generated for displaying the GUI.
+
+[[descrfilesfeature]]
+== Description of Files in This Feature
+
+The EPTF CLL `GUIViewer` includes the following files:
+
+* GUIViewer
+** _EPTF_CLL_GUIViewer_Functions.ttcn_ - This TTCN-3 module contains the `GUIViewer` behaviour function.
+** _EPTF_CLL_GUIViewer.db_ - This database contains the presaved dataelements, what can be used for displaying the GUI layout.
+** _EPTF_CLL_GUIViewer.xml_ - This Custom GUI XML layout can be displayed by `GUIViewer`.
+
+[[descrreqfiles]]
+== Description of Required Files From Other Features
+
+The `GUIViewer` feature is part of the TitanSim EPTF Core Load Library (CLL). It relies on several features of the CLL. The user has to obtain the products/files to be found under the respective feature names:
+
+* `Base`
+* `UIHandler`
+
+== Installation
+
+Since EPTF CLL `GUIViewer` is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor, see the relevant section of ‎<<5-references.adoc_2, [2]>>.
+
+If not otherwise noted in the respective sections, the following are needed to use the `EPTF_CLL_GUIViewer`:
+
+* Copy the files listed in the link:#descrfilesfeature[Description of Files in this Feature], and the link:#descrreqfiles[Description of Required Files from Other Features] sections to the directory of the test suite or create symbolic links to them.
+* Import the `GUIViewer` demo or write your own application using `GUIViewer`.
+* Create _Makefile_ or modify the existing one. For more details see the relevant section of <<5-references.adoc_2, ‎[2]>>.
+* Edit the config file according to your needs, see the link:#configuration[Configuration] section.
+
+[[configuration]]
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual suffix of configuration files is _.cfg_. For further information on the configuration file see <<5-references.adoc_2, ‎[2]>>.
+
+The `GUIViewer` feature defines TTCN-3 module parameters as defined in ‎<<5-references.adoc_2, ‎[2]>>, clause 4. Actual values of these parameters – when there is no default value or a different from the default actual value to be used – shall be given in the `[MODULE_PARAMETERS]` section of the configuration file.
+
+The `GUIViewer` feature defines the following module parameters:
+
+`tsp_EPTF_GUIViewer_DBFileName := "EPTF_CLL_GUIViewer.db"`
+
+Specifies the database file, what will be used as source of `dataelements`.
+
+`tsp_EPTF_GUIViewer_guiXMLFileName := "EPTF_CLL_GUIViewer.xml"`
+
+Specifies the XML file to display its layout.

@@ -1,0 +1,5 @@
+= Implementation Specifics
+
+The `f_UDP_pseudo_header_enc`() can be used to encode the IP part of the *_UDP pseudo_* header. The parameter of the function is the UDP pseudo header. The return value is the encoded data.
+
+The `f_UDP_checksum`() can be used to calculate the UDP checksum. The parameter of the function is the encoded UDP packet. The packet must contain the `UDP checksum` field and it must be `_"zero"_`. The return value is the calculated UDP checksum value. The length of the checksum is always 2 octets.

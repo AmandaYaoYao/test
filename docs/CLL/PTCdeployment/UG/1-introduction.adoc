@@ -1,0 +1,23 @@
+= Introduction
+
+== About This Document
+
+=== How to Read This Document
+
+This is the User Documentation for the PTC deployment component, the `EPTF_PTCD_CT` of the Ericsson Performance Test Framework (TitanSim), Core Load Library (CLL).
+
+=== Presumed Knowledge
+
+To use this functionality, the knowledge of the TTCN-3 language <<4-references.adoc#_1, [1]>> is essential. Additionally, the user should be familiar with the TitanSim CLL.
+
+== System Requirements
+
+In order to use the PTC Deployment feature, the following system requirements must be satisfied:
+
+* TITAN TTCN-3 Test Executor installed. For the installation guide see <<4-references.adoc#_2, [2]>>.
+
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual suffix of configuration files is _.cfg_. For further information on the configuration file see <<4-references.adoc#_2, [2]>>.
+
+The `tsp_PTCD_database` TSP can be used to give initial value to the PTCD database from the run-time configuration file.

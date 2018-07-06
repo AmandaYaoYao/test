@@ -1,0 +1,9 @@
+= About This Document
+
+=== How to Read This Document
+
+This is the User Guide for the Abstract Socket test port. The Abstract Socket test port is developed for the TTCN-3 Toolset.
+
+=== Presumed Knowledge
+
+To use this protocol module the knowledge of the TTCN-3 language <<8-references.adoc#_1, [1]>> is essential.

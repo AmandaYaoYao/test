@@ -1,0 +1,37 @@
+= Terminology
+
+*TitanSim Core (Load) Library(CLL):*	+
+It is that part of the TitanSim software that is totally project independent. (I.e., which is not protocol-, or application-dependent). The TitanSim CLL is to be supplied and supported by the TCC organization. Any TitanSim CLL development is to be funded centrally by Ericsson
+
+*Target value:*	+
+It is a value which determines a traffic case parameter at a given time, i.e. a CPS (call/second) to generate.
+
+*Start time (in a time sequence):*	+
+It is an exact time specifying when to change a traffic case parameter to a target value.
+
+*Time sequence:*	+
+It is a list of start time and target value. The time sequence has a unique name, i.e. ‘Monday’.
+
+*Number of repetition:*	+
+It specifies how many times the time sequence is repeated in a time profile.
+
+*Period of repetition:*	+
+It specifies time interval to wait between the repetitions of a time sequence in a time profile. It has only meaning if the number of repetition is higher than `_0_`.
+
+*Start time: (in a time profile)*	+
+It is an exact time specifying when to start a time sequence in a time profile for the first time.
+
+*Time profile:*	+
+It is a list of time sequence, start time, period of repetition and number of repetition. The time profile has a name, i.e. ‘Weekly profile’.
+
+= Abbreviations
+
+CLL::	Core Load Library
+
+EPTF::	Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+TitanSim::	Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+TTCN-3:: 	Testing and Test Control Notation version 3 ‎<<4-references.adoc#_1, [1]>>.
+
+TPE::	Time Profile Editor (this product)

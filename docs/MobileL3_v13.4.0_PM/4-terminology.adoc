@@ -1,0 +1,32 @@
+= Terminology
+
+*TITAN:* +
+TTCN-3 Test Executor (see <<5-references.adoc#_3, [3]>>).
+
+== Abbreviations
+
+3GPP:: 3rd Generation Partnership Project
+
+GMM:: GPRS Mobility Management
+
+GPRS:: General Packet Radio Service
+
+IE:: Information Element
+
+L3:: Layer 3
+
+PDU:: Protocol Data Unit
+
+SM:: Session Management
+
+TTCN-3:: Testing and Test Control Notation version 3
+
+MM:: Mobility Management
+
+CC:: Circuit Switched Call Control
+
+RRM:: Radio Resource Management
+
+SMS:: Short Message Service
+
+SS:: Supplementary Service Management

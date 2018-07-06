@@ -1,0 +1,18 @@
+= General
+
+The HTTP Test Port makes possible to execute test suites towards an IUT. The test port allows sending and receiving HTTP messages between the test suite and IUT via a TCP/IP socket connection.
+
+The HTTP Test Port can be used as a protocol module via encoding and decoding functions, see <<3_function_specification.adoc#encoding_and_decoding_functions, Encoding and Decoding Functions>>.
+
+Both IPv4 and IPv6 are supported.
+
+The test port can handle multiple connections. Every connection gets an 'id' when it is established. When sending HTTP messages, the `client_id` parameter selects the connection on which the message should be sent. If it is set to `omit`, the HTTP message will be sent on the first available connection.
+
+The communication between the HTTP test port and the TITAN RTE is done by using the API functions described in <<5_references.adoc#_2, [2]>>
+
+
+The HTTP protocol messages are then transferred by the HTTP test port to the IUT through a network connection.
+
+See the transfer of HTTP protocol messages by the HTTP test port to the IUT through a network connection below:
+
+image::images/overview.png[alt]

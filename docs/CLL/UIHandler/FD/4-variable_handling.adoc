@@ -1,0 +1,161 @@
+= Variable Handling
+
+Since the UIHandler component subscribes to EPTF Variables of the UIHandlerClients, therefore both the UIHandlerClient and the UIHandler components use EPTF Variable API <<9-references.adoc#_5, [5]>> functions to initiate such subscriptions and connect such variables to GUI widgets.
+
+[[order_the_UIHandler_component_to_subscibe_to_an_EPTF_variable]]
+== Order the UIHandler Component to Subscribe to an EPTF Variable
+
+Using the
+
+[source]
+----
+function f_EPTF_UIHandlerClient_subscribeVariableTo(
+    in EPTF_UIHandler_CT  pl_subscriber,
+    in charstring pl_providedParamName,
+    in charstring pl_destParamName := "",
+    in EPTF_Var_SubscriptionMode pl_subsMode := timeline,
+    in integer pl_refreshRate := -1)
+----
+
+function the UIHandlerClient component can order the UIHandler component to subscribe to its EPTF Variable.
+
+The `pl_providedParamName` specifies the name of the EPTF Variable. The UIHandler component will subscribe to this variable, and the created EPTF Variable will have the name specified in the `pl_destParamName` parameter.
+
+The `pl_refreshRate` parameter specifies the rate of refresh for this subscription. The refresh period is calculated as the `refreshRate` multiplied by the `minSyncInterval`. If this argument is not specified (or `_<=0_` value is given) the default refresh rate is used with period defined by the `syncInterval` parameter. The `minSyncInterval` and `syncInterval` parameters can be set by the functions:
+
+* `f_EPTF_Var_setSyncInterval`
+* `f_EPTF_Var_setMinSyncInterval`
+
+The pair of this function without UIHandler component parameter is
+
+[source]
+----
+function f_EPTF_UIHandlerClient_subscribeVariable(
+    in charstring pl_providedParamName,
+    in charstring pl_destParamName := "",
+    in EPTF_Var_SubscriptionMode pl_subsMode := timeline,
+    in integer pl_refreshRate := -1)
+----
+
+== Order the UIHandler Component to Subscribe to an EPTF Variable and Connect it to a Widget
+
+Using the
+
+[source]
+----
+function f_EPTF_UIHandlerClient_subscribeMeTo (
+    in EPTF_UIHandler_CT  pl_subscriber,
+    in charstring pl_providedParamName,
+    in charstring pl_destParamName := "",
+    in EPTF_UIHandler_WidgetIdString pl_widgetId := "",
+    in EPTF_Var_SubscriptionMode pl_subsMode := timeline,
+    in integer pl_refreshRate := -1)
+----
+
+function the UIHandlerClient component can order the UIHandler component to subscribe to its EPTF Variable and eventually connect it to a widget on the runtime GUI.
+
+The `pl_providedParamName` specifies the name of the EPTF Variable. The UIHandler component will subscribe to this variable, and the created EPTF Variable will have the name specified in the `pl_destParamName` parameter.
+
+If the `pl_widgetId` parameter is not an empty string, the UIHandler component will connect the variable to the specified widget. That means that when the content of the EPTF Variable changes, the UIHandler component changes the content of the associated widget. Similarly, when the content of the specified widget changes, the UIHandler component changes the content of the variable.
+
+The pair of this function without UIHandler component parameter is
+
+[source]
+----
+function f_EPTF_UIHandlerClient_subscribeMe (
+    in charstring pl_providedParamName,
+    in charstring pl_destParamName := "",
+    in EPTF_UIHandler_WidgetIdString pl_widgetId := "",
+    in EPTF_Var_SubscriptionMode pl_subsMode := timeline,
+    in integer pl_refreshRate := -1)
+----
+
+It is possible to connect a GUI widget to a variable which is defined in an other component. This can be done by using the function
+
+[source]
+----
+function f_EPTF_UIHandlerClient_subscribeTo (
+    in EPTF_UIHandler_CT  pl_subscriber,
+    in EPTF_Var_CT pl_remoteCompRef,
+    in charstring pl_providedParamName,
+    in charstring pl_destParamName := "",
+    in EPTF_UIHandler_WidgetIdString pl_widgetId := "",
+    in EPTF_Var_SubscriptionMode pl_subsMode := timeline,
+    in integer pl_refreshRate := -1)
+----
+
+Here the parameter `remoteCompRef` is that component that the EPTF variable created. The pair of this function is
+
+[source]
+----
+function f_EPTF_UIHandlerClient_subscribe (
+    in EPTF_Var_CT pl_remoteCompRef,
+    in charstring pl_providedParamName,
+    in charstring pl_destParamName := "",
+    in EPTF_UIHandler_WidgetIdString pl_widgetId := "",
+    in EPTF_Var_SubscriptionMode pl_subsMode := timeLine)
+----
+
+== Using the `VariableUI`
+
+Initializing the component can be done with
+
+[source]
+----
+f_EPTF_UIHandler_VariableUI_init_CT(in charstring pl_selfName,
+			       	      in EPTF_UIHandler_CT pl_UIHandler)
+----
+
+Put means add the widget to the GUI and subscribe it to the variable. The following function put a variable given by a name from the database.
+
+[source]
+f_EPTF_UIHandler_VariableUI_putVarbyName(in charstring pl_var)
+
+Using the functions
+
+[source]
+----
+f_EPTF_UIHandler_VariableUI_putconnections()
+f_EPTF_UIHandler_VariableUI_putlastconnections()
+----
+
+it is possible to put all the variable given already, or just the last few, that are not processed since the last put.
+
+With the function
+
+[source]
+f_EPTF_UIHandler_VariableUI_addsimpleconnection(in charstring pl_varname, in charstring pl_widgetid)
+
+it is possible to fill the database with an existing widgetID and a variable name. It returns an index in the database.
+
+The function
+
+[source]
+----
+f_EPTF_UIHandler_VariableUI_addwidgetconnection(in charstring pl_varname,
+						     in charstring pl_widgetid,
+						     in XTDP_XML_Tag pl_widget,
+						     in charstring pl_parentid)
+----
+
+can be used, to put a widget - variable par into the database, with the widget given in XUL format. This widget will be added to `pl_parentid`, and variable will be connected to the widget with `pl_widgetid`. It returns an index in the database.
+
+A holder widget can be specified with the following function:
+
+[source]
+f_EPTF_UIHandler_VariableUI_addholdingwidget(in charstring pl_name, in XTDP_XML_Tag pl_widget, in charstring pl_parentid)
+
+It returns an index in the database.
+
+Assigning a holder widget to a widget – variable pair can be done with the following functions:
+
+[source]
+----
+f_EPTF_UIHandler_VariableUI_assignholdingwidget(in charstring pl_varname, in charstring pl_holdingname)
+f_EPTF_UIHandler_VariableUI_assignholding(in integer pl_connidx, in integer pl_holdingidx)
+----
+
+A variable – widget pair can be removed from the database with the following functions:
+
+[source]
+f_EPTF_UIHandler_VariableUI_removeconnection(in charstring pl_varname)

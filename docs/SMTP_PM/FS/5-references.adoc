@@ -1,0 +1,24 @@
+= References
+
+[[_1]]
+[1] https://tools.ietf.org/html/rfc821[RFC 821] +
+Simple Mail Transfer Protocol
+
+[[_2]]
+[2] https://tools.ietf.org/html/rfc822[RFC 822] +
+Standard for the Format of ARPA Internet Text Messages
+
+[[_3]]
+[3] ETSI ES 201 873-1 v.2.2.1 (02/2003) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_4]]
+[4] User Guide for TITAN TTCN-3 Test Executor
+
+[[_5]]
+[5] https://tools.ietf.org/html/rfc2821[RFC 2821] +
+Simple Mail Transfer Protocol
+
+[[_6]]
+[6] https://tools.ietf.org/html/rfc2822[RFC 2822] +
+Internet Message Format

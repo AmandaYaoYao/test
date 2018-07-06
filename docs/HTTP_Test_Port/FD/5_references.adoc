@@ -1,0 +1,18 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 v3.1.1 (2005-06)The Testing and Test Control Notation version 3; Part 1: Core Language
+
+[[_2]]
+[2] TITAN User Guide
+
+[[_3]]
+[3] HTTPmsg_CNL113312 Test Port for TTCN-3 Toolset with TITAN, User Guide
+
+[[_4]]
+[4] http://www.ietf.org/rfc/rfc2616.txt[RFC 2616] +
+Hypertext Transfer Protocol – HTTP/1.1
+
+[[_5]]
+[5] OpenSSL toolkit +
+http://www.openssl.org

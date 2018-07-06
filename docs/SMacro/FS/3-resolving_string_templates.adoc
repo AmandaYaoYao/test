@@ -1,0 +1,7 @@
+= Resolving String Templates
+
+String Templates are strings that may contain any number of String Macros. The String Macros can be replaced with their values in the String Template using an API function of the `SMacro` feature. This function resolves each defined String Macro in the String Template by replacing the String Macro with its value.
+
+String Templates may contain mathematical expressions as well which can be evaluated either by using the built-in macro called EVAL or the `autoEVAL` functionality of the `SMacro` feature. This feature replaces all mathematical expressions in the String Template with their calculated values automatically.
+
+Undefined String Macros remain in the String Template unchanged.

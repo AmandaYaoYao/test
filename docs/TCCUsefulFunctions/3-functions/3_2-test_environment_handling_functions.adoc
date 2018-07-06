@@ -1,0 +1,56 @@
+= Test Environment Handling Functions
+
+== Overview
+
+Environment Handling Functions can be used to get or set environment variables.
+
+Environment Handling Functions are implemented in the following files:
+
+* __TCCEnv_Functions.ttcn__: external TTCN-3 function declarations
+* _TCCEnv.cc_: source code of the functions
+
+== Function Definitions
+
+The following Environment Handling Functions are defined:
+
+`external function f_GetEnv(in charstring p_env_name) return charstring;`
+
+Returns the environment variable `p_env_name`.
+
+`external function f_PutEnv(in charstring p_env_name, in charstring p_env_value) return boolean;`
+
+Sets the environment variable `p_env_name` to `p_env_value`. Returns false on error, true on success.
+
+== Error Messages
+
+None.
+
+== Warning Messages
+
+`*putenv failed with error code …*`
+
+An error happened while setting the environment variable.
+
+== Examples
+
+[source]
+----
+module TCCEnv_Example \{
+
+import from TCCEnv_Functions all;
+
+type component test_CT \{ }
+
+testcase TC() runs on test_CT\
+{
+  log(``PATH='', f_GetEnv(``PATH''));
+  f_PutEnv(``ENV'', ``foobar'');
+  log(``ENV='', f_GetEnv(``ENV''));
+}
+
+control \{
+  execute(TC());
+}
+
+}
+----

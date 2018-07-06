@@ -1,0 +1,21 @@
+= Functional Interface
+
+== Naming Convention
+
+All public functions have the prefix `f_EPTF_PTCD_`.
+
+== `PTCDeployment` Public Functions
+
+=== Initiating
+
+Before using the EPTF PTCD functions the `f_EPTF_PTCD_init_CT(selfName)` function should be called. This function initializes the EPTF PTCD component.
+
+=== Database Modification Functions
+
+The function `f_EPTF_PTCD_AddHosts(role,hostlist)` can be used to add host to the role.
+
+The function `f_EPTF_PTCD_RemoveHosts(role, hostlist)` can be used to remove the hosts from the role.
+
+=== Query Functions
+
+The function `f_EPTF_PTCD_GetHost(role, method)` can be used to query a host.

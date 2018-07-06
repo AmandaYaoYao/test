@@ -1,0 +1,31 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 v.3.1.1 (2005-06) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] User Guide for TITAN TTCN–3 Test Executor
+
+[[_3]]
+[3] https://tools.ietf.org/html/rfc3550[RFC 3550] +
+RTP: A Transport protocol for Real-Time Applications
+
+[[_4]]
+[4] https://tools.ietf.org/html/rfc3389[RFC 3389] +
+Real-time Transport Protocol (RTP) Payload for Comfort Noise (CN)
+
+[[_5]]
+[5] https://tools.ietf.org/html/rfc2833[RFC 2833] +
+RTP Payload for DTMF Digits, Telephony Tones and Telephony Signals
+
+[[_6]]
+[6] https://tools.ietf.org/html/rfc2190[RFC 2190] +
+RTP Payload Format for H.263 Video Streams
+
+[[_7]]
+[7] https://tools.ietf.org/html/rfc2435[RFC 2435] +
+RTP Payload Format for JPEG-compressed Video
+
+[[_8]]
+[8] Function Description for the SRTP Protocol Module

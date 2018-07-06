@@ -1,0 +1,22 @@
+= Interface Description
+
+== Top Level PDU
+
+The top level PDU is the TTCN-3 union `CoAP_Message`.
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/decoding and Other Related Functions
+
+This product also contains encoding/decoding functions, which assure correct encoding of messages when sent from TITAN and correct decoding of messages when received by TITAN.
+
+=== Implemented Encoding and Decoding Functions
+
+[cols=3*,options=header]
+|===
+
+|Name |Type of formal parameters |Type of return value
+|`f_CoAP_enc` |in CoAP_Message +
+out octetstring |integer
+|`f_CoAP_dec` |in octetstring +
+out CoAP_Message |integer
+|===

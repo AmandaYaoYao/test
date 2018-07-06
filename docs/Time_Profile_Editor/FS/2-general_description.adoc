@@ -1,0 +1,15 @@
+= General Description
+
+This document specifies the Time Profile Editor feature of the TitanSim CLL.
+
+The EPTF Time Profile Editor feature makes it possible to
+
+* Create and edit _time sequences_
+* Create and edit _time profiles_ using the time sequences
+* Load and save _time sequences_ and _time profiles_
+* Display a preview chart of the edited _time profile_
+* Display a preview of the configuration file corresponding to the _time sequences_ and _time profiles_ edited in the Time Profile Editor.
+
+The aim of the EPTF Time Profile Editor feature is to allow the TitanSim user to edit time profiles for the test execution.
+
+To be able to use EPTF Time Profile Editor, the user has to compile its sources and run the control part. When a Runtime GUI connects to the running TPE, the TPE will initialize a layout on it to make possible the creation of the time profiles.

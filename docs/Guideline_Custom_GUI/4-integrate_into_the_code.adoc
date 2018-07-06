@@ -1,0 +1,22 @@
+= Integrate Into the Code
+
+In the `UIHandler` feature there are two functions to create the custom GUI:
+[source]
+----
+public function f_EPTF_UIHandler_createGUI (
+  in charstring pl_xul,
+  in charstring pl_parentWidgetId := "" )
+public function f_EPTF_UIHandler_createGUIFromFile(
+  in charstring pl_fileName,
+  in charstring pl_parentWidgetId := "")
+----
+
+Both functions do the same, but the `f_EPTF_UIHandler_createGUIFromFile` function reads the layout from a file, and `f_EPTF_UIHandler_createGUI` gets it from a charstring parameter.
+
+The GUI description tree must start with the `widgets` element. It can contain `window` element, or any other element from the `widgets` group.
+
+The `UIHandler` processes the GUI description, builds up the GUI layout, and joins the data elements to the appropriate widgets. This time the configuration must be ready. If a component starts later, and its referred data source elements not published yet, the process results error. Or, if some configuration elements are not ready at the time of building the GUI, the iterators won't be updated later, and the GUI remains partially configured.
+
+You can create a whole window, or its parts. If the first child element of the root `widgets` element is a window, a `clearGUI` call will be performed first.
+
+You can call these functions several times and build up the GUI from parts if the first child was not a window.

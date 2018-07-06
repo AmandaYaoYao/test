@@ -1,0 +1,17 @@
+= Terminology
+
+TITAN TTCN-3 Test Executor.
+
+= Abbreviations
+
+IETF:: Internet Engineering Task Force
+
+IP:: Internet Protocol
+
+MTP3:: Message Transfer Part 3
+
+M3UA:: MTP3 User Adaptation Part
+
+RFC:: Request for Comments
+
+TTCN-3:: Testing and Test Control Notation version 3

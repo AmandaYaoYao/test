@@ -1,0 +1,15 @@
+= Warning Messages
+
+NOTE: Besides the below described warning messages, warning messages shown in ‎[2] or those of other used features or product may also appear.
+
+`*WARNING: Invalid ASP received from port <telnetPort>. Ignored.*`
+
+An unexpected. message arrived on the telnet port, and it is ignored. This warning is printed when two or more clients connect to the same terminal.
+
+`*WARNING: Invalid message received on CLI telnet port. Ignored.*`
+
+An unexpected message arrived on the telnet port. It is ignored.
+
+`*WARNING: f_EPTF_CLI_Client_sendCommandDisplay: Cannot send text to display: command not found: <commandName>*`
+
+The display message could not be shown. The command name does not registered, it has no display.

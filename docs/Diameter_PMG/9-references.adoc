@@ -1,0 +1,483 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 v4.5.1 +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] Programmer’s Technical Reference for TITAN TTCN–3 Test Executor
+
+[[_3]]
+[3] RFC 3588 +
+Diameter Base Protocol
+
+[[_4]]
+[4] The GNU Awk User's Guide, +
+http://www.gnu.org/software/gawk/manual/gawk.html
+
+[[_5]]
+[5] TCP Socket Test Port for TTCN-3 Toolset with TITAN, UG
+
+[[_6]]
+[6] RFC 4006 +
+Diameter Credit-Control Application
+
+[[_7]]
+[7] 3GPP TS 32.299 v6.7.0 +
+Diameter Charging Applications
+
+[[_8]]
+[8] 3GPP TS 32.299 v6.9.0 +
+Diameter Charging Applications
+
+[[_9]]
+[9] 3GPP TS 32.299 v6.11.0 +
+Diameter Charging Applications
+
+[[_10]]
+[10] Charging Interrogation Protocol
+
+[[_11]]
+[11] RFC 4005 +
+Diameter Network Access Server Application
+
+[[_12]]
+[12] Gy + Interface Description
+
+[[_13]]
+[13] Off-line Charging in MTAS
+
+[[_14]]
+[14] SRAP Interface Description
+
+[[_15]]
+[15] 3GPP TS 32.251 V8.1.0 +
+Packet Switched (PS) domain charging
+
+[[_16]]
+[16] 3GPP TS 32.260 V8.3.0 +
+IP Multimedia Subsystem (IMS) charging
+
+[[_17]]
+[17] 3GPP TS 32.299 V8.2.0 +
+Diameter charging applications
+
+[[_18]]
+[18] 3GPP TS 29.210 V6.7.0 +
+Charging rule provisioning over Gx interface
+
+[[_19]]
+[19] 3GPP TS 29.209 V6.7.0 +
+Policy control over Gq interface
+
+[[_20]]
+[20] 3GPP TS 29.229 V7.7.0 +
+Cx and Dx interfaces based on the Diameter protocol; Protocol details
+
+[[_21]]
+[21] 3GPP TS 29.229 V8.1.0 +
+Cx and Dx interfaces based on the Diameter protocol; Protocol details
+
+[[_22]]
+[22] Vodafone Gx+ Specification v1.3.1
+
+[[_23]]
+[23] 3GPP TS 29.210 V6.7.0 +
+Charging rule provisioning over Gx interface
+
+[[_24]]
+[24] 3GPP TS 32.299 v8.5.0 +
+Diameter Charging Applications
+
+[[_25]]
+[25] 3GPP TS 32.299 v8.7.0 +
+Diameter Charging Applications
+
+[[_26]]
+[26] 3GPP TS 32.299 v9.0.0 +
+Diameter Charging Applications
+
+[[_27]]
+[27] 3GPP TS 29.229 V6.15.0 +
+Cx and Dx interfaces based on the Diameter protocol; Protocol details
+
+[[_28]]
+[28] 3GPP TS 29.229 V8.4.0 +
+Cx and Dx interfaces based on the Diameter protocol; Protocol details
+
+[[_29]]
+[29] 3GPP TS 29.229 V8.8.0 +
+Cx and Dx interfaces based on the Diameter protocol; Protocol details
+
+[[_30]]
+[30] 3GPP TS 29.061 V6.15.0 +
+Interworking between the Public Land Mobile Network supporting packet based services and Packet Data Networks (PDN)
+
+[[_31]]
+[31] 3GPP TS 29.061 V7.2.0 +
+Interworking between the Public Land Mobile Network supporting packet based services and Packet Data Networks (PDN)
+
+[[_32]]
+[32] 3GPP TS 29.061 V7.7.0 +
+Interworking between the Public Land Mobile Network supporting packet based services and Packet Data Networks (PDN)
+
+[[_33]]
+[33] 3GPP TS 29.061 V8.1.0 +
+Interworking between the Public Land Mobile Network supporting packet based services and Packet Data Networks (PDN)
+
+[[_34]]
+[34] 3GPP TS 29.061 V9.8.0 +
+Interworking between the Public Land Mobile Network supporting packet based services and Packet Data Networks (PDN
+
+[[_35]]
+[35] ETSI 183.017 v2.3.1 +
+DIAMETER protocol for session based policy set-up information exchange between the Application Function (AF) and the Service Policy Decision Function (SPDF)
+
+[[_36]]
+[36] 3GPP TS 29.212 V7.4.0 +
+Policy and Charging Control over Gx reference point
+
+[[_37]]
+[37] 3GPP TS 29.212 V8.2.0 +
+Policy and Charging Control over Gx reference point
+
+[[_38]]
+[38] 3GPP TS 29.212 V8.3.0 +
+Policy and Charging Control over Gx reference point
+
+[[_39]]
+[39] 3GPP TS 29.212 V8.4.0 +
+Policy and Charging Control over Gx reference point
+
+[[_40]]
+[40] 3GPP TS 29.212 V9.1.0 +
+Policy and Charging Control over Gx reference point
+
+[[_41]]
+[41] 3GPP TS 29.212 V9.1.0 +
+Policy and Charging Control over Gx reference point
+
+[[_42]]
+[42] 3GPP TS 29.214 V8.3.0 +
+Policy and Charging Control over Rx reference point
+
+[[_43]]
+[43] 3GPP TS 29.329 v6.2.0 +
+Sh Interface based on the Diameter PROTOCOL
+
+[[_44]]
+[44] 3GPP TS 29.329 v7.5.0 +
+Sh Interface based on the Diameter PROTOCOL
+
+[[_45]]
+[45] 3GPP TS 29.329 v8.2.0 +
+Sh Interface based on the Diameter PROTOCOL
+
+[[_46]]
+[46] Service Contract, Diameter Cx Application
+
+[[_47]]
+[47] Gx+ Interface Description
+
+[[_48]]
+[48] Gy+ Interface Description
+
+[[_49]]
+[49] Gy+ Interface Description
+
+[[_50]]
+[50] Intelligent Packet Core Vodafone Diameter CCA Specification for the CLCI Version 2
+
+[[_51]]
+[51] Verizon LTE Rf Interface Specification +
+http://cdmweb.ericsson.se:7033/TeamCenter/controller/download_file_inline?file_name=Verizon+LTE+Rf+Interface+Specification.doc&file_handle_name=MTIObjectHandle-0002-1%7ER%7EtjviaDfprdwebKI------QYY%7EWordDoc%7EKI%7E%7E
+
+[[_52]]
+[52] RFC 5090 +
+RADIUS Extension for Digest Authentication
+
+[[_53]]
+[53] ETSI ES 283 035 v1.2.1 (2007-06) +
+TISPAN; NASS; e2 interface based on the DIAMETER protocol
+
+[[_54]]
+[54] ETSI ES 283 034 v2.2.0 (2008-05) +
+TISPAN; NASS; e4 interface based on the DIAMETER protocol
+
+[[_55]]
+[55] SBG AF e2 Interface
+
+[[_56]]
+[56] SBG AF e2 Extensions
+
+[[_57]]
+[57] ETSI TS 183 066 V2.1.1 (2009-01) +
+Telecommunications and Internet converged Services and Protocols for Advanced Networking (TISPAN); +
+Network Attachment Sub-System (NASS); +
+a4 interface based on the DIAMETER protocol
+
+[[_58]]
+[58] ETSI TS 183 020 V1.1.1 (2006-03) +
+Telecommunications and Internet converged Services and Protocols for Advanced Networking (TISPAN); +
+Network Attachment: Roaming in TISPAN +
+NGN Network Accesses; +
+Interface Protocol Definition
+
+[[_59]]
+[59] ETSI TS 183 059-1 V2.1.1 (2009-08) +
+Telecommunications and Internet converged Services and Protocols for Advanced Networks (TISPAN); +
+Network Attachment Sub-System (NASS); +
+a2 interface based on the DIAMETER protocol
+
+[[_60]]
+[60] 3GPP TS 29.212 V9.3.0 +
+Policy and Charging Control over Gx reference point
+
+[[_61]]
+[61] 3GPP TS 29.061 V9.3.0 +
+Interworking between the Public Land Mobile Network (PLMN) supporting packet based services and Packet Data Networks (PDN)
+
+[[_62]]
+[62] 3GPP TS 32.299 V9.4.0 +
+Diameter Charging Applications
+
+[[_63]]
+[63] 3GPP TS 32.299 V9.11.0 +
+Diameter Charging Applications
+
+[[_64]]
+[64] 3GPP TS 29.229 V9.2.0 +
+Cx and Dx interfaces based on the Diameter protocol; Protocol details
+
+[[_65]]
+[65] 3GPP TS 29.273 V8.4.0 +
+Evolved Packet System (EPS); 3GPP EPS AAA interfaces
+
+[[_66]]
+[66] Statement of Compliance3GPP TS 29.273 3GPP EPS AAA interface
+
+[[_67]]
+[67] 3GPP TS 29.273 V9.4.0 +
+Evolved Packet System (EPS); 3GPP EPS AAA interfaces
+
+[[_68]]
+[68] Statement of Compliance3GPP TS 29.273 3GPP EPS AAA interface
+
+[[_69]]
+[69] RFC5778 +
+Diameter Mobile IPv6:Support for Home Agent to Diameter Server Interaction
+
+[[_70]]
+[70] RFC5447 +
+Diameter Mobile IPv6:Support for Network Access Server to Diameter Server
+
+[[_71]]
+[71] 3GPP TS 29.061 V9.4.0 +
+Interworking between the Public Land Mobile Network supporting packet based services and Packet Data Networks (PDN)(Release 9)
+
+[[_72]]
+[72] Current Ericsson Diameter AVP Assignments Rev 1.111, 2010-01-19 +
+http://www.lmera.ericsson.se/~snmp/diameter-assignments.html
+
+[[_73]]
+[73] 3GPP TS 29.272 V9.4.0 (2010-09) +
+Evolved Packet System (EPS); Mobility Management Entity (MME) and Serving GPRS Support Node (SGSN) related interfaces based on Diameter protocol(Release 9)
+
+[[_74]]
+[74] 3GPP TS 29.272 V9.5.0 (2010-12) +
+Evolved Packet System (EPS); Mobility Management Entity (MME) and Serving GPRS Support Node (SGSN) related interfaces based on Diameter protocol(Release 9)
+
+[[_75]]
+[75] 3GPP TS 29.212 V8.10.0 (2010-12) +
+Policy and Charging Control over Gx reference point
+
+[[_76]]
+[76] 3GPP TS 29.212 V8.11.1 (2011-03) +
+Policy and Charging Control over Gx reference point
+
+[[_77]]
+[77] 3GPP TS 29.272 V9.7.0 (2011-06) +
+Evolved Packet System (EPS); Mobility Management Entity (MME) and Serving GPRS Support Node (SGSN) related interfaces based on Diameter protocol(Release 9)
+
+[[_78]]
+[78] ETSI ES 283 026 V2.4.1 (2008-11) +
+Telecommunications and Internet converged Services and Protocols for Advanced Networking (TISPAN); Resource and Admission Control; +
+ Protocol for QoS reservation information exchange between the Service Policy Decision Function (SPDF) and the Access-Resource and Admission Control Function (A-RACF) in the Resource and Protocol specification
+
+[[_79]]
+[79] 3GPP TS 29.212 V9.7.0 +
+Policy and Charging Control over Gx reference point
+
+[[_80]]
+[80] 3GPP TS 29.329 v10.3.0 +
+Sh Interface based on the Diameter PROTOCOL
+
+[[_81]]
+[81] 3GPP TS 29.273 v9.4.0 +
+Evolved Packet System (EPS), 3GPP EPS AAA interfaces
+
+[[_82]]
+[82] 3GPP TS 29.234 v9.1.03 +
+GPP system to Wireless Local Area Network (WLAN) interworking
+
+[[_83]]
+[83] RFC 4072 +
+Diameter Extensible Authentication Protocol (EAP) Application
+
+[[_84]]
+[84] 3GPP TS 29.272 V10.3.0 (2011-06) +
+Evolved Packet System (EPS); Mobility Management Entity (MME) and Serving GPRS Support Node (SGSN) related interfaces based on Diameter protocol(Release 10)
+
+[[_85]]
+[85] 3GPP TS 29.061 V9.7.0 (2011-09) +
+Interworking between the Public Land Mobile Network supporting packet based services and Packet Data Networks (PDN)(Release 9)
+
+[[_86]]
+[86] 3GPP2 X.S0057-0 Version 3.0 +
+E_-UTRAN_ – eHRPD Connectivity and Interworking Core Network Aspects
+
+[[_87]]
+[87] Diameter Offline Charging in MTAS
+
+[[_88]]
+[88] 3GPP TS 29.212 V11.4.0 +
+Policy and Charging Control (PCC) over Gx/Sd reference point (Release 11)
+
+[[_89]]
+[89] 3GPP TS 29.272 V10.6.0 (2012-03) +
+Evolved Packet System (EPS); Mobility Management Entity (MME) and Serving GPRS Support Node (SGSN) related interfaces based on Diameter protocol(Release 10)
+
+[[_90]]
+[90] 3GPP TS 29.273 v9.4.0 +
+Evolved Packet System (EPS), 3GPP EPS AAA interfaces
+
+[[_91]]
+[91] RFC 5779 +
+Diameter Proxy Mobile IPv6: Mobile Access Gateway and Local Mobility Anchor Interaction with Diameter Server
+
+[[_92]]
+[92] 3GPP TS 29.214 V10.7.0 +
+Policy and Charging Control over Rx reference point
+
+[[_93]]
+[93] RFC 4004 +
+Diameter Mobile IPv4 Application
+
+[[_94]]
+[94] 3GPP TS 29.272 V11.6.0 (2013-03) +
+3rd Generation Partnership Project; Technical Specification Group Core Network and Terminals; Evolved Packet System (EPS); Mobility Management Entity (MME) and Serving GPRS Support Node (SGSN) related interfaces based on Diameter protocol (Release 11)
+
+[[_95]]
+[95] 3GPP TS 29.212 V10.10.0 (2013-03) +
+3rd Generation Partnership Project; Technical Specification Group Core Network and Terminals; Policy and Charging Control (PCC) over Gx reference point (Release 10)
+
+[[_96]]
+[96] 3GPP TS 29.219 V11.4.0 (2013-03) +
+3rd Generation Partnership Project; Technical Specification Group Core Network and Terminals; Policy and Charging Control: Spending Limit Reporting over Sy reference point (Release 11)
+
+[[_97]]
+[97] IS Verizon Ro Interface for Prompt and Collect in MTAS
+
+[[_98]]
+[98] Ro interface enhancements based on Verizon's call flows and requirements
+
+[[_99]]
+[99] 3GPP TS 29.329 V10.5.0 (2013-03) +
+Technical Specification 3rd Generation Partnership Project; +
+Technical Specification Group Core Network and Terminals; +
+Sh Interface based on the Diameter protocol; +
+Protocol details (Release 10)
+
+[[_100]]
+[100] 3GPP TS 29.214 V12.1.0 +
+Policy and Charging Control over Rx reference point
+
+[[_101]]
+[101] 3GPP TS 29.212 V12.5.2 +
+3rd Generation Partnership Project; +
+Technical Specification Group Core Network and Terminals; +
+Policy and Charging Control (PCC); +
+Reference points (Release 12)
+
+[[_102]]
+[102] 3GPP TS 32.299 V12.6.0 +
+Diameter Charging Applications
+
+[[_103]]
+[103] 3GPP TS 32.299 V13.4.0 +
+Diameter Charging Applications
+
+[[_104]]
+[104] 3GPP TS 29.229 V12.3.0 +
+Cx and Dx interfaces based on the Diameter protocol; Protocol details
+
+[[_105]]
+[105] 3GPP TS 32.299 V11.15.0 +
+Diameter Charging Applications
+
+[[_106]]
+[106] 3GPP TS 29.061 V11.9.0 (2014-12) +
+Interworking between the Public Land Mobile Network (PLMN) supporting packet based services and Packet Data Networks (PDN)(Release 11)
+
+[[_107]]
+[107] RFC 4818 +
+RADIUS Delegated-IPv6-Prefix Attribute
+
+[[_108]]
+[108] 3GPP TS 29.272 V11.13.0 +
+3rd Generation Partnership Project; Technical Specification Group Core Network and Terminals; Evolved Packet System (EPS); Mobility Management Entity (MME) and Serving GPRS Support Node (SGSN) related interfaces based on Diameter protocol (Release 11)
+
+[[_109]]
+[109] WP SKT-Zone
+
+[[_110]]
+[110] 3GPP TS 29.172 V13.1.0 (2016-06) +
+3rd Generation Partnership Project; Technical Specification Group Core Network and Terminals; Location Services (LCS); Evolved Packet Core (EPC) LCS Protocol (ELP) between the Gateway Mobile Location Centre (GMLC) and the Mobile Management Entity (MME); SLg interface (Release 13)
+
+[[_111]]
+[111] 3GPP TS 29.173 V13.0.0 (2015-12) +
+3rd Generation Partnership Project; Technical Specification Group Core Network and Terminals; Location Services (LCS); Diameter-based SLh interface for Control Plane LCS (Release 13)
+
+[[_112]]
+[112] 3GPP TS 32.212 V13.7.0 +
+Policy and Charging Control (PCC); Reference points
+
+[[_113]]
+[113] 3GPP TS 32.272 V13.7.0 +
+Evolved Packet System (EPS); Mobility Management Entity (MME) and Serving GPRS Support Node (SGSN) related interfaces based on Diameter protocol
+
+[[_114]]
+[114] RFC 7944 +
+Diameter Routing Message Priority
+
+[[_115]]
+[115] 3GPP TS 29.212 V14.0.0 +
+3rd Generation Partnership Project; Technical Specification Group Core Network and Terminals; Policy and Charging Control (PCC); Reference points (Release 14)
+
+[[_116]]
+[116] 3GPP TS 32.299 v13.9.0 +
+Diameter Charging Applications
+
+[[_117]]
+[117] 3GPP TS 29.061 V13.7.0 (2017-03) +
+3rd Generation Partnership Project; Technical Specification Group Core Network and Terminals; Interworking between the Public Land Mobile Network (PLMN) supporting packet based services and Packet Data Networks (PDN) (Release 13)
+
+[[_118]]
+[118] 3GPP TS 29.336 V15.0.0 (2017-09) +
+3rd Generation Partnership Project; Technical Specification Group Core Network and Terminals; Home Subscriber Server (HSS) diameter interfaces for interworking with packet data networks and applications (Release 15)
+
+[[_119]]
+[119] 3GPP TS 29.128 V15.0.0 (2017-09) +
+3rd Generation Partnership Project; Technical Specification Group Core Network and Terminals; Mobility Management Entity (MME) and Serving GPRS Support Node (SGSN) interfaces for interworking with packet data networks and applications (Release 15)
+
+[[_120]]
+[120] 3GPP TS 29.338 V15.0.0 (2017-09) +
+3rd Generation Partnership Project; Technical Specification Group Core Network and Terminals; Diameter based protocols to support Short Message Service (SMS) capable Mobile Management Entities (MMEs) (Release 15)
+
+[[_121]]
+[121] 3GPP TS 29.272 V15.1.0 (2017-09) +
+3rd Generation Partnership Project; Technical Specification Group Core Network and Terminals; Evolved Packet System (EPS); Mobility Management Entity (MME) and Serving GPRS Support Node (SGSN) related interfaces based on Diameter protocol (Release 15)
+
+[[_122]]
+[122] 3GPP TS 29.273 V15.0.0 (2017-09) +
+3rd Generation Partnership Project; Technical Specification Group Core Network and Terminals; Evolved Packet System (EPS); 3GPP EPS AAA interfaces (Release 15)

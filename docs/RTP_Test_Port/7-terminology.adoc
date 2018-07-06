@@ -1,0 +1,15 @@
+= Terminology
+
+No specific terminology is used.
+
+= Abbreviations
+
+ASP:: Abstract Service Primitive
+
+RTP:: Real-time Transport Protocol
+
+RTCP:: RTP Control Protocol
+
+TTCN-3:: Testing and Test Control Notation version 3
+
+UDP:: User Datagram Protocol

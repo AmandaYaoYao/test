@@ -1,0 +1,25 @@
+= Warning Messages
+
+`*<port name>: unknown & unhandled parameter: <parameter name>*`
+
+Unknown parameter has been found in the TITAN RTE configuration file.
+
+`*(<port name>) cleanup(): Dropping partial message.*`
+
+Cleanup has been called and the message buffer that is not empty. Partial message has been dropped.
+
+`*(<port name>) cleanup(): Forked pseudo terminal with pid=<process id> could not be stopped, sending SIGKILL.*`
+
+Process cannot be stopped. SIGKILL is sent.
+
+`*(<port name>) cleanup(): Forked pseudo terminal is still running after SIGKILL with pid=<process id>, exiting.*`
+
+Process is still running after SIGKILL.
+
+`*(<port name>): Prompt_List::check(): Duplicated prompt string `<prompt>'.*`
+
+Duplicated prompt string has been found in the prompt list.
+
+`*(<port name>): Prompt_List::check(): Using prompt `pattern1' that is a substring of prompt `pattern2' might cause problems.*`
+
+One of the prompts is a substring of the other.

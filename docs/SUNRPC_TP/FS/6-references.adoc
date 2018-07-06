@@ -1,0 +1,20 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 v3.1.1 (2005-06) +
+The Testing and Test Control Notation version 3; Part 1: Core Language
+
+[[_2]]
+[2] Programmer’s Technical Reference for TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] SUNRPCasp_CNL113493 Test Port for TTCN-3 Toolset with TITAN, User Guide
+
+[[_4]]
+[4] RFC 1057 +
+RPC: Remote Procedure Call - Protocol Specification Version 2 +
+http://www.ietf.org/rfc/rfc1057.txt
+
+[[_5]]
+[5] OpenSSL toolkit +
+http://www.openssl.org

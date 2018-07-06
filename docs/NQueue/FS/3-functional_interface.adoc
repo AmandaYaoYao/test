@@ -1,0 +1,177 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading.
+
+The component that wishes to use the `NQueue` feature has to extend the component type `EPTF_NQueue_CT` defined in module `EPTF_CLL_NQueue_Definitions`.
+
+The API of the NQueue feature is implemented in external functions. Because of this, the functions declared in module `EPTF_CLL_NQueue_Functions` do not have a 'runs on' clause. However, all these functions have to be handled as if they were defined as `runs on EPTF_NQueue_CT`. Calling these functions from other functions that do not have a 'runs on' attribute or that run on a component type not extending `EPTF_NQueue_CT` is not recommended.
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_NQueue_`.
+
+== Public Functions
+
+=== Initialization
+
+Before using the EPTF `NQueue` feature, the following function has to be called:
+
+`f_EPTF_NQueue_init_CT(pl_selfName)`
+
+=== Creating an Empty Queue
+
+The following function creates a new, empty queue:
+
+`f_EPTF_NQueue_createQueue(pl_name)`
+
+This function returns a queue ID of type `EPTF_NQueue_QueueId` which can later be used to reference the queue. An (optional) charstring name can be specified for the queue, which will be logged in error messages.
+
+=== Deleting a Queue
+
+The function `f_EPTF_NQueue_deleteQueue(pl_queue)` can be used to delete a queue and all the resources it uses. This is useful if a queue is used locally in a function. The IDs of deleted queues are stored in a stack and are reused on subsequent queue creations.
+
+All queues are automatically deleted at component cleanup.
+
+=== Creating a Chain
+
+The following function creates a new chain within an existing queue:
+
+`f_EPTF_NQueue_createChain(pl_queue)`
+
+This function returns the ID of chain that is of type `EPTF_NQueue_ChainId` which can later be used to reference the chain within the queue.
+
+=== Creating Items
+
+The following functions can be used to create a single item in a queue at either the head or tail of a chain, of after/before another item:
+
+[source]
+----
+`f_EPTF_NQueue_createItemAtChainHead(pl_queue, pl_chain)`
+
+`f_EPTF_NQueue_createItemAtChainTail(pl_queue, pl_chain)`
+
+`f_EPTF_NQueue_createItemAfter(pl_queue, pl_afterIdx)`
+
+`f_EPTF_NQueue_createItemBefore(pl_queue, pl_beforeIdx)`
+----
+
+These functions return the index of the created item (of type `EPTF_NQueue_ItemIdx`).
+
+The following functions can be used to create more than one items at the same time:
+
+[source]
+----
+f_EPTF_NQueue_createItem*s*AtChainHead(pl_queue, pl_chain, pl_count)
+
+f_EPTF_NQueue_createItem*s*AtChainTail(pl_queue, pl_chain, pl_count)
+----
+
+These functions do not have a return value. The created items can be retrieved from the head or tail of the respective chain. These functions are identical to calling their single item creating counterpart in a for loop `pl_count` times (i.e. `createItemsAtChainHead` chains the new items in a reverse order).
+
+=== Moving an Item to Head or Tail of Chain
+
+The following functions can be used to move an item to the head or tail of the same or another chain:
+
+[source]
+----
+f_EPTF_NQueue_moveToHead(pl_queue, pl_toChain, pl_item)
+
+f_EPTF_NQueue_moveToTail(pl_queue, pl_toChain, pl_item)
+----
+
+The parameter `pl_toChain` is the target chain, and can be the same chain in which the item is before the move.
+
+=== Moving an Item After or Before Another Item
+
+The following functions can be used to move an item after or before another item:
+
+[source]
+----
+f_EPTF_NQueue_moveAfter(pl_queue, pl_afterIdx, pl_item)
+
+f_EPTF_NQueue_moveBefore(pl_queue, pl_beforeIdx, pl_item)
+----
+
+The parameter `pl_afterIdx` and `pl_beforeIdx` is the item index after or before which to move the item at `pl_item` respectively. The target chain of the item is the chain of the item after or before which it is moved to.
+
+=== Getting the Chain of an Item
+
+The following function returns the ID of the chain in which the item is linked:
+
+`f_EPTF_NQueue_getChainOfItem(pl_queue, pl_item)`
+
+=== Getting the Length of a Queue
+
+The following function returns the length of (i.e. number of elements in) a queue:
+
+`f_EPTF_NQueue_getLengthOfQueue(pl_queue)`
+
+=== Getting the Length of a Chain
+
+The following function returns the length of a chain:
+
+`f_EPTF_NQueue_getLengthOfChain(pl_queue, pl_chain)`
+
+=== Getting the Head Item of a Chain
+
+The following function returns the index of the head (first) item in a chain or `_-1_` if the chain is empty:
+
+`f_EPTF_NQueue_getHeadOfChain(pl_queue, pl_chain)`
+
+=== Getting the Tail Item of a Chain
+
+The following function returns the index of the tail (last) item in a chain or `_-1_` if the chain is empty:
+
+`f_EPTF_NQueue_getTailOfChain(pl_queue, pl_chain)`
+
+=== Iterating Through a Chain
+
+The function `f_EPTF_NQueue_getNextItemIdx(pl_queue, pl_item)` can be used to iterate forward, `f_EPTF_NQueue_getPrevItemIdx(pl_queue, pl_item)` can be used to iterate backward through the busy chain from a given index. These functions modify the inout parameter `pl_item` in case there is a next or previous item, and return `_true_`. If there is no more items in the chain, they return `_false_`.
+
+=== Logging Functions
+
+Following functions can be used to log information about the queue for debugging:
+
+`f_EPTF_NQueue_logQueue(pl_queue)`
+
+`f_EPTF_NQueue_logChain(pl_queue, pl_chain)`
+
+`f_EPTF_NQueue_logChainFields(pl_queue, pl_chain)`
+
+=== Dumping a Queue to a PNG Image
+
+The function `f_EPTF_NQueue_dumpToPng(pl_queue, pl_name)` can be used to save a queue as a digraph file and generate a PNG image using the tool 'dot' (which has to be installed to use this function, see <<5-references.adoc#_5, [5]>>). This is for testing purposes, the number of items in the queue should not be too large due to the limitations of 'dot'.
+
+== Summary Table of All Public Functions for EPTF `NQueue`
+
+See summary of `NQueue` functions in the table below:
+
+[cols=",",options="header",]
+|===================================================================
+|Function name |Description
+|`f_EPTF_NQueue_init_CT` |Initializes the `NQueue` feature
+|`f_EPTF_NQueue_createQueue` |Creates a new queue
+|`f_EPTF_NQueue_deleteQueue` |Deletes a queue
+|`f_EPTF_NQueue_createChain` |Creates a chain in a queue
+|`f_EPTF_NQueue_createItemAtChainHead` |Creates one item at chain head
+|`f_EPTF_NQueue_createItemAtChainTail` |Creates one item at chain tail
+|`f_EPTF_NQueue_createItemAfter` |Creates one item after another
+|`f_EPTF_NQueue_createItemBefore` |Creates one item before another
+|`f_EPTF_NQueue_createItemsAtChainHead` |Creates items at chain head
+|`f_EPTF_NQueue_createItemsAtChainTail` |Creates items at chain tail
+|`f_EPTF_NQueue_moveToHead` |Moves an item to chain head
+|`f_EPTF_NQueue_moveToTail` |Moves an item to chain tail
+|`f_EPTF_NQueue_moveAfter` |Moves an item after another
+|`f_EPTF_NQueue_moveBefore` |Moves an item before another
+|`f_EPTF_NQueue_getChainOfItem` |Returns the chain of the item
+|`f_EPTF_NQueue_getLengthOfQueue` |Returns the length of the queue
+|`f_EPTF_NQueue_getLengthOfChain` |Returns the length of a chain
+|`f_EPTF_NQueue_getHeadOfChain` |Returns the head of a chain
+|`f_EPTF_NQueue_getTailOfChain` |Returns the tail of a chain
+|`f_EPTF_NQueue_getNextItemIdx` |Forward iterator
+|`f_EPTF_NQueue_getPrevItemIdx` |Backward iterator
+|`f_EPTF_NQueue_logQueue` |Logs the queue
+|`f_EPTF_NQueue_logChain` |Logs a chain with items
+|`f_EPTF_NQueue_logChainFields` |Logs the chain without items
+|`f_EPTF_NQueue_dumpToPng` |Dumps the queue to PNG
+|===================================================================

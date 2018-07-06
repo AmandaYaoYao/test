@@ -1,0 +1,38 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* __StatReplay_Demo.cfg__
+* __StatReplay_Demo.ttcn__
+
+== Configuration File
+
+The used configuration file (__main.cfg__) is for the Statistics Replay example is placed in the demo directory.
+
+[source]
+----
+[MODULE_PARAMETERS]
+
+tsp_EPTF_CLL_StatReplay_captureFile := "capturefile.txt"
+
+tsp_EPTF_CLL_StatReplay_groupName := "capturegroup"
+
+tsp_EPTF_CLL_StatReplay_variableName := "capturedvariable"
+
+tsp_EPTF_CLL_StatReplay_windowSize := 5;
+
+tsp_EPTF_CLL_StatReplay_debug := false;
+
+tsp_EPTF_CLL_StatReplay_startLayout := ``<window tsp_EPTF_CLL_StatReplay_startLayout := "<window height=\"550.000000\" id=\"EPTF_main_Window\" orient=\"vertical\" title=\"EPTF Capture Chart GUI\" width=\"800.000000\">\n<tabbox>\n<tabs>\n<tab label=\"Chart\">\n</tab>\n</tabs>\n<tabpanels>\n<tabpanel orient=\"vertical\">\n<hbox orient=\"vertical\">\n<chart id=\"capturechart\" title=\"Capture Chart\" zoomable=\"false\" axisXType=\"linear\" axisYType=\"linear\" gridX=\"false\" gridY=\"false\" foregroundColor=\"Black\" backgroundColor=\"RGB:180:200:200\" gridColor=\"Black\">\n<trace id=\"trace1\" name=\"Captured Values\" maxPoints=\"5\" color=\"RGB:255:0:0\" />\n</chart>\n</hbox>\n</tabpanel>\n</tabpanels>\n</tabbox>\n<hbox orient=\"horizontal\">\n<spacer flex=\"2.000000\">\n</spacer>\n<button id=\"shift_left_fast\" label=\"Shift Left Fast\">\n</button>\n<spacer flex=\"0.000000\">\n</spacer>\n<button id=\"shift_left\" label=\"Shift Left\">\n</button>\n<spacer flex=\"0.000000\">\n</spacer>\n<button id=\"shift_right\" label=\"Shift Right\">\n</button>\n<spacer flex=\"0.000000\">\n</spacer>\n<button id=\"shift_right_fast\" label=\"Shift Right Fast\">\n</button>\n<spacer flex=\"2.000000\">\n</spacer>\n</hbox>\n<hbox orient=\"horizontal\">\n<button id=\"exit_ttcn\" label=\"Exit TTCN\">\n</button>\n</hbox>\n</window>\n";
+----
+
+== Demo Module
+
+The demo module (__StatReplay_demo.ttcn__) illustrates a typical usage of
+[source]
+----
+testcase tc_Demo() runs on StatReplayDemo_CT system SYSTEM_CT{
+  				f_EPTF_CLL_StatReplay_init_CT("StatReplay_CT");
+  				setverdict(pass);
+       }
+----

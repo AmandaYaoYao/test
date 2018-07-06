@@ -1,0 +1,15 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 v4.4.1 (2012-04) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] User Guide for TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] Programmer’s Technical Reference for Titan TTCN–3 Test Executor
+
+[[_4]]
+[4] https://tools.ietf.org/html/rfc3501[RFC3501] +
+INTERNET MESSAGE ACCESS PROTOCOL - VERSION 4rev1

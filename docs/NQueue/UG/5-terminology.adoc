@@ -1,0 +1,20 @@
+= Terminology
+
+*TitanSim Core (Load) Library(CLL):* +
+It is that part of the TitanSim software that is totally project independent. (I.e., which is not protocol-, or application-dependent). The TitanSim CLL is to be supplied and supported by the TCC organization. Any TitanSim CLL development is to be funded centrally by Ericsson.
+
+*NQueue:* +
+It is a data type consisting of an arbitrary number of chains and an arbitrary number of items. Items in the queue are identified by their index, which has a continuous range and is thus useful for creating associated data structures by indexing a list of data with the item index.
+
+*Chain:* +
+It is a group of items in the queue. Each item belongs to a chain and can be moved to another chain. A chain is represented as a doubly linked list and can be iterated forward (head to tail) or backward (tail to head). A chain can, for example, be thought of as the state of its items (e.g. free/busy).
+
+= Abbreviations
+
+CLL:: Core Load Library
+
+EPTF:: Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+TitanSim:: Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+TTCN-3:: Testing and Test Control Notation version 3 <<6-references.adoc#_1, [1]>>.

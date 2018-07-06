@@ -1,0 +1,21 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 v.2.2.1 (02/2003) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] 1/1553-CRL 113 200 Uen +
+User Documentation for the TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] 155 17-CNL 113 352 +
+MIME Protocol Modules for TTCN-3 Toolset with TITAN, Function Specification
+
+[[_4]]
+[4] IETF RFC 2045 +
+Multipurpose Internet Mail Extension (MIME) Part One: Format of Internet Message Body
+
+[[_5]]
+[5] IETF RFC 2046 +
+Multipurpose Internet Mail Extension (MIME) Part Two: Media Types

@@ -1,0 +1,29 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 v3.1.1 (06/2005) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] Installation Guide for TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] Programmer’s Technical Reference for the TITAN TTCN-3 Test Executor
+
+[[_4]]
+[4] LDAPasp_RFC4511 Test Port for TTCN-3 Toolset with TITAN, Function Specification
+
+[[_5]]
+[5] OpenSSL toolkit +
+http://www.openssl.org
+
+[[_6]]
+[6] http://ietf.org/rfc/rfc4511.txt[RFC 4511] +
+Lightweight Directory Access Protocol v3
+
+[[_7]]
+[7] Abstract Socket Test Port for TTCN-3 Toolset with TITAN, User Guide
+
+[[_8]]
+[8] http://ietf.org/rfc/rfc2849.txt[RFC 2849] +
+The LDAP Data Interchange Format (LDIF) – Technical Specification

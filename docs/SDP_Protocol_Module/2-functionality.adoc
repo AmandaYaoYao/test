@@ -1,0 +1,75 @@
+= Functionality
+
+== Protocol Version Implemented
+
+This set of protocol modules implements protocol messages and constants of the SDP protocol, (see <<6-references.adoc#_1, [1]>>) with the modifications specified in ‎3.2. Besides the SDP attributes listed in [1] the following SDP attributes are implemented:
+
+[width="100%",cols="50%,50%",options="header",]
+|====================================================================================================================================================
+|RFC |Attributes
+|draft-ietf-simple-message-sessions-12 +
+The Message Session Relay Protocol <<6-references.adoc#_5, ‎[5]>> |accept-types, +
+accept-wrapped-types, +
+max-size, +
+path
+|RFC 3890 +
+A Transport Independent Bandwidth Modifier for the Session Description Protocol (SDP) ‎<<6-references.adoc#_6, [6]>> |
+pathmaxprate
+|RFC 3388 +
+Grouping of Media Lines in the Session Description Protocol (SDP) ‎‎<<6-references.adoc#_7, [7]>>|mid, +
+group
+|RFC 4145 +
+TCP-Based Media Transport in the Session Description Protocol (SDP) ‎<<6-references.adoc#_8, [8]>> |setup, +
+connection
+|RFC 4568 +
+Session Description Protocol (SDP) Security Descriptions for Media Streams |crypto
+|RFC 5245 +
+Interactive Connectivity Establishment (ICE) ‎<<6-references.adoc#_10, [10]>> |ice-ufrag, ice-pwd, candidate, remote-candidates, ice-lite, ice-mismatch, and ice-options
+|RFC 4585 +
+Extended RTP Profile for Real-time Transport Control Protocol (RTCP)-Based Feedback (RTP/AVPF) ‎<<6-references.adoc#_11, [11]>> |rtcp-fb
+|RFC 3362 +
+Real-time Facsimile (T.38) – image/t.38 MIME Sub-type Registration |T38Fax
+|RFC 5547 |file-disposition file-date file-icon file-range
+|draft-ietf-mmusic-sctp-sdp-08 & draft-ietf-mmusic-sctp-sdp-11 |sctpmap, sctp_port, max-message-size
+|====================================================================================================================================================
+
+== Routing Functionality
+
+Routing functionality is not performed.
+
+== Modified and Non-Implemented Protocol Elements
+
+=== Relaxed Conditions
+
+There is no constraint between received and sent messages.
+
+== Ericsson-Specific Changes
+
+There is no Ericsson specific change in this product.
+
+== Backward Incompatibilities
+
+None.
+
+[[protocol-modifications-deviations]]
+== Protocol Modifications/Deviations
+
+Protocol modules contain the following modifications/deviations from <<6-references.adoc#_1, [1]>> changing the protocol message structure/behavior:
+
+* In the TITAN executor environment, integer values are stored as 32-bit signed integers. Hence, those variables that represent an integer value greater than `_231-1_` cannot be stored in a variable of type integer. This affects the following information elements:
+
+** Time field: start time, stop time
+
+** Zone adjustment time
+
+** Origin field: session ID, session version
+
+These integer values are represented as charstrings.
+
+* At most one bandwidth field is allowed at session level and at most one for each media description. (The standard <<6-references.adoc#_1, [1]>> specifies it ambiguously: the grammar allows multiple bandwidth fields, but the textual description does not allow this.)
+
+* The decoder supports all three variants of email-address and phone-number formats (see <<6-references.adoc#_1, [1]>> Appendix A). By default, the encoder encodes these fields in the following form: email (displayable name) and phone (displayable name). If you want to encode these fields in the form: displayable name <email> and displayable name <phone>, use the __f_SDP_enc_Message_RFC822Name__ encoder method for encoding (see <<6-references.adoc#_4, [4]>>).
+
+The language specified by <<6-references.adoc#_1, [1]>> can not be used for creating an LR(1) parser. Hence, this implementation contains a simplified parser, which does not constrain the format of text fields. This should not cause any trouble when decoding SDP messages. However, content of fields should be verified in TTCN, when needed.
+
+The encoder does not perform any format check on charstring fields. It is the user’s responsibility to ensure that charstring fields contain valid data.

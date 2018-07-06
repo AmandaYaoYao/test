@@ -1,0 +1,7 @@
+= Limitations
+
+The test port does not support server mode.
+
+The test port does not handle the messages about the fingerprint of the remote host. Before the test execution the remote host should be properly authenticated, and there should be a corresponding record in the __~/.ssh/known_hosts__ file (e.g. invoking ssh manually).
+
+As this port is not a native implementation the limitations of the underlying OpenSSH client utility is also included.

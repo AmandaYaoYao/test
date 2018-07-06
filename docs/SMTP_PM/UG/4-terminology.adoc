@@ -1,0 +1,9 @@
+= Terminology
+
+No specific terminology is used.
+
+= Abbreviations
+
+SMTP:: Simple Mail Transfer Protocol
+
+TTCN-3:: Testing and Test Control Notation version 3

@@ -1,0 +1,9 @@
+= DataSource Elements
+
+The UIHandler can be used as DataSource Client. It has a data element, which can be connected to a button widget on the GUI. The application used data elements can be saved to a file via pressing this button.
+
+There is another data source that can be used to display progress information during startup. The value of this dataSource should be changed to write new progress information into this variable. All changes of this dataSource are appended to each other into the progressBarHistory dataSource. The value of the progressBar dataElement can be changed from the UIHandler component by the `f_EPTF_UIHandler_updateProgress` API function call. From other PTCs, the dataSource should be requested from the DataSourceClient feature and the returned variable can be adjusted to change the progress information.
+
+To display progress information during custom GUI creation, a simple XML containing the UIHandler progressBar or progressBarHistory dataSources should be loaded before the large custom XML. Also the progressBar dataSource can be added to the custom XML also, which makes it possible to see the progress information after the custom XML is loaded.
+
+For more information on dataSources in UIhandler see the natural documentation and the next chapter.

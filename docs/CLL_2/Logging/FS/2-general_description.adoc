@@ -1,0 +1,34 @@
+= General Description
+
+This document specifies the EPTF Logging feature of the TitanSim CLL. The EPTF Logging feature consists of the following sub-features:
+
+* Logging with component type `EPTF_Logging_CT`
+* LoggingUI with component type `EPTF_LoggingUI_CT`
+* LoggingUIClient with component type `EPTF_LoggingUIClient_CT`
+
+Throughout this document, EPTF Logging generally refers to the basic logging component, i.e. the Logging sub-feature.
+
+The EPTF *Logging* sub-feature makes it possible to
+
+* Declare logging classes per components (e.g. separate log masks and classes for each component type in a component extend hierarchy),
+* Provide controllable error, warning and debug logging trough provided log functions,
+* Switch the logging on/off from TTCN per component type (only the current instance) or logging class,
+* Switch the logging on/off from the UI if LoggingUI and LoggingUIClient are used. In this case, logging for component types can also be turned on or off globally or per instance,
+* Automatically remove the debug logging from the compiled executable. This is performed via the constant folding of TITAN.
+* Test if the expected error message pattern matches with the occurred errors. This can be used in negative testing.
+
+The aim of the EPTF Logging feature is, to use the library provided logging framework for event-class based per-PTC log control. The feature manages the logging database, defines default log classes and functions without the extension of GUI.
+
+To be able to use EPTF Logging, the user component should extend the `EPTF_Logging_CT` component call its init function.
+
+The default logging classes and the related functions are obsolete. The new functions have the suffix V2 in their name, and should be used instead of the old ones. The user should specify their own logging classes for the new functions. It is recommended to implement simple wrapper functions with the user defined class IDs for component types using EPTF Logging to make the feature easier to use.
+
+The *LoggingUI* and *LoggingUIClient* sub-features make it possible to
+
+* Put logging masks on the GUI
+* Manage the change of logging masks
+* Handle global logging masks
+
+The aim of LoggingUI is to provide a user interface for the logging variables/masks defined in the EPTF Logging feature. With the help of this sub-feature, users can manage the logging of components and component types from the runtime GUI or CLI. It also makes possible to set the global logging masks of the components.
+
+To be able to use EPTF LoggingUI, the user should extend one LoggingUI component and call its init function (typically this can be performed by the MTC). The components that will log should extend LoggingUIClient component and call its init function.

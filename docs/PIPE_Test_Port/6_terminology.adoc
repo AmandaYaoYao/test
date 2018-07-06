@@ -1,0 +1,3 @@
+= Terminology
+
+No specific terminology is used.

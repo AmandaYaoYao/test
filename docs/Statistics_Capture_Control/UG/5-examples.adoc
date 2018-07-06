@@ -1,0 +1,164 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* _main.cfg_
+* __EPTF_StatCapture_demo.ttcn__
+* __EPTF_StatCaptureControl_demo.ttcn__
+
+== Configuration File
+
+The used configuration file (_main.cfg_) is for the Statistics Capture Control example is placed in the demo directory.
+
+In case the `tsp_EPTF_StatCapture_def_capture_file` module parameter is left empty, each capture group created with an empty log file list is captured to a file called __Default_Capture_File.txt__. By setting the module parameter to a filepath, the default capture file can be changed.
+
+[source]
+----
+[MODULE_PARAMETERS]
+
+//StatCapture config parameters
+tsp_EPTF_StatCapture_def_capture_file := "DefaultFile"
+tsp_EPTF_StatCapture_max_file_size := 1000000 //1 MByte
+tsp_EPTF_StatCapture_max_nrof_files := 100  //maximum 100 files for each // stream
+tsp_EPTF_StatCapture_fileFormat := gnuplot   //gnuplot/readable
+
+tsp_EPTF_StatCapture_captureGroups :=
+{{groupName :=  "configgroup1",
+  timerPeriod := 1.0,
+  logFileNames := {"configFirstfile"},
+  statistics := { { varName := "var1",
+                                         statType := content,
+			         statName := "content",
+                    periodicReset := false,
+                    activeStat := true
+                   },
+	       { varName := "var1",
+                    statType := delta,
+                    statName := "delta",
+	         periodicReset := false,
+	         activeStat := true
+	        }
+                 }
+ },
+ {{groupName :=  "configgroup2",
+  timerPeriod := 1.0,
+  logFileNames := {"configSecondfile"},
+  statistics := { { varName := "var2",
+                                         statType := deltaSum,
+			         statName := "deltaSumReset",
+                    periodicReset := true,
+                    activeStat := true
+                   },
+	       { varName := "var2",
+                    statType := EPS,
+                    statName := "EPS",
+	         periodicReset := false,
+	         activeStat := true
+	        }
+                 }
+ }
+}
+
+//StatCaptureControl config parameters
+tsp_EPTF_StatCaptureControl_captureControlMode := loadBased; //manual/loadBased/complete
+tsp_EPTF_StatCaptureControl_nrOfCaptures := 4; // 4 periods of //start-stop capture
+tsp_EPTF_StatCaptureControl_loadStableToStart := 5.0;//the load //Variable must be stable for this long to start capture
+tsp_EPTF_StatCaptureControl_loadStableCapturePeriod:= 10.0; //10 //seconds long measurement
+tsp_EPTF_StatCaptureControl_loadCaptureDelay := 5.0; //5 //seconds long delay after successful capture
+tsp_EPTF_StatCaptureControl_userVariable := {componentName := "User", varName := "UserVar"};
+tsp_EPTF_StatCaptureControl_loadVariable := {componentName := "Load", varName := "LoadVar"};
+tsp_EPTF_StatCaptureControl_executionVariable := {componentName := "Execution", varName := "ExecutionVar"};
+
+//StatCaptureControl Demo config parameters
+tsp_StatCaptureControl_demo_user_modify_timer := 20.0;
+tsp_StatCaptureControl_demo_load_modify_timer := 30.0;
+tsp_StatCaptureControl_demo_execution_start_timer := 1.0;
+tsp_StatCaptureControl_demo_execution_stop_timer := 149.0;     //relative time from execution start
+----
+
+== Demo Modules
+
+=== Basic Usage
+
+The demo module __EPTF_StatCapture_demo.ttcn__ illustrates the basic usage of the EPTF Statistics Capture Control feature (see ‎<<2-statistics_capture_control.adoc#basic_usage, Basic Usage>>.
+
+Two variables are created by the user (`EPTF_Var`). For the first variable, two statistics are defined, one representing the content value, the second one representing the delta of that variable (`EPTF_StatMeasure`). The second variable is a float variable, its `deltaSum` is measured in a third statistics.
+
+NOTE: This statistics is set to `periodicreset = true`, which means its value is reset at sampling intervals of the capture group it belongs to.
+
+[source]
+----
+var integer vl_var1ID, vl_var2ID:= -1;
+var integer vl_stat1ID, vl_stat2ID, vl_stat3ID := -1;
+
+f_EPTF_Var_newInt("var1",10,vl_var1ID);
+vl_stat1ID := f_EPTF_StatMeasure_newStat(vl_var1ID, content);
+var EPTF_StatCapture_tStatistics stat1 := f_EPTF_StatCapture_createStatforCapture(vl_stat1ID, "mystat1name");
+vl_stat2ID := f_EPTF_StatMeasure_newStat(vl_var1ID, delta);
+var EPTF_StatCapture_tStatistics stat2 := f_EPTF_StatCapture_createStatforCapture(vl_stat2ID, "mystat2name");
+f_EPTF_Var_newFloat("var2",10.0,vl_var2ID);
+vl_stat3ID := f_EPTF_StatMeasure_newStat(vl_var2ID, deltaSum, true);
+var EPTF_StatCapture_tStatistics stat3 := f_EPTF_StatCapture_createStatforCapture(vl_stat3ID, "mystat3name");
+----
+
+The Statistics references are created for Capture. Then, they are added to Capture groups, for example:
+
+`f_EPTF_StatCapture_addNewGroup"`group2", 1.0,\{fd2}, \{stat3}, v_groupidx2, group2statidxList);`
+
+The capture is started, and in the altstep statement, the underlying Variable values are modified during runtime. The Statistics values are refreshed automatically, and captured by the `StatCapture` component. Their values are printed to file at regular sampling intervals.
+
+[source]
+----
+f_EPTF_StatCapture_startCaptureAll();
+…
+alt {
+    …
+    [ ] t_adjust.timeout{
+         f_EPTF_Var_adjustContent(vl_var1ID, {intVal:= vl_now});
+         f_EPTF_Var_adjustContent(vl_var2ID, {floatVal:= int2float(vl_now)}); vl_now := vl_now * 2; t_adjust.start; repeat;}
+
+    [ ] t_wait.timeout {}
+  }
+  setverdict(pass);
+  f_EPTF_StatCapture_stopCaptureAll();
+  f_EPTF_Base_cleanup();
+----
+
+NOTE: At the end of the demo application, the Base cleanup function is called (not the `StatCapture` cleanup function!). As we have registered the `StatCapture` cleanup function to the Base component in our `EPTF_StatCapture_init` function with the command `f_EPTF_Base_RegisterCleanup(refers(f_EPTF_StatCaptureControl_cleanup));`, the Base component looks after the clean-up of all components in the demo system.
+
+=== Extended Usage
+
+The demo module __EPTF_StatCaptureControl_demo.ttcn__ shows the extended usage of the EPTF Statistics Capture Control feature (see ‎<<2-statistics_capture_control.adoc#basic_usage, Basic Usage>>) and illustrates the automatic capture control functionality with Capture Control Modes.
+
+The demo testcase runs on the `mtc_test` component, which first creates the components as described in the `extendeD` configuration section (see ‎‎<<2-statistics_capture_control.adoc#extended_configuration, Extended Configuration>>), and starts them with their behavior.
+
+[source]
+----
+function f_EPTF_mtc_test_Behaviour_1(in charstring pl_selfName) runs on mtc_test_CT {
+
+  f_init_mtc_test_CT(pl_selfName);
+  var NS_test_CT vl_NS_Server := NS_test_CT.create;
+  vl_NS_Server.start(f_EPTF_NS_main_CT("NameServiceServer"));
+  var User_test_CT vl_User_test := User_test_CT.create;
+  vl_User_test.start(f_EPTF_User_test_Behaviour_1("User",
+                                           vl_NS_Server));
+  …
+ }
+----
+
+The `StatCaptureControl` component calls its init function, registers itself into the Name Service Server and creates Statistics, groups them into Capture Groups and defines belonging `logfiles` to the groups. Additionally, the values of Statistics are regularly updated for simulating a working system. Note that this behavior code is almost identical to the basic usage demo. The important difference is that in the init function of the `StatCaptureControl_test_CT` we call the `EPTF_StatCaptureControl_init` function instead of the `EPTF_StatCapture_init` function. This means, that we prepare for listening to the controls such as execution, load stability and user interaction.
+
+[source]
+----
+function f_init_StatCaptureControl_test_CT(in charstring pl_selfName, in EPTF_NS_CT pl_NSCompRef) runs on StatCaptureControl_test_CT {
+
+  if (v_StatCaptureControl_test_initialized) {
+    return; // already initialized
+  }
+  f_EPTF_StatCaptureControl_init(pl_selfName, pl_NSCompRef);
+  v_StatCaptureControl_test_initialized := true;
+  log("----StatCaptureControl test INIT DONE----");
+}
+----
+
+In the meanwhile, the control components (`User_CT`, `Load_CT`, `Execution_CT`) are also started. In the demo application, these components simulate a real system, where the User Variable is set according to a real button click event, etc. Therefore, with belonging configuration parameters, the timers for changing control Variable values on components are read in from the configuration file (for example when to start/stop test execution, when the load should become stable/unstable, when the user should press the `start`/`stop` button). These components read in the configuration file parameters and change control Variable values accordingly. They all call the Base cleanup function when terminated, except the Execution component; this one calls the `f_EPTF_Base_stopRemote(mtc)` function with `mtc` as parameter. This means, if the test execution has finished, all components are stopped, which is the simulated and expected behavior of any TitanSim application with automatic Statistics Capture Control.

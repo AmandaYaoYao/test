@@ -1,0 +1,9 @@
+= Introduction
+
+== How to Read This Document
+
+This is the User Guide for the `GUIViewer` of the Ericsson Performance Test Framework (TitanSim), Core Load Library (CLL). TitanSim CLL is developed for the TTCN-3 <<5-references.adoc_1, ‎[1]>> Toolset with TITAN ‎<<5-references.adoc_2, [2]>>. This document should be read together with the Function Description of the `GUIViewer` feature <<5-references.adoc_5, ‎[5]>>. For more information on the TitanSim CLL, consult the Users Guide ‎<<5-references.adoc_4, [4]>> and the Function Specification ‎<<5-references.adoc_3, [3]>> of TitanSim. Additionally, to understand the functionality of this feature, read the documentation of the `UIHandler` ‎<<5-references.adoc_6, [6]>> feature.
+
+== System Requirements
+
+In order to use the `GUIViewer` feature the system requirements listed in TitanSim CLL User Guide <<5-references.adoc_4, ‎[4]>> should be fulfilled.

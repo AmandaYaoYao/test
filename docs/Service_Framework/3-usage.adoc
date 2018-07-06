@@ -1,0 +1,44 @@
+= Usage
+
+== Writing an Application Over ESF
+
+An application built with the help of ESF should implement microservices with functionalities specific to the application needs. The microservice interface has 3 functions out of which one is optional:
+
+=== Function `getDataSourceHandlers` (optional)
+
+Has no parameters. Should return the DsRestAPI specific handler function references: the getDataHandler and setDataHandler function references.
+
+=== Function `close` (mandatory)
+
+Has no parameters nor a return value. It is going to be called before AppAgent closes.
+
+=== Function `handleMessage` (mandatory)
+
+The function has the following function parameters:
+
+* method – HTTP method
+* path – HTTP full URI
+* headers – HTTP headers list
+* body – HTTP body
+* userCredentials – user name and group information
+* response – HTTP response object. In case of DsRestAPI responses, the object’s `body` field needs to be filled with the JSON response string, and the `headers` field’s `content-type` field needs to be set to "application/json" accordingly.
+
+== Deployment and Configuration
+
+There are 2 ways to run an application built up on the ESF.
+
+1. Copying Needed Files to the Destination
++
+The first way is to copy the framework’s files and the needed set of microservices on the destination location. The server port and address can be configured in a _config.json_ file located in the working directory.
++
+In this case, the application can be started by running the ESF’s _AppAgent.py_, with the needed subset of microservices deployed in the Microservices directory in the ESF’s directory hierarchy.
+
+2. Creating an Executor Script
++
+Alternatively, all the microservices can be kept in the Microservices directory, and different subsets of microservices with different configurations can be run from a python script created for this purpose.
++
+In this case, the `runAppAgent` public function located in the `AppAgent` module can be called directly from a python script. The server configuration and the microservices to be loaded had to be defined as function parameters during this function call.
+
+== Compiling and Running
+
+All modules are using python with `ldap` add-on. The application was tested with python version 2.7.13, and 2.7.9-addons-ldap. Should also work with the latest 2.7 versions.

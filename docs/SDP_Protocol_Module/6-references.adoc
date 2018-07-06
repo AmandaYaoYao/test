@@ -1,0 +1,48 @@
+= References
+
+[[_1]]
+[1] https://tools.ietf.org/html/rfc2327[RFC 2327] +
+SDP: Session Description Protocol
+
+[[_2]]
+[2] ETSI ES 201 873-1 v.2.2.1 (02/2003) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_3]]
+[3] User Documentation for the TITAN TTCN-3 Test Executor
+
+[[_4]]
+[4] https://tools.ietf.org/html/rfc822f[RFC 822] +
+Standard for the format of ARPA Internet text messages
+
+[[_5]]
+[5] https://tools.ietf.org/html/draft-ietf-simple-message-sessions-12 +
+The Message Session Relay Protocol
+
+[[_6]]
+[6] https://tools.ietf.org/html/rfc3890[RFC 3890] +
+A Transport Independent Bandwidth Modifier for the Session Description Protocol (SDP)
+
+[[_7]]
+[7] https://tools.ietf.org/html/rfc3388[RFC3388] +
+Grouping of Media Lines in the Session Description Protocol (SDP)
+
+[[_8]]
+[8] https://tools.ietf.org/html/rfc4145[RFC 4145] +
+TCP-Based Media Transport in the Session Description Protocol (SDP)
+
+[[_9]]
+[9] https://tools.ietf.org/html/rfc4568[RFC 4568] +
+Session Description Protocol (SDP) Security Descriptions for Media Streams
+
+[[_10]]
+[10] https://tools.ietf.org/html/rfc5245[RFC 5245] +
+Interactive Connectivity Establishment (ICE)
+
+[[_11]]
+[11] https://tools.ietf.org/html/rfc4585[RFC 4585] +
+Extended RTP Profile for Real-time Transport Control Protocol (RTCP)-Based Feedback (RTP/AVPF)
+
+[[_12]]
+[12] https://tools.ietf.org/html/rfc3362[RFC 3362] +
+Real-time Facsimile (T.38) – image/t.38 MIME Sub-type Registration

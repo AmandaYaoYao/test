@@ -1,0 +1,11 @@
+= Introduction
+
+== About This Document
+
+=== How to Read This Document
+
+This is the User Guide for the Common of the Ericsson Performance Test Framework (TitanSim), Core Load Library (CLL). TitanSim CLL is developed for the TTCN-3 <<5-references.adoc#_1, ‎[1]>> Toolset with TITAN <<5-references.adoc#_2, ‎[2]>>. This document should be read together with the Function Description of the Common feature <<5-references.adoc#_5, ‎[5]>>. For more information on the TitanSim CLL, consult the Users Guide <<5-references.adoc#_4, ‎[4]>> and the Function Specification <<5-references.adoc#_3, ‎[3]>> of the TitanSim.
+
+== System Requirements
+
+In order to use the Common feature the system requirements listed in TitanSim CLL User Guide <<5-references.adoc#_4, ‎[4]>> should be fulfilled.

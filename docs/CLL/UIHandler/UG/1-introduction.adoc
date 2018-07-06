@@ -1,0 +1,24 @@
+= Introduction
+
+== About This Document
+
+=== How to Read This Document
+
+This is the User Guide for the UIHandler of the Ericsson Performance Test Framework (TitanSim), Core Library (CLL). EPTF CLL is developed for the TTCN-3 <<8-references.adoc#_1, [1]>> Toolset with TITAN <<8-references.adoc#_2, [2]>>. This document should be read together with the Function Description of the UIHandler feature <<8-references.adoc#_6, [6]>>. For more information on the EPTF CLL please consult the Product Revision Information, the User’s Guide <<8-references.adoc#_4, [4]>> and the Function Specification <<8-references.adoc#_3, [3]>> of the TitanSim.
+
+=== System Requirements
+
+In order to use the UIHandler feature the system requirements listed in EPTF CLL User Guide <<8-references.adoc#_4, [4]>> should be fulfilled.
+
+The minimum required web browser version for using the Browser GUI is Mozilla Firefox 38.5.2 Extended Support Release (module name in AFS: firefox/38.5.2esr).
+
+== Description of Required External Features outside CLL
+
+[width="100%",cols="34%,33%,33%",options="header",]
+|=======================================================================================================================================================================================================================================
+|*Product Number* |*Product Name* |*Product Description*
+|1/CAX 105 6334 |RapidXml 1.13 |RapidXml is required by the current web based GUI component. It is used to generate web pages based on templates/descriptions stored in XML files
+|33/CAX 105 3414 R1A |jQuery 2.2.3 |It provides a rich function set including, but not limited to HTML document traversal and manipulation, event handling, animation, and AJAX calls. Other 3rd parties depend on this library as well.
+|2/CAX 105 6945 |Flot 0.8.3 |Flot is used by BrowserGUI and WebGUI features to display charts (e.g.: CPS charts). It replaces a similar 3rd party component that was removed from TitanSim due to licensing problems.
+|1/CAX 105 8146 |Html2Canvas 0.4.1 |Html2Canvas is used to convert any html element to canvas, which then can be saved as an image file. Used by the UIHandler (BrowserGUI) and WebGUI features.
+|=======================================================================================================================================================================================================================================

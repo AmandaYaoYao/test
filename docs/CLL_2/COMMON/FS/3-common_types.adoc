@@ -1,0 +1,152 @@
+= Common Types
+
+The Common feature mainly serves as a type definition module for commonly used types. This chapter describes these types.
+
+== Default List
+
+The type
+
+`EPTF_DefaultList`
+
+provides a container for arbitrary number of default. Its type is a 'record of integer'.
+
+== Integer List
+
+The type
+
+`EPTF_IntegerList`
+
+provides a container for arbitrary number of integers. Its type is 'record of default'.
+
+== Integer Array 2D
+
+The type
+
+`EPTF_IntegerArray2D`
+
+provides a container for arbitrary number of integers in a 2D array. Its type is record of `EPTF_IntegerList`.
+
+== Charstring List
+
+The type
+
+`EPTF_CharstringList`
+
+provides a container for arbitrary number of charstrings. Its type is 'record of charstring'.
+
+== Float List
+
+The type
+
+`EPTF_FloatList`
+
+provides a container for arbitrary number of floats. Its type is 'record of float'.
+
+== Boolean List
+
+The type
+
+`EPTF_BooleanList`
+
+provides a container for arbitrary number of booleans . Its type is 'record of boolean'.
+
+== LED Colors
+
+The type
+
+`EPTF_LEDColors`
+
+is an enumerated type for the known LED colors on the user interface.
+
+Possible values:
+
+* `_led_blue_`
+* `_led_black_`
+* `_led_yellow_`
+* `_led_green_`
+* `_led_red_`
+
+== Status LED
+
+The type
+
+`EPTF_StatusLED`
+
+is a record type for status LEDS with text.
+
+Elements of the status led:
+
+* `EPTF_LedColors` color – the color of the status led
+* charstring text – optional text for the status led
+
+== Parameter Range Descriptor
+
+The type
+
+`EPTF_ParamRangeDescriptor`
+
+is a record type defining an integer parameter range.
+
+Its elements are:
+
+* charstring name – the name of the range
+* integer baseOffset – the first value of the range
+* integer count – the size of the range
+* integer iterator – the actual value
+
+== Parameter Range Descriptor List
+
+The type
+
+`EPTF_ParamRangeDescriptorList`
+
+provides a container for arbitrary number of parameter range descriptors. Its type is record of `EPTF_ParamRangeDescriptor`.
+
+== RndValues Component
+
+The type
+
+`EPTF_Common_RndValues_CT`
+
+provides a container for the pre generated random numbers.
+
+== Debug Switch
+
+The constant
+
+`c_EPTF_Common_debugSwitch`
+
+can be used to guard debug code or logging in an if statement. The code guarded this way will be excluded from the compiled executable if–DEPTF_DEBUG is not added to CPPFLAGS_TTCN3 and –O2 is added to CXXFLAGS in the _Makefile_.
+
+== IndexArray
+
+The type
+
+`EPTF_Common_IndexArray`
+
+provides a record type to help quick storage and retrieval of indexes from a list. This type with the associated functions is practical when the count of the elements to be handled is less or about 10-20. The value of the indexes can be any nonnegative integer number or `_-1_`. The index value of `_-1_` means that the given index is not used (or free). If the index value is bigger than `_-1_`, the element is used or valid (or busy). First busy index can be used to get the first valid element in the list. The constant `c_EPTF_emptyCommon_IndexArray` can be used to create a free IndexArray.
+
+The elements of IndexArray are:
+
+* `EPTF_IntegerList` values – list of indexes and their values
+* integer firstBusy - first busy index in the list above
+
+== Summary Table of All Types in Common
+
+[cols=",",options="header",]
+|================================================================
+|Type name |Description
+|`EPTF_DefaultList` |record of default
+|`EPTF_IntegerList` |record of integer
+|`EPTF_IntegerArray2D` |record of EPTF_IntegerList
+|`EPTF_CharstringList` |record of charstring
+|`EPTF_FloatList` |record of float
+|`EPTF_BooleanList` |record of boolean
+|`EPTF_LEDColors` |enumerated LED colors
+|`EPTF_StatusLED` |status led record
+|`EPTF_ParamRangeDescriptor` |integer parameter range
+|`EPTF_ParamRangeDescriptorList` |record of integer parameter range
+|`EPTF_Common_RndValues_CT` |component
+|`c_EPTF_Common_debugSwitch` |boolean constant
+|`EPTF_Common_IndexArray` |record of free or busy indexes
+|================================================================

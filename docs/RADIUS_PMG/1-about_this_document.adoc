@@ -1,0 +1,11 @@
+= About This Document
+
+=== How to Read This Document
+
+This is the Function Specification of the RADIUS Protocol Module Generator. The RADIUS Protocol Module Generator is developed for the TTCN-3 Toolset with TITAN.
+
+=== Presumed Knowledge
+
+To use this protocol module the knowledge of the TTCN-3 language <<11-references.adoc#_2, [2]>> is essential.
+
+Basic knowledge of the RADIUS protocol <<11-references.adoc#_1, [1]>> is valuable to use this protocol module.

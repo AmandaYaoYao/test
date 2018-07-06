@@ -1,0 +1,13 @@
+= Introduction
+
+== About This Document
+
+=== How to Read This Document
+
+This is the Function Description for the DIAMETER Protocol Module Generator. The DIAMETER Protocol Module Generator is developed for the TTCN-3 Toolset with TITAN.
+
+=== Presumed Knowledge
+
+To use this protocol module the knowledge of the TTCN-3 language <<9-references.adoc#_1, [1]>> is essential.
+
+Basic knowledge of the Diameter protocol <<9-references.adoc#_3, [3]>> is valuable to use this protocol module.

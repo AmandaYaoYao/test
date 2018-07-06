@@ -1,0 +1,9 @@
+= About This Document
+
+== How to Read This Document
+
+This document is for the SCCP Protocol Emulation (SCCP PE). The SCCP PE is developed for the TTCN-3 Toolset with TITAN according to the Requirement Specification <<9_references.adoc#_4, [4]>>.
+
+== Presumed Knowledge
+
+The knowledge of the TITAN TTCN-3 Test Executor <<9_references.adoc#_3, [3]>> and the TTCN-3 language <<9_references.adoc#_1, [1]>> is essential.

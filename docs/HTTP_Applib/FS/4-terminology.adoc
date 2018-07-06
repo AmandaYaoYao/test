@@ -1,0 +1,25 @@
+= Terminology
+
+*Port:* +
+A port represents connections (incoming/outgoing) or listening sockets.
+
+*Port group:* +
+A port group is a set of ports with a unique group identifier. A port group contains one or more ports.
+
+*TitanSim Core (Load) Library(CLL):* +
+The part of the TitanSim software that is totally project independent. (I.e., which is not protocol-, or application-dependent). The TitanSim CLL is to be supplied and supported by the TCC organization. Any TitanSim CLL development is to be funded centrally by Ericsson.
+
+*TitanSim Appliaction Library:* +
+The application-specific part of the TitanSim software. It provides load generation functionalities belonging to specific protocols or products.
+
+= Abbreviations
+
+EPTF:: Ericsson Performance Test Framework
+
+FSM:: Finite State Machine
+
+HTTP:: Hypertext Transfer Protocol
+
+SUT:: System Under Test
+
+TTCN-3:: Testing and Test Control Notation version 3

@@ -1,0 +1,96 @@
+= Usage
+
+== Using the Functional Interface
+
+To be able to use the CLI feature at least one component in the system has to extend the `EPTF_CLI_CT` component. This component creates the telnet ports for the normal and the display terminal. In addition to the CLI component the CLI command can be registered in a component that extends the `EPTF_CLI_Client_CT` component.
+
+=== Initialization
+
+Before using the functions of these components they have to be initialized by the init functions of the corresponding CLI components.
+
+To be able to use the command line interface terminal in case of error, it is recommended to place the CLI component to the MTC since this component terminates last.
+
+=== Registering a Command
+
+New command can be registered for a given terminal (i.e. CLI component) from CLI Clients (see ‎[6]). The command names has to be unique on the CLI used and should not contain spaces.
+
+The help message given during registration should be a short description of the command because this help string will be printed when the `"help <command>"` is issued on the terminal. More detailed help can be printed by implementing the handling of the "help" argument for the command. In this case the detailed help is returned by executing `"<command> help"` on the terminal.
+
+If the CLI Client init function is called with CLI component set to `_"null"_` and no CLI was given in the register function, or the CLI Client init is not called at all or cleanup has been called, it is not possible to register commands, the CLI is disabled.
+
+=== The Help of a Command
+
+Detailed help about a command can be printed by `"<command> help"` if the handler function of the command handles the "help" as argument.
+
+=== The Command Handler
+
+The command handler function registered for a command can modify the parameter containing the result of the command. This result will be printed on the terminal on which the command was executed. If the result is not changed, `"<command> done."` will be printed. Also the function has to return an error code. This error code notifies the CLI about the success of the command. If the command was handled successfully the function should return `_zero_`, otherwise a positive number. Positive numbers are treated as erroneous exit codes and will appear on the CLI terminal automatically.
+
+If the handler function of a command has to wait for a message on a test port, it is not recommended to call altsteps that contain test port receive statements in the handler function. Instead the Semaphore feature of the CLL can be used to block the execution until the response arrives. When the response is handled in a default altstep it should also unlock the semaphore. This has to be done to avoid deadlocks on the test port.
+
+=== Sending Messages to the Display Terminal
+
+If messages should be sent to the terminal periodically, there is a display terminal provided by the CLI. Messages to the display terminal can be sent from the CLI Client. The display terminal can be used to prevent flooding the normal terminal. It is possible to enter the same commands on the display terminal as on the normal terminal.
+
+== Using the Terminals
+
+The CLI provides two terminals: a normal terminal, and a display terminal to show periodic printouts. The terminals can be accessed by a telnet client on the ports configured. Commands defined in the CLI can be executed on these terminals.
+
+If the execution of the commands take some time, it is possible that the result of a command issued later will appear before the results of commands issued earlier are printed on the terminal.
+
+=== CLI Built-In Commands
+
+The CLI defines built-in commands to get basic help, exit from the terminal and stop the test execution. The built-in commands cannot be redefined i.e. to register commands with the same names on the CLI client.
+
+==== The `help` Command
+
+The `help` command can be used to print a general help message and list all available commands. To get help about a specific command, the name of the command should be passed to the help command: `'help <command>'`.
+
+The `help` command will show the basic help message specified in the command registration function. To get more detailed help, the command handle should handle an argument like "help" and print out a more detailed information about the usage of the command.
+
+==== The `exit` and `quit` Commands
+
+The `exit` and `quit` commands can be used to close the terminal session. The test is not stopped. It is possible to reconnect the terminal later.
+
+The `quit` command name is not case sensitive.
+
+==== The `stop` and `stopAll` Commands
+
+The `stop` and `stopAll` commands stop the execution of the test case. All components (that uses the Base feature of the CLL) will be stopped and the test is terminated if the `stop` or `stopAll` commands are executed on the terminal.
+
+The stop command name is not case sensitive.
+
+==== The `alias` Command
+
+To create an alias to a command the `alias` command can be used. There is an example for simple usage in the first line below. `help` command can be substituted with 'h' from then on. Command parts (ex. arguments) can also be aliased, but must be signed with special character tags ($) in case of usage. In the third line we have an alias both for `help` (h) and `stop` (s). As 's' is signed to be substituted before command execution, thus the line will retrieve help message of command stop.
+
+NOTE: There is no need of encapsulating 'h' between '$' tags, because the first word of the command is auto substituted if it is an alias.
+
+Example:
+
+[source]
+----
+alias help h
+alias stop s
+h $s$
+----
+
+==== The `unalias` Command
+
+`unalias` removes a registered alias.
+
+Example:
+
+`unalias h`
+
+==== The `Isalias` Command
+
+`Isalias` prints information about a registered alias.
+
+Example:
+
+`lsalias h`
+
+==== The `allalias` Command
+
+`allalias` lists all registered aliases in the system.

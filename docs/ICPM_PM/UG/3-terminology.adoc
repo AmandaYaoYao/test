@@ -1,0 +1,17 @@
+= Terminology
+
+TITAN TTCN-3 Test Executor.
+
+= Abbreviations
+
+IETF:: Internet Engineering Task Force
+
+IP:: Internet Protocol
+
+ICMP:: Internet Control Message Protocol
+
+MIP:: Mobile IP
+
+RFC:: Request for Comments
+
+TTCN-3:: Testing and Test Control Notation version 3

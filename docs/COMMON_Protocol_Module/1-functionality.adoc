@@ -1,0 +1,29 @@
+= Functionality
+
+The COMMON Protocol module elements contains definitions in a formalized way, using the standard specification language TTCN-3. This allows to use these definitions in testports, protocol modules, libraries and applications.
+
+The protocol module uses Titan’s RAW encoding attributes <<6-references.adoc#_3, [3]>> and hence is usable with the Titan test toolset only.
+
+== Implemented Protocols
+
+None.
+
+=== Modified and Non-Implemented Protocol Elements
+
+None.
+
+=== Ericsson-Specific Changes
+
+None.
+
+== Backward Incompatibilities
+
+None.
+
+== System Requirements
+
+Protocol modules are a set of TTCN-3 source code files that can be used as part of TTCN-3 test suites only. Hence, protocol modules alone do not put specific requirements on the system used. However, in order to compile and execute a TTCN-3 test suite using the set of protocol modules the following system requirements must be satisfied:
+
+* Titan TTCN-3 Test Executor version CRL 113 200 R7A (1.7.pl0) or higher installed. For Installation Guide see <<6-references.adoc#_2, [2]>>.
+
+NOTE: This version of the test port is not compatible with Titan releases earlier than CRL 113 200 R7A.

@@ -1,0 +1,5 @@
+= General Description
+
+This document specifies the Common feature of the TitanSim CLL.
+
+The EPTF Common feature contains type and function definitions commonly used by other EPTF features.

@@ -1,0 +1,11 @@
+= Example
+
+The "demo" directory of the deliverable contains the files that show a simple example how to use the Enc/Dec functions to encode/decode a DHCP message.
+
+To run the test case, follow these steps:
+
+1. Load the project definition file into the TITAN GUI
+2. Create the symbolic links
+3. Generate the _Makefile_
+4. Compile the executable
+5. Execute the test case(s)

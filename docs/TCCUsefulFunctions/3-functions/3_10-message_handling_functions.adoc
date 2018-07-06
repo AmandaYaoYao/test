@@ -1,0 +1,61 @@
+= Message Handling Functions
+
+== Overview
+
+Message handling functions enable you to get the length of the received message.
+
+Message Handling Functions are implemented in the following files:
+
+* __TCCMessageHandling_Functions.ttcn__
+* _TCCMessageHandling.cc_
+
+== Function Definitions
+
+The following Message Handling Functions shall be defined:
+
+`external function f_* *TCCMessageHandling_getMessageLength (in octetstring) return integer;`
+
+Return the length of the given message. This function is searching the Content-Length filed in the given character based message and returns with the value of this field. This function can be used for example by the HTTP and SIP message transport.
+
+`external function f_* *TCCMessageHandling_getMessageLength4Diameter (in octetstring) return integer;`
+
+Return the length of the given message. This function can be used for Diameter message transport.
+
+`external function f_* *TCCMessageHandling_getMessageLength4Radius (in octetstring) return integer;`
+
+Return the length of the given message. This function can be used for Radius message transport.
+
+`external function f_* *TCCMessageHandling_getMessageLength4BER (in octetstring) return integer;`
+
+Return the length of the given BER encoded message. For definite length format the length is determined by parsing the Length field. For indefinite length format the whole TLV message is parsed. The function returns `_-1_` if the length cannot be determined (For definite length format the message segment does not contain the whole length field. For indefinite length format the message is not a complete TLV).
+
+NOTE: The input can be a message segment or multiple concatenated messages as long as the beginning of the input is the beginning of a TLV encoded BER message. This function is useful for TCP transport in the IPL4 test port.
+
+== Error Messages
+
+None.
+
+== Warning Messages
+
+None.
+
+== Examples
+
+[source]
+----
+module TCCMessageHandling_Example \{
+
+import from TCCMessageHandling_Functions all;
+
+control
+
+\{
+
+//the call of the function
+
+f_TCCMessageHandling_getMessageLength(''O);
+
+}
+
+}
+----

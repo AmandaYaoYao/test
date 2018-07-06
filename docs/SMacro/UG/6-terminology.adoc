@@ -1,0 +1,15 @@
+=== Terminology
+
+*TitanSim Core Library (CLL):* is that part of the TitanSim software that is totally project independent. (That is, which is not protocol-, or application-dependent). The EPTF CLL is to be supplied and supported by the TCC organization. Any EPTF CLL development is to be funded centrally by Ericsson.
+
+= Abbreviations
+
+CLL:: Core Library
+
+EPTF:: Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+SMacro:: String Macro feature
+
+TitanSim:: Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+TTCN-3:: Testing and Test Control Notation version 3 <<7-references.adoc#_1, ‎[1]>>

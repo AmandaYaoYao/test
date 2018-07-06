@@ -1,0 +1,123 @@
+= Warning Messages
+
+NOTE: Besides the below described warning messages, warning messages shown in <<7-references.adoc#_2, ‎[2]>> or those of other used features or product may also appear.
+
+`*"The running traffic case [name] can not be restored!"*`
+
+A running traffic case can not be restored.
+
+`*"Abort the entities of the traffic case [name] has been timed out."*`
+
+Not all the entities answered to the aborting message.
+
+`*"Stop the entities of the traffic case [name] has been timed out."*`
+
+Not all the entities answered to the stopping message.
+
+`*"The traffic case is in invalid [state] state!"*`
+
+When the timeout period of stopping or aborting a traffic case expired, the traffic case was not in stopping, aborting or finished state.
+
+`*"Entity stop response of entity#[index] of traffic case [name] has arrived, but the TC is in [state] state."*`
+
+When the specified entity answered to the stopping event, the traffic case was not in stopping state.
+
+`*"Entity abort response of entity#[index] of traffic case [name] has arrived, but the TC is in [state] state."*`
+
+When the specified entity answered to the aborting event, the traffic case was not in aborting state.
+
+`*"Start launch called for tc [name] in state [state]"*`
+
+When the start launch command was called, the traffic case was in invalid state.
+
+`*"Start launch called for the disabled tc [name]"*`
+
+When the start launch command was called, the traffic case was in disabled state.
+
+`*"Start launch called for weighted scenario [name] in state [state]"*`
+
+When the start launch command was called, the weighted scenario was in invalid state.
+
+`*"Start launch called for weighted scenario [name] in state [state]"*`
+
+When the start launch command was called, the weighted scenario was in disabled state.
+
+`*"Pause called for tc [name] in state [state]"*`
+
+The paused command was called, but the traffic case was not in running state.
+
+`*"Weighted traffic cases can not be paused. Use disable instead."*`
+
+A weighted traffic case can not be paused.
+
+`*"Event reporting request to an inactive FSM! Entity == [index] fsmCtxIdx == [index]"*`
+
+An event was reported to an inactive FSM.
+
+`*"start has been requested for a running FSM timer: [index] timer will be cancelled first!"*`
+
+The started FSM timer is already running.
+
+`*"Cancelling not running timer:=[index]"*`
+
+There was a cancel request to a not running timer.
+
+`*"StartStep called but entiy#[index] in traffic case [name], [index] is busy!"*`
+
+An entity start was called, but the entity is running or finished.
+
+`*"Warning: Path of external template cannot be empty!"*`
+
+Empty string is given as template name.
+
+`*"Warning: Name of external cannot be empty!"*`
+
+Empty string is given as template file path.
+
+`*"Warning: Could not read file: [path]"*`
+
+Cannot access external template file on file system.
+
+`*"Warning: Template set with index: [index] doesn't exist"*`
+
+Referred template set does not exist.
+
+`*"Warning: Template type declaration with index: [index] doesn't exist"*`
+
+Referred template type declaration does not exist.
+
+`*"Warning: External template with index: [index] doesn't exist"*`
+
+Referred external template does not exist.
+
+`*"Warning: External template with name: [name] doesn't exist"*`
+
+Referred external template does not exist.
+
+`*"Warning: Template set doesn’t have item with index: [index]"*`
+
+The referred template item does not exist in template set.
+
+`*"Warning: Template type declaration with key [behaviourType, templateName] doesn’t exist"*`
+
+The referred template type declaration does not exist.
+
+`*"Warning: Assignment not possible, mandatory parameter: [param] is missing from external template"*`
+
+Assign a template type to an external template did not succeed because of missing mandatory parameter(s).
+
+`*"Warning: Assignment in template set already exists"*`
+
+Assign a template type to an external template did not succeed because another assignment of same template type declaration already exist in the template set.
+
+`*"Warning: Actual phase is already running in this scenario"*`
+
+The phase to be started is already running. LGenBase cannot start or skip a running phase again.
+
+`*"Warning: There is already a running phase in this scenario"*`
+
+Another phase is already running. LGenBase cannot start or skip a phase, if there is a running phase. Running phase should be stopped before.
+
+`*"Warning: No phase is running in this scenario"*`
+
+If there is no running phase, it cannot be stopped.

@@ -1,0 +1,37 @@
+= Introduction
+
+== About this Document
+
+=== How to Read This Document
+
+This is the User’s Guide for the TCP test port. The TCP test port is developed for the TTCN-3 Toolset with TITAN according to the Requirement Specification <<7-references.adoc#_4, [4]>>. This document is intended to be read together with Function Specification <<7-references.adoc#_3, [3]>>.
+
+=== Prerequisite Knowledge
+
+The knowledge of the TITAN TTCN-3 Test Executor <<7-references.adoc#_2, [2]>> and the TTCN-3 language <<7-references.adoc#_1, [1]>> is essential. Basic knowledge of the TCP and SSL protocols is valuable when reading this document.
+
+== System Requirements
+
+In order to operate the TCP test port the following system requirements must be satisfied:
+
+* Platform: any platform supported by TITAN RTE and OpenSSL
+
+* TITAN TTCN-3 Test Executor version R78 (1.8.pl0) or higher installed. For installation guide see <<7-references.adoc#_2, [2]>>.
+
+NOTE: This version of the test port is not compatible with TITAN releases earlier than R8A.
+
+* The Abstract_Socket (CNL 113 384) product version R6A01 or later has to be installed
+
+If SSL is used, the same OpenSSL must be installed as used in TITAN (OpenSSL 0.9.7d). For installation guide see <<7-references.adoc#_6, [6]>>.
+
+For known limitations please see the FS <<7-references.adoc#_3, [3]>>.
+
+== Fundamental Concepts
+
+The test port establishes TCP connection between the TTCN-3 test executor and the SUT. The test port transmits and receives TCP messages between the TITAN RTE and the SUT. The transport channel can be TCP or SSL.
+
+TCP test port provides only an unstructured octetstring data field in the ASP to the test suite to transfer data to or from the SUT. If there is a structured protocol coded in this octetstring that has a field indicating the length of the actual protocol message, it is possible to provide some descriptors for the TCP test port to wait until it receives enough bytes to build a complete message, that is passed then to the test suite.
+
+When connection ASPs are used, the test port provides TCP connection ASPs to let the TTCN code control the creation and closing TCP connections or opening and closing TCP server listening port.
+
+The TCP test port supports IPv4 and IPv6.

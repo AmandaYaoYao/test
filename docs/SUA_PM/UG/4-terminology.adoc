@@ -1,0 +1,21 @@
+= Terminology
+
+== Application Server Process (ASP)
+
+An Application Server Process serves as an active or backup process of an Application Server (e.g., part of a distributed signaling node or database element). Examples of Application Server Processes are MGCs, IP SCPs, or IP-based HLRs.
+
+= Abbreviations
+
+ASP:: Application Server Process
+
+HLR:: Home Location Register
+
+IP:: Internet Protocol
+
+MGC:: Media Gateway Controller
+
+SUA:: Signalling Connection Control Part User Adaptation Layer
+
+SCP:: Service Control Point
+
+TTCN-3:: Testing and Test Control Notation version 3

@@ -1,0 +1,149 @@
+= Error messages
+
+The error messages have the following general form:
+
+`*Dynamic test case error: <error text>*`
+
+The list of the possible error messages is shown below. Note that this list contains the error messages produced by the test port. The error messages coming from the TITAN are not shown:
+
+`*Parameter value <value> not recognized for parameter <name>*`
+
+The specified <value> in the runtime configuration file is not recognized for the parameter <name>. See 2.3.1.
+
+`*Cannot connect to server*`
+
+The Connect operation failed; look for the reason above this message in the log.
+
+`*Cannot listen at port*`
+
+The Listen operation failed; look for the reason above this message in the log.
+
+`*Cannot accept connection at port*`
+
+The server failed to accept an incoming connection; look for the reason above this message in the log.
+
+`*Cannot open socket*`
+
+There was an error while allocating a socket for a connection; look for the reason above this message in the log.
+
+`*Setsockopt failed*`
+
+There was an error while allocating a socket for a connection; look for the reason above this message in the log.
+
+`*Cannot bind to port*`
+
+There was an error while allocating the requested port number for a connection; look for the reason above this message in the log.
+
+`*getsockname() system call failed on the server socket*`
+
+There was an error while allocating the requested port number for a connection; look for the reason above this message in the log.
+
+`*Client Id not specified although not only 1 client exists*`
+
+Since multiple connections are alive, you have to specify a client id when sending a message to distinguish between the connections where the message has to be sent.
+
+`*There is no connection alive, use the `ASP_TCP_Connect' before sending anything.*`
+
+Connect has to be sent before sending a message, or the server has to accept a connection first.
+
+`*Send system call failed: There is no client nr <client_id> connected to the TCP server*`
+
+A send operation is performed to a non-existing client.
+
+`*Send system call failed: <amount> bytes were sent instead of <amount> <reason>*`
+
+The send operation failed because of the <reason>.
+
+`*The host name <name> is not valid in the configuration file.*`
+
+The given host name in the `ASP_SunRPC_Connect` / `ASP_SunRPC_Listen` ASP cannot be resolved by the system.
+
+`*Number of clients<>0 but cannot get first client, programming error*`
+
+Never should show up. Please send a bug report including log files produced with all debugging possibilities turned on.
+
+`*Index <amount> exceeds length of peer list.*`
+
+Never should show up. Please send a bug report including log files produced with all debugging possibilities turned on.
+
+`*Abstract_Socket::get_peer: Client <client_id> does not exist*`
+
+Never should show up. Please send a bug report including log files produced with all debugging possibilities turned on.
+
+`*Invalid Client Id is given: <client_id>.*`
+
+Please send a bug report including log files produced with all debugging possibilities turned on.
+
+`*Peer <client_id> does not exist.*`
+
+Never should show up. Please send a bug report including log files produced with all debugging possibilities turned on.
+
+== Additional Error Messages in case SSL Connections Are Used
+
+`*No SSL CTX found, SSL not initialized*`
+
+Never should show up.
+
+`*Creation of SSL object failed*`
+
+Never should show up.
+
+`*Binding of SSL object to socket failed*`
+
+The SSL object could not be bound to the TCP socket
+
+`*SSL error occurred*`
+
+A general SSL error occurred. Check the test port logs to see previous error messages showing the real problem.
+
+`*<name> is not defined in the configuration file*`
+
+The test port parameter with <name> is mandatory, but is not defined in the configuration file.
+
+`*No SSL data available for client <client_id>*`
+
+Please send a bug report including log files produced with all debugging possibilities turned on.
+
+`*Could not read from /dev/urandom*`
+
+The read operation on the installed random device is failed.
+
+`*Could not read from /dev/random*`
+
+The read operation on the installed random device is failed.
+
+`*Could not seed the Pseudo Random Number Generator with enough data.*`
+
+As no random devices found, a workaround is used to seed the SSL PRNG. Consider upgrading your system with the latest available patches. HelpDesk should correct this within a day.
+
+`*The seeding failed.*`
+
+Please send a bug report including log files produced with all debugging possibilities turned on.
+
+`*SSL method creation failed.*`
+
+The creation of the SSL method object failed.
+
+`*SSL context creation failed.*`
+
+The creation of the SSL context object failed.
+
+`*Can't read certificate file*`
+
+The specified certificate file could not be read.
+
+`*Can't read key file*`
+
+The specified private key file could not be read.
+
+`*Can't read trustedCAlist file*`
+
+The specified certificate of the trusted CAs file could not be read.
+
+`*Cipher list restriction failed for <name>*`
+
+The specified cipher restriction list could not be set.
+
+`*Unknown SSL error code: <error code>*`
+
+Please send a bug report including log files produced with all debugging possibilities turned on.

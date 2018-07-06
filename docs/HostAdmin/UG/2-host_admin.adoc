@@ -1,0 +1,138 @@
+= Host Admin
+
+== Overview
+
+The EPTF CLL Host Admin component is a fundamental component providing an implementation for host processor load and memory usage measurement in a load test environment.
+
+The Host Admin is divided in two parts: Host Admin Base and Host Admin. The former provides local measurements for components that extend it, and the latter provides remote measurements via EPTF Variables (or a local measurement interface running in a separate component).
+
+There is an additional component type called Host Admin Server that, if initialized on a component (preferably the MTC), can automatically start Host Admin servers on hosts that take part in running TitanSim and collect all host and EPTF process statistics from these Host Admins. The statistics are available through Data Sources.
+
+[[description_of_files_in_this_feature]]
+== Description of Files in This Feature
+
+The EPTF CLL Host Admin API includes the following files:
+
+* Host Admin Base
+** __EPTF_CLL_HostAdmin_Base_Definitions.ttcn__: This TTCN-3 module contains common type definitions that should be used in all Host Admin Base Components.
+** __EPTF_CLL_HostAdmin_Base_Functions.ttcn__: This TTCN-3 module contains the implementation of Host Admin Base.
+* Host Admin
+** __EPTF_CLL_HostAdmin_Definitions.ttcn__: This TTCN-3 module contains common type definitions that should be used in all Host Admin Components.
+** __EPTF_CLL_HostAdmin_Functions.ttcn__: This TTCN-3 module contains the implementation of Host Admin.
+** __EPTF_CLL_HostAdmin_DSFunctions.ttcn__: This TTCN-3 module contains the implementation of Host Admin `DataSource` functionality.
+* Host Admin Server
+** __EPTF_CLL_HostAdminServer_Definitions.ttcn__: contains type definitions used by the Host Admin Server
+** __EPTF_CLL_HostAdminServer_Functions.ttcn__: contains the implementation of the Host Admin Server
+
+[[description_of_required_files_from_other_features]]
+== Description of Required Files From Other Features
+
+The Host Admin feature is part of the TitanSim EPTF Core Load Library (CLL). It relies on several features of the CLL. To use the Host Admin, the user has to obtain the respective files from the following features:
+
+* `Base`
+* `Variable`
+* `Common`
+* `HashMap`
+* `Free Busy Queue`
+* `LOADMEASasp_PT testport`
+* `DataSource`
+* `Red Black Tree`
+
+== Installation
+
+Since `EPTF_CLL_HostAdmin` is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<6-references.adoc#_2, [2]>>.
+
+If not otherwise noted in the respective sections, the following are needed to use `EPTF_CLL_HostAdmin`:
+
+* Copy the files listed in section <<description_of_files_in_this_feature, Description of Files in This Feature>> and <<description_of_required_files_from_other_features, Description of Required Files From Other Features>> to the directory of the test suite or create symbolic links to them.
+* Import the Host Admin demo or write your own application using Host Admin.
+* Create _Makefile_ or modify the existing one. For more details see the relevant section of <<6-references.adoc#_2, [2]>>.
+* Edit the config file according to your needs, see following section link:#configuration[Configuration].
+
+[[configuration]]
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual suffix of configuration files is _.cfg_. For further information on the configuration file see <<6-references.adoc#_2, [2]>>.
+
+This set of protocol modules defines TTCN-3 module parameters as defined in <<6-references.adoc#_2, [2]>>, clause 4. Actual values of these parameters – when no default value or a different from the default actual value wished to be used – shall be given in the `[MODULE_PARAMETERS]` section of the configuration file.
+
+This protocol module defines the following module parameters:
+
+`tsp_debug_EPTF_HostAdmin_Base_Functions`
+
+This boolean type module parameter is defined in module `EPTF_CLL_HostAdmin_Base_Functions`. It can be used to enable debug logging of the Host Admin Base feature.
+
+Default value: `_false_`.
+
+`tsp_debug_EPTF_HostAdmin_Base_Functions_smoothing`
+
+This boolean type module parameter is defined in module `EPTF_CLL_HostAdmin_Base_Functions`. It can be used to enable debug logging of the smoothing parameters.
+
+Default value: `_false_`.
+
+`tsp_EPTF_HostAdmin_loadMeasurementExponentialSmoothingFactor`
+
+This float type module parameter is defined in module `EPTF_CLL_HostAdmin_Base_Functions`. It is used to define the level of CPU measurement smoothing.
+
+Default value is `_0.5_`. It should be between `_0.0_` and `_1.0_`.
+
+`tsp_EPTF_HostAdmin_loadMeasurementRefreshTime`
+
+This float type module parameter is defined in module `EPTF_CLL_HostAdmin_Base_Functions`. It is used to define the periodical update time with which the `LOADMEASasp` testport and Host Admin should update the measurement variables.
+
+`tsp_debug_EPTF_HostAdmin_Functions`
+
+This boolean type module parameter is defined in module `EPTF_CLL_HostAdmin_Functions`. It can be used to enable debug logging of the Host Admin feature.
+
+Default value: `_false_`.
+
+`tsp_EPTF_HostAdmin_pidList`
+
+This parameter is defined in module `EPTF_CLL_HostAdmin_Definitions`. It can be used to specify a list of process PIDs for each host. The `HostAdmin` will create EPTF variables for PID, name, CPU and memory usage for each of these processes and update these with the measured values.
+
+`tsp_EPTF_HostAdmin_getProcessPidListCmds`
+
+This parameter is deprecated – not used. Since process ids are retrieved via `EPTF_Base` feature, PIPE TP dependency is eliminated and so no use of this module parameter anymore.
+
+`tsp_EPTF_HostAdmin_sortBy`
+
+This parameter decides how to sort the process list sent from the Host Admin to the Host Admin Server. The possible values are: `_SelfName_`, `_CpuLoad_`, `_MemUsage_`, `_DontSort_`.
+
+The default value is `_CpuLoad_`.
+
+`tsp_debug_EPTF_HostAdminServer_Functions`
+
+This boolean type module parameter is defined in module `EPTF_CLL_HostAdminServer_Functions`. It can be used to enable debug logging of the Host Admin Server feature.
+
+Default value: `_false_`.
+
+`tsp_EPTF_HostAdminServer_processListRefreshInterval`
+
+This float type module parameter is defined in module `EPTF_CLL_HostAdmin_Definitions`. It defines the interval used to refresh the list of EPTF processes from the Base feature.
+
+Default value: `_1.0_`.
+
+=== EPTF Variables Defined by Host Admin
+
+The Host Admin defines the following EPTF Variables <<6-references.adoc#_7, [7]>>:
+
+[width="100%",cols="34%,33%,33%",options="header",]
+|================================================================================================
+|*Name* |*Type* |*Description*
+|`testerHostLoad` |float |Average CPU load
+|`numCPUs` |integer |number of processors
+|`CPULoads.X` |float |processor load for CPU X, where X is an integer ranging from 0 to (numCPUs-1)
+|`physicalMemory` |integer |physical memory in kilobytes
+|`freeMemory` |integer |free/available memory in kilobytes
+|`nofProcessStats` |integer |number of process statistics
+|`process.Y.PID` |integer |PID of the process
+|`process.Y.Name` |charstring |name of the process
+|`process.Y.CPU` |float |CPU load of the process in percents
+|`process.Y.MEM` |integer |memory usage of the process in kB
+|================================================================================================
+
+The name of these variables is prefixed with the EPTF name of the Host Admin component, which was passed to the behaviour function, followed by a dot ("."). The X after "CPULoads." specifies the index of the processor, ranging from `_0_` to `_(numCPUs-1)_`. For example, the load of the second processor on a Host Admin with name `_"MyHostAdmin"_` would have the following variable name: ``MyHostAdmin.CPULoads.1''. The Y is the index of the process statistics, e.g. `"MyHostAdmin.process.0.PID"`, ranging from `_0_` to `(nofProcessStats-1)`.
+
+=== `DataSource` Elements Defined by Host Admin
+
+See in the natural documentation of the Host Admin feature.

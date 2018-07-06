@@ -1,0 +1,22 @@
+= Terminology
+
+*Sockets:* +
+The sockets is a method for communication between a client program and a server program in a network. A socket is defined as "the endpoint in a connection." Sockets are created and used with a set of programming requests or "function calls" sometimes called the sockets application programming interface (API). The most common sockets API is the Berkeley UNIX C language interface for sockets. Sockets can also be used for communication between processes within the same computer.
+
+= Abbreviations
+
+API::	Application Program Interface
+
+ASP::	Abstract Service Primitive
+
+IUT::	Implementation Under Test
+
+RTE::	Run-Time Environment
+
+HTTP::	Hypertext Transfer Protocol
+
+SUT::	System Under Test
+
+SSL::	Secure Sockets Layer
+
+TTCN-3:: 	Testing and Test Control Notation version 3

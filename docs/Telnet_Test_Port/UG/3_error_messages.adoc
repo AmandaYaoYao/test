@@ -1,0 +1,109 @@
+= Error Messages
+
+`*TCP send failed. (<reason>)*`
+
+Send operation failed.
+
+`*Error accepting connection <reason>*`
+
+Occurs only in server mode operation. The Test Port couldn’t accept connection from a client, i.e. an accept() operation failed.
+
+`*Error closing file descriptor <file_descriptor>. (<reason>)*`
+
+The Test Port couldn’t close `<file_descriptor>`, i.e. a `close()` operation failed.
+
+`*Error listening on port <port_number>. (<reason>)*`
+
+Occurs only in server mode operation. The Test Port could not listen on port `<port_number>`, i.e. a listen() operation failed.
+
+`*Error reading from file descriptor <file_descriptor>. (<reason>)*`
+
+The Test Port couldn’t read from a file descriptor, i.e. a `recv()` operation failed.
+
+`*Error binding socket to port <port_number>. (<reason>)*`
+
+Occurs only in server mode operation. The Test Port couldn’t bind a socket to port `<port_number>`, i.e. a `bind()` operation failed.
+
+`*Missing mandatory parameter: <parameter_name>*`
+
+The mandatory parameter `<parameter_name>` was not set in the configuration file.
+
+`*Missing mandatory parameter: at least one "PROMPT" parameter must be provided*`
+
+`*PROMPT parameter should be given as PROMPT<number> := ``value''.*`
+
+`*Error converting string in "…" in parameter name "PROMPT"… to number.*`
+
+`*REGEX_PROMPT parameter should be given as "REGEX_PROMPT"<number> := ``value''.*`
+
+`*Error converting string in "…" in parameter name "REGEX_PROMPT"… to number.*`
+
+`*PROMPT parameter must contain at least one character*`
+
+`*REGEX_PROMPT parameter must contain at least one character*`
+
+`*Unable to connect to <ctrl_hostname> as <ctrl_username>*`
+
+The specified `ctrl_username`/`ctrl_password` pair is not valid on `ctrl_hostname`.
+
+`*Invalid value for: <parameter>*`
+
+The value of the parameter is different from the allowed ones.
+
+`*Socket creation failed*`
+
+There was an error creating the socket.
+
+`*Unable to resolve hostname: <my_hostname>*`
+
+The host name <my_hostname> cannot be resolved.
+
+`*setsockopt(SO_REUSEADDR) failed*`
+
+There was an error setting the socket option `SO_REUSEADDR`.
+
+`*Error connecting <my_hostname>*`
+
+There was an error connecting the host.
+
+`*Error connecting <my_hostname>. Address already in use.*`
+
+This error means an address is already in use. Probably a kernel error.
+
+`*Socket error or the server closed the connection.*`
+
+The server closed the connection or an error occurred while waiting for the host to accept the login.
+
+`*Unsupported port number!*`
+
+The specified port number is not supported. Supported ports are 23 and 7.
+
+`*Socket error or the server closed the connection (in Event_Handler).`
+
+The server closed the connection.
+
+`*Missing parameter CTRL_DOMAIN*`
+
+The parameter `CTRL_DOMAIN` was not set but the host was requesting it.
+
+`*Not enough memory!*`
+
+A memory allocation error occurred.
+
+`*Error sending window size: not connected.*`
+
+There was an attempt to send the window size from TTCN-3, but the test port is not connected to the host.
+
+`*Prompt parameter with wildcards shouldn’t start with "*": "*…"*`
+
+`*Prompt parameter with wildcards shouldn’t end with "*": "…*"*`
+
+`*Width of window size should be greater than 0 and less than 65536.*`
+
+`*Height of window size should be greater than 0 and less than 65536.*`
+
+`*Cannot convert pattern "…" to POSIX-equivalent.*`
+
+`*Login incorrect!*`
+
+Occurs only in server mode operation. The client tried to connect with an invalid username or password. Before this message the username and password sent by the client will be logged.

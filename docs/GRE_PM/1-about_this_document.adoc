@@ -1,0 +1,9 @@
+= About This Document
+
+== How to Read This Document
+
+This is the Description for the The Generic Routing Encapsulation (GRE) protocol module. The GRE protocol module is developed for the TTCN-3 Toolset with TITAN.
+
+== Presumed Knowledge
+
+To use this protocol module the knowledge of the TTCN-3 language <<6-references.adoc#_3, [3]>> is essential.

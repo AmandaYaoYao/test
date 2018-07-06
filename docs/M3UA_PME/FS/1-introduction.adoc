@@ -1,0 +1,9 @@
+= Introduction
+
+== How to Read this Document
+
+This is the Function Specification for the M3UA Protocol Emulation (M3UA PE). M3UA PE is developed for the TTCN-3 Toolset with TITAN. 
+
+== Scope
+
+The purpose of this document is to specify the functionality and configurability of the M3UA PE.

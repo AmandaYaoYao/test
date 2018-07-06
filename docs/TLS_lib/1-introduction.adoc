@@ -1,0 +1,19 @@
+= Introduction
+
+== How to Read This Document
+
+This is the Function Specification for the TLS library. The TLS library are developed for the TTCN-3 Toolset with TITAN.
+
+== Scope
+
+The purpose of this document is to specify the content of the TLS library. The document is primarily addressed to the end users of the product. Basic knowledge of TTCN-3 <<5-references.adoc#_2, [2]>> and TITAN TTCN-3 Test Executor <<5-references.adoc#_3, [3]>> is valuable when reading this document.
+
+== System Requirements
+
+The TLS library is a set of TTCN-3 source code files that can be used as part of TTCN-3 test suites only. Hence, TLS library alone do not put specific requirements on the system used. However, in order to compile and execute a TTCN-3 test suite using the set of protocol modules the following system requirements must be satisfied:
+
+* TITAN TTCN-3 Test Executor version CRL 113 200/6 R3A (6.3.pl0) or higher installed.
+
+NOTE: This version of the protocol module is not compatible with TITAN releases earlier than CRL 113 200/6 R3A. For installation guide see <<5-references.adoc#_2, [2]>>.
+
+* OpenSSL development library is installed. See <<5-references.adoc#_1, [1]>>.

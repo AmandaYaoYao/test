@@ -1,0 +1,65 @@
+= Common
+
+== Overview
+
+The EPTF Common feature contains type and function definitions commonly used by other EPTF features.
+
+[[description_of_files_in_this_feature]]
+== Description of Files in This Feature
+
+The EPTF CLL Common API includes the following files:
+
+* Common
+** __EPTF_CLL_Common_Definitions.ttcn__: +
+This TTCN-3 module contains type definitions commonly used by other EPTF features.
+** __EPTF_CLL_Common_Functions.ttcn__: +
+This TTCN-3 module contains function definitions commonly used by other EPTF features.
+** __EPTF_CLL_Common_PrivateDebugDefinitions.ttcnpp__: +
+This file contains TTCN-3 constant, its value depends on whether the preprocessor flag EPTF_DEBUG is specified or not.
+** __EPTF_CLL_Common_RndDefinitions.ttcn__: +
+This TTCN-3 module contains type definitions of the RndValues sub-feature.
+** __EPTF_CLL_Common_RndFunctions.ttcn__: +
+This TTCN-3 module contains function definitions of the RndValues sub-feature.
+** __EPTF_CLL_Common_IndexArrayDefinitions.ttcn__: +
+This TTCN-3 module contains type definitions of the IndexArray record sub-feature.
+** __EPTF_CLL_Common_IndexArrayFunctions.ttcn__: +
+This TTCN-3 module contains function definitions of the IndexArray record sub-feature.
+
+[[description_of_required_files_from_other_features]]
+== Description of Required Files from Other Features
+
+None.
+
+== Installation
+
+Since `EPTF_CLL_Common` is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<5-references.adoc#_2, ‎[2]>>.
+
+If not otherwise noted in the respective sections, the following are needed to use `EPTF_CLL_Common`:
+
+1. Copy the files listed in section <<description_of_files_in_this_feature, Description of Files in This Feature>> and <<description_of_required_files_from_other_features, Description of Required Files from Other Features>> to the directory of the test suite or create symbolic links to them.
+2. Write your application using EPTF Common.
+3. Create _Makefile_ or modify the existing one. For more details see the relevant section of <<5-references.adoc#_2, ‎[2]>>.
+4. Edit the config file according to your needs; see section <<configuration, Configuration>>.
+
+[[configuration]]
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual suffix of configuration files is _.cfg_. For further information on the configuration file see ‎<<5-references.adoc#_2, [2]>>.
+
+The Common feature defines TTCN-3 module parameters as defined in <<5-references.adoc#_2, ‎[2]>>, clause 4. Actual values of these parameters – when no default value or a different from the default actual value wished to be used – shall be given in the `[MODULE_PARAMETERS]` section of the configuration file.
+
+The Common feature defines the following module parameters:
+
+* `tsp_EPTF_maxRunningTime`
+
+This float type module parameter is defined in module `EPTF_CLL_Definitions`. It is used to define the maximum running time in seconds after which the application should exit.
+
+Its default value is `_2147483.0_`, approximately 24 days.
+
+* `tsp_EPTF_Common_RndValues_behaviour`
+
+This float type module parameter is defined in module `EPTF_Common_RndValues_Functions`. It is used to define the behavior of the random number generation. The default value of this parameter is `_-1.0_`, it results in the rnd() built-in TTCN-3 function to be called without parameters so the random number sequence cannot be re-created. If its value is between `_0.0_` inclusive and `_1.0_` exclusive, that value is passed to rnd() the first time it is called. The number will be used as seed to the random number generator resulting in the same sequence of random numbers if the feature is started again with the same value. Other values are not allowed and will result in an error message.
+
+* `tsp_EPTF_Common_RndValues_numberOfRndValues`
+
+This integer type module parameter is defined in module `EPTF_Common_RndValues_Functions`. It is used to define the number of the generated random numbers.

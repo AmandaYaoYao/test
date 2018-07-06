@@ -1,0 +1,283 @@
+= Network Interface Functions
+
+== Overview
+
+Network Interface Functions can be used to modify interface related settings. For example, get/set IP address, set up/down interface.
+
+Interface Functions are supported only on Linux and Solaris. For the setter functions root privilege is necessary. Otherwise warning messages will appear.
+
+Network Interface Functions are implemented in the following files:
+
+* __TCCInterface_Functions.ttcn__
+* _TCCInterface.cc_
+* __TCCInterface_ip.h__
+
+== Function Definitions
+
+The following Network Interface Functions are defined.
+
+`external function f_getPortAvailabilityStatus(in charstring ipAddress, in integer portNumber, in TCCInterface_ProtocolType protocolType) return TCCInterface_PortStatus;`
+
+The function returns what was the status of the IP/port/Protocol some time ago. The returned information was outdated before the function returned, so use it only as a hint.
+
+`external function f_setIP(in charstring interface, in charstring ip, in charstring netmask, in charstring broadcast, in integer number := 1);`
+
+Set the IP address, subnet mask and broadcast address of the given interface. Parameter "number" is optional (and supported on Linux only).
+
+If parameter "number" is given, a range of virtual interfaces are set up with continuous IP addresses, starting from the given IP address. If parameter "interface" is a real network interface, the first virtual interface is "<interface>:0". If parameter "interface" is virtual, the next sequence number is used.
+
+NOTE: No subnet mask and broadcast checking is done by the function.
+
+[cols=",,,",options="header",]
+|==============================
+| |*Linux* |*Solaris* |*Cygwin*
+|*IPv4* |*X* |*X* |
+|*IPv6* | | |
+|==============================
+
+`external function f_deleteIP(in charstring interface);`
+
+Delete the IP address of the given interface. If interface is virtual, it is set down.
+
+[cols=",,,",options="header",]
+|==============================
+| |*Linux* |*Solaris* |*Cygwin*
+|*IPv4* |*X* |*X* |
+|*IPv6* | | |
+|==============================
+
+`external function f_setIP_ip(in charstring interface, in charstring ipaddress, in integer prefix := 32, in integer v_set := 1) return boolean;`
+
+This function is also used for setting up IPs on interfaces, but uses the NETLINK interface of the Linux kernel, what is far more fast than the original interface used by `f_setIP`. Thus this function only works in Linux. Works with both IPv4 and IPv6 addresses.
+
+On the specified interface the given new IP address will be registered with the addressprefix also given in the parameter list. The last parameter tells the behavior, other than `_1_` will cause deleting the ip from the interface. Thus `f_setIP_ip` with `0 = v_set` is equal to call `f_delIP_ip`. On success returns `_true_`, otherwise `_false_` and print some information into logs what was the problem.
+
+It can only be used if the LINUX flag is specified when compiling the test, otherwise a warning message will be printed. When the `USE_IPROUTE` flag is specified, the `f_setIP` and `f_deleteIP` functions will be redefined to be used with `f_setIP_ip` with the following parameter list mapping:
+
+[source]
+----
+interface = interface,
+ipaddress = ip,
+prefix = 32,
+v_set = 1
+----
+
+and
+
+[source]
+----
+interface = interface,
+ipaddress = ``'',
+prefix = 32,
+v_set = 0.
+----
+
+`external function f_delIP_ip(in charstring interface, in charstring ipaddress, in integer prefix := 32) return boolean;`
+
+Deletes the given IP address/prefix from an interface.`__`
+
+On success returns `_true_`, otherwise `_false_` and print some information into logs what was the problem.
+
+`external function f_getIP(in charstring interface, out charstring ip, out charstring netmask, out charstring broadcast, in TCCInterface_IPAddressType addressType:=IPv4);`
+
+Returns the IP address, subnet mask and broadcast address of the given interface, in the standard Internet dotted format (for example, "10.0.0.2"). The type of address can be IPv4 or IPv6.
+
+[cols=",,,",options="header",]
+|==============================
+| |*Linux* |*Solaris* |*Cygwin*
+|*IPv4* |*X* |*X* |*X*
+|*IPv6* |*X* | |
+|==============================
+
+`external function f_setInterfaceUp(in charstring interface, in TCCInterface_IPAddressType addressType:=IPv4);`
+
+Set up the given interface. The type of address can be IPv4 or IPv6.
+
+[cols=",,,",options="header",]
+|==============================
+| |*Linux* |*Solaris* |*Cygwin*
+|*IPv4* |*X* |*X* |
+|*IPv6* |*X* |*X* |
+|==============================
+
+`external function f_setInterfaceDown(in charstring interface, in TCCInterface_IPAddressType addressType:=IPv4);`
+
+Set down the given interface. The type of address can be IPv4 or IPv6.
+
+[cols=",,,",options="header",]
+|==============================
+| |*Linux* |*Solaris* |*Cygwin*
+|*IPv4* |*X* |*X* |
+|*IPv6* |*X* |*X* |
+|==============================
+
+`external function f_getHostName() return charstring;`
+
+Get name of the current host machine.
+
+[cols=",,",options="header",]
+|============================
+|*Linux* |*Solaris* |*Cygwin*
+|*X* |*X* |*X*
+|============================
+
+`external function f_getIpAddr(in charstring hostname, in TCCInterface_IPAddressType addressType:=IPv4) return charstring;`
+
+Get IP address of the current host machine called with parameter `hostname`. The type of address can be IPv4 or IPv6.
+
+[cols=",,,",options="header",]
+|==============================
+| |*Linux* |*Solaris* |*Cygwin*
+|*IPv4* |*X* |*X* |*X*
+|*IPv6* |*X* |*X* |
+|==============================
+
+`external function f_getIpAddresses(in charstring hostname return IPAddresses;`
+
+Is a successor of `f_getIpAddr` Get IP address of the machine called with parameter `hostname`. It will return two lists of *charstring*, one for all the IPv4 and one for all the IPv6 addresses of `hostname.`
+
+NOTE: The returned lists are not compatible with any other record of *charstring* in TITAN's load run time library, which is the default, and thus it is not acceptable to directly copy this lists for example to `EPTF_CharstringList`.
+
+[cols=",,,",options="header",]
+|==============================
+| |*Linux* |*Solaris* |*Cygwin*
+|*IPv4* |*X* |*X* |*X*
+|*IPv6* |*X* |*X* |
+|==============================
+
+`external function* *f_verifyIpAddr(in charstring pl_host, in TCCInterface_IPAddressType pl_ipType := UNKNOWN) return boolean;`
+
+Validates the supplied `pl_host` and returns `_true_` if it is a valid`__` IP address. The validation can be restricted to IPv4 or IPv6 with the `pl_ipType` parameter.
+
+== Error Messages
+
+`*Unbound argument `<parameter>'.*`
+
+The given parameter is missing.
+
+`*Argument `<parameter>' is an empty string.*`
+
+The value of the given parameter is empty.
+
+`*Argument `interface' is too long (expected: at most %, given: % characters).*`
+
+The given interface name is not valid (too long).
+
+`*Invalid length of argument `<parameter>' (expected %, given: % octets).*`
+
+The length of the given parameter is not correct.
+
+`*Could not create socket.*`
+
+Some kernel error occurred when opening the socket.
+
+`*IP address range limit.*`
+
+No more virtual interfaces can be set up.
+
+`*Setting the IP address is supported on Linux and Solaris only.*`
+
+`*Deleting the IP address is supported on Linux and Solaris only.*`
+
+`*Getting the IP address is supported on Linux and Solaris only.*`
+
+`*Setting up the interface is supported on Linux and Solaris only.*`
+
+`*Setting down the interface is supported on Linux and Solaris only.*`
+
+Network Interface Functions are supported on Linux and Solaris only.
+
+== Warning Messages
+
+Warning messages appear if the kernel could not execute the requested command.
+
+`*Could not set IP address of interface `<interface>'.*`
+
+`*Could not set subnet mask of interface `<interface>'.*`
+
+`*Could not set broadcast address of interface `<interface>'.*`
+
+`*Could not get the flags of interface `<interface>'.*`
+
+`*Could not set the flags of interface `<interface>'.*`
+
+`*Could not delete IP address on interface `<interface>'.*`
+
+`*Could not get address of interface `<interface>'.*`
+
+`*Could not get flags of interface `<interface>'.*`
+
+`*Could not set up interface `<interface>'.*`
+
+`*Could not get flags of interface `<interface>'.*`
+
+`*Could not set down interface `<interface>'.*`
+
+== Examples
+
+[source]
+----
+module TCCInterface_Example \{
+
+import from TCCInterface_Functions all;
+
+type component test_CT \{ };
+
+testcase TC() runs on test_CT
+
+\{
+
+var charstring ip, subnet, broadcast;
+
+f_getIP(``eth2'',ip,subnet,broadcast);
+
+log(``IP:'' & ip);
+
+log(``Subnetmask:'' & subnet);
+
+log(``Broadcast:'' & broadcast);
+
+setverdict(pass);
+
+}
+
+testcase f_test_gethostname() runs on test_CT
+
+\{
+
+log(" ———– f_getHostName ———– “);
+
+log(``Hostname:'', f_getHostName());
+
+setverdict(pass);
+
+}
+
+testcase f_test_getipaddr() runs on test_CT
+
+\{
+
+log(" ———– f_getIpAddr ———– “);
+
+log(``IP address:'', f_getIpAddr(f_getHostName()));
+
+setverdict(pass);
+
+}
+
+control \{
+
+execute(TC());
+
+execute(f_test_gethostname());
+
+execute(f_test_getipaddr());
+
+}
+
+}
+----
+
+== Makefile
+
+The `–lresolv` has to be added to `SOLARIS8_LIBS`.

@@ -1,0 +1,154 @@
+= The Test Port
+
+== Overview
+
+The LDAP test port offers LDAP message primitives to the test suite in TTCN-3 format. The TTCN-3 definition of the LDAP messages can be found in a separate TTCN-3 module. This module should be imported into the test suite. For more information on LDAP see <<9-references.adoc#_4, [4]>>.
+
+The LDAP test port also offers LDIF importation, population, depopulation functionality. For more information on LDIF see <<9-references.adoc#_6, [6]>>.
+
+== Installation
+
+Since the LDAP test port is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of the LDAP test port. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<9-references.adoc#_2, [2]>>.
+
+The compilation of SSL related code parts can be disabled by not defining the __AS_USE_SSL__ macro in the _Makefile_ during the compilation.
+
+When building the executable test suite the libraries compiled for the OpenSSL toolkit (if the _AS_USE_SSL_ macro is defined) and the TTCN-3 Test Executor should also be linked into the executable. For more information see <<9-references.adoc#_2, [2]>>.
+
+NOTE: If you are using the test port on Solaris, you have to set the _PLATFORM_ macro to the proper value. It shall be `_SOLARIS_` in case of Solaris 6 (SunOS 5.6) and `_SOLARIS8_` in case of Solaris 8 (SunOS 5.8).
+
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections (e.g. `[TESTPORT_PARAMETERS]`) after each other. The usual suffix of configuration files is _.cfg_.
+
+=== LDAP Test Port Parameters in the Test Port Configuration File
+
+The test port uses abstract socket, therefore the abstract socket’s parameters also apply when using the LDAP test port.
+
+=== LDIF Module Parameters in the Configuration File
+
+`tsp_delayAfterPopulation`
+
+This is an optional parameter. It is used in case of LDIF support feature (see <<LDIF_support, LDIF Support>>). The value of this parameter determines the delay in seconds at the end of functions __f_PopulateLDAPServer__, __f_DepopulateLDAPServer__, __f_PopulateLDAPServer_2__ and __f_DepopulateLDAPServer_2__. If it is `_0.0_`, then there is no delay.
+
+The default value is `_1.0_`.
+ [[LDIF_support]]
+== LDIF Support
+
+=== External Function for LDIF Import
+
+`external function f_ImportLDIF(in charstring pl_file_name, boolean pl_resolve_env) return LDIFData;`
+
+Importing data from LDIF <<9-references.adoc#_6, [6]>> files into TTCN is possible with the external function __f_ImportLDIF__.
+
+The function has two parameters:
+
+* The name of the file to be opened
+* Whether the references to environmental variables should be resolved or passed into TITAN-3 as are.
+
+__f_ImportLDIF__ returns a valid structure or prints warnings.
+
+==== Error Handling
+
+In case of errors, warnings are written in the RTE log file, and the version in the `LDIFData` structure is set to `_-1_`. If no error occurred the version number should be 1, or omitted if not found in the file.
+
+If an error occurred, the returned `LDIFData` structure will still contain data to help finding the error.
+
+The data that could be read will be in the structure.
+
+Data that couldn’t be read will be in the structure in one of the following ways:
+
+* If the data is optional, it will be omitted.
+* If the data is a character string, it’s value will be `_"ERROR"_`.
+* If the error occurred inside the element of a list, the element will be filled with values mentioned.
+* It the error occurred in a list, the list will have no elements.
+
+=== External Function for LDIF Export
+
+`external function f_ExportLDIF(in charstring pl_file_name, in LDIFData pl_ldif_data) return boolean;`
+
+This function makes exporting `LDIFData` to LDIF <<9-references.adoc#_6, [6]>> files possible. It creates a new file or rewrite the existing one. The function presumes `LDIFData` is valid.
+
+__f_ExportLDIF__ has two parameters:
+
+* The name of the export file.
+* The `LDIFData` to be exported.
+
+The function returns whether the exporting was successful or not.
+
+If the version in `LDIFData` is not presented, `_1_` will be written in the file.
+
+[[error-handling-0]]
+==== Error Handling
+
+Error can occur during creating the export file. In this case the function returns with false and a warning message is written into the RTE log file. Any other problem during exporting will finish the running of function, which will return with false, and a warning message will indicate the problem in the RTE log file.
+
+=== Population, depopulation
+
+__f_PopulateLDAPServer__, __f_PopulateLDAPServer_2__, __f_DepopulateLDAPServer__ and __f_DepopulateLDAPServer_2__ issue LDAP queries based on input gathered with LDIF import external function.
+
+All functions take the port to communicate on as a parameter. The connection must exist for the functions to work (Test Port mapped and bind operation done towards the LDAP server).
+
+All functions assume that the parameter `LDIFData` structure is filled in with valid data, therefore they don't check its validity.
+
+Either __f_PopulateLDAPServer__ & __f_DepopulateLDAPServer__ or __f_PopulateLDAPServer_2__ & __f_DepopulateLDAPServer_2__ should be used together.
+
+==== Populate
+
+[source]
+----
+function f_PopulateLDAPServer(LDIFData pl_info, LDAPmsg_PT pl_LDAP, EntryConversion pl_conversion, boolean pl_continue) return boolean;
+----
+
+__f_PopulateLDAPServer__ performs LDAP operations on each entry of its `LDIFData` parameter:
+
+* LDAP Add - for directory entries and for changerecords with changetype "add".
+* LDAP Delete - for changerecords with changetype "delete".
+* LDAP Modify - for changerecords with changetype "modify".
+* LDAP ModifyDN - for changerecords with changetype "moddn" or "modrdn".
+
+Depending on the value of `pl_conversion` parameter, __f_PopulateLDAPServer__ can perform LDAP Modify with "add" (`pl_conversion=Entry2ModifyAdd`) or "replace" (`pl_conversion=Entry2ModifyReplace`) operation instead of the normal LDAP Add (`pl_conversion=NoConversion`) for each directory entry.
+
+If the used LDIF data contains directory entries then __f_PopulateLDAPServer__ will also merge all attributes with the same type into a single attribute. The resulting merged attribute will replace the first occurrence of the attribute.
+
+The `pl_continue` parameter can be used to determine whether the function shall continue (`pl_continue=true`) or immediately return (`pl_continue=false`) on error.
+
+__f_PopulateLDAPServer__ returns true if all LDAP operations concluded successfully. It returns false when some LDAP operation failed.
+
+[source]
+----
+function f_PopulateLDAPServer_2(LDIFData pl_info, LDAPmsg_PT pl_LDAP, EntryConversion pl_conversion, boolean pl_continue, inout LDAPMessageList pl_restore_record) return boolean;
+----
+
+Function __f_PopulateLDAPServer_2__ populates data the same way as function __f_PopulateLDAPServer__, but meanwhile it fills a record (`pl_restore_record`) with LDAP operations, which will be used in function __f_DepopulateLDAPServer_2__ to restore the initial state (the same as before calling __f_PopulateLDAPServer_2__) in the LDAP server. The record is available even if the function returns with an unsuccessful result, so the record can be used to remove the partially populated data too.
+
+To collect the required information LDAP search operations will be initiated towards LDAP server.
+
+There are some limitations in format of LDIF file (based on RFC 2849) accepted by the functions __f_PopulateLDAPServer_2__.
+
+The format of distinguished name should follow the format described in chapter 3 of RFC 2253. From the deviation described in chapter 4 of RFC 2553 only the space characters are accepted.
+
+`modrdn` operation won't work with distinguished name coded as BASE64-UTF8-STRING
+
+==== Depopulate
+
+[source]
+----
+function f_DepopulateLDAPServer(LDIFData pl_info, LDAPmsg_PT pl_LDAP, boolean pl_continue) return boolean;
+----
+
+__f_DepopulateLDAPServer__ performs LDAP Delete for each entry found in the `LDIFData` structure, and does nothing for changerecords. Depopulation happens in the opposite order or appearance of directory entries inside the LDIF input.
+
+The `pl_continue` parameter can be used to determine whether the function shall continue (`pl_continue=true)` or immediately return (`pl_continue=false`) on error during LDAP Delete operations.
+
+__f_DepopulateLDAPServer__ returns true if all LDAP Delete operations concluded successfully. It returns false when some LDAP Delete operation failed.
+
+[source]
+----
+function f_DepopulateLDAPServer_2(LDAPmsg_PT pl_LDAP, boolean pl_continue, LDAPMessageList pl_restore_record) return boolean;
+----
+
+Function __f_DepopulateLDAPServer_2__ takes `pl_restore_record` and executes every operation from the record in reverse order to restore the original state of the LDAP Server.
+
+The `pl_continue` parameter can be used to determine whether the function shall continue (`pl_continue=true`) or immediately return (`pl_continue=false`) on error during LDAP operations for restoring.
+
+__f_DepopulateLDAPServer_2__ returns true if all LDAP Delete operations concluded successfully. It returns false when some LDAP Delete operation failed.

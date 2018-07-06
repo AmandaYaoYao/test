@@ -1,0 +1,15 @@
+= Warning Messages
+
+The following list shows the possible warning messages produced by the test port:
+
+`*Cannot open socket*`
+
+The socket system call fails.
+
+`*Cannot bind port*`
+
+The socket system call fails.
+
+`*Error while listening*`
+
+The socket system call fails.

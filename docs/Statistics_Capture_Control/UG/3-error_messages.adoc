@@ -1,0 +1,39 @@
+= Error Messages
+
+NOTE: Besides the below described error messages, error messages shown in ‎<<7-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+`*New StatCapture group name is not unique.*`
+
+The group name assigned to create a new capture group is already in use. Group names should be unique for each capture group.
+
+`*No output file defined for Capture Group.*`
+
+This error message is printed out, when the capture group is created with no `logfile` parameter assigned and also no default `logfile` is set in the config file.
+
+`*Group does not exist.*`
+
+This error message states that the input parameter of a function refers to a non-existent capture group.
+
+`*Statistics index inside the group does not exist*`
+
+This error message states that the input parameter of a function refers to a non-existing statistics inside a capture group.
+
+`*Cannot dump to file*`
+
+This error message occurs, when writing or appending to a file is not possible.
+
+`*Cannot open logfile*`
+
+This error message occurs, when opening a `logfile` is not possible.
+
+`*Cannot create Statistics, StatID already exists!*`
+
+This error message occurs, when the statistics ID to be created already exists.
+
+`*The same statistics already added to the group!*`
+
+This error message states that the statistics with the same `statID` is already added to the group.
+
+`*Statistics with periodic reset cannot be added to more capture groups.*`
+
+This error message occurs, when a statistics with periodic reset enabled is added to more than one capture group. This is not allowed as it would lead to side effects when resetting the statistics.

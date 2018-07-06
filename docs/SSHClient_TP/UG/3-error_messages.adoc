@@ -1,0 +1,87 @@
+= Error Messages
+
+`*forkpty_solaris() setsid failed*`
+
+Fork function call failed in `forkpty_solaris()`.
+
+`*set_parameter(): Invalid parameter value: <value> for parameter <name>. Only yes and no can be used!*`
+
+Invalid parameter value has been given. The value shall be `_"yes"_` or `_"no"_`.
+
+`*set_parameter(): Invalid parameter value: <value> for parameter <name>. Valid values: 4 or 6!*`
+
+Invalid parameter value has been given. The value shall be `_"4"_` or `_"6"_`.
+
+`*set_parameter(): Invalid parameter value: <value> for parameter <name>. Valid values: WINDOWS, UNIX, MAC!*`
+
+Invalid parameter value has been given. The value shall be `_"WINDOWS"_`, `_"UNIX"_` or `_"MAC"_`.
+
+`*set_parameter(): Invalid parameter value: <value> for parameter <name>. Valid values: buffered, unbuffered, raw!*`
+
+Invalid parameter value has been given. The value shall be `_"BUFFERED"_`, `_"UNBUFFERED" _`or `_"RAW"_`.
+
+`*set_parameter(): PROMPT parameters should be given as PROMPT<number> := ``value''.*`
+
+The parameter name and value shall be given in the form as `prompt<number> := "value". For example: prompt1 := dummy@"somewhere"`.
+
+`*set_parameter(): error converting string "<substring>" in parameter name "name" to number.*`
+
+The test port cannot convert the substring at the end of the parameter name to number. The substring starts after parameter name `prompt` or `regex_prompt`. This number is the ID of the prompt/regex_prompt string.
+
+`*set_parameter(): Invalid parameter value: <value> for parameter <name>. PROMPT parameter must contain at least one character!*`
+
+The prompt string shall contain at least one character.
+
+`*set_parameter(): REGEX_PROMPT parameters should be given as REGEX_PROMPT<number> := &quot;value&quot;.*`
+
+The parameter name and value shall be given in the form as regex_prompt<number> := ``value''.
+
+For example: `regex_prompt1 := “*t[a-z]#(3,3)rb@Proc_m0_s1:~> ”`.
+
+`*set_parameter(): Invalid parameter value: <value> for parameter <name>. REGEX_PROMPT parameter must contain at least one character!*`
+
+The `regex_prompt` string shall contain at least one character.
+
+`*Event handler(): Socket error or the server closed the connection!*`
+
+Socket error or the server closed the connection.
+
+`*Missing mandatory parameter: at least one PROMPT or REGEX_PROMPT parameter must be provided!*`
+
+It is mandatory to have at least one prompt or `regex_prompt` string in the configuration file.
+
+`*Calling outgoing_send (ASP_SSH) failed! The SSH connection is closed!*`
+
+ASP_SSH cannot be sent because the SSH connection is closed.
+
+`*outgoing_send (ASP_SSH): Write to fd_ssh failed!*`
+
+Writing to the file descriptor fd_ssh is failed.
+
+`*Calling outgoing_send (ASP_SSH_Connect) failed! This ASP can only be used if the connection is closed!*`
+
+`ASP_SSH_Connect` can only be sent when the connection is closed.
+
+`*outgoing_send (ASP_SSH_Connect): fork() failed!*`
+
+Fork function call failed. Child process cannot be started.
+
+`*outgoing_send (ASP_SSH_Connect): execlp() failed!*`
+
+Execlp function call failed. Child process cannot be started.
+
+`*Cannot convert pattern "<pattern>" to POSIX-equivalent.*`
+
+Cannot convert TTCN-3 style regular expression to its POSIX equivalent.
+
+`*Function regcomp() failed while setting regexp pattern "<pattern>" as prompt: <error message>*`
+
+Regcomp function call failed. Regular expression cannot be compiled to an executable form.
+
+`*Error matching regexp prompt: <error message>*`
+
+Matching the regex prompt with a string is failed.
+
+`*Not enough memory.*`
+
+There is not enough memory for the prompt list.

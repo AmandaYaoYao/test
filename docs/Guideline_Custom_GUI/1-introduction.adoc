@@ -1,0 +1,9 @@
+= Introduction
+
+== Presumed Knowledge
+
+In order to properly understand the documentation you shall be familiar with the TTCN-3 language ‎<<9-references.adoc#_1, [1]>>, the use of the EPTF Variable feature <<9-references.adoc#_2, ‎[2]>>, and the XTDP protocol module ‎<<9-references.adoc#_3, [3]>>, <<9-references.adoc#_4, ‎[4]>>.
+
+== Scope
+
+This document is to give some useful suggestions and information to the users of the Core Load Library to make the customized GUI creation easier.

@@ -1,0 +1,39 @@
+= Functional Specification
+
+== Protocol Version Implemented
+
+This protocol module contains the protocol messages and elements of the NDP protocol (see <<5-references.adoc_3, [3]>>),
+
+[[modifications-deviations-related-to-the-protocol-specification]]
+== Modifications/Deviations Related to the Protocol Specification
+
+=== Implemented Messages
+
+All message types listed in protocol description are implemented.
+
+[[protocol-modifications-deviations]]
+=== Protocol Modifications/Deviations
+
+None.
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product also contains encoding/decoding functions that provide for the correct encoding of messages when sent from TITAN and correct decoding of messages when received by TITAN. The encoder updates the checksum field with the correct value. Implemented encoding/decoding functions:
+
+[cols=3*,options=header]
+|===
+
+|Name |Type of formal parameters |Type of return value
+|`f_enc_PDU_NDP` |PDU_NDP, OCT16, OCT16 |octetstring
+|`f_dec_PDU_NDP` |octetstring |PDU_NDP
+|===
+
+There is also a function which verifies the checksum field in an encoded NDP message:
+
+[cols=3*,options=header]
+|===
+
+|Name |Type of formal parameters |Type of return value
+|`f_NDP_verify_checksum` |octetstring, OCT16, OCT16 |boolean
+|===

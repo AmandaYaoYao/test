@@ -1,0 +1,208 @@
+= Warning Messages
+
+[[warning-messages-0]]
+== Warning Messages
+
+`*Unsupported Test Port parameter: <name>*`
+
+The test port parameter <name> in the runtime configuration file is not supported for this test port.
+
+`*AttributeValue contains UTF8String data and the attributeDescription contains binary option*`
+
+The `AttributeValue` field contains UTF8String data and the `attributeDescription` field contains binary option.
+
+`*AttributeValue contains OCTET STRING data and the attributeDescription does not contain binary option*`
+
+The `AttributeValue` field contains OCTET STRING data and the `attributeDescription` field does not contain binary option.
+
+`*AssertionValue contains UTF8String data and the attributeDescription contains binary option*`
+
+The `AssertionValue` field contains UTF8String data and the `attributeDescription` field contains binary option.
+
+`*AssertionValue contains OCTET STRING data and the attributeDescription does not contain binary option*`
+
+The `AssertionValue` field contains OCTET STRING data and the `attributeDescription` field does not contain binary option.
+
+== Warning Messages In Case TCP Connections Are Used
+
+`*connect() returned error code EADDRINUSE. Perhaps this is a kernel bug. Trying to connect again.*`
+
+When connecting on a socket, sometimes it is unsuccessful. The next try usually solves the problem and the connection will be successfully accepted. The test port retries to connect as a workaround. The number of tries however limited to avoid hanging the test port.
+
+Different operating systems behave in a different way. This problem is rare on Solaris, Unix and Linux systems, but much more often on Cygwin.
+
+`*Client <value> has not been removed, programming error*`
+
+Never should show up.
+
+== Warning Messages In Case SSL Connections Are Used
+
+`*SSL object not found for client <value>*`
+
+Never should show up.
+
+`*SSL_ERROR_<string>*`
+
+Detailed information about the general SSL error.
+
+`*SSL error queue content*`
+
+Detailed information about the general SSL error containing OpenSSL source code information and reason of the fault.
+
+`*Other side does not have certificate*`
+
+The other side of the SSL connection does not have a certificate.
+
+`*Solaris patches to provide random generation devices are not installed*`
+
+Solaris patches to provide random generation devices are not installed. A workaround will be used to seed the PRNG.
+
+`*Private key does not match the certificate public key*`
+
+The private key specified for the test port does not match with the public key.
+
+`*Connection from client <value> is refused*`
+
+The connection from a client is refused in the server.
+
+`*Connection to server is refused*`
+
+The connection from the client is refused by the server.
+
+`*Server did not send a session ID*`
+
+The SSL server did not send a session ID.
+
+`*Verification failed*`
+
+The verification of the other side is failed. The connection will be shut down.
+
+[[warning-messages-produced-by-f-importldif]]
+== Warning Messages Produced by `f_ImportLDIF`
+
+`*The file <name> could not be opened*`
+
+The named file was not found, or could not be opened for reading.
+
+`*Wrong modification operation name at line <number>*`
+
+The operation name must be "add:", "delete:" or "replace:"
+
+`*Hyphen expected at line <value>*`
+
+Every modification operation inside a change record must end with a "-".
+
+`*Line number <value> contains more than one data.*`
+
+The line contains too much data, maybe two structures are in the same line.
+
+`*Wrong newsuperior value at line <value>*`
+
+The value of the newsuperior attribute is erroneous.
+
+`*The keyword <string> was expected at line <value>.*`
+
+Couldn’t find an expected keyword.
+
+`*Wrong deleteoldrdn value at line <value>*`
+
+The value of the deleteoldrdn attribute must be 0 or 1.
+
+`*Wrong newrdn value at line <value>*`
+
+The value of the newrdn attribute has errors.
+
+`*Wrong moddn type at line <value>*`
+
+The moddn type must be "moddn", or "modrdn".
+
+`*deleteoldrdn missing from the change moddn structure ending at line <value>*`
+
+The change moddn structures must have a deleteoldrdn keyword – value pair inside.
+
+`*Add must be followed by at least 1 attribute:value pair at line <value>*`
+
+The change add structure must have values.
+
+`*Wrong option syntax at line <value>*`
+
+The options of an attribute type are given with wrong syntax.
+
+`*Attribute error at line <value>*`
+
+The attribute has errors, or is not present.
+
+`*<variable> could not be resolved*`
+
+The environmental variable could not be resolved. It might not exist or it was mistyped.
+
+`*Value error at line <value>*`
+
+The value in this attribute – value pair has some errors.
+
+`*Attribute must be separated from value with a colon at line <value>.*`
+
+The attribute must be separated from the value with a ":".
+
+`*ldap_oid error at line <value>*`
+
+The LDAP_OID has a syntax error.
+
+`*Wrong format for the dn at line <value>*`
+
+The string following the dn keyword has a syntax error, or is not separated from the dn keyword with a ":".
+
+`*Version error at line <value>*`
+
+The version string or the version number has a wrong format.
+
+`*Content and change records can not be mixed in one file*`
+
+There are content and change records in the same file, which is not allowed by the standard.
+
+`*The <value> modified attribute's type is different from the one described in the <value> changerecord's <value> modify record (<string>) (<string>)*`
+
+The attribute in attribute – value pairs inside change modify records must be the same as the described attribute to be modified.
+
+[[warning-messages-produced-by-f-exportldif]]
+== Warning Messages Produced by `f_ExportLDIF`
+
+`*The file <name> could not be opened*`
+
+The named file could not be created or opened for rewriting.
+
+`*ERROR in exporting to <name>.*`
+
+An error occurred during exporting to the named file. The exact reason is unknown. The exported file may be faulty.
+
+== _Makefile_
+
+In this section the most important parameters are listed in the _Makefile_. The following gives some detail about them:
+
+`*PLATFORM =*`
+
+Specifies which platform you are using. If you are using the test port on Solaris, you have to set the _PLATFORM_ macro to the proper value. It shall be `_SOLARIS_` in case of Solaris 6 (SunOS 5.6) and `_SOLARIS8_` in case of Solaris 8 (SunOS 5.8). In case you are using the test port on other platform, please refer to `*Error! Reference source not found.*`.
+
+`*OPENSSL_DIR =*`
+
+Specifies the OpenSSL installation directory. It has to contain the _lib/libssl.a_ file and the include/ directory.
+
+`*CPPFLAGS = -Dlatexmath:[$(PLATFORM) -DAS_USE_SSL -I$](TTCN3_DIR)/include -I$(OPENSSL_DIR)/include*`
+
+This line includes the OpenSSL header files and enables SSL code. It shall be used if SSL is used.
+
+If no SSL is used, the generated __Makefile__ by TITAN is suitable.
+
+`*LDFLAGS = -lssl*`
+
+This line specifies the OpenSSL runtime library. It shall be used if SSL is used.
+
+`*TTCN3_MODULES =*`
+
+The list of TTCN-3 modules needed.
+
+`*USER_SOURCES = LDAPmsg_PT.cc Abstract_Socket.cc ldif.tab.cc lex.yy.cc*`
+
+`*USER_HEADERS = $(USER_SOURCES:.cc=.hh)*`
+
+The list of other external C++ source and header files.

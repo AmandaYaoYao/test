@@ -1,0 +1,15 @@
+= Execution Control Client
+
+The Execution Control Client (`ExecCtrlClient`) is the client side interface towards the Execution Control component. These clients are also referred to as `LGens`, since they should extend the `LGenBase` component, are created, configured and started by the Execution Control component. The clients execute the traffic cases.
+
+Each client shall declare the supported behavior types, entity types, FSMs. The `ExecCtrl` uses this information to deploy the entity groups on the clients, and executes traffic cases on the corresponding `LGens`.
+
+The `ExecCtrlClients` can be organized into `LGenPools` in order execute traffic cases in parallel, which makes the system scaleable.
+
+== Configuration
+
+The following module parameters can be used to configure the `ExecCtrlClient` behavior.
+
+`tsp_EPTF_ExecCtrlClient_terminateIfExecCtrlTerminates`
+
+This boolean type module parameter can be used to enable/disable the termination of the `ExecCtrlClient` component when `ExecCtrl` terminates. If enabled, all `ExecCtrlClient` components are shut down before `ExecCtrl` terminates. Otherwise they are terminated by the Base cleanup mechanism when the system terminates. Default value is: `_true_`.

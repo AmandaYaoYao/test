@@ -1,0 +1,104 @@
+= References
+
+See Section ‎2.1.1 for the location of feature documentations in the delivery VOB.
+
+[[_1]]
+[1] ETSI ES 201 873-1 v3.2.1 (2007-02) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] User Guide for the TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] TitanSim CLL for TTCN-3 toolset with TITAN, Function Specification
+
+[[_4]]
+[4] TitanSim CLL for TTCN-3 toolset with TITAN +
+http://ttcn.ericsson.se/products/libraries.shtml[Reference Guide]
+
+[[_5]]
+[5] Project Specification for TitanSim R2
+
+[[_6]]
+[6] Quick Study on TitanSim R2 development
+
+[[_7]]
+[7] EPTF CLL Base, User Guide
+
+[[_8]]
+[8] EPTF CLL Common, User Guide
+
+[[_9]]
+[9] EPTF CLL ExecCtrl, User Guide
+
+[[_10]]
+[10] EPTF CLL Free Busy Queue, User Guide
+
+[[_11]]
+[11] EPTF CLL HashMap, User Guide
+
+[[_12]]
+[12] EPTF HostAdmin, User Guide
+
+[[_13]]
+[13] EPTF CLL LGenBase, User Guide
+
+[[_14]]
+[14] EPTF CLL LoadRegulator, User Guide
+
+[[_15]]
+[15] EPTF CLL Logging, User Guide
+
+[[_16]]
+[16] EPTF CLL LoggingUI, User Guide
+
+[[_17]]
+[17] EPTF CLL NameService, User Guide
+
+[[_18]]
+[18] EPTF CLL PTCDeployment, User Guide
+
+[[_19]]
+[19] EPTF CLL RedBlackTree, User Guide
+
+[[_20]]
+[20] EPTF CLL RingBuffer, User Guide
+
+[[_21]]
+[21] EPTF CLL Scheduler, User Guide
+
+[[_22]]
+[22] EPTF CLL Semaphore, User Guide
+
+[[_23]]
+[23] EPTF CLL StatCapture, User Guide
+
+[[_24]]
+[24] EPTF CLL StatMeasure, User Guide
+
+[[_25]]
+[25] EPTF CLL StatReplay, User Guide
+
+[[_26]]
+[26] EPTF CLL UIHandler, User Guide
+
+[[_27]]
+[27] EPTF CLL Variable, User Guide
+
+[[_28]]
+[28] EPTF CLL Transport, User Guide
+
+[[_29]]
+[29] EPTF CLL Rendezvous, User Guide
+
+[[_30]]
+[30] EPTF CLL Central Scheduling, User Guide
+
+[[_31]]
+[31] EPTF CLL Time Profile Editor, User Guide
+
+[[_32]]
+[32] EPTF CLL Stat Handler, User Guide
+
+[[_33]]
+[33] EPTF CLL Random N Array, User Guide

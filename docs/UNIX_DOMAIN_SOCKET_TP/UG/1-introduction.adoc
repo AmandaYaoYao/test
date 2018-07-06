@@ -1,0 +1,28 @@
+= Introduction
+
+== About This Document
+
+=== How to Read This Document
+
+This is the User’s Guide for the UD test port. The UD test port is developed for the TTCN-3 Toolset with TITAN. This document is intended to be read together with Function Specification <<6-references.adoc#_3, [3]>>.
+
+=== Prerequisite Knowledge
+
+The knowledge of the TITAN TTCN-3 Test Executor <<6-references.adoc#_2, [2]>> and the TTCN-3 language <<6-references.adoc#_1, [1]>> is essential. Basic knowledge of the UD protocol is valuable when reading this document.
+
+== System Requirements
+
+In order to operate the UD test port the following system requirements must be satisfied:
+
+* Platform: Solaris 5.8
+* TITAN TTCN-3 Test Executor version R7A (1.7.pl0) or higher installed. For installation guide see <<6-references.adoc#_2, [2]>>.
+
+NOTE: This version of the test port is not compatible with TITAN releases earlier than R7A.
+
+* The same C compiler gcc version installed which the TITAN was compiled with. See the Release Notes of TITAN.
+
+For other known limitations please see the FS <<6-references.adoc#_3, [3]>>.
+
+== Fundamental Concepts
+
+The test port establishes UD connection between the TTCN-3 test executor and the SUT. The test port transmits and receives UD protocol messages between the TITAN RTE and the SUT.

@@ -1,0 +1,21 @@
+= Introduction
+
+== How to Read This Document
+
+This is Users Guide for the Ericsson Performance Test Framework (TitanSim), Core Load Library (CLL). TitanSim CLL is developed for the TTCN-3 Toolset with TITAN <<5-references.adoc#_2, ‎[2]>>. This document should be read together with the Functional Specification ‎<<5-references.adoc#_3, [3]>>.
+
+== Scope
+
+This document is the User Guide for the TitanSim Core Load Library (CLL). Under the collective term "TitanSim" we mean several products:
+
+* "Turn-key applications", like "TitanSim for IMS I&V"
+* Building blocks of such applications, that is, Application Libraries, such as SIP Application Library
+* The application independent CLL.
+
+The _technology_ under the hood of TitanSim has been called historically the _Ericsson Performance Test Framework_ (EPTF), hence the acronym "EPTF" in many of the identifiers of the API.
+
+This document focuses on understanding the CLL. It contains the description of CLL features and references to their detailed User Guides. The demo applications are located in the product releases VOB along the CLL itself.
+
+== Recommended Way of Reading
+
+The readers are supposed to get familiar with the scope and goals of the project from <<5-references.adoc#_5, ‎[5]>> and also the glossary therein. The next step is to read the Quick Study ‎<<5-references.adoc#_6, [6]>> and its glossary. Finally they should get familiar with the list of acronyms and the glossary in Section ‎1.5 and ‎1.6 respectively.

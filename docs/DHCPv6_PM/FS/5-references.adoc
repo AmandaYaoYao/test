@@ -1,0 +1,32 @@
+= References
+
+[[_1]]
+[1] Programmer’s Technical Reference for the TITAN TTCN-3 Test Executor
+
+[[_2]]
+[2] ETSI ES 201 873-1 v.3.1.1 (06/2005) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_3]]
+[3] IETF https://tools.ietf.org/html/rfc3646[RFC 3646] +
+DNS Configuration options for Dynamic Host Configuration Protocol for IPv6 (DHCPv6)
+
+[[_4]]
+[4] IETF https://tools.ietf.org/html/rfc3736[RFC 3736] +
+Stateless Dynamic Host Configuration Protocol (DHCP) Service for IPv6
+
+[[_5]]
+[5] IETF https://tools.ietf.org/html/rfc3315[RFC 3315] +
+Dynamic Host Configuration Protocol for IPv6 (DHCPv6)
+
+[[_6]]
+[6] IETF https://tools.ietf.org/html/rfc3319[RFC 3319] +
+Dynamic Host Configuration Protocol (DHCPv6) Options for Session Initiation Protocol (SIP) Servers
+
+[[_7]]
+[7] IETF https://tools.ietf.org/html/rfc1035[RFC 1035] +
+Domain names – implementation and specification
+
+[[_8]]
+[8] IETF https://tools.ietf.org/html/rfc3633[RFC 3633] +
+IPv6 Prefix Options for Dynamic Host Configuration Protocol (DHCP) version 6

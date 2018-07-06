@@ -1,0 +1,62 @@
+= Warning Messages
+
+[[warning-messages-0]]
+== Warning Messages
+
+`*Unsupported Test Port parameter: <name>*`
+
+The test port parameter <name> in the runtime configuration file is not supported for this test port.
+
+== Warning Messages In Case TCP Connections Are Used
+
+`*connect() returned error code EADDRINUSE. Perhaps this is a kernel bug. Trying to connect again.*`
+
+When connecting on a socket, sometimes it is unsuccessful. The next try usually solves the problem and the connection is successfully accepted. The test port retries to connect as a workaround. The number of tries, however, is limited to avoid hanging the test port.
+
+Different operating systems behave in different ways. This problem is rare on Solaris, Unix and Linux systems, but much more often on Cygwin.
+
+`*Client <value> has not been removed, programming error*`
+
+Never should show up.
+
+== Warning Messages In Case SSL Connections Are Used
+
+`*SSL object not found for client <value>*`
+
+Never should show up.
+
+`*SSL_ERROR_<string>*`
+
+Detailed information about the general SSL error.
+
+`*SSL error queue content*`
+
+Detailed information about the general SSL error containing OpenSSL source code information and reason of the fault.
+
+`*Other side does not have certificate*`
+
+The other side of the SSL connection does not have a certificate.
+
+`*Solaris patches to provide random generation devices are not installed*`
+
+Solaris patches to provide random generation devices are not installed. A workaround will be used to seed the PRNG.
+
+`*Private key does not match the certificate public key*`
+
+The private key specified for the test port does not match with the public key.
+
+`*Connection from client <value> is refused*`
+
+The connection from a client is refused in the server.
+
+`*Connection to server is refused*`
+
+The connection from the client is refused by the server.
+
+`*Server did not send a session ID*`
+
+The SSL server did not send a session ID.
+
+`*Verification failed*`
+
+The verification of the other side is failed. The connection will be shut down.

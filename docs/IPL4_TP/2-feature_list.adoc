@@ -1,0 +1,217 @@
+= Feature List
+
+The features enumerated below have been implemented in the test port.
+
+== Transport Protocol Extensibility
+
+The test port is designed in an extensible manner that other transport protocols can be added without modifying the framework and the test port API.
+
+== Multiple IP Addresses
+
+The IPL4asp test port is handling multiple IPv4 and/or IPv6 addresses, be it available either on virtual or physical interfaces.
+
+The test port provides run-time configuration support to set up virtual interfaces on start and shutting down those interfaces on stop. The physical interface is handled using `TCCUsefulFunctions` <<7-references.adoc#_4, [4]>>.
+
+[[Use_of_DNS_Names_and_IP_Addresses]]
+== Use of DNS Names and IP Addresses
+
+The IPL4asp test port supports IP addresses in the dotted notation format by default, but DNS names can be used, too.
+
+== Connection Handling at the User Level
+
+A connection is identified by a connection tuple in connection creation (listen or connect). Later the connection is identified by the connection ID: during message sending-receiving, closing, connection property modification and in error notifications. See <<4-interface_description.adoc#test_port_control_functions, Test port control functions>>.
+
+As the test port is independent of the upper protocol, the user has to maintain the mapping of connection tuples to any object, for example, the client in case of the SIP protocol.
+
+== Error Propagation
+
+The IPL4asp test port does not generate TTCN error at the point of either protocol or test port error. The immediate error generation behavior can be replaced with a more sophisticated, run-time configurable error handling mechanism, which passes the error to the user who can make decisions how to continue the test execution. See section <<7-references.adoc#_4, [4]>> for details.
+
+== Run-time Test Port Control
+
+The user is able to perform the following operations:
+
+* Open connection
+* Modify connection properties
+* Close connection
+
+The above calls are implemented as external functions that can achieve the desired effect by calling some public member control functions of the test port. See <<4-interface_description.adoc#setting_connection_options, Setting Connection Options>> for details.
+
+This strategy does not interfere with the earlier applied ASP-based test port control, as that may be handled in port extension (see provider port in <<7-references.adoc#_3, [3]>>).
+
+== Message Dissection
+
+A TTCN-3 or external C++ function can be used to find the message boundary in streams, which is implemented as a function reference registration in the test port.
+
+The function is declared for the test port, but the user shall implement the function depending on what session protocol is used.
+
+The implementation of this feature is replaced with the sliding function prototype (see <<7-references.adoc#_3, [3]>>) as soon as it is supported. See <<4-interface_description.adoc#getting_user_details, Getting User Details>> for details.
+
+== ASP-Based Notification of Asynchronous Events
+
+In the IPL4asp test port, asynchronous events may occur that the user is interested in, for example, a connection is opened or closed by the peer endpoint.
+
+The test port provides an ASP to inform the user about such events. See <<3-test_port_usage.adoc#events, Events>> for details.
+
+== Automatic IP Address Discovery
+
+The test supports IP address discovery via DHCP and ARP for IPv4 addresses as functions. The functions return the IP addresses which can be configured using the functions of `TCCUsefulFunctions` <<7-references.adoc#_4, [4]>>.
+
+The parameters for the IP address discovery (such as the number of requested addresses or the name of the lease file) shall be given either as parameters of the function or as test port parameters in the run time configuration file, see <<3-test_port_usage.adoc#Parameters_for_automatic_connection_during_mapping, Parameters for Automatic Connection During Mapping>>.
+
+== Connection Option Handling
+
+The test port makes it possible to specify connection options during connection creation and for an open connection. See details in <<4-interface_description.adoc#setting_connection_options, Setting Connection Options>>.
+
+== SSL Functionality and Support
+
+From revision R6A—beside UDP, TCP and SCTP—SSL can also be used as transport channel. The same version of OpenSSL library must be used as in TITAN.
+
+From version R16A, DTLS <<7-references.adoc#_8, [8]>> with DTLS SRTP <<7-references.adoc#_9, [9]>> is supported, with the exception of demultiplexing method described in DTLS SRTP <<7-references.adoc#_9, [9]>> section 5.1.2 Reception, which is not supported. The test port assumes SRTP packets if SRTP is configured for the association.
+
+From version R20A DTLS over SCTP is supported.
+
+From version R30A TLS-PSK and DTLS-PSK is supported.
+
+The supported SSL, TLS and DTLS versions depend on the used OpenSSL library.
+
+The supported SSL/TLS version can be disabled or enabled via test port parameter (see <<3-test_port_usage.adoc#EIN_SS7_stack_parameters, EIN SS7 Stack Parameters>>) on test port instance level or via options (see <<4-interface_description.adoc#setting_connection_options, Setting Connection Options>>) on connection level.
+
+See sections <<3-test_port_usage.adoc#Installation_and_Building_the_Test_Port, Installation and Building the Test Port>>, <<3-test_port_usage.adoc#Parameters_for_IP_Auto-Configuration, Parameters for IP Auto-Configuration>>, and <<3-test_port_usage.adoc#EIN_SS7_stack_parameters, EIN SS7 Stack Parameters>>.
+
+=== Compilation
+
+The usage of SSL and even the compilation of the SSL related code parts are optional. This is because SSL related code parts cannot be compiled without the OpenSSL installed.
+
+The compilation of SSL related code parts can be disabled by not defining the `IPL4_USE_SSL` macro in the _Makefile_ during the compilation. If the macro is defined in the _Makefile_, the SSL code parts are compiled to the executable test code. If it is not defined all SSL related request will cause an error result message about the not supported transport.
+
+=== Authentication
+
+The IPL4 test port provides both server side and client side authentication. When authenticating the other side, a certificate is requested and the own trusted certificate authorities’ list is sent. The received certificate is verified whether it is a valid certificate or not (the public and private keys are matching). No further authentication is performed (for example, whether hostname is present in the certificate). The verification can be enabled/disabled in the runtime configuration file, see <<3-test_port_usage.adoc#EIN_SS7_stack_parameters, EIN SS7 Stack Parameters>>.
+
+From server side the test port will always send its certificate and trusted certificate authorities’ list to its clients. If verification is enabled in the runtime configuration file, the server side will request for a client’s certificate. In this case, if the client does not send a valid certificate or does not send a certificate at all, the connection will be refused. If the verification is disabled, the connection will never be refused due to verification failure.
+
+From client side the test port will send its certificate to the server on the server’s request. If verification is enabled in the runtime configuration file, the client will send its own trusted certificate authorities’ list to the server and will verify the server’s certificate as well. If the server’s certificate is not valid, the SSL connection will not be established. If verification is disabled, the connection will never be refused due to verification failure.
+
+The own certificate(s), the own private key file, the optional password protecting the own private key file and the trusted certificate authorities’ list file can be specified in the runtime configuration file, see <<3-test_port_usage.adoc#EIN_SS7_stack_parameters, EIN SS7 Stack Parameters>>.
+
+The test port will check the consistency between its own private key and the public key (based on the own certificate) automatically. If the check fails, a warning is issued and execution continues.
+
+=== Pre-Shared Key Authentication
+
+The client indicates its willingness to use pre-shared key authentication by including one or more PSK ciphersuites in the `ClientHello` message, the allowed ciphering suite can be specified (set `ssl_allowed_ciphers_list` to *"PSK"*) the TLS server selects one of the PSK ciphersuites, places the selected ciphersuite in the `ServerHello` message. It can provide a "PSK identity hint" in the `ServerKeyExchange` message. The `Certificate`, the `CertificateRequest` and the `CertificateVerify` messages are not sent if PSK is used (the parameters related to the certificate should not be set). The TLS handshake is authenticated using the Finished messages as usual. PSK-related parameters can be specified in the runtime configuration file see <<3-test_port_usage.adoc#parameters_for_setting_PSK, Parameters for Setting PSK>>.
+
+=== Certificate Handling
+
+By default, the globally defined certificate is used by all connection. In order to use a connection specific certificate, the test port parameter `TLS_CERT_PER_CONN` should be set to `_"YES"_` in the run time configuration file. Once the `TLS_CERT_PER_CONN` is set to `_"YES"_`, the connection specific certificate parameters can be supplied via the options parameter of the connect and listen functions.
+
+=== SSL Limitations
+
+* The SSL re-handshaking requests are accepted and processed, however re-handshaking cannot be initiated from the test port.
+* The usage of SSL session resumption can be enabled/disabled in the runtime configuration file, see <<3-test_port_usage.adoc#Parameters_specifying_SSL_connection_options, Parameters Specifying SSL Connection Options>>.
+* The own certificate file(s), the own private key file and the trusted certificate authorities’ list file must be in PEM format. Other formats are not supported.
+* The allowed ciphering suites can be restricted in the runtime configuration file, see <<3-test_port_usage.adoc#EIN_SS7_stack_parameters, EIN SS7 Stack Parameters>>.
+
+[[DTLS_SRTP_limitations]]
+=== DTLS SRTP Limitations
+
+* The demultiplexing method described in section _5.1.2 Reception_ of DTLS SRTP <<7-references.adoc#_9, [9]>> is not supported. The test port assumes SRTP packets if SRTP is configured for the association.
+
+=== ALPN Support
+
+The test port supports the ALPN TLS extension and the ALPN negotiation.
+
+NOTE: The ALPN support requires OpenSSL 1.0.2 at least.
+
+== TLS Hostname Extension
+
+The test port supports the TLS hostname extension as client only.
+
+== DTLS Implementation
+
+DTLS support has been implemented only on [.underline]#UDP# and [.underline]#SCTP# in the test port, `UDPLight` can be implemented upon request.
+
+Current DTLS implementation supports:
+
+* Creation of DTLS associations
+* Accepting incoming DTLS associations
+* Starting TLS layer upon existing sockets
+* Query of the peer certificate fingerprint (thumbprint)
+* Generation on keys and salts for SRTP
+* Generation of key for SCTP
+* DTLS data exchange
+* Stopping the TLS layer
+
+=== Creation of DTLS Associations
+
+Use `f_IPL4_connect()` function with `dtls := \{ udp := \{} } or dtls := \{ sctp := \{0,0,0,0} }` prototuple to initiate DTLS connection towards the remote peer. The test port will initiate the client-side handshake of the DTLS association, and report `AVAILABLE` event when it’s finished.
+
+=== Accepting Incoming DTLS Associations
+
+Use `f_IPL4_listen()` function with `dtls := \{ udp := \{} } or dtls := \{ sctp := \{0,0,0,0} }` prototuple to initiate DTLS listening port. The test port will perform the server-side handshake if a client initiates a TLS handshake.
+
+=== Starting TLS Layer Upon Existing Sockets
+
+Use `f_IPL4_StartTLS()` function to initiate the client- or server side TLS layer on top of already opened UDP or SCTP sockets.
+
+=== Query of the Local and Peer Certificate Fingerprint (thumbprint)
+
+Use `f_IPL4_getLocalCertificateFingerprint()` function to query the fingerprint of the local (test port’s) certificate’s fingerprint. If the filename is supplied the fingerprint of the certificate file is returned. Otherwise, the fingerprint of the certificate belongs to the given `connID` is returned.
+
+Use `f_IPL4_getPeerCertificateFingerprint ()` function to query the fingerprint of the peer (remote side) certificate’s fingerprint. This function will return valid fingerprint only if the DTLS association has been established (the DTLS handshake is done).
+
+=== Generation on Keys and Salts for Encrypting SRTP
+
+Use the `f_IPL4_exportSrtpKeysAndSalts()` function to generate keys and salts for SRTP encrypting. The function is the implementation of the exporter function described in section _4.2 Key Derivation_ in <<7-references.adoc#_9, [9]>>. This function will return valid fingerprint only if the DTLS association has been established, because it uses the shared secret agreed during the handshake process.
+
+=== Generation of Key for DTLS over SCTP
+
+Use the `f_IPL4_exportSctpKey()` function to generate a key for SCTP over DTLS encryption. The function is the implementation of the exporter function described in section _4.2 Key Derivation_ in <<7-references.adoc#_9, [9]>>. This function will return valid fingerprint only if the DTLS association has been established, because it uses the shared secret agreed during the handshake process.
+
+=== Setting Support for DTLS over SCTP
+
+In order to run DTLS over SCTP it is necessary to enable __net.sctp.auth_enable__.
+
+=== Setting the Supported SRTP Profiles
+
+If DTLS is used for SRTP key negotiation, then the supported SRTP protection profiles need to be set prior to the DTLS association is established. Current OpenSSL version (1.0.1g) supports the `SRTP_AES128_CM_SHA1_32` and `SRTP_AES128_CM_SHA1_80` protection profiles. The profile names must be separated by colons, ie. `SRTP_AES128_CM_SHA1_32:SRTP_AES128_CM_SHA1_80`
+
+* Use the `f_IPL4_setOpt()` function and set the `options/dtlsSrtpProfiles` field to set the supported SRTP profiles on an existing endpoint (socket). If the connection Id passed to `f_IPL4_setOpt()` is `_'-1'_`, then all subsequent DTLS handshakes will use the specified selection profiles by default.
+* Use the `f_IPL4_listen()` function and set the `options/dtlsSrtpProfiles` field to set the supported SRTP profiles for the server endpoint (socket). The specified selection profile will be used in the DTLS handshakes to agree in the SRTP selection profile with the clients.
+* Use the `f_IPL4_connect()` function and set the `options/dtlsSrtpProfiles` field to set the supported SRTP profiles for the client endpoint (socket). The specified selection profile is used in the DTLS handshake to agree in the SRTP selection profile with the remote peer.
+
+=== DTLS Data Exchange
+
+Use the `f_IPL4_send()` function to send data. If the function is called with UDP prototuple, then the test port will send the data unencrypted (SRTP packets need to be sent this way), otherwise it encrypts as DTLS. In the same way the function will send encrypted messaged over the SCTP stream if the DTLS encryption is enabled.
+
+On incoming data `ASP_RecvFrom` is passed to the testcase with the received data. If SRTP selection profile is set on the DTLS association, then test port assumes the incoming data to be unencrypted, and passes it to the testcase without DTLS decryption. Demultiplexing method described in section 5.1.2 Reception of DTLS SRTP <<7-references.adoc#_9, [9]>> , which is not supported.
+
+If DTLS over SCTP is enabled, in case of incoming data, the data will be first decrypted by the test port and then passed unencrypted to the test case.
+
+If SRTP selection profile is not set on the DTLS association, then the data is DTLS unencrypted first, and then passed to the testcase.
+
+=== Stopping the TLS Layer
+
+== SCTP Stack
+
+The IPL4 test port can use either the kernel based SCTP stack or the SCTP API of the EIN SS7 stack.
+
+The IPL4 test port supports local multi homing and probing of all IP addresses of the remote side with both SCTP stack.
+
+See <<3-test_port_usage.adoc#parameters_specifying_SCTP_connection_options, Parameters Specifying SCTP Connection Options>>, _section 3.4.5_ for configuration file parameters for EIN SS7 stack.
+
+[[connId_release]]
+== ConnId Release
+
+How to release `connId`:
+
+1.  Traditional way: +
+The `connid` is released as soon as either the test port processed the incoming close event or the `f_IPL4_close` was called. Because the `connId` is released immediately by the test port, the test case code can try to use it, which leads to faults. Also, the test port can reuse the `connId` without the knowledge of the test case code
+2.  Confirmed mode: +
+The `connId` is released only after the confirmation message. After the `connId` is ready for release (triggered by either the incoming close or `f_IPL4_close`) the test port put the `ASP_ConnId_ReadyToRelease` into the incoming queue. When the application processes the `ASP_ConnId_ReadyToRelease` it should call the `f_IPL4_ConnId_release` function to confirm the release.
+
+The confirmed mode can be activated by setting the test port parameter `connId_release_mode` to `_"confirmed"_`.
+
+== Path MTU Discovery
+
+The IPL4 test port can read the Path MTU of a connected socket. See <<4-interface_description.adoc#getting_path_MTU, Getting Path MTU>> for further information.

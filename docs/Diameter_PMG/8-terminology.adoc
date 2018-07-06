@@ -1,0 +1,4 @@
+= Terminology
+
+*DDF:* +
+Diameter Definitions File: TTCN-3 type definitions describing Diameter AVPs outside module

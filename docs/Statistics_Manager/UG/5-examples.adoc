@@ -1,0 +1,14 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* _main.cfg_
+* _EPTF_StatManager_demo.ttcn_
+
+== Configuration File
+
+The used configuration file (_main.cfg_) is for the Statistics Manager example is placed in the demo directory.
+
+== Demo Module
+
+The demo module __EPTF_StatManager_demo.ttcn__ illustrates a typical usage of the Statistics Manager feature. It is placed in the demo directory of the released feature.

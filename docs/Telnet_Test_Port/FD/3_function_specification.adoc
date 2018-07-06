@@ -1,0 +1,61 @@
+= Function Specification
+
+== Configuration and Management
+
+The runtime behavior of the Telnet Test Port can be configured via an external runtime configuration file.
+
+The configuration file contains the following information for the Telnet Test Port:
+
+In client mode operation:
+
+* Host name of the SUT/IUT.
+* TCP port number of the SUT/IUT.
+* Username used for login.
+* Password used for login.
+* Domain used for login.
+* Read mode (waiting for a newline in the received message or present every message immediately to TTCN when it is received)
+* Possible prompt strings with or without wildcards
+* Telnet terminal type
+* Telnet echo option
+* Telnet window size: height and width
+* Whether to use CR LF or LF as linefeed (newline)
+* Logging in user with or without user authentication
+* Sending/not sending an integer value to the user when the connection is terminated by the server.
+* Sending/not sending an integer value to the user about the result of the connection attempted.
+* Enabling the filtering of linefeeds directly preceding the prompt from incoming messages.
+
+In server mode operation:
+
+* TCP port number for listening for connections
+* Username used for logging the client in
+* The 'login' prompt (the charstring to send to prompt the client for the login name)
+* Password used for logging the client in
+* The 'password' prompt (the charstring to send to prompt the client for the password)
+* Prompt string
+* Logging in user with or without user authentication
+* Use the port in client or server mode operation
+* Sending/not sending an integer value to the user when the connection is terminated by the client.
+* Enabling the setting whether a failed message sending should result in an error or a warning.
+* Enabling the attaching of the server prompt to the end of every outgoing message.
+
+== Capacity and Limitations
+
+=== Platform Limitations
+
+==== Client Mode
+
+Only Solaris, Suse linux, RHEL 4 (Nahant Update 6) platforms and Pragma Telnet Server running on Windows Server 2003 have been tested.
+
+==== Server Mode
+
+Only Solaris and RHEL 4 (Nahant Update 6) platforms have been tested.
+
+=== Server Side Limitations in Client Mode Operation
+
+All the tested servers echoed characters regardless of the echo option. Because of this, the test port contains a filtering mechanism for echoed characters. This mechanism is enabled if echo is disabled in the configuration file and vice versa. The telnet echo option (if enabled) is sent to the server regardless of the filter settings, but it depends on the value set in `CTRL_ECHO`.
+
+The way telnet echo option is negotiated can cause problems with certain applications or servers. Because of this and because of the telnet echo option did not work with the servers tested, the test port is not compiled with the echo option by default, regardless of the setting of `CTRL_ECHO`. It can be enabled via the C++ compiler flag `TELNET_ECHO_OPTION` if needed. The echo filtering mechanism is still functional if this compiler flag is not defined.
+
+The telnet test port can handle only one connection at the same time. Prior to a new connection the previous one has to be cleared. The size of the listening queue is 1. Thus one incoming connection might be in the pending state, meaning that a second connection will succeed, but no traffic is possible via this connection until the previous one is closed.
+
+The term "echo option" is used for the Telnet echo option used during the negotiation of the set up of a Telnet session as defined in <<5_References.adoc#_4, [4]>>. Not to be confused with the `CTRL_ECHO` "option", which is only described in <<5_References.adoc#_2, [2]>>.

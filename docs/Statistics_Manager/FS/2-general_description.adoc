@@ -1,0 +1,54 @@
+= General Description
+
+This document specifies the Statistics Manager feature of the TITANSim CLL.
+
+The EPTF Statistics Manager feature makes it possible to
+
+* create limit statistics based on published data elements
+* publish these statistics as new data elements
+
+`StatManager` feature publishes a data element called `LEDlimit`, this is a `statusLED`. This can be used to visualize a source data element’s value or the relative difference to a reference data. Different limits can be provided which decide the LED’s color in cases of different values of the source data. As the value of the source or reference data changes, the color of the status LED changes dynamically also.
+
+== Detailed Description
+
+=== The Source Data
+
+Source data can be of two types: integer and float. This is the only mandatory parameter. If no source data is specified not only there will not be any statistics created and published, but it will cause an error. This and the limit parameters will decide the actual color of the status LED.
+
+Parameter name: `VarId` (mandatory)
+
+=== Reference Data
+
+It is possible to provide a reference variable which case the statistic will be calculated relatively to this reference data: `100 * (source-ref)/ref`. This percentage and the limit parameters will decide the actual color of the status LED. The reference data must be also of type integer or float.
+
+Parameter name: `refVarId` (optional)
+
+=== The Limit Parameters
+
+Limit parameters define the color of the status LED in case of different values of the limit statistic. Their values must be legal float numbers.
+
+Example:
+
+[source]
+----
+<dataparam name=”greenLimit” value=”90.0” />
+<dataparam name=”yellowLimit” value=”70.0” />
+----
+
+Parameter name: `greenLimit`, `yellowLimit`, `redLimit`, `blueLimit`, `blackLimit`
+
+=== Default Color
+
+Default color of the status LED.
+
+Parameter name: `defaultColor`
+
+Parameter values: `_"black"_`, `_"blue"_`, `_"red"_`, `_"yellow"_` and `_"green"_`
+
+=== `EnableValueInLEDText`
+
+It is possible to show the value of the source data in the label of the status LED.
+
+Parameter name: `enableValueInLEDText`
+
+Parameter values: `_"yes"_`, `_"no"_`

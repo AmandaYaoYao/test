@@ -1,0 +1,15 @@
+= Functional Specification
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+The PBPMG generates encoder/ decoder function for every messages defined in the _.proto_ files
+
+Prototype of the functions:
+
+[source]
+----
+external function f_encode_<message_type_name>(in <message_type_name> pdu) return octetstring
+
+external function f_decode_<message_type_name> (in octetstring pdu) return <message_type_name>
+----

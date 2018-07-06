@@ -1,0 +1,27 @@
+= Terminology
+
+*Sockets:* +
+The socket is a method for communication between a client program and a server program in a network. A socket is defined as "the endpoint in a connection." Sockets are created and used with a set of programming requests or function calls sometimes called the sockets application-programming interface (API). The most common socket API is the Berkeley UNIX C language interface for sockets. Sockets can also be used for communication between processes within the same computer.
+
+*Libpcap <<7-references.adoc#_5, [5]>>:* +
+The Packet Capture library provides a high level interface to packet capture systems. All packets on the network, even those destined for other hosts, are accessible through this mechanism. Pcap is an application programming interface for packet capturing. The implementation of pcap for Unix-like systems is known as Libpcap.
+
+*Packet sockets <<7-references.adoc#_4, [4]>>:* +
+They are used to receive or send raw packets at the device driver (OSI Layer 2) level. Any packet sent through the socket will be directly passed to the Ethernet interface, and any packet received through the interface will be directly passed to the application. The Packet Socket is implemented in the Linux kernel.
+
+*DLPI <<7-references.adoc#_6, [6]>>:* +
+Data Link Provider Interface V2 enables a data link service user to access and use any of a variety of conforming data link service providers without special knowledge of the provider's protocol.
+
+== Abbreviations
+
+API:: Application Programming Interface
+
+ASP:: Abstract Service Primitive
+
+PDU:: Protocol Data Unit
+
+RTE:: Run-Time Environment
+
+SUT:: System Under Test
+
+TTCN-3:: Testing and Test Control Notation version 3

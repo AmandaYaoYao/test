@@ -1,0 +1,50 @@
+= Functional Specification
+
+== Protocol Version Implemented
+
+This set of protocol modules implements protocol messages and constants of the ISUP ITU-T protocol. The modules are based on the Ericsson implementation of ISUP ITU-T (see <<5-references.adoc#_1, [1]>>) with the modifications described in the Ericsson Requirement Specification for Global Call reference <<5-references.adoc#_4, [4]>>.
+
+=== Unimplemented Messages, Information Elements and Constants
+
+None.
+
+[[protocol-modifications-deviations]]
+=== Protocol Modifications/Deviations
+
+See the Ericsson Requirement Specification for Global Call reference <<5-references.adoc#_4, [4]>> for the implementation of the Global Call Reference Parameter.
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product also contains encoding/decoding functions which assure correct RAW encoding of messages when sent from Titan and correct RAW decoding of messages when received by Titan. In order to be able to decode ISUP encapsulation in SIP -which doesn't contain the Circuit Identification Code at the beginning of the ISUP message- there is an extra decoding function for messages which doesn't contain any CIC. Implemented encoding/decoding functions:
+
+[cols=3*, options=header]
+|===
+|Name
+|Type of formal parameters
+|Type of return value
+
+|enc_PDU_ISUP
+|PDU_ISUP
+|octetstring
+
+|dec_PDU_ISUP
+|octetstring
+|PDU_ISUP
+
+|dec_PDU_ISUP_noCIC
+|octetstring
+|PDU_ISUP
+
+|enc_PDU_ISUP_fast
+|PDU_ISUP
+|octetstring
+
+|dec_PDU_ISUP_backtrack
+|octetstring
+|PDU_ISUP
+
+|dec_PDU_ISUP_backtrack_noCIC
+|octetstring
+|PDU_ISUP
+|===

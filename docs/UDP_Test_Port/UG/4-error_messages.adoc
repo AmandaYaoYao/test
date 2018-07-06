@@ -1,0 +1,42 @@
+= Error Messages
+
+The error messages have the following general form:
+
+[source]
+Dynamic test case error: <error text>
+
+Error messages are written into the log file. In the log file a time stamp is also given before the message text.
+
+The list of the possible error messages is shown below. Note that this list contains the error messages produced by the test port. The error messages coming from the TITAN are not shown:
+
+`*<Parameter Name> is not defined in the configuration file*`
+
+Mandatory parameter is missing from the configuration file.
+
+`*Error when reading the received UDP PDU.*`
+
+An error occurred when a UDP PDU was received.
+
+`*Cannot open socket*`
+
+The socket system call fails.
+
+`*Cannot bind port*`
+
+The bind system call fails.
+
+`*Sendto system call failed: <n> bytes was sent instead of <m>*`
+
+The `sendTo` system call fails.
+
+`*The host name <name> is not valid.*`
+
+The specified host name is not a valid host name.
+
+`*No remote host name specified.*`
+
+The remote host name is not specified and there is no default remote host to send the data.
+
+`*No remote port specified.*`
+
+The remote port is not specified and there is no default port to send the data.

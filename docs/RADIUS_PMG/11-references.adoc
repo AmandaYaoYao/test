@@ -1,0 +1,62 @@
+= References
+
+[[_1]]
+[1] https://tools.ietf.org/html/rfc2865[RFC 2865] +
+Remote Authentication Dial In User Service (RADIUS)
+
+[[_2]]
+[2] ETSI ES 201 873-1 v3.2.1 (2007-02) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_3]]
+[3] Programmer’s Technical Reference for the TITAN TTCN-3 Test Executor
+
+[[_4]]
+[4] The GNU Awk User's Guide +
+http://www.gnu.org/software/gawk/manual/gawk.html
+
+[[_5]]
+[5] https://tools.ietf.org/html/rfc2866[RFC 2866] +
+RADIUS Accounting
+
+[[_6]]
+[6] https://tools.ietf.org/html/rfc2868[RFC 2868] +
+RADIUS Attributes for Tunnel Protocol Support
+
+[[_7]]
+[7] https://tools.ietf.org/html/rfc2869[RFC 2869] +
+RADIUS Extensions
+
+[[_8]]
+[8] https://tools.ietf.org/html/rfc3162[RFC 3162] +
+RADIUS and IPv6
+
+[[_9]]
+[9] https://tools.ietf.org/html/rfc5176[RFC 5176] +
+RADIUS Authorization Extensions
+
+[[_10]]
+[10] https://tools.ietf.org/html/rfc4372[RFC 4372] +
+Chargeable User Identity
+
+[[_11]]
+[11] GGSN Functional Specification: RADIUS
+
+[[_12]]
+[12] https://tools.ietf.org/html/rfc2867[RFC 2867] +
+RADIUS Accounting Modifications for Tunnel Protocol Support
+
+[[_13]]
+[13] RADIUS Interface Description for Ericsson +
+Network Integrated WiFi (ENIW) solution +
+SAPC - WiFi Gateway
+
+[[_14]]
+[14] Installation Guide for the TITAN TTCN-3 Test Executor
+
+[[_15]]
+[15] UDP Socket Test Port for TTCN-3 Toolset with TITAN, UG
+
+[[_16]]
+[16] OpenSSL toolkit +
+http://www.openssl.org

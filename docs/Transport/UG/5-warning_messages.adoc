@@ -1,0 +1,25 @@
+= Warning Messages
+
+`*The parent connection ID not found in the hashmap*`
+
+`*The connection ID not found in the hashmap*`
+
+`*Unknown SCTP event received*`
+
+`*LGenType not found in the hashmap*`
+
+`*Buffer contains invalid data*`
+
+`*no message handler is set for LGen …There is no registered message processing function for the LoadGen type, which is associated to the connection where an incoming packet arrived.*`
+
+`*no LGen is set for connectionA connection should be opened only if there had been message length calculating function registered for that LoadGen type.*`
+
+`*UDP packet length is greater than (65535 - 8).*`
+
+`*f_EPTF_SchedulerComp_scheduleAction failed, could not schedule retransmission of TCP segment. Internal error.*`
+
+`*No route to host:…*`
+
+`*TCP MSS is greater than the receive window size, please reconfigure.*`
+
+`*Buffer is full, clearing buffer.*`

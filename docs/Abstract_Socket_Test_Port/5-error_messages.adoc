@@ -1,0 +1,209 @@
+= Error Messages
+
+== Error Messages In Case TCP Connections Are Used
+
+`*Parameter value <value> not recognized for parameter <name>*`
+
+The specified <value> in the runtime configuration file is not recognized for the parameter <name>.
+
+`*Invalid input as TCP_reconnect_attempts counter given: <value>*`
+
+The specified <value> in the runtime configuration file must be a positive whole number.
+
+`*TCP_reconnect_attempts must be greater than 0, <value> is given*`
+
+The specified <value> for `TCP_reconnect_attempts` in the runtime configuration file must be greater than `_0_`.
+
+`*Invalid input as TCP_reconnect_delay given: <value>*`
+
+The specified <value> for the `TCP_reconnect_delay` parameter in the runtime configuration file must be a whole number not less than `_0_`.
+
+`*TCP_reconnect_delay must not be less than 0, <value> is given*`
+
+The specified <value> for the `TCP_reconnect_delay` parameter in the runtime configuration file must be a whole number not less than `_0_`.
+
+`*Invalid input as port number given: <value>*`
+
+The specified <value> in the runtime configuration file is cannot be interpreted as a valid port number (e.g. string is given).
+
+`*Port number must be between 0 and 65535, <value> is given*`
+
+The specified <value> in the runtime configuration file is cannot be interpreted as a valid port number. Port numbers must be in the range 0..65535.
+
+`*Invalid input as server backlog given: <value>*`
+
+The specified <value> in the runtime configuration file is cannot be interpreted as a valid server backlog number (e.g. string is given).
+
+`*Cannot accept connection at port*`
+
+Connection could not be accepted on TCP socket.
+
+`*Error when reading the received TCP PDU*`
+
+System error occurred during reading from the TCP socket.
+
+`*Cannot open socket*`
+
+Creation of the listener socket failed.
+
+`*Setsockopt failed*`
+
+Setting of socket options failed.
+
+`*Cannot bind to port*`
+
+Binding of a socket to a port failed.
+
+`*Cannot listen at port*`
+
+Listen on the listener socket failed.
+
+`*getsockname() system call failed on the server socket*`
+
+The query of the listening port number failed.
+
+`*AbstractSocket: getnameinfo: <error>*`
+
+The `getnameinfo` function returned an error.
+
+`*getaddrinfo: <errortext> for host <host> service <service>*`
+
+The `getaddrinfo` function returned an error.
+
+`*Malformed message: invalid length: <length>. The length should be at least <lenght>.*`
+
+The message received contains invalid length information.
+
+`*Already tried <value> times, giving up*`
+
+The deadlock counter exceeds the hard coded limit when trying to connect to a server in client mode. When connecting on a socket, sometimes it is unsuccessful. The next try usually solves the problem and the connection will be successfully accepted. The test port retries to connect as a workaround. The number of tries however limited to avoid hanging the test port.
+
+Different operating systems behave in a different way. This problem is rare on Solaris, Unix and Linux systems, but much more often on Cygwin.
+
+`*Cannot connect to server*`
+
+Connection to a server on TCP failed.
+
+`*Connection was interrupted by the other side*`
+
+The TCP or SSL connection was refused by the other peer, or broken.
+
+`*Client Id not specified although not only 1 client exists*`
+
+Never should show up.
+
+`*There is no connection alive, use the `ASP_TCP_Connect' before sending anything.*`
+
+An attempt was made by the test port to send data before setting up any connection. The `open_client_connection` function has to be called before sending any data.
+
+`*Send system call failed: There is no client connected to the TCP server*`
+
+A send operation is performed to a non-existing client.
+
+`*Send system call failed: <value> bytes were sent instead of <value>*`
+
+The send operation failed.
+
+`*<name> is not defined in the configuration file*`
+
+The test port parameter <name> is not defined in the runtime configuration file, although its presence is mandatory (or conditional and the condition is true).
+
+`*The host name <name> is not valid in the configuration file*`
+
+The host name specified in the configuration file could not be resolved.
+
+`*Number of clients<>0 but cannot get first client, programming error*`
+
+Never should show up.
+
+`*Index <value> exceeds length of peer list*`
+
+Never should show up.
+
+`*Abstract_Socket::get_peer: Client <value> does not exist*`
+
+Never should show up.
+
+`*Invalid Client Id is given: <value>*`
+
+Never should show up.
+
+`*Peer <value> does not exist*`
+
+Never should show up.
+
+`*Set blocking mode failed.*`
+
+Test port could not set socket option: O_NONBLOCK
+
+== Additional Error Messages In Case SSL Connections Are Used
+
+Apart from the previously mentioned error messages, the following messages are used in case SSL is used:
+
+`*No SSL CTX found, SSL not initialized*`
+
+Never should show up.
+
+`*Creation of SSL object failed*`
+
+Creation of the SSL object is failed.
+
+`*Binding of SSL object to socket failed*`
+
+The SSL object could not be bound to the TCP socket.
+
+`*SSL error occurred*`
+
+A general SSL error occurred. Check the test port logs to see previous error messages showing the real problem.
+
+`*<name> is not defined in the configuration file although <value>=yes*`
+
+<name>: ssl_trustedCAlist_file_name(), <value>: ssl_verifycertificate_name()
+
+`*No SSL data available for client <value>*`
+
+Never should show up.
+
+`*Could not read from /dev/urandom*`
+
+The read operation on the installed random device is failed.
+
+`*Could not read from /dev/random*`
+
+The read operation on the installed random device is failed.
+
+`*Could not seed the Pseudo Random Number Generator with enough data*`
+
+As no random devices found, a workaround is used to seed the SSL PRNG. The seeding failed.
+
+`*SSL method creation failed*`
+
+The creation of the SSL method object failed.
+
+`*SSL context creation failed*`
+
+The creation of the SSL context object failed.
+
+`*Can't read certificate file*`
+
+The specified certificate file could not be read.
+
+`*Can't read key file*`
+
+The specified private key file could not be read.
+
+`*Can't read trustedCAlist file*`
+
+The specified certificate of the trusted CAs file could not be read.
+
+`*Cipher list restriction failed for <value>*`
+
+The specified cipher restriction list could not be set.
+
+`*Activation of SSL session resumption failed on server*`
+
+The activation of the SSL session resumption on the server failed.
+
+`*Unknown SSL error code <value>*`
+
+Never should show up.

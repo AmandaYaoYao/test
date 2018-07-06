@@ -1,0 +1,9 @@
+= Usage with IPL4 Test Port
+
+To use IPL4 test port for HTTP traffic the HTTP test port provides a message length calculator function. That function can be used to determine the message boundary by the IPL4 test port.
+
+[cols=",,",options="header",]
+|=====================================================
+|Name |Type of formal parameters |Type of return value
+|`f_HTTPMessage_len` |in octetstring stream |integer
+|=====================================================

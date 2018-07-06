@@ -1,0 +1,12 @@
+= References
+
+[[_1]]
+[1] http://www.ietf.org/internet-drafts/draft-ietf-sigtran-rfc3057bis-02.txt[draft-ietf-sigtran-rfc3057bis-02.txt] +
+ISDN Q.921-User Adaptation Layer
+
+[[_2]]
+[2] ETSI ES 201 873-1 v.4.4.1 (2012) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_3]]
+[3] User Documentation for the TITAN TTCN-3 Test Executor

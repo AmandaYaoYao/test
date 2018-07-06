@@ -1,0 +1,253 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading <<5-references.adoc#_4, ‎[4]>>.
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_StatMeasure_`
+
+== General Public Functions
+
+The following sections describe the functions that are available for all statistics.
+
+=== Initialization
+
+Before using the EPTF Statistics Measure functions the
+
+`f_EPTF_StatMeasure_init_CT(componentName)`
+
+function should be called. This initializes the EPTF Statistics Measure feature.
+
+=== Creating Statistics
+
+[source]
+----
+f_EPTF_StatMeasure_newStat(varID, statType [, customStatName, customStatFunctions, customStatArguments])
+----
+
+This function creates a new Statistics of a given type (e.g.`min`, `max`, etc.) belonging to a Variable and returns the ID of the new Statistics.
+
+NOTE: `percentileP` statistics will be created with p value `_50.0_` that can be changed later.
+
+[source]
+----
+f_EPTF_StatMeasure_newStat_*(varID [,customStatName, customStat Functions, customStatArguments])
+----
+
+To create stand-alone Statistics of a given type, this function should be called substituting * with the Statistics type (e.g.`delta`). In place of the `varID`, in this case the `_-1_` value should be written.
+
+NOTE: For the content Statistics type, it is not possible to create stand-alone Statistics (i.e. without a Variable assigned to it).
+
+`f_EPTF_StatMeasure_addData_*(statID, newData)`
+
+If no variable was given when the statistics was created, this function can be used to add new data. If the statistics was created for an existing EPTF Variable data will be automatically added when the value of the variable is refreshed, and it is considered as a new measured value.
+
+NOTE: This function only works with enabled Statistics.
+The Variable belonging to EPS statistics will not be updated automatically, additional functions has to be called (See <<updating_statistics, ‎ Updating Statistics>>).
+
+`f_EPTF_StatMeasure_createAllStat(varID)`
+
+This function creates all possible Statistics belonging to the given Variable ID.
+
+=== Resetting Statistics
+
+[sourc]
+----
+f_EPTF_StatMeasure_resetStat(statID)
+
+f_EPTF_StatMeasure_resetStats(statIDList)
+----
+
+These functions can be used to reset given Statistics. The Statistics will be initialized. Then, a new measurement can be started.
+
+NOTE: The value of the given Statistics is reset only when the `startMeasurement` or the `addData` function is called afterwards.
+
+To reset the value of the statistics, the function
+
+`f_EPTF_StatMeasure_initStatValue(statID)`
+
+should be called. It resets the statistics and initializes its value. The created variable is updated also.
+
+[[updating_statistics]]
+=== Updating Statistics
+
+`f_EPTF_StatMeasure_update_EPS(statID, period)`
+
+In case of Statistics belonging to Variables, the Statistics are automatically updated in the background, so that the user does not have to call any update functions.
+
+For EPS type of Statistics, however, the user generally wants to define the measurement period, for which the EPS Statistics is calculated. For this aim, the `update_EPS` function should be called. If measurement period is not set or set to -1.0, the time is automatically measured using the elapsed time since the addition of the first data.
+
+`f_EPTF_StatMeasure_registerDefaultUpdate_EPS(statID)`
+
+This function should be used to set the Variable belonging to EPS statistics to be updated automatically. If this function is not called `f_EPTF_StatMeasure_update_EPS()` has to be called to update the Variable.
+
+[[enabling-disabling-statistics]]
+=== Enabling/Disabling Statistics
+
+[source]
+----
+f_EPTF_StatMeasure_enableStat(statID)
+
+f_EPTF_StatMeasure_disableStats(statID)
+----
+
+Statistics can be enabled or disabled. Only enabled Statistics are updated with new values, disabled Statistics will not be updated and the `f_EPTF_StatMeasure_addData_`* function does not change their data either. New Statistics are created as enabled.
+
+[[get-set-functions]]
+=== Get/Set Functions
+
+`f_EPTF_StatMeasure_getVarIdx(statID)`
+
+This function returns the ID of the EPTF Variable the given statistics calculated from. If the Statistics does not belong to any Variable, the returned ID is `_-1_`.
+
+`f_EPTF_StatMeasure_getStat_*(statID, statValue)`
+
+This function can be called to receive the value of a Statistics `statID` of a certain type (* should be substituted by the type) in the `statValue` parameter. This function returns false if the value of the statistics is not available, e.g. when no data was added after reset.
+
+`f_EPTF_StatMeasure_getStatType(statID)`
+
+This function returns the type (`content`, `min`, `max`, etc.) of the Statistics.
+
+=== Convenience Functions
+
+`f_EPTF_StatMeasure_value2str(statID)`
+
+This function converts the value of the Statistics to charstring for easier printing.
+
+=== Creating an EPTF Variable from a Statistics
+
+`f_EPTF_StatMeasure_createVarFromStat(statID, VarName)`
+
+This function can be useful if the user wants to print the Statistics onto the GUI, or reach the value of a Statistics from a distant component.
+
+The function creates an EPTF Variable form the given Statistics. The name of the created Variable can be given by `VarName`; if left empty, this name is auto-generated.
+
+The value of the created EPTF Variables is updated automatically for all Statistics (including stand-alone Statistics) when the value of the corresponding Statistics changes.
+
+== Summary Table of General Public Functions for EPTF Statistics Measure
+
+See Summary of Statistics Measure Functions in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|===================================================================================================================
+|Function name |Description
+|`f_EPTF_StatMeasure_init_CT` |Initializes the `StatMeasure` component.
+|`f_EPTF_StatMeasure_newStat` |Creates new Statistics and returns its ID.
+|`f_EPTF_StatMeasure_addData_`* |Adds new data to a Statistics of a given type (*).
+|`f_EPTF_StatMeasure_createAllStat` |Creates all available Statistics for a Variable.
+|`f_EPTF_StatMeasure_resetStat` |Resets a Statistics.
+|`f_EPTF_StatMeasure_resetStats` |Resets all Statistics defined in the input parameter.
+|`f_EPTF_StatMeasure_initStatValue` |Resets the Statistics and initializes its value.
+|`f_EPTF_StatMeasure_update_EPS` |This function should be called to update the EPS type Statistics.
+|`f_EPTF_StatMeasure_enableStat` |Enables a Statistics.
+|`f_EPTF_StatMeasure_disableStats` |Disables a Statistics
+|`f_EPTF_StatMeasure_getVarIdx` |Returns the Variable ID the Statistics belongs to, or -1
+|`f_EPTF_StatMeasure_getStat_`* |Returns the actual value of a Statistics of a given type (*)
+|`f_EPTF_StatMeasure_getStatType` |Returns the type of the Statistics.
+|`f_EPTF_StatMeasure_value2str` |Converts the Statistics value to charstring.
+|`f_EPTF_StatMeasure_createVarFromStat` |Creates a Variable from a Statistics with a given name.
+|`f_EPTF_StatMeasure_changeToFloat_`* |Changes the value type to float of the statistics `delta`, `deltaSum`, `min` and `max`.
+|===================================================================================================================
+
+== Special Functions
+
+This section describes additional functions that are available for a given statistics only.
+
+=== `Delta`, `DeltaSum`, `Min` and `Max`
+
+The function `f_EPTF_StatMeasure_changeToFloat_`* can be used to change the type of these statistics to float if they are not standalone stats. The type of these standalone statistics is set to integer by default. This function has to be called before a variable is created from the statistics by the `f_EPTF_StatMeasure_createVarFromStat` function.
+
+=== `Mean`
+
+The function `f_EPTF_StatMeasure_createVarFromStat_N_mean` can be used to create EPTF Variable from the auxiliary data N (i.e. the number of data samples) of the mean statistics.
+
+=== `StandardDev`
+
+The function `f_EPTF_StatMeasure_getStat_standardDev_mean` can be used to get the mean of the data. This mean value is calculated automatically for the `standardDev` statistics. It is not necessary to create an additional mean statistics.
+
+The function `f_EPTF_StatMeasure_getStatIdx_standardDev_mean` can be used to get the `statID` of the mean statistics that is maintained automatically for the `standardDev` statistics. Do not reset, enable or disable this statistics! This ID can be used to create an EPTF Variable from this statistics.
+
+The function `f_EPTF_StatMeasure_standardDev_mean2str` can be used to convert the mean statistics belonging to the `standardDev` statistics to string.
+
+The function `f_EPTF_StatMeasure_createVarFromStat_N_standardDev` can be used to create EPTF Variable from the auxiliary data N (i.e. the number of data samples) of the `standardDev` statistics.
+
+The function `f_EPTF_StatMeasure_createVarFromStat_S_standardDev` can be used to create EPTF Variable from the auxiliary data S (i.e. the sum of deviation squares of data samples) of the `standardDev` statistics.
+
+The function `f_EPTF_StatMeasure_createVarFromStat_Mean_standardDev` can be used to create EPTF Variable from the auxiliary data Mean (i.e. the mean of data samples) of the `standardDev` statistics.
+
+=== `EPS`
+
+To calculate the EPS statistics and update its value and set the time of the measurement call `f_EPTF_StatMeasure_update_EPS`. If the period is not specified the time of the measurement is determined automatically. If 1 sec is specified for the period the value of the statistics will give the number of events since the start of the measurement.
+
+The measurement is started when the `f_EPTF_StatMeasure_startMeasurement_EPS` is called or if the first data is added by the `f_EPTF_StatMeasure_addData_EPS` function after `f_EPTF_StatMeasure_resetStat_EPS` is called.
+
+The current time since the start of the measurement can be read by `f_EPTF_StatMeasure_getTime_EPS`.
+
+To read out the length of the measurement period (i.e. the time between start and stop) call the function `f_EPTF_StatMeasure_getMeasurementLength_EPS`.
+
+Additional calls to `f_EPTF_StatMeasure_update_EPS` can be used to update the stop time and the measurement length. The variable belonging to EPS statistics will get a new value if this function is called.
+
+If user wants the Variable belonging to the EPS statistics to be updated automatically, he has to call the function `f_EPTF_StatMeasure_registerDefaultUpdate_EPS` after he created this type of statistics.
+
+=== `Chrono`
+
+The function `f_EPTF_StatMeasure_start_chrono` starts the chronometer. If this function is not called the measurement is started when the first data is added by the function `f_EPTF_StatMeasure_addData_chrono`. However, `f_EPTF_StatMeasure_addData_chrono` updates the value of the statistics also.
+
+The function `f_EPTF_StatMeasure_getMeasurementLength_chrono` returns the length of the measurement. It is the time between start and update in seconds. Same as `f_EPTF_StatMeasure_getStat_chrono` but the value of the statistics is in the return value.
+
+The `f_EPTF_StatMeasure_getTime_chrono` function returns the time elapsed since the measurement was started.
+
+The function `f_EPTF_StatMeasure_update_chrono` updates the measurement length. The value of the statistics is set to the time since start.
+
+The function `f_EPTF_StatMeasure_stop_chrono` stops the chronometer and updates the value of the statistics. After the chronometer is stopped new data cannot be added with the `addData` function. The statistics has to be reset to add further data. Also after stopping the chronometer, the `f_EPTF_StatMeasure_getTime_chrono` will return the time between starting and stopping the chronometer.
+
+=== `Density`
+
+The function `f_EPTF_StatMeasure_setBoundaries_density` can be used to set the boundaries manually. When this function is called, the statistics is reset automatically.
+
+The function `f_EPTF_StatMeasure_setScale_density` can be used to generate the boundaries automatically between the lower and the upper boundary. The scale can be set to linear or logarithmic. When this function is called, the statistics is reset automatically.
+
+The `f_EPTF_StatMeasure_getStat_normalized_density` function returns the density function. It is normalized so that the sum of all values is `_1_`.
+
+=== `Percentile95`
+
+The function `f_EPTF_StatMeasure_setBoundaries_percentile95` can be used to set the boundaries manually. When this function is called, the statistics is reset automatically.
+
+The function `f_EPTF_StatMeasure_setScale_percentile95` can be used to generate the boundaries automatically between the lower and the upper boundary. The scale can be set to linear or logarithmic. When this function is called, the statistics is reset automatically.
+
+The functions `f_EPTF_StatMeasure_getStatIdx_density_percentile95` and `f_EPTF_StatMeasure_getStatIdx_max_percentile95` return the index of the density and max statistics used by percentile95.
+
+The functions
+
+* `f_EPTF_StatMeasure_createVarFromStat_max_percentile95`
+* `f_EPTF_StatMeasure_createVarFromStat_density_percentile95`
+* `f_EPTF_StatMeasure_createVarFromStat_boundaries_density_percentile95`
+
+can be used to create EPTF Variables from the max, density and the boundaries of the percentile95 statistics.
+
+=== `PercentileP`
+
+The function `f_EPTF_StatMeasure_setBoundaries_percentileP` is the same as in `percentile95` statistics. It can be used to set the boundaries manually. When this function is called, the statistics is reset automatically.
+
+The function `f_EPTF_StatMeasure_setScale_percentileP` can be used to generate the boundaries automatically between the lower and the upper boundary. The scale can be set to linear or logarithmic. When this function is called, the statistics is reset automatically.
+
+The functions `f_EPTF_StatMeasure_getStatIdx_density_percentileP` and `f_EPTF_StatMeasure_getStatIdx_max_percentileP` return the index of the density and max statistics used by `percentileP`.
+
+The function `f_EPTF_StatMeasure_setValueP_percentileP` can be used to set the p value of the statistics where the p^th^ percentile should be calculated. The p value can be between 0.0 and `_1.0_`. If it is set to `_0.95_`, `percentileP` statistics calculates the same values as percentile95 statistics. The value 0.5 corresponds to the Median of the data values. When this function is called, the statistics is reset automatically.
+
+The functions
+
+* `f_EPTF_StatMeasure_createVarFromStat_max_percentileP`
+* `f_EPTF_StatMeasure_createVarFromStat_density_percentileP`
+* `f_EPTF_StatMeasure_createVarFromStat_boundaries_density_percentileP`
+* `f_EPTF_StatMeasure_createVarFromStat_valueP_percentileP`
+
+can be used to create EPTF Variables from the max, the density, the boundaries and the actually used p value of the percentile95 statistics.
+
+=== `Limits`
+
+The limits statistics can be created by the `f_EPTF_StatMeasure_newStat_limits` function. It is possible to set the limit values, the default led color, the reference variable via its arguments. The text field of the LED can show the value of the last measured data used to calculate the statistics. This can be enabled by this function also. This statistics, like the others, can be calculated automatically from an EPTF Variable. This variable can also be given for the function. The type of the variable can be integer or float.
+
+The function `f_EPTF_StatMeasure_setLimits_limits` can be used to set the limit values for different LED colors. When it is called the statistics is reset.
+
+The function `f_EPTF_StatMeasure_getLimits_limits` returns the limits currently used to calculate the limits statistics.

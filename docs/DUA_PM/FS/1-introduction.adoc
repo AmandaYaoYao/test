@@ -1,0 +1,9 @@
+= Introduction
+
+== How to Read This Document
+
+This is the Function Specification for the set of DUA protocol modules. DUA protocol modules are developed for the TTCN-3 Toolset with TITAN. 
+
+== Scope
+
+The purpose of this document is to specify the content of the DUA protocol modules.

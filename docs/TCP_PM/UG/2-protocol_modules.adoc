@@ -1,0 +1,54 @@
+= Protocol Modules
+
+== Overview
+
+Protocol modules implement the message structures of the corresponding protocol in a formalized way, using the standard specification language TTCN-3. This allows defining of test data (templates) in the TTCN-3 language <<4-references.adoc#_1, [1]>> and correctly encoding/decoding messages when executing test suites using the TITAN TTCN-3 test environment.
+
+Protocol modules are using TITAN’s RAW encoding attributes <<4-references.adoc#_2, [2]>> and hence are usable with the TITAN test toolset only.
+
+The file __TCP_Types.ttcn__ includes the top level PDU_TCP and it subtypes which correspond to the structure given in <<4-references.adoc#_5, [5]>>. Using these types, templates can be defined to send and receive a given message.
+
+== Installation
+
+The set of protocol modules can be used in developing TTCN-3 test suites using any text editor. However to make the work more efficient a TTCN-3-enabled text editor is recommended (e.g. `nedit`, `xemacs`). Since the TCP protocol module is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor and a C compiler be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant parts of <<4-references.adoc#_2, [2]>>.
+
+== Configuration
+
+None.
+
+== Encoding, Decoding, Checksum Calculation
+
+Implemented encoding/decoding functions:
+
+[cols=3*,options=header]
+|===
+
+|Name |Type of formal parameters |Type of return value
+|`f_enc_PDU_TCP` |IP_Address, // src. IPv4 or IPv6 address +
+IP_Address, //dest. IPv4 or IPv6 address +
+PDU_TCP, +
+boolean // automatically calculate data offset +
+boolean // automatically calculate checksum |octetstring
+|`f_dec_PDU_TCP` |octetstring |PDU_TCP
+|===
+
+The encoding function `f_enc_PDU_TCP` performs basic RAW encoding <<4-references.adoc#_2, [2]>>. The data offset field is automatically calculated if the user sets the first boolean parameter (`pl_autoDataOffset`) to `_true_`. The checksum is automatically calculated during encoding if the user sets the second boolean parameter (`pl_autoCheckSum`) to `_true_`. For calculating the correct checksum the user needs to provide 2 additional parameters to the encoding function. These parameters are the `pl_ip_source` and `pl_ip_dest` which are the source and destination IP addresses (either a pair of IPv4 or a pair of IPv6 addresses).
+
+The decoding function `f_dec_PDU_TCP` performs basic RAW decoding <<4-references.adoc#_2, [2]>>. The `checksum` field is not verified during decoding.
+
+There is an additional function which verifies the `checksum` field in an encoded TCP message:
+
+[cols=3*,options=header]
+|===
+
+|Name |Type of formal parameters |Type of return value
+|`f_TCP_verify_checksum` |octetstring +
+IP_Address, +
+IP_Address |boolean
+|===
+
+The inputs into this function are the encoded TCP message and the source and destination addresses (either a pair of IPv4 or a pair of IPv6 addresses). The function returns `_true_` if the checksum is correct and `_false_` if it is incorrect.
+
+== Demo
+
+The demo directory contains the file __Handle_TCP_Connections.ttcn__. This file includes some basic functions which can be used to send and receive TCP packets. The function `f_TCP_CreatePayload` creates a TCP/IP packet which carries the payload `pl_data`. The function `f_TCP_VerifyHeader` verifies the TCP and IP headers in a received message. It also verifies the TCP checksum and saves the Sequence Number and Acknowledge Number in a local variable of type ConnectionList.

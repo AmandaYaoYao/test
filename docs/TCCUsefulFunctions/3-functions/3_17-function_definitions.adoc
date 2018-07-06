@@ -1,0 +1,17 @@
+= Function definitions
+
+`external function f_SYS_getpid() return integer;`
+
+Returns the pid of the process.
+
+== Error Messages
+
+None.
+
+== Warning Messages
+
+None
+
+== Examples
+
+None.

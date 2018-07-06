@@ -1,0 +1,9 @@
+= Introduction
+
+== How to Read This Document
+
+This is the Function Specification for the PTC deploying component, the `EPTF_PTCD_CT` of the Ericsson Performance Test Framework (TitanSim), Core Load Library (CLL).
+
+== Scope
+
+This document is to specify the functionality of the PTC deployment component of the TitanSim CLL.

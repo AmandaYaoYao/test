@@ -1,0 +1,33 @@
+= Protocol Modules
+
+== Overview
+
+Protocol modules implement the message structure of the related protocol in a formalized way, using the standard specification language TTCN-3. This allows definition of test data (templates) in TTCN-3 core-language <<7-references.adoc#_1, [1]>> and correct encoding/decoding of messages during execution of test suites using the TITAN TTCN-3 test environment.
+
+The DNS protocol module implements the following functions:
+
+[source]
+----
+dec_PDU_DNS(in octetstring stream) return PDU_DNS;
+enc_PDU_DNS(in PDU_DNS msg, in boolean doCompression, in boolean autoLengthCalc) return octetstring;
+----
+
+The function `dec_PDU_DNS` decodes an octetstring that represents an encoded DNS message. Unsupported resource records (see Function Specification <<7-references.adoc#_3, [3]>>) will be decoded into field `unsupported` and erroneous resource records will be decoded into field `undecodable` of rData, both fields are of type octetstring. These fields can also be used to encode erroneous or unsupported data. Decoded DNS messages are in uncompressed format.
+
+The function `enc_PDU_DNS` encodes a DNS message given as TTCN-3 data into an octetstring. The latter function has two additional boolean parameters. Parameter `doCompression` specifies whether the encoder should compress domain names or encode them uncompressed. Parameter `autoLengthCalc` specifies whether the encoder should calculate and substitute length fields in resource records automatically. Calculating length fields manually is not recommended unless it is required to encode a faulty DNS message. Fields `qdCount`, `anCount`, `nsCount` and `arCount` of DNS messages are not automatically calculated
+
+NOTE: If resource records are passed to templates as parameters then `sizeof` can be used to calculate these.
+
+== Installation
+
+The Test Port and the protocol module can be used for the development of TTCN-3 test suites. Since the DNS protocol module is used as part of a TTCN-3 test suite, this requires TTCN-3 Test Executor to be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<7-references.adoc#_2, [2]>>.
+
+The following steps are needed to use the DNS protocol module:
+
+. Copy the source file (__DNS_EncDec.cc__) and the definition module (__DNS_Types.ttcn__) into the directory of the test suite or create symbolic links to them.
+. Import module `DNS_Types` to the module(s) where the DNS protocol module is used.
+. Create a _Makefile_ or modify the existing one.
+
+== Configuration
+
+None.

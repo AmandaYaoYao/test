@@ -1,0 +1,21 @@
+= Terminology
+
+*TitanSim Core (Load) Library(CLL):* +
+It is that part of the TitanSim software that is totally project independent. (I.e., which is not protocol-, or application-dependent). The TitanSim CLL is to be supplied and supported by the TCC organization. Any TitanSim CLL development is to be funded centrally by Ericsson
+
+*EPTF Variable:* +
+An enhanced component variable that makes it possible to access the values of other Variables in remote components
+
+= Abbreviations
+
+CLL:: Core Load Library
+
+EPTF:: Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+MTC:: Main Test Component
+
+PID:: Process Identifier
+
+TitanSim:: Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+TTCN-3:: Testing and Test Control Notation version 3 <<6-references.adoc#_1, [1]>>.

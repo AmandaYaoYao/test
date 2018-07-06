@@ -1,0 +1,399 @@
+= Error Messages
+
+NOTE: Besides the below described error messages, error messages shown in <<7-references.adoc#_2, ‎[2]>> or those of other used features or product may also appear.
+
+`*"Traffic case is running. The burst calculation method can not be set."*`
+
+The burst calculation method can not be set to a running traffic case.
+
+`*"This burst calculation method cannot be found."*`
+
+The burst calculation method cannot be found in the database. Probably this method was not declared before, or its name is misspelled.
+
+`*"This burst calculation method is already defined."*`
+
+A burst calculation method has been declared with the same name.
+
+`*"Error: attempting to delete fcb. at invalid idx: [idx]"*`
+
+The index of the scenario creation callback to be deleted is invalid.
+
+`*"Can not schedule traffic case timer event."*`
+
+The `f_EPTF_SchedulerComp_scheduleAction` function returned false, the `EPTF_Scheduler_CT` could not schedule the timer to call the `f_EPTF_LGenBase_doTrafficCaseTimerAction`.
+
+`*"Invalid input index in finished event."*`
+
+The private `f_EPTF_LGenBase_doTrafficCaseTimerAction` function was called with invalid event parameter.
+
+`**"* must be *"**`
+
+The specified object has been registered in wrong order. Probably other components had registered objects of the same type earlier, however the init function of the LGenBase must be called first.
+
+`*"Unhandled burst management type."*`
+
+Internal coding error, it must not happen.
+
+`*"The behavior type already exists."*`
+
+A behavior type with the same name had been registered already.
+
+`*"Invalid behavior type: [name]"*`
+
+The behavior type had not been registered.
+
+`*"The step [name] already exists!"*`
+
+A test step with the same name had been registered already.
+
+`*"The declared event is a timer timeout event, but the [name] name is not in the list of timers!"*`
+
+The event type in the FSM declarator is a timer timeout event, but the specified name is not in the list of timers of the FSM.
+
+`*"The declared [name] event behavior name is not valid!"*`
+
+The behavior type had not been registered.
+
+`*"The declared [name] event input name is not valid!"*`
+
+The event had not been registered.
+
+`*"The count of the declared states and the states in row#[nr.] of the FSM differ!"*`
+
+There are less or more FSM states than the count of the cell rows in the FSM’s specified table row.
+
+`*"Invalid step function: [name]"*`
+
+The referred step function had not been registered.
+
+`*"Invalid step function type:"*`
+
+There is a registered function with the same name, but it its type is not `EPTF_LGenBase_TestStepFunction_FT`.
+
+`*"Invalid step:"*`
+
+The referred test step had not been registered.
+
+`*"In case of timer start step the contextArgs must be present."*`
+
+The test step is a timer start, but the `contextArgs` is omit.
+
+`*"The declared [name] name is not in the list of timers!"*`
+
+The referred timer name does not exist in the list of timers of the FSM.
+
+`*"In case of timer cancel step the contextArgs must be present."*`
+
+The test step is a timer cancel, but the `contextArgs` is omit.
+
+`*"In case of timer cancel step the contextArgs must be a name of a timer."*`
+
+The test step is a timer cancel, the `contextArgs` is present, but not the `timerName` field is chosen but the `stepContextArgs`.
+
+`*"If the contextArgs is present, it must be an integer list. Row#[nr.]"*`
+
+The `contextArgs` is present, but not the `stepContextArgs` field is chosen but the `timerName`.
+
+`*"Invalid next state calculation function: [name]"*`
+
+The referred next state calculation function had not been registered.
+
+`*"Invalid next state calculation function type: [name]"*`
+
+There is a registered function with the same name, but it its type is not `EPTF_LGenBase_NextStateCalc_FT`.
+
+`*"Declared nextstate must be valid"*`
+
+The name of the referred state is not present in the list of states of the FSM table.
+
+`*"The name of the entity type mustn't be empty."*`
+
+The `pl_name` parameter of the `f_EPTF_LGenBase_declareEntityType` function is an empty string.
+
+`*"The entity type [name] already exists."*`
+
+An entity type with the same name had been registered already.
+
+`*"Invalid behavior type: [name]"*`
+
+There is no registered behavior type with the specified name.
+
+`*"The entity group name mustn't be empty."*`
+
+The name field of the `EPTF_LGenBase_EntityGrpDeclarator` is an empty string.
+
+`*"The entity type name mustn't be empty."*`
+
+The `eType` field of the `EPTF_LGenBase_EntityGrpDeclarator` is an empty string.
+
+`*"The entity group [name] already exists."*`
+
+An entity group with the same name had been registered already.
+
+`*"Invalid entity type [name]"*`
+
+There is no registered entity type with the specified name.
+
+`*"Invalid count of entities: [count]"*`
+
+The specified count is less than `_zero_`.
+
+`*"Invalid entity group name: [name]"*`
+
+There is no registered entity group with the specified name.
+
+`*"Invalid entity group index: [index]"*`
+
+The index of the entity group is invalid.
+
+`*"Invalid customFinishFunction: [name]"*`
+
+There is no registered function with the specified name, or its type is not `EPTF_LGenBase_customFinishFunction_FT`.
+
+`*"Invalid group finish action."*`
+
+Internal error, it should not happen.
+
+`*"Invalid entity finish action."*`
+
+Internal error, it should not happen.
+
+`*"Invalid customFinishCondition: [name]"*`
+
+There is no registered function with the specified name.
+
+`*"Invalid customFinishCondition type: [name]"*`
+
+There is a registered function with the specified name, but its type is not `EPTF_LGenBase_customFinishCondition_FT`.
+
+`*"Invalid custom entity success function: [name]"*`
+
+There is no registered function with the specified name.
+
+`*"Invalid custom entity success function type: [name]"*`
+
+There is a registered function with the specified name, but its type is not `EPTF_LGenBase_evaluateSuccess4EntityAtEntityGroup2_FT`.
+
+`*"Invalid FSM name: [name]"*`
+
+There is no registered FSM table with the specified name.
+
+`*"The traffic case name already exists: [name]"*`
+
+A traffic case with the same name had been registered already.
+
+`*"FMS name must not be empty."*`
+
+The name of the FSM table must be specified and must not be an empty string.
+
+`*"Invalid traffic case index: [index]"*`
+
+The specified index of the traffic case is invalid.
+
+`*"Invalid traffic case name: [name]"*`
+
+There is no traffic case with the specified name.
+
+`*"Invalid scenario type: [name]"*`
+
+There is an inconsistency error in the scenario type.
+
+`*"Not weighted scenario!: [name]"*`
+
+A function related to a weighted scenario has been called, but the referred scenario is not a weighted scenario.
+
+`*"Invalid scenario name: [name]"*`
+
+There is no scenario with the specified name in the specified entity group.
+
+`*"Invalid scenario index: [name]"*`
+
+There is no scenario in the entity group with the specified index.
+
+`*"Invalid scenario index within the group: [index]"*`
+
+There is no scenario in the entity group with the specified index.
+
+`*"Error assigning the traffic case [name] to group [name]"*`
+
+There was an error when a traffic case has been created on the specified entity group.
+
+`*"collecting traffic weights: TC[index] in weighted SC shall have a weight instead of cpsToReach!"*`
+
+There is a non weighted traffic case in a weighted scenario.
+
+`*"initializing traffic mix for TC in weighted SC [name]: mixer has not accepted traffic mix"*`
+
+There was an error initializing the traffic mix.
+
+`*"Error: attempting to delete fcb. at invalid idx:[index]"*`
+
+The index of the `EPTF_LGenBase_scenarioCreated_FT` functions in the list of "scenario created" callbacks is invalid.
+
+`*"CPS cannot set to weighted TC: [name]"*`
+
+Required call per sec rate can not be set to a weighted traffic case.
+
+`*"Weight cannot set to normal TC: "*`
+
+Weight can be set to a weighted traffic case only.
+
+`*"CPS cannot set to non-weighted scenario: [name]"*`
+
+Required call per sec rate can be set to a weighted scenario only.
+
+`*"Weighted traffic cases can not be paused. Use disable instead."*`
+
+Only non-weighted traffic cases can be paused.
+
+`*"Entity index"*`
+
+Invalid entity index.
+
+`*"FSM context index"*`
+
+Invalid FSM context index.
+
+`*"FSM table index"*`
+
+Invalid FSM table index.
+
+`*"referred FSM table index"*`
+
+Invalid FSM table index.
+
+`*"Row index for FSM table[index]"*`
+
+Invalid row index in the FSM table.
+
+`*"Column index for FSM table[index]"*`
+
+Invalid column index in the FSM table.
+
+`*"FSM timer index"*`
+
+Invalid FSM timer index.
+
+`*"Referred FSM context index"*`
+
+Invalid FSM context index.
+
+`*"FSM timer duration"*`
+
+The defined duration is less than zero.
+
+`*"Presence of target entity's reference"*`
+
+There was no target defined in an event record to be reported to an entity.
+
+`*"Special behavior type in event is unknown"*`
+
+Invalid behavior type is used.
+
+`*"special behaviorType must be known"*`
+
+Invalid behavior type is used.
+
+`*"Behavior type idx for timeouts must be [index]"*`
+
+Invalid behavior type is used.
+
+`*"assumes 3 integers in actionId[]"*`
+
+Internal error in a private function.
+
+`*"expects refContext in TestStepArgs"*`
+
+The `refContext` field of the test step args is not present.
+
+`*"expects exactly 1 refArgs in refContext in TestStepArgs"*`
+
+Starting an FSM timer the step argument must be an integer list with length 1.
+
+`*"Event scheduling must be always successful"*`
+
+The scheduler could not schedule the timer action.
+
+`*"initial state of FSM context"*`
+
+There is no defined state in the FSM table with the specified index.
+
+`*"FSM context management error"*`
+
+Invalid FSM context index or there is no FSM table index in the referred context.
+
+`*"Unhandled listener type."*`
+
+Internal error.
+
+`*"Event/input index"*`
+
+Invalid input index for the referred event.
+
+`*"Event target field must be omit"*`
+
+The target field of a generic event must be omit.
+
+`*"The index [index] is invalid. Max: [count]"*`
+
+Removing an event listener with invalid index.
+
+`*"Event target field must be present"*`
+
+The target field of an entity event must be set.
+
+`*"Invalid listener. pl_bIdx == [index] , pl_iIdx == [index], pl_eIdx == [index]"*`
+
+There was no registered listener listening to the specified event.
+
+`*"Length of pl_listenerArgs must be 3"*`
+
+Internal error.
+
+`*"Table index referred the by FSM context is [index]"*`
+
+Invalid FSM table index. Internal error.
+
+`*"Referred FSM table row index"*`
+
+Invalid FSM table row index. Internal error.
+
+`*"state index referred the by FSM context"*`
+
+Invalid FSM state index. Internal error.
+
+`*"Invalid timer"*`
+
+There is no timer with the specified parameters.
+
+`*"Invalid timer name: [name]"*`
+
+There is no timer in the FSM table with the specified name.
+
+`*"Burst PreCalc is empty."*`
+
+Internal error.
+
+`*"Different FBQ sizes."*`
+
+Internal error.
+
+`*"The default UIHandler component must not be null."*`
+
+The UIHandler component must be a valid component reference.
+
+`*"Entity group name [name] contains the separator [separator]"*`
+
+The name of the entity group must not contain the separator character defined in `tsp_LGenBase_nameSeparator` module parameter.
+
+`*"Scenario name [name] contains the separator [separator]"*`
+
+The name of the scenario must not contain the separator character defined in `tsp_LGenBase_nameSeparator` module parameter.
+
+`*"Invalid variable name:"*`
+
+There is no EPTF Var variable with the specified name.
+
+`*"Couldn't store phase list… Possible name collision in phase list…"*`
+
+A phase declarator has already been defined with this name. Use another name for declaring a new one.

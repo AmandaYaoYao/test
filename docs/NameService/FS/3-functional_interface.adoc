@@ -1,0 +1,87 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading ‎<<5-references.adoc#_4, [4]>>.
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_NS_`.
+
+== Public Functions
+
+=== Initialization
+
+==== Name Service Main Component
+
+Before using the EPTF `NameService` functions one of the components in the system should extend the `NameService` main component `EPTF_NS_CT`. On that component the NS should be initialized:
+
+`f_EPTF_NS_init_CT(…)`
+
+This activates the main event handler of EPTF_NS_CT. The main behavior function running on the component should have an alt-loop, and should only be terminated at shutdown. This component stores the registered items.
+
+If the NS is running on a separate component the function
+
+`f_EPTF_NS_main_CT(selfName)`
+
+can be used as a behavior function that can be started on the component. This function calls `f_EPTF_NS_init_CT` and executes an endless alt-loop that handles the NS client messages. The `init` function automatically registers the cleanup function of the EPTF `NameService`.
+
+==== Name Service Clients
+
+The client component which can register names into the main component should also be initialized:
+
+`f`_EPTF_NS_Client_init_CT(selfName, NS_compRef)`
+
+This function initializes the EPTF NS Client component. The `NS_compRef` argument specifies the component reference where the EPTF NS is running. After this function call the client can register and query names from the `EPTF_NS_CT` component. The `init` function automatically registers the cleanup function of the EPTF `NameService` Client.
+
+=== Register Name
+
+To register a name in the NS, call the function
+
+`f_EPTF_NS_RegisterName(name)`
+
+Note, that it is possible to specify an optional integer Id for the name, which will be returned in the query response with the component reference.
+
+=== Deregister Name
+
+To clear a name from the NS call:
+
+`f_EPTF_NS_DeregisterName(name)`
+
+This function removes the name from the NS database for the component which calls this function.
+
+=== Query
+
+To query a registered name call the function
+
+`f_EPTF_NS_Query(name, resp)`
+
+The result is returned in the second argument. Its type is `QueryResp`, which contain the reference to the component that registered the name and the optional id if that was specified when the name was registered. If the name is not registered, omit is returned for the component reference. The type of the component returned is `EPTF_NS_Client_CT`.
+
+[[upcast-downcast]]
+=== Upcast/Downcast
+
+To change the type of the component returned by the query the following functions can be used:
+
+[source]
+----
+f_EPTF_NS_Client_upcast(compRef)
+
+f_EPTF_NS_Client_downcast(compRef)
+----
+
+They transform the type to/from `EPTF_Base_CT`. The upcast/downcast functions of EPTF Base and EPTF Variable can be used to cast the type further.
+
+== Summary Table of All Public Functions for EPTF `NameService`
+
+See summary of EPTF `NameService` functions
+
+[width="100%",cols="50%,50%",options="header",]
+|=========================================================================================
+|Function name |Description
+|`f_EPTF_NS_init_CT` |Initializes the `EPTF_NS_CT` component
+|`f_EPTF_NS_Client_init_CT` |Initializes the EPTF NS Client component
+|`f_EPTF_NS_RegisterName` |Register a name into the NS server
+|`f_EPTF_NS_DeregisterName` |Deregisters a name from the NS server
+|`f_EPTF_NS_Query` |Queries a name from the NS server
+|`f_EPTF_NS_Client_upcast` |Casts the `EPTF_NS_Client_CT` component reference to `EPTF_Base_CT`
+|`f_EPTF_NS_Client_downcast` |Casts the `EPTF_Base_CT` component reference to `EPTF_NS_Client_C`
+|=========================================================================================

@@ -1,0 +1,375 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the TitanSim C Functions can be reached for on-line reading <<5-references.adoc#_4, [4]>>.
+
+== Naming Conventions
+
+All functions of `StatHandler` have the prefix `f_EPTF_StatHandler_` For example,` f_EPTF_StatHandler_init_CT`.
+
+All functions of the `StatHandlerClient` have the prefix `f_EPTF_StatHandlerClient_` For example,` f_EPTF_StatHandlerClient_declareStat`.
+
+== Public Functions of `StatHandler`
+
+=== Initialization
+
+The function
+
+`f_EPTF_StatHandler_init_CT(pl_selfName)`
+
+must be called before using the `StatHandler`. The EPTF self-name of the component must be supplied as an input argument.
+
+=== Registering Stat-Declared Callback Function
+
+The function
+
+`f_EPTF_StatHandler_registerStatDeclaredCallbackFn(pl_fn)`
+
+can be used to register a function reference as callback for the event when a statistics has been declared.
+
+=== De-registering a Stat-Declared Callback
+
+Statistics declared callback functions can be de-registered using the function
+
+`f_EPTF_StatHandler_deregisterStatDeclaredCallbackFn(pl_fn)`
+
+[[getting-the-id-index-of-a-stat]]
+=== Getting the Id/Index of a Stat
+
+The function
+
+`f_EPTF_StatHandler_getId(pl_statName)`
+
+can be used to get the index of the statistics with name `pl_statName`. The function returns the integer index or `_-1_` in case of error, i.e. if the statistics does not exist.
+
+=== Getting the Number of Statistics
+
+The function
+
+`f_EPTF_StatHandler_getNofStats()`
+
+can be used to get the number of statistics declared.
+
+=== Getting the Name of a Stat
+
+The function
+
+`f_EPTF_StatHandler_getName(pl_statIdx)`
+
+can be used to retrieve the name of a statistics by index.
+
+=== Getting the Method of a Stat
+
+The function
+
+`f_EPTF_StatHandler_getMethod(pl_statIdx)`
+
+can be used to get the statistics method of an aggregated stat by its index.
+
+=== Getting the Stat Variable Index
+
+`f_EPTF_StatHandler_getVarIdx(pl_statIdx)`
+
+can be used to get the EPTF Variable index of a statistics.
+
+=== Getting the Aux Statistics
+
+The function
+
+`f_EPTF_StatHandler_getAuxStats(pl_statIdx)`
+
+can be used to get a list of indices referring the auxiliary statistics of a stat. If the stat has no auxiliary statistics, the function returns an empty integer list.
+
+=== Getting the Aux Variables
+
+The function
+
+`f_EPTF_StatHandler_getAuxVars(pl_statIdx)`
+
+can be used to retrieve the indices of auxiliary variables used by a statistics.
+
+=== Getting the Number of Data Sources
+
+The function
+
+`f_EPTF_StatHandler_getNofSources(pl_statIdx)`
+
+can be used to get the number of data sources registered to a statistics.
+
+=== Getting the Variables of a Data Source
+
+The function
+
+`f_EPTF_StatHandler_getVarsOfSource(pl_statIdx, pl_sourceIdx)`
+
+can be used to get the indices of variables provided by a data source for a statistics.
+
+== Public Functions of `StatHandlerClient`
+
+=== Initializing
+
+The function
+
+f_EPTF_StatHandlerClient_init_CT(pl_selfName, [pl_statHandler_compRef])
+
+must be called before using the `StatHandlerClient`. The parameter `pl_selfName` is the EPTF self-name of the component, `pl_statHandler_compRef` is an optional component reference to the default `StatHandler`. If the latter parameter is not specified or is null, the `StatHandlerClient` will not have a default `StatHandler` master component, and the actual master component reference _must_ be passed to the functions where it is possible.
+
+=== Declaring Statistics
+
+The function
+
+`f_EPTF_StatHandlerClient_declareStat(pl_statName, pl_statMethod, pl_statResetValue, [pl_statHandler])`
+
+can be used to declare an aggregated statistics. The statistics will be declared on the `StatHandler` master component referred by the parameter `pl_statHandler`, or, if this parameter is omitted or null, on the default `StatHandler` of the client specified at initialization. The parameter `pl_statName` specifies the name of the statistics to be declared, `pl_statMethod` the method of the statistics aggregation, and `pl_statResetValue` the reset value of the stat in `EPTF_Var_DirectContent` format. The reset value also specifies the type of the statistics, i.e. the type of variable that will contain the aggregated value.
+
+Table below lists the statistics method and the statistics types supported by `StatHandler` (see <<2-general_description.adoc#stathandler_master_component, `StatHandler` Master Component>> for details).
+
+See the list of supported statistics methods below:
+
+[cols=",",options="header",]
+|====================================
+|*Stat method* |*Supported stat type*
+|`Min` |integer, float
+|`Max` |integer, float
+|`Sum` |integer, float
+|`Mean` |float
+|`StandardDev` |float
+|`GlobalAverage` |float
+|`Density` |EPTF_IntegerList
+|`Percentile95` |float
+|`PercentileP` |float
+|====================================
+
+=== Registering a Data Source
+
+The following function can be used to register a data source to a statistics:
+
+[source]
+----
+f_EPTF_StatHandlerClient_registerStat(
+pl_providerVarList, pl_statName,
+[pl_subscriptionMode], [pl_wait4response],
+[pl_sourceCompRef], [pl_statHandler])
+----
+
+This is the generic register function of the `StatHandlerClient`, specific functions are listed later in this section.
+
+The function has the following parameters:
+
+* `pl_providerVarList`: list of provider variable names.
+* `pl_statName`: name of the statistics for which the provider variables will be used as data source.
+* `pl_subscriptionMode`: EPTF Variable subscription mode for the provider variables. Optional parameter, default value: `_sampledAtSync_`.
+* `pl_wait4response`: boolean parameter specifying whether the function should use a semaphore to block the execution until the result of the operation is received. Optional parameter, default value: `_true_`.
+* `pl_sourceCompRef`: `EPTF_Var_CT` component reference of the provider variables. A value of *null* will be interpreted as *self*, i.e. this `StatHandlerClient` component. Optional parameter, default value: `_null_`.
+* `pl_statHandler`: The `StatHandler` master component reference that should subscribe to the provider variables. If this parameter is `_null_`, the default `StatHandler` component reference will be used. Optional parameter, default value: `_null_`.
+
+The `StatHandlerClient` provides register functions specific to supported statistics types and methods. These functions accept a pre-defined number of Variable names as parameters instead of a list of names and also check the type of these variables with an assert operation. The following functions are recommended to use instead of the generic function:
+
+* `f_EPTF_StatHandlerClient_registerStat_IntMin`: register a data source for an integer statistics with aggregation method `"Min"`. This function needs a single variable name, the type of the variable must be integer.
+* `f_EPTF_StatHandlerClient_registerStat_FloatMin`: register a data source for a float statistics with aggregation method `"Min". This function needs a single variable name, the type of the variable must be float.
+* `f_EPTF_StatHandlerClient_registerStat_IntMax`: register a data source for an integer statistics with aggregation method `"Max"`. This function needs a single variable name, the type of the variable must be integer.
+* `f_EPTF_StatHandlerClient_registerStat_FloatMax`: register a data source for a float statistics with aggregation method `"Max"`. This function needs a single variable name, the type of the variable must be float.
+* `f_EPTF_StatHandlerClient_registerStat_IntSum`: register a data source for an integer statistics with aggregation method `"Sum"`. This function needs a single variable name, the type of the variable must be integer.
+* `f_EPTF_StatHandlerClient_registerStat_FloatSum`: register a data source for a float statistics with aggregation method `"Sum"`. This function needs a single variable name, the type of the variable must be float.
+* `f_EPTF_StatHandlerClient_registerStat_Mean`: register a data source for a float statistics with aggregation method `"Mean"`. This function needs two variable names as parameters: a float local mean and an integer number-of-samples.
+* `f_EPTF_StatHandlerClient_registerStat_StandardDev`: register a data source for a float statistics with aggregation method `"StandardDev"`. This function needs three variable names as parameters: a float local mean, an integer number-of-samples and a float variable 'S' that is calculated for a local standard deviation statistics.
+
+`f_EPTF_StatHandlerClient_registerStat_GlobalAverage`: register a data source for a float statistics with aggregation method `"GlobalAverage"`. This function needs two variable names as parameters: a float sum and an integer element number.
+
+* `f_EPTF_StatHandlerClient_registerStat_Density`: register a data source for an integer-list statistics with aggregation method `"Density"`. This function needs two variable names as parameters: an integer-list local density and a float-list boundaries variable.
+* `f_EPTF_StatHandlerClient_registerStat_Percentile95`: register a data source for a float statistics with aggregation method `"Percentile95"`. This function needs three variable names as parameters: an integer-list local density, a float-list boundaries variable and a maximum variable.
+* `f_EPTF_StatHandlerClient_registerStat_PercentileP`: register a data source for a float statistics with aggregation method `"PercentileP"`. This function needs four variable names as parameters: an integer-list local density, a float-list boundaries variable a maximum variable and a `pValue` variable.
+
+=== Registering a `StatMeasure` Statistic
+
+The following function can be used to register a `StatMeasure` stat as data source to an aggregated statistics:
+
+[source]
+----
+f_EPTF_StatHandlerClient_registerStatOfStatMeasure(
+pl_measuredStatIdx, pl_statName,
+[pl_subscriptionMode], [pl_wait4response],
+[pl_statHandler])
+----
+
+NOTE: This function cannot be used for third party registration of the data source, as that must be on the same component as the `StatHandlerClient`.
+
+=== Registering an Aggregated Statistic
+
+The following function can be used to register an aggregated statistics (i.e.`StatHandler` stat) as a data source to another stat:
+
+[source]
+----
+f_EPTF_StatHandlerClient_registerAggregatedStat(
+pl_sourceStatHandler, pl_sourceStatName,
+pl_targetStatName, [pl_subscriptionMode],
+[pl_wait4response], [pl_statHandler])
+----
+
+This function queries the provider variables of the source statistics, waits for the response regardless of the value of `pl_wait4response` and registers these variables as the data source. The parameter `pl_wait4response` is only for the response of the registration.
+
+=== Deregistering a Data Source
+
+The following function can be used to deregister a data source from an aggregated statistics:
+
+[source]
+----
+f_EPTF_StatHandlerClient_deregisterStat(pl_statName,
+[pl_sourceCompRef], [pl_statHandler],
+[pl_providerVarList])
+----
+
+The parameter `pl_statName` specifies the name of the aggregated statistic, `pl_sourceCompRef` specifies the component providing the variables as data source, `pl_statHandler` refers the `StatHandler` master component and `pl_providerVarList` refers to the list of provider variable names as was specified at registration. The last three parameters are optional. If `pl_sourceCompRef` is omitted, null or self, the self component reference will be used. If `pl_statHandler` is omitted or is null, the default `StatHandler` master component will be used.
+
+If parameter `pl_providerVarList` is not specified or an empty list, the function deregisters all data sources provided by the source component for the given statistics.
+
+=== Getting the Variable Name of a Stat
+
+The following function can be used to get the name of the EPTF Variable containing the aggregated value of a statistics:
+
+`f_EPTF_StatHandlerClient_getStatVariableRef(pl_statName, [pl_statHandler])`
+
+The parameter `pl_statHandler` is optional.
+
+=== Getting Auxiliary Variables of a Stat
+
+The following function can be used to get the names of the auxiliary EPTF Variables for given statistics of the given `StatHandler`:
+
+`f_EPTF_StatHandlerClient_getAuxVariables(in charstring pl_statName, in EPTF_StatHandler_CT pl_statHandler := null)runs on EPTF_StatHandlerClient_CTreturns EPTF_CharstringList`
+
+The parameter `pl_statHandler` is optional.
+
+=== Registering a Stat Reset Callback
+
+The following function can be used to register a function as a callback for statistics reset:
+
+`f_EPTF_StatHandlerClient_registerResetFunction(pl_fn)`
+
+The provided function will be called upon a statistics reset, and shall perform the reset for all data sources that were registered by this client.
+
+=== Deregistering a Stat Reset Callback
+
+The following function can be used to deregister a reset callback function that was previously registered:
+
+`f_EPTF_StatHandlerClient_deregisterResetFunction(pl_fn)`
+
+=== Resetting Statistics
+
+The following function can be used to reset given statistics on a `StatHandler` component:
+
+[source]
+----
+f_EPTF_StatHandlerClient_getAuxVariables(in charstring pl_statName, in EPTF_StatHandler_CT pl_statHandler := null)
+runs on EPTF_StatHandlerClient_CT
+returns EPTF_CharstringList
+----
+
+The parameter `pl_statHandler` is optional.
+
+The parameters of the function:
+
+* `pl_statName`: the name of the statistics to be reset.
+* `pl_statHandler`: The statistics will be reset on this `StatHandler` component. If this parameter is `_null_`, the default `StatHandler` component reference will be used. Optional parameter, default value: `_null_`.
+* `pl_wait4response`: boolean parameter specifying whether the function should use a semaphore to block the execution until the result of the operation is received. Optional parameter, default value: `_true_`.
+
+When the statistics is reset, its value is set to the reset value that was given at the declaration.
+
+== Public UI-Handling Functions
+
+The module EPTF_CLL_StatHandlerUI_Functions contains functions for handling the user interface part for both StatHandler and StatHandlerClient. This section lists the public functions contained within this module.
+
+=== Initializing for `StatHandlerUI`
+
+The function
+
+[source]
+----
+f_EPTF_StatHandlerUI_init_CT(pl_selfName, pl_uiParentWidgetId, pl_uiHandler_compRef, [pl_loggingUi_compRef], [pl_localResetButtonUIVarName])
+----
+
+can be used to initialize a `StatHandlerUI` component, i.e. a `StatHandler` providing UI-handling capabilities.
+
+This function has the following parameters:
+
+* `pl_selfName`: EPTF self-name of the component.
+* `pl_uiParentWidgetId`: the widget ID of the parent widget to which the StatHandler should add its tab and the global reset button.
+* `pl_uiHandler_compRef`: component reference of the `UIHandler` component.
+* `pl_loggingUi_compRef`: component reference of the `LoggingUI` component. Optional, default value is `_null_` for no `LoggingUI`.
+* `pl_localResetButtonUIVarName`: an optional variable name for reset button of this instance of `StatHandler`. If this is specified (and not empty string), the `StatHandlerUI` will attempt to subscribe to the variable (supposed to be at the `UIHandler` referred by `pl_uiHandler_compRef`) and use it as a reset button. The variable should be of integer type. If the variable just simulates a button, each time it is "pressed", its value shall be incremented.
+
+=== Initializing for `StatHandlerClientUI`
+
+The function
+
+`f_EPTF_StatHandlerClientUI_init_CT(pl_selfName, pl_statHandler_compRef, pl_uiHandler_compRef, [pl_loggingUi_compRef])`
+
+can be used to initialize a `StatHandlerClientUI` component, i.e. a `StatHandlerClient` providing UI-handling capabilities.
+
+=== Binding a Stat to a Widget
+
+The following client function can be used to instruct a `StatHandler` to bind its statistics variable to a widget on the GUI:
+
+[source]
+----
+f_EPTF_StatHandlerClient_bindStatToWidget(pl_statName, pl_widgetId, [pl_statHandler_compRef], [pl_wait4response], [pl_additionalWidget])
+----
+
+This function has the following parameters:
+
+* `pl_statName`: name of the statistics
+* `pl_widgetId`: name of the widget
+* `pl_statHandler_compRef`: optional `StatHandler` master component reference
+* `pl_wait4response`: whether the client should block execution until the master component serves the request
+* `pl_additionalWidget`: whether the widget is additional, i.e. the statistics is already on another widget.
+
+== Summary Table of All Public Functions for EPTF `StatHandler`
+
+Table below lists the public API of the EPTF CLL `StatHandler` feature.
+
+See Summary of `StatHandler` functions in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|======================================================================================================================
+|Function name |Description
+|`f_EPTF_StatHandler_init_CT` |Initialization function for `StatHandler` master component
+|`f_EPTF_StatHandler_registerStatDeclaredCallbackFn` |Function to register a callback function for stat declaration event
+|`f_EPTF_StatHandler_deregisterStatDeclaredCallbackFn` |Function to deregister a stat declaration callback function
+|`f_EPTF_StatHandler_getId` |Get the ID/index of a stat by name
+|`f_EPTF_StatHandler_getNofStats` |Get the number of declared statistics
+|`f_EPTF_StatHandler_getName` |Get the name of a stat by its index
+|`f_EPTF_StatHandler_getMethod` |Get the aggregation method of a statistics
+|`f_EPTF_StatHandler_getVarIdx` |Get the EPTF Variable index of a stat
+|`f_EPTF_StatHandler_getAuxStats` |Get auxiliary statistics of a stat
+|`f_EPTF_StatHandler_getAuxVars` |Get auxiliary variables of a stat
+|`f_EPTF_StatHandler_getNofSources` |Get the number of data sources registered for a stat
+|`f_EPTF_StatHandler_getVarsOfSource` |Get the list of provider variables for a data source of a stat
+|`f_EPTF_StatHandlerClient_init_CT` |Initialization function for `StatHandlerClient`
+|`f_EPTF_StatHandlerClient_declareStat` |Declare an aggregated stat
+|`f_EPTF_StatHandlerClient_registerStat` |Register a data source for a stat
+|`f_EPTF_StatHandlerClient_registerStatOfStatMeasure` |Register a `StatMeasure` statistic data source for a stat
+|`f_EPTF_StatHandlerClient_registerAggregatedStat` |Register an aggregated stat as data source to another stat
+|`f_EPTF_StatHandlerClient_registerStat_IntMin` |Register a data source for an integer stat with Min method
+|`f_EPTF_StatHandlerClient_registerStat_FloatMin` |Register a data source for a float stat with Min method
+|`f_EPTF_StatHandlerClient_registerStat_IntMax` |Register a data source for an integer stat with Max method
+|`f_EPTF_StatHandlerClient_registerStat_FloatMax` |Register a data source for a float stat with Max method
+|`f_EPTF_StatHandlerClient_registerStat_IntSum` |Register a data source for an integer stat with Sum method
+|`f_EPTF_StatHandlerClient_registerStat_FloatSum` |Register a data source for a float stat with Sum method
+|`f_EPTF_StatHandlerClient_registerStat_Mean` |Register a data source for a Mean stat
+|`f_EPTF_StatHandlerClient_registerStat_StandardDev` |Register a data source for a Standard Deviation stat
+|`f_EPTF_StatHandlerClient_registerStat_GlobalAverage` |Register a data source for a Global Average stat
+|`f_EPTF_StatHandlerClient_registerStat_Density` |Register a data source for a Density stat
+|`f_EPTF_StatHandlerClient_registerStat_Percentile95` |Register a data source for a Percentile 95 stat
+|`f_EPTF_StatHandlerClient_registerStat_PercentileP` |Register a data source for a Percentile P stat
+|`f_EPTF_StatHandlerClient_deregisterStat` |Deregister a data source for a stat
+|`f_EPTF_StatHandlerClient_getStatVariableRef` |Get the EPTF Variable name of an aggregated stat
+|`f_EPTF_StatHandlerClient_getAuxVariables` |Get names of the auxiliary variables of a stat
+|`f_EPTF_StatHandlerClient_registerResetFunction` |Register a statistics reset callback function
+|`f_EPTF_StatHandlerClient_deregisterResetFunction` |Deregister a statistics reset callback function
+|`f_EPTF_StatHandlerClient_resetStatistics` |Resets the statistics
+|`f_EPTF_StatHandlerUI_init_CT` |Initialize a `StatHandlerUI` component
+|`f_EPTF_StatHandlerClientUI_init_CT` |Initialize a `StatHandlerClientUI` component
+|`f_EPTF_StatHandlerClient_bindStatToWidget` |Bind an aggregated stat to a widget on the GUI
+|======================================================================================================================
+
+== Customization of the GUI
+
+The `StatHandler` feature provides DataSource Client functionality. This means that a `StatHandler` component has several Variables, that are available to use with the help of a DataSource server, for example the `UIHandler`. With the call of the function `f_EPTF_UIHandler_createGUI()`, a custom GUI is built, and the data of the features are freely to use. For more info about the DataSource feature, see the `UIHandler` Function Description <<5-references.adoc#_7, [7]>>. For the list of the existing iterators and external data elements see the natural documentation.

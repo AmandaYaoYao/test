@@ -1,0 +1,17 @@
+= Introduction
+
+== About This Document
+
+=== How to Read This Document
+
+This is the User Guide for the M3UA protocol module. The M3UA protocol module is developed for the TTCN-3 Toolset with TITAN. This document should be read together with Function Specification <<4-references.adoc#_4, [4]>>.
+
+=== Presumed Knowledge
+
+To use this protocol module the knowledge of the TTCN-3 language <<4-references.adoc#_1, [1]>> is essential.
+
+== System Requirements
+
+Protocol modules are a set of TTCN-3 source code files that can be used as part of TTCN-3 test suites only. Hence, protocol modules alone do not put specific requirements on the system used. However in order to compile and execute a TTCN-3 test suite using the set of protocol modules the following system requirements must be satisfied:
+
+* TITAN TTCN-3 Test Executor installed. For installation guide see <<4-references.adoc#_3, [3]>>.

@@ -1,0 +1,5 @@
+= General
+
+Protocol modules implement the message structures of the related protocol in a formalized way, using the standard specification language TTCN-3. This allows definition of test data (templates) in TTCN-3 language <<5-references.adoc#_2, [2]>> and correct encoding/decoding of messages when executing test suites using the Titan TTCN-3 test environment.
+
+Protocol modules are using Titan’s RAW encoding attributes <<5-references.adoc#_3, [3]>> and hence are usable with the Titan test toolset only.

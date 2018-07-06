@@ -1,0 +1,32 @@
+= Usage
+
+== Overview
+
+Protocol modules implement the messages structure of the related protocol in a formalized way, using the standard specification language TTCN-3. This allows defining of test data (templates) in the TTCN-3 language <<7-references.adoc#_1, [1]>> and correctly encoding/decoding messages when executing test suites using the TITAN TTCN-3 test environment.
+
+Protocol modules are using TITAN’s RAW encoding attributes <<7-references.adoc#_2, [2]>> and hence is usable with the TITAN test toolset only.
+
+== Installation
+
+The set of protocol modules can be used in developing TTCN-3 test suites using any text editor; however, to make the work more efficient a TTCN3enabled text editor is recommended (for example nedit, xemacs). Since the GTPv2 v10.6.0 protocol is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<7-references.adoc#_2, [2]>>.
+
+== Configuration
+
+None.
+
+== Implemented Protocols
+
+This set of protocol modules implements protocol messages and constants of RFCs of EAP, EAP-AKA, EAP-AKA’, EAP-SIM, EAP-TTLS.
+
+== Implemented Messages
+
+The following messages will be implemented: All message defined in <<7-references.adoc#_3, [3]>>, <<7-references.adoc#_4, [4]>>, <<7-references.adoc#_5, [5]>>, <<7-references.adoc#_6, [6]>> and <<7-references.adoc#_7, [7]>>.
+
+[[protocol-modifications-deviations]]
+== Protocol Modifications/Deviations
+
+There are currently no deviations from the mentioned standards.
+
+== Backward Incompatibilities
+
+None.

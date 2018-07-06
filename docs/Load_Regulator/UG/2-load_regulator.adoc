@@ -1,0 +1,93 @@
+= Load Regulator
+
+== Overview
+
+The EPTF CLL Load Regulator component is a fundamental component providing an implementation for load regulation based on the SUT load in a load test environment. It can also regulate load for a target network bandwidth usage.
+
+The function used to measure the SUT load or the bandwidth must be provided by the user, passing its function reference to the initialization function. The load regulation is implemented by calculating the next CPS from the previous CPS and the last two loads, according to the specified load to reach.
+
+[[desc_files_this_feat]]
+== Description of Files in This Feature
+
+The EPTF CLL Load Regulator API includes the following files:
+
+* Load Regulator
+** __EPTF_CLL_LoadRegulator_Definitions.ttcn__ - This TTCN-3 module contains type definitions that should be used in all Load Regulator Components.
+** __EPTF_CLL_LoadRegulator_Functions.ttcn__ - This TTCN-3 module contains the implementation of Load Regulator functions.
+
+[[desc_req_files_other_feat]]
+== Description of Required Files From Other Features
+
+The Load Regulator feature is part of the TitanSim EPTF Core Load Library (CLL). It relies on several features of the CLL. To use the Load Regulator, the user has to obtain the respective files from the following features:
+
+* `Base`
+* `Common`
+* `DataSource`
+* `Logging`
+* `Variable`
+
+== Installation
+
+Since `EPTF_CLL_LoadRegulator` is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<5-references.adoc#_2, [2]>>.
+
+If not otherwise noted in the respective sections, the following are needed to use `EPTF_CLL_LoadRegulator`:
+
+* Copy the files listed in section <<desc_files_this_feat, Description of Files in This Feature>> and <<desc_req_files_other_feat, Description of Required Files From Other Features>> to the directory of the test suite or create symbolic links to them.
+* Import the Load Regulator demo or write your own application using Load Regulator.
+* Create _Makefile_ or modify the existing one. For more details see the relevant section of <<5-references.adoc#_2, [2]>>.
+* Edit the config file according to your needs, see following section <<config, Configuration>>.
+
+[[config]]
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual suffix of configuration files is _.cfg_. For further information on the configuration file see <<5-references.adoc#_2, [2]>>.
+
+The Load Regulator feature defines TTCN-3 module parameters as defined in <<5-references.adoc#_2, [2]>>, clause 4. Actual values of these parameters – when no default value or a different from the default actual value wished to be used – shall be given in the [MODULE_PARAMETERS] section of the configuration file.
+
+The Load Regulator feature defines the following module parameters (all defined in module `EPTF_CLL_LoadRegulator_Functions`):
+
+`tsp_debug_EPTF_CLL_LoadRegulator_Functions`
+
+This boolean type module parameter can be used to enable debug logging of the Load Regulator.
+
+Its default value is `_false_`.
+
+`tsp_debug_EPTF_CLL_LoadRegulator_Functions_smooting`
+
+This boolean type module parameter can be used to enable debug logging of the load smoothing implemented in the Load Regulator.
+
+Its default value is `_false_`.
+
+`tsp_EPTF_loadRegulator_measWinSize`
+
+This integer module parameter defines the load measurement window size.
+
+Its default value is `_"3"_`, which should not be modified if the default CPS calculation function is used.
+
+`tsp_EPTF_loadRegulator_updateTimeout`
+
+This float type module parameter defines the interval of the load regulation update period in seconds.
+
+Its default value is `_2.0_`.
+
+`tsp_EPTF_loadRegulator_LoadVarianceThreshold`
+
+This float type module parameter defines the minimum load variance that should result in regulation of the load, in percentage.
+
+Its default value is `_5.0_` for 5%.
+
+`tsp_EPTF_loadRegulator_cpsDelta`
+
+This float type module parameter defines the maximum CPS increase/decrease per regulation cycle.
+
+`tsp_EPTF_loadRegulator_errorTolerance`
+
+This float type module parameter defines the load delta tolerance in percents.
+
+Its default value is `_5.0_`.
+
+`tsp_EPTF_loadRegulator_smoothingFactor`
+
+This float type module parameter defines the smoothing factor for exponential load measurement smoothing.
+
+Its default value is `_0.5_`.

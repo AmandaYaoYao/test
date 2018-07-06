@@ -1,0 +1,11 @@
+= Feature List
+
+== Script Operation
+
+The PBPMG reads the definitions from _.proto_ files and translates them into TTCN-3 type definitions and C++ encoder decoder functions.
+
+== Using the Script
+
+In order to translate the _.proto_ files you need to use GNU Awk 3.1.8 or newer.
+
+Usage: `PBPMG.sh <proto files>`

@@ -1,0 +1,28 @@
+= DataSource
+
+== Compilation Dependencies
+
+The EPTF CLL DataSource API includes the following files:
+
+* __EPTF_CLL_DataSource_Definitions.ttcn__ - Definitions for DataSource
+* __EPTF_CLL_DataSource_Functions.ttcn__ - Function definitions for DataSource
+* __EPTF_CLL_DataSourceClient_Functions.ttcn__ - Function definitions for DataSourceClient.
+* __EPTF_CLL_DataSource_ExternalFunctions.ttcn__ - Implementations of external functions.
+
+[[usage_dependencies]]
+== Usage Dependencies
+
+The DataSource feature is part of the TitanSim EPTF Core Load Library (CLL). It relies on several features of the CLL. To use the DataSource the user has to obtain the respective files from the following features:
+
+* `Base`
+* `CommandLineInterface`
+* `Common`
+* `HashMap`
+* `Logging`
+* `Semaphore`
+* `Variable`
+
+DataSource also requires files from:
+
+* `TCCUsefulFunctions_CNL113472`
+* `Protocol Module XTDP_CNL113663`

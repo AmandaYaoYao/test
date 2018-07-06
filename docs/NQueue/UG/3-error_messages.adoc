@@ -1,0 +1,13 @@
+= Error Messages
+
+NOTE: Besides the below described error messages, error messages shown in <<6-references.adoc#_2, [2]>> or those of other used features or products may also appear.
+
+The `NQueue` feature may log one of the following error messages (and stop execution):
+
+`*<function-name>: invalid queue <n>, number of queues: <m>*``
+
+`*<function-name>: invalid queue <n>, queue has been deleted.*`
+
+`*<function-name>: invalid chain <n>, number of chains in queue: <m>*`
+
+`*<function-name>: invalid item <n>, number of items in queue: <m>*`

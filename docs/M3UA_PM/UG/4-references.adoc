@@ -1,0 +1,17 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873–1 v.3.1.1 (06/2005)The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] Programmer’s Technical Reference for the TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] Installation Guide for the TITAN TTCN-3 Test Executor
+
+[[_4]]
+[4] M3UA Protocol Modules for TTCN-3 Toolset with TITAN, Function Specification
+
+[[_5]]
+[5] IETF https://tools.ietf.org/html/rfc3332[RFC 3332] +
+Signaling System 7 (SS7) Message Transfer Part 3 (MTP3) – User Adaptation Layer (M3UA)

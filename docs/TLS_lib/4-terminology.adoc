@@ -1,0 +1,13 @@
+= Terminology
+
+No specific terminology is used.
+
+= Abbreviations
+
+DTLS:: Datagram Transport Layer Security
+
+TLS:: Transport Layer Secuity
+
+TTCN-3:: Testing and Test Control Notation version 3
+
+SSL:: Secure Socket Layer

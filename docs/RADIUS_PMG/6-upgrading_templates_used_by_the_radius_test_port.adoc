@@ -1,0 +1,21 @@
+= Upgrading Templates Used by The RADIUS Test Port
+
+The RPMG type structure differs from the one that is used in the RADIUS message test port. This causes backward incompatibilities in the TTCN-3 type definition module. Therefore, functions and templates developed for RADIUS message test port need to be updated according to the changes of the type definition so that they can be used with RPMG.
+
+In case new fields were added into existing record or set types, the new templates should contain these fields set to `_"omit"_`.
+
+In case a type has changed completely the whole template or part of template must be changed.
+
+If a function is accessing a field that has changed that function needs to be updated as well.
+
+Here you can find a list of major changes:
+
+1.  The module name containing RADIUS type definitions has been changed, thus you should replace `RADIUSmsg_Types` by `RADIUS_Types` in import lines of modules using RADIUS type definitions.
+2.  The name of top level PDU changed from `RADIUS_message` to `PDU_RADIUS`.
+3.  The enumerated type that contains message types is renamed from `message_type` to Code, and the names of enumerated items are capitalized.
+4.  The enumerated type that contains Attribute types is renamed from `attrib_type_enum` to Attrib, and the names of enumerated items are changed according to the naming convention of the protocol module generator (see <<3-feature_list.adoc#naming_conventions, Naming Conventions>>).
+5.  The name of the third field of an Attribute record depends on the name of the Attribute instead of its type. For example `base_user_name` is used instead of `string_val`.
+6.  The union type `RADIUS_attrib` was modified. Its new name is `GenericAttrib`. A `GenericAttrib` type was introduced for error-handling purposes. Its entire branch contains the correctly decoded Attributes, excepting the last one. If something goes wrong during decoding, the `attrib_UNKNOWN` branch is used, which is of type record.
+7.  The field names of the union type `GenericAttrib` are denominated according to the naming convention (see <<3-feature_list.adoc#naming_conventions, Naming Conventions>>).
+8.  All type names of Attributes are changed according to the naming convention (see <<3-feature_list.adoc#naming_conventions, Naming Conventions>>).
+9.  Name of enumeration types and values within Attributes are changed according to <<3-feature_list.adoc#how_to_model_enumeration_type_attributes_in_RDFs, How to Model Enumeration Type Attributes in RDFs?>>.

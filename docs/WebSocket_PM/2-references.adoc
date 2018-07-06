@@ -1,0 +1,12 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 v4.5.1 +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] https://tools.ietf.org/html/rfc6455[RFC 6455] +
+The WebSocket Protocol
+
+[[_3]]
+[3] Programmer’s Technical Reference for TITAN TTCN–3 Test Executor

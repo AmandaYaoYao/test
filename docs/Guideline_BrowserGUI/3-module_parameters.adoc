@@ -1,0 +1,64 @@
+= Module parameters
+
+The `BrowserGUI` feature has some parameters that can be set in the configuration files of the application by setting the values of the following module parameters:
+
+[[tsp-eptf-uihandler-enablebrowsergui]]
+* `tsp_EPTF_UIHandler_enableBrowserGUI`
+
+The `BrowserGUI` feature can be turned on or off by setting this module parameter to true or false.
+
+The default value of it is `_true_`.
+
+[[tsp-eptf-uihandler-browser-remoteaddress]]
+* `tsp_EPTF_UIHandler_Browser_RemoteAddress`
+[source]
+----
+modulepar charstring tsp_EPTF_UIHandler_Browser_RemoteAddress := ``127.0.0.1'';
+----
+
+This parameter defines the IP address of the application, where the `BrowserGUI` is available. The default is the localhost address, but it can be changed to the IP address of the host machine, where the application is running.
+
+[[tsp-eptf-uihandler-browser-remoteport]]
+* `tsp_EPTF_UIHandler_Browser_RemotePort`
+[source]
+----
+modulepar integer tsp_EPTF_UIHandler_Browser_RemotePort := 4000;
+----
+
+This parameter defines the port number, where the GUI is available. The default port number is 4000, but it can be changed to any valid port number as well.
+
+[[tsp-eptf-uihandler-browser-xsl2send]]
+* `tsp_EPTF_UIHandler_Browser_xsl2send`
+[source]
+----
+modulepar charstring tsp_EPTF_UIHandler_Browser_xsl2send := ``EPTF_LoadMain.xsl'';
+----
+
+This parameter defines the XSL file, which contains the XSL transformation rules that need to be used, when the client visualizes the XML file of the web page that came from the server side.
+
+[[tsp-eptf-uihandler-browser-xsl4tabpage]]
+* `tsp_EPTF_UIHandler_Browser_xsl4Tabpage`
+[source]
+----
+modulepar charstring tsp_EPTF_UIHandler_Browser_xsl4Tabpage := ``EPTF_LoadMain.xsl'';
+----
+
+There is a possibility to define a different XSL file for transforming the XML file of the tabpages.
+
+[[tsp-eptf-uihandler-browser-welcomescreen]]
+* `tsp_EPTF_UIHandler_Browser_welcomeScreen`
+[source]
+----
+modulepar charstring tsp_EPTF_UIHandler_Browser_welcomeScreen := ``welcome.html'';
+----
+
+The `BrowserGUI` feature provides the capability for displaying a welcome screen, while the application is starting. The current welcome screen is defined in the _welcome.html_ file. This file can be edited or replaced as well in order to change the welcome screen if needed.
+
+[[tsp-eptf-uihandler-browser-directory]]
+* `tsp_EPTF_UIHandler_Browser_directory`
+[source]
+----
+modulepar charstring tsp_EPTF_UIHandler_Browser_directory := ``../BrowserGUI/'';
+----
+
+The path of the files, which were mentioned in this section, has to be defined. The default is a `BrowserGUI` folder on the same level as the build folder of the application.

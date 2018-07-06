@@ -1,0 +1,88 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading ‎<<5-references.adoc#_4, [4]>>.
+
+== Naming Conventions
+
+All functions for managing a ring buffer built from integer values have the prefix `f_EPTF_RB_`. Functions to manage a generic ring buffer (which stores values of a user defined type) have the prefix `<USER_TYPE>RingBuffer`, where `<USER_TYPE>` is the name of the user defined type.
+
+== Public Functions
+
+=== Initialization
+
+`f_EPTF_RB_init()` function shall be used to initialize a new ring buffer.
+
+`<USER_TYPE>RingBuffer_init()` function initializes a new generic ring buffer instance.
+
+The capacity of the new ring buffer can be given by the user, or the default value is used defined by `c_EPTF_RB_default_capacity` constant.
+
+=== Insert and Remove Elements
+
+New elements can be inserted and removed with constant time at both front-end and back-end of the buffer.
+
+`f_EPTF_RB_push_back()` inserts new element at the back-end of an integer ring buffer. `<USER_TYPE>RingBuffer_push_back()` shall be used for same purpose in case of generic ring buffers.
+
+`f_EPTF_RB_push_front()` and `<USER_TYPE>RingBuffer_push_front()` functions are used to insert new element at front-end of ring buffer.
+
+Elements can be removed from front-end by `f_EPTF_RB_pop_front()` and `<USER_TYPE>RingBuffer_pop_front()` functions.
+
+For removing element from back-end of ring buffer `f_EPTF_RB_pop_back()` and `<USER_TYPE>RingBuffer_pop_back()` functions shall be used.
+
+=== Check Buffer Size
+
+`f_EPTF_RB_size()` and `<USER_TYPE>RingBuffer_size()` functions return the number of the stored elements.
+
+`f_EPTF_RB_empty()` and `<USER_TYPE>RingBuffer_empty()` functions return `_true_`, if the given ring buffer is empty.
+
+`f_EPTF_RB_capacity()` and `<USER_TYPE>RingBuffer_capacity()` functions return the largest possible size of the ring buffer. This value is set by the initialization of the ring buffer.
+
+=== Access to Elements
+
+`f_EPTF_RB_front()` and `<USER_TYPE>RingBuffer_front()` functions return the first (eldest) element of the ring buffer.
+
+`f_EPTF_RB_back()` and `<USER_TYPE>RingBuffer_back()` functions return the last (latest) element of the ring buffer.
+
+`f_EPTF_RB_get()` and `<USER_TYPE>RingBuffer_get()` functions return the element at a specific index.
+
+NOTE: These functions above do not perform any check before accessing to an elements, i.e. the user should check the boundaries of ring buffer before using them! Calling front() or back() on an empty ring buffer, or using get() with invalid index results undefined behavior!
+
+Safe access is implemented by `f_EPTF_RB_at()` and `<USER_TYPE>RingBuffer_at()` functions. They check the validity of the given index and return false, if element is not stored at the specific index.
+
+=== Convenience Functions
+
+The content of a ring buffer can be dumped into a simple data array from front-end to back-end. For this purpose `f_EPTF_RB_dump()` and `<USER_TYPE>RingBuffer_dump()` functions are implemented.
+
+== Summary Table of All Public Functions for EPTF Ring Buffer Support
+
+See summary of Ring Buffer Support functions below:
+
+[width="100%",cols="50%,50%",options="header",]
+|=================================================================================
+|Function name |Description
+|`f_EPTF_RB_init` |Initialize ring buffer of integers
+|`<USER_TYPE>RingBuffer_init` |Initialize generic ring buffer
+|`f_EPTF_RB_size` |Returns the number of stored element
+|`<USER_TYPE>RingBuffer_size` |Returns the number of stored element
+|`f_EPTF_RB_capacity` |Returns the largest possible size
+|`<USER_TYPE>RingBuffer_capacity` |Returns the largest possible size
+|`f_EPTF_RB_empty` |Checks buffer is empty
+|`<USER_TYPE>RingBuffer_empty` |Checks buffer is empty
+|`f_EPTF_RB_push_back` |Insert a new element at the back-end
+|`<USER_TYPE>RingBuffer_push_back` |Insert a new element at the back-end
+|`f_EPTF_RB_push_front` |Insert a new element at the front-end
+|`<USER_TYPE>RingBuffer_push_front` |Insert a new element at the front-end
+|`f_EPTF_RB_pop_front` |Remove element at the front-end
+|`<USER_TYPE>RingBuffer_pop_front` |Remove element at the front-end
+|`f_EPTF_RB_pop_back` |Remove element at the back-end
+|`<USER_TYPE>RingBuffer_pop_back` |Remove element at the back-end
+|`f_EPTF_RB_front` |Return element at the front-end (unchecked access!)
+|`<USER_TYPE>RingBuffer_front` |Return element at the front-end (unchecked access!)
+|`f_EPTF_RB_back` |Return element a the back-end (unchecked access!)
+|<USER_TYPE>RingBuffer_back |Return element at the back-end (unchecked access!)
+|`f_EPTF_RB_get` |Return element at a specific index (unchecked access!)
+|`<USER_TYPE>RingBuffer_get` |Return element at a specific index (unchecked access!)
+|`f_EPTF_RB_at` |Return element at a specific index (boundaries checked)
+|`<USER_TYPE>RingBuffer_at` |Return element at a specific index (boundaries checked)
+|`f_EPTF_RB_dump` |Dumps content to a simple array
+|`<USER_TYPE>RingBuffer_dump` |Dumps content to a simple array
+|=================================================================================

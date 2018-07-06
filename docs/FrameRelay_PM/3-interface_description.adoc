@@ -1,0 +1,20 @@
+= Interface Description
+
+== Top Level PDU
+
+The top level PDU is the TTCN-3 records PDU_Frame_Relay.
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product also contains encoding/decoding functions, which assure correct encoding of messages when sent from Titan and correct decoding of messages when received by Titan.
+
+=== Implemented encoding and decoding functions
+
+[cols=3*,options=header]
+|===
+
+|Name |Type of formal parameters |Type of return value
+|f_PDU_Frame_Relay_Enc |in PDU_Frame Relay |octetstring
+|f_PDU_Frame_Relay_Enc |in octetstring |PDU_Frame_Relay
+|===

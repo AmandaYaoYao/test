@@ -1,0 +1,134 @@
+= Warning Messages
+
+== Warning Messages In Case TCP Connections Are Used
+
+`*Error when reading the received TCP PDU*`
+
+The received TCP PDU cannot be read.
+
+`*connect() returned error code EADDRINUSE. Perhaps this is a kernel bug. Trying to connect again.*`
+
+When connecting on a socket, sometimes it is unsuccessful. The next try usually solves the problem and the connection will be successfully accepted. The test port retries to connect as a workaround. The number of tries however limited to avoid hanging the test port.
+
+Different operating systems behave in a different way. This problem is rare on Solaris, Unix and Linux systems, but much more often on Cygwin.
+
+`*Connect() returned error code <value>, trying to connect again (TCP reconnect mode)*`
+
+When connecting on a socket, sometimes it is unsuccessful and the given error code was returned. The next try usually solves the problem and the connection will be successfully accepted. The test port retries to connect as a workaround.
+
+`*TCP connection was interrupted by the other side, trying to reconnect again.*`
+
+The TCP or SSL connection was refused by the other peer, or it was broken. The test port tries to reconnect again.
+
+`*TCP reconnect successfully finished.*`
+
+This warning message is given if the reconnection was successful.
+
+`*Parameter <name> has no meaning if use_connection_ASPs is used.*`
+
+There is no effect of setting this parameter when `use_connection_ASPs` is set to `_"yes"_`.
+
+`*Abstract_Socket::remove_client: <value> is the server listening port, can not be removed!*`
+
+The `client_id` given in the `remove_client` function is currently used as the server’s listening port, it can not be removed. To close the server listening port, use the `close_listen_port` function.
+
+`*Client <value> has not been removed, programming error*`
+
+Never should show up.
+
+`*Sending data on file descriptor <value>.The sending operation would block execution. The size of the outgoing buffer was increased from <old_value> to <new_value> bytes.*`
+
+When the Abstract Socket is used with non-blocking socket, if the sending operation would block, first the size of the sending buffer is increased. This is the first step to avoid TCP deadlock. In the second step the Test Port will try to receive some data.
+
+`*Sending data on file descriptor <value>.The sending operation would block execution and it is not possible to further increase the size of the outgoing buffer. Trying to process incoming data to avoid deadlock.*`
+
+When the Abstract Socket is used with non-blocking socket, if the sending operation would block, and the size of the outgoing buffer cannot be increased, the Test Port tries to receive some data to avoid deadlock.
+
+`*System call fcntl(F_GETFL) failed on file descriptor %d.*`
+
+`*System call fcntl(F_SETFL) failed on file descriptor %d.*`
+
+`*Setsockopt failed when trying to open the listen port: <port>*`
+
+The `setsockopt` function failed.
+
+`*Cannot bind to port when trying to open the listen port: <port>*`
+
+The bind system call failed.
+
+`*Cannot listen at port when trying to open the listen port: <port>*`
+
+The listen system call failed.
+
+`*getsockname() system call failed on the server socket when trying to open the listen port: <port>*`
+
+The getsockname system call failed.
+
+`*getaddrinfo: <errortexr> for host <host> service <service>*`
+
+The getaddrinfo system call failed.
+
+`*getnameinfo() system call failed on the server socket when trying to open the listen port: <port>*`
+
+The getnameinfo system call failed.
+
+`*Cannot open socket when trying to open client connection: <errortext>*`
+
+The socket system call failed.
+
+`*Setsockopt failed when trying to open client connection: <errormessage>*`
+
+The setsockopt system call failed.
+
+`*Cannot bind to port when trying to open client connection: <errortext>*`
+
+The bind system call failed.
+
+`*Already tried <n> times, giving up when trying to open client connection: <errortext>*`
+
+The deadlock counter exceeds the hard coded limit when trying to connect to a server in client mode. When connecting on a socket, sometimes it is unsuccessful. The next try usually solves the problem and the connection will be successfully accepted. The test port retries to connect as a workaround. The number of tries however limited to avoid hanging the test port.
+
+Different operating systems behave in a different way. This problem is rare on Solaris, Unix and Linux systems, but much more often on Cygwin.
+
+[[warning_messages_in_case_SSL_connections_are_used]]
+== Warning Messages In Case SSL Connections Are Used
+
+`*Warning: race condition while setting current client object pointer.*`
+
+The current client object pointer is already set.
+
+`*Connection from client <value> is refused*`
+
+The connection from a client is refused in the server.
+
+`*Connection to server is refused*`
+
+The connection from the client is refused by the server.
+
+`*Server did not send a session ID*`
+
+The SSL server did not send a session ID.
+
+`*Verification failed*`
+
+The verification of the other side is failed. The connection will be shut down.
+
+`*SSL object not found for client <value>*`
+
+Never should show up.
+
+`*SSL_Socket::receive_message_on_fd: SSL connection was interrupted by the other side*`
+
+The TLS/SSL connection has been closed. If the protocol version is SSL 3.0 or TLS 1.0, this warning appears only if a closure alert has occurred in the protocol, i.e. if the connection has been closed cleanly. Note that in this case it does not necessarily indicate that the underlying transport has been closed.
+
+`*Other side does not have certificate*`
+
+The other side of the SSL connection does not have a certificate.
+
+`*Solaris patches to provide random generation devices are not installed*`
+
+Solaris patches to provide random generation devices are not installed. A workaround will be used to seed the PRNG.
+
+`*Private key does not match the certificate public key*`
+
+The private key specified for the test port does not match with the public key.

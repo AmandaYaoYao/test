@@ -1,0 +1,49 @@
+= Examples
+
+The "demo" directory of the deliverable contains simple SMTP server which accepts any client connections, receive mails and after the connection if finished log the command sequence and the received mail.
+
+The following files belong to the demo application:
+
+* __SMTP_Demo.ttcn__ – Implements the demo SMTP server.
+
+* __SMTP_Demo_functions.cc__ – Contains the implementation of `f_SMTP_getMsgLen` function.
+
+The SMTP protocol is line oriented, so the received TCP stream should be buffered and the lines should be separated. The used test port, IPL4, is able to do it if the appropriate function is registered. The `f_SMTP_getMsgLen` tells the IPL4 test port, where the end of the line, so every receiving operation is will result one complete line.
+
+* __SMTP_Demo.prj__ – Project file of the demo application.
+
+Description of the demo SMTP server:
+
+After the `SMTP_Server_demo` started, it opens the listening port and registers the `f_SMTP_getMsgLen` function.
+
+The used host name and port number is taken from `tsp_local_host_name` and `tsp_local_port_number` module parameters.
+
+After that, it starts to wait for incoming connection or incoming data on the live connection.
+
+If the client connects to the SMTP server, it initializes the data structure and sends the welcome message.
+
+If the client connection closed, the server logs the command/reply sequence, the raw and the decoded mail data.
+
+If something is received from the client the demo analyzes it:
+
+- In command mode:
+
+In this mode the client can send commands to the server. The server decodes the received message and registers it in the command queue for logging.
+
+According to what has been received, the server generates answer, switches to data mode or sends error reply.
+
+If `DATA` command has been received, send the 354 reply and switch to data mode.
+
+Quit command: Send 221 reply and logs the messages.
+
+`HELO`, `RSET`, `NOOP`, `MAIL`, `RCPT` commands: Answered with OK.
+
+Any other messages or the malformed messages answered with error reply.
+
+- In data mode:
+
+The server checks whether the end of the data is received or not
+
+If the end of data sequence has been received (.CRLF) the demo switch back to command mode.
+
+Otherwise the server removes the leading dot if necessary and appends the received line at the end of the mail data buffer.

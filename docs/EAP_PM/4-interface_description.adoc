@@ -1,0 +1,194 @@
+= Interface Description
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product also contains encoding/decoding functions that assure correct encoding of messages when sent from Titan and correct decoding of messages when received by Titan. Other implemented functions are used with the EAP protocol parameter computing.
+
+[[implemented_encoding_and_decoding_functions]]
+== Implemented Encoding and Decoding Functions
+
+[cols=3*,options=header]
+|===
+
+|Name
+|Type of formal parameters
+|Type of return value
+
+|`enc_PDU_EAP`
+|PDU_EAP
+|octetstringdec_PDU_EAP octetstring
+
+|`dec_PDU_EAP`
+|octetstring
+|PDU_EAP
+
+|`enc_AKA_Attrib`
+|EAP_AKA_Attrib_List
+|octetstring
+
+|`dec_AKA_Attrib`
+|octetstring
+|EAP_AKA_Attrib_List
+
+|`f_enc_eap_sim_attrib_list`
+|EAP_SIM_Attrib_List
+|octetstring
+
+|`f_dec_eap_sim_attrib_list`
+|octetstring
+|EAP_SIM_Attrib_List
+
+|`f_enc_eap_aka_attrib_list`
+|EAP_AKA_Attrib_List
+|octetstring
+
+|`f_dec_eap_aka_attrib_list`
+|octetstring
+|EAP_AKA_Attrib_List
+
+|`f_enc_tls_handshakeData`
+|TLS_HandshakeData
+|octetstring
+
+|`f_dec_tls_handshakeData`
+|octetstring
+|TLS_HandshakeData_t
+
+|`eap_sim_derive_mk`
+|octetstring
+|octetstring
+
+|`fips186_2_prf`
+|octetstring
+|octetstring
+
+|`eap_aka_derive_mk`
+|octetstring
+|octetstring
+
+|`eap_aka_derive_reauth_msk_emsk`
+|octetstring
+|octetstring
+
+|`eap_akaprime_derive_mk`
+|octetstring
+|octetstring
+
+|`Calculate_AT_CheckCode`
+|octetstring
+|octetstring
+
+|`f_calc_Kaut`
+|octetstring
+|octetstring
+
+|`f_calc_AKA_Keys`
+|octetstring
+|octetstring
+
+|`f_get_ServersPublicKey`
+|octetstring
+|octetstring
+
+|`f_prf`
+|octetstring
+|octetstring
+|===
+
+== Authentication and Encryption Key Generation
+
+The following functions are implemented in TCCUsefulFunctions_CNL113472 <<7-references.adoc#_8, [8]>> / `TCCSecurity_Functions` module, which were earlier part of the EAP Protocol Module:
+
+[cols=2*,options=header]
+|===
+
+|Deleted
+|Use this from `TCCSecurity_Functions`
+
+|A3A8
+|`f_EAPSIM_A3A8`
+
+|hmac_sha1_128_vector
+|`f_calculate_HMAC_SHA1`
+
+|aes_128_cbc_decrypt
+|`f_AES_CBC_128_Decrypt_OpenSSL`
+
+|aes_128_cbc_encrypt
+|`f_AES_CBC_128_Encrypt_OpenSSL`
+
+|f1
+|`f_IMSAKA_f1`
+
+|f2345
+|`f_IMSAKA_f2345`
+
+|f1star
+|`f_IMSAKA_f1star`
+
+|f5star
+|`f_IMSAKA_f5star`
+
+|akaprime_hmac_sha256_vector
+|`f_calculate_HMAC_SHA256`
+
+|f_calc_SRES
+|`f_EAPSIM_A3A8`
+
+|f_sha1_256
+|`f_calculate_HMAC_SHA256`
+
+|f_sha1
+|`f_calculate_HMAC_SHA1`
+
+|f_md5
+|`f_calculateMD5`
+
+|f_calc_EAPSIM_Keys
+|`f_EAPSIM_A3A8`
+|===
+
+A `Master Key` is derived from the underlying GSM authentication values (`Kc keys`), the `nonce_mt`, and other relevant context as follows.
+
+[source]
+----
+function eap_sim_derive_mk(octetstring identity, octetstring nonce_mt,integer selected_version, octetstring ver_list, octetstring kc) return octetstring;
+----
+
+On EAP-AKA full authentication, a `Master Key (MK)` is derived from the underlying AKA values (`CK` and `IK keys`), and the identity, as follows.
+
+[source]
+function eap_aka_derive_mk(octetstring identity, octetstring ik, octetstring ck) return octetstring;
+
+On EAP-AKA fast re-authentication, the `XKEY’` as the seed value of the pseudo-random generator for the `Master Session Key (MSK)` and the `Extended Master Session Key (EMSK)` is derived from the underlying AKA value (`Master Key`), the `nonce_s` and the counter values and the identity, as follows.
+
+[source]
+----
+function eap_aka_derive_reauth_msk_emsk(octetstring identity, octetstring counter, octetstring nonce_s, octetstring mk) return octetstring;
+----
+
+The `_checkcode_` is a hash value, calculated with SHA1 [SHA-1], over all EAP-Request/AKA-Identity and EAP-Response/AKA-Identity packets exchanged in the authentication exchange.
+
+[source]
+function Calculate_AT_CheckCode(octetstring rcveap,octetstring sendeap) return octetstring;
+
+When generating `Kaut` and `Kenc` the input octetstring is concatenated from `identifier, A3A8, nonce_mt, version list` and `selected version`.
+
+[source]
+function f_calc_Kaut(in octetstring input,inout octetstring kencr) return octetstring;
+
+The function below calculates `XDOUT`, `Kencr`, `Kaut` and `AK` values. `Kaut` is used when calculating MAC values, `Kencr` is used for encryption and decryption of `AT_ENCR_DATA` attributes, and AK is used for calculating and verifying `AT_AUTN` and `AT_AUTS` values.
+
+[source]
+----
+function f_calc_AKA_Keys(in octetstring pl_eap_identity, in octetstring pl_AKA_K,in octetstring pl_rand, inout octetstring pl_AK,inout octetstring pl_Kaut,inout octetstring pl_Kencr) return octetstring
+
+eap_sim_derive_mk rfc4186
+eap_aka_derive_mk rfc4187
+eap_aka_derive_reauth_msk_emsk rfc4187
+Calculate_AT_CheckCode rfc4187
+f_calc_Kaut rfc5448
+f_get_ServersPublicKey rfc5247
+f_prf rfc5281
+----

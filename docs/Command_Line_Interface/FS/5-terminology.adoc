@@ -1,0 +1,21 @@
+= Terminology
+
+*TitanSim Core (Load) Library(CLL):*	+
+It is that part of the TitanSim software that is totally project independent. (I.e., which is not protocol-, or application-dependent). The TitanSim CLL is to be supplied and supported by the TCC organization. Any TitanSim CLL development is to be funded centrally by Ericsson.
+
+*Command Line Interface:*	+
+It is a user interface accessible via telnet protocol where the behavior of TitanSim can be changed or information can be requested using commands.
+
+= Abbreviations
+
+CLI::	Command Line Interface
+
+CLL::	Core Load Library
+
+EPTF::	Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+TitanSim::	Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+TTCN-3:: 	Testing and Test Control Notation version 3 <<6-references.adoc#_1, [1]>>.
+
+MTC::	Main Test Component

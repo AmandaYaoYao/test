@@ -1,0 +1,13 @@
+= Introduction
+
+== How to Read This Document
+
+This is the Function Description for the SMacro feature of the Ericsson Performance Test Framework (EPTF), Core Load Library (CLL). EPTF CLL is developed for the TTCN-3 <<7-references.adoc#_1, [1]>> Toolset with TITAN <<7-references.adoc#_2, [2]>>.
+
+== Scope
+
+This document is to specify the content and functionality of the `SMacro` feature of the EPTF CLL.
+
+== Recommended Way of Reading
+
+The readers are supposed to get familiar with the concept and functionalities of EPTF CLL <<7-references.adoc#_3, [3]>>. They should get familiar with the list of acronyms and the glossary in Section 1.6 and 1.7, respectively.

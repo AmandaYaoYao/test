@@ -1,0 +1,15 @@
+= Terminology
+
+TITAN TTCN-3 Test Executor (see <<5-references.adoc#_3, ‎[3]>>).
+
+= Abbreviations
+
+ETSI:: European Telecommunications Standards Institute
+
+IETF:: Internet Engineering Task Force
+
+RFC:: Request for Comments
+
+RTSP:: Real Time Streaming Protocol
+
+TTCN-3:: Testing and Test Control Notation version 3

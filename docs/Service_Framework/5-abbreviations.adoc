@@ -1,0 +1,11 @@
+= Abbreviations
+
+ESF:: EPTF Service Framework
+
+API:: Application Programming Interface
+
+GUI:: Graphical User Iterface
+
+EWG:: EPTF Web GUI
+
+JSON:: JavaScript Object Notation

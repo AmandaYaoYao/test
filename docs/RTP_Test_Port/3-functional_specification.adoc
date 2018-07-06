@@ -1,0 +1,274 @@
+= Functional Specification
+
+== Protocol Version Implemented
+
+This set of protocol modules implement protocol messages and constants of the RTP protocol <<8-references.adoc#_3, [3]>> with the modifications specified in <<‎modifications-deviations-related-to-the-protocol-specification, Modifications/Deviations Related to the Protocol Specification>>.
+
+The RTCP messages described in RFC 4585 & RFC 5104 have been implemented
+
+[[modifications-deviations-related-to-the-protocol-specification]]
+== Modifications/Deviations Related to the Protocol Specification
+
+=== Unimplemented Messages, Information Elements and Constants
+
+None.
+
+[[protocol-modifications-deviations]]
+=== Protocol Modifications/Deviations
+
+Protocol modules contain the following deviations from ‎:
+
+* The protocol module does not support the encryption of the messages. SRTP_CNL113769 can encrypt and decrypt the messages. See <<8-references.adoc#_8, [8]>>.
+
+[[encoding-decoding-functions]]
+== Encoding/Decoding Functions
+
+This product contains encoding/decoding functions, which assure correct encoding of messages when sent from Titan and correct decoding of messages when received by Titan. Implemented encoding/decoding functions:
+
+[cols=3*,options=header]
+|===
+
+|Name
+|Type of formal parameters
+|Type of return value
+
+|`f_RTP_enc`
+|(in RTP_messages_union pdu)
+|octetstring;
+
+|`f_RTP_dec`
+|(in octetstring data)
+|RTP_messages_union;
+
+|`f_RTP_packet_enc`
+|(in RTP_packet pdu)
+|octetstring;
+
+|`f_RTP_packet_dec`
+|(in octetstring data)
+|RTP_packet;
+|===
+
+== Media Stream Handling in RTP Protocol
+
+=== General
+
+Each RTP packet, starts with a fixed RTP header followed by payload format ‎<<8-references.adoc#_3, [3]>>.
+
+=== Supported Media Files
+
+* JPEG - JPEG video codec ‎<<8-references.adoc#_5, [5]>> (Note2)
+
+* H263 - H263 video codec (‎<<8-references.adoc#_4, [4]>> mode: A)
+
+* MPEG4 - MPEG4 video codec (Note1)
+
+* GIF - GIF image codec (Note1)
+
+* f3GP - 3gp file format (Note1)
+
+* fMPEG4 - MPEG4 file format (Note1)
+
+* UNKNOWN - other (Note1)
+
+- Note1: The payload is handled as an octetstream.
+
+- Note2: The `f_Put_Media_Content` function sets the `fragment_offset` field of the payload header structure to zero when writing the payload header into the file.
+
+[[reading-writing-and-other-related-functions]]
+=== Reading/Writing and Other Related Functions
+
+This product also contains read/write functions so that we can read any blocks and the function returns RTP payload format, and write received RTP payload packets into a file. Implemented encoding/decoding functions:
+
+Types of formal parameters:
+
+[cols=2*,options=header]
+|===
+
+|Type
+|Description
+
+|`InitOperType`
+|enumerated (OPEN, CREATE)
+
+|`RTP_MediaType`
+|enumerated (JPEG, H263, MPEG4, GIF, f3GP, fMPEG4, UNKNOWN)
+|===
+
+`RTP_FileInfo` record with the following fields:
+
+[source]
+----
+integer fd, // file description
+
+integer block_size, // size of block
+
+integer block_no, // starting block position
+
+integer nof_blocks_to_read, // number of blocks to read
+
+RTP_MediaType mediaType, // type of media
+
+boolean headerOp, // true: get or put header
+
+integer headerOffset, // size of media header
+
+Media_RTP_Header mediaHeader // header of the media
+----
+
+Implemented functions:
+
+[cols=3*,options=header]
+|===
+
+|Name
+|Type of formal parameters
+|Type of return value
+
+|`f_Init_Media_Fileinfo`
+|(in charstring pl_filename +
+in integer pl_block_size +
+in InitOperType pl_init_type +
+in RTP_MediaType pl_media_type +
+in integer pl_blockno +
+in integer pl_nof_blocks +
+inout RTP_FileInfo pl_fileinfo)
+|none
+|===
+
+The `f_Init_Media_Fileinfo` opens (OPEN) or creates (CREATE) the file to read or write the blocks. This function sets the `FileInfo` parameter that contains the `_fd_`, `_block_size_`, `_block_no_`, `_nof_blocks_to_read_`, `_Header_Offset_`, etc. values.
+
+[cols=3*,options=header]
+|===
+
+|Name
+|Type of formal parameters
+|Type of return value
+
+|`f_Get_Media_Content`
+|(inout RTP_FileInfo pl_filename)
+|octetstring
+|===
+
+This function reads the blocks from the file and encapsulates it according to RTP payload format. The function encodes this packet to octetstring.
+
+[cols=3*,options=header]
+|===
+
+|Name
+|Type of formal parameters
+|Type of return value
+
+|`f_Put_Media_Content`
+|(in RTP_FileInfo pl_fileinfo, in octetstring data)
+|integer
+|===
+
+This function decodes the incoming octetstring (RTP payload format packet) and writes the appropriate data into the file.
+
+These functions may be useful when we want to manipulate the files directly.
+
+[cols=3*,options=header]
+|===
+
+|Name
+|Type of formal parameters
+|Type of return value
+
+|f_INIT_CODEC
+|(in charstring pl_filename, in integer pl_block_size, in InitOperType pl_init_type )
+|integer
+|===
+
+The `f_INIT_CODEC` opens (OPEN) or creates (CREATE) the file to read or to write the blocks and sets the size of the blocks. It returns the identifier of the file.
+
+[cols=3*,options=header]
+|===
+
+|Name
+|Type of formal parameters
+|Type of return value
+
+|`f_GET_CONTENT`
+|(in integer pl_fd, in integer pl_blockno, in integer pl_nof_blocks_to_read, in integer pl_header_offset)
+|octetstring
+|===
+
+The `f_GET_CONTENT` reads the blocks from the file. It reads `nof_blocks_to_read` blocks starting from (`blockno` + `header_offset`).
+
+[cols=3*,options=header]
+|===
+
+|Name
+|Type of formal parameters
+|Type of return value
+
+|`f_PUT_CONTENT`
+|(in integer pl_fd, in integer pl_blockno, in octetstring pl_stream, in integer pl_header_offset)
+|octetstring
+|===
+
+This function writes the blocks into the file. It writes `nof_blocks_to_read` blocks starting from (`blockno` + `header_offset`).
+
+[cols=3*,options=header]
+|===
+
+|Name
+|Type of formal parameters
+|Type of return value
+
+|`f_CLOSE_CODEC`
+|(in integer pl_fd)
+|none
+|===
+
+The `f_CLOSE_CODEC` closes the file.
+
+There are further auxiliary inside functions that are not for direct use of the user (they are used by the other functions).
+
+Encoding/decoding functions for RTP payload formats of media:
+
+[cols=3*,options=header]
+|===
+
+|Name
+|Type of formal parameters
+|Type of return value
+
+|`f_RTP_Hdr_enc`
+|(in Media_RTP_Header hdr)
+|octetstring
+
+|`f_JPEG_RTP_Hdr_dec`
+|(in octetstring stream)
+|JPEG_RTP_Header
+
+|`f_H263_RTP_Hdr_dec`
+|(in octetstring stream)
+|H263_RTP_Header
+
+|`f_RTP_Data_enc`
+|(in Media_RTP_Data rtp_data)
+|octetstring
+
+|`f_JPEG_RTP_Data_dec`
+|(in octetstring stream)
+|JPEG_RTP
+
+|`f_H263_RTP_Data_dec`
+|(in octetstring stream)
+|H263_RTP
+|===
+
+Other inside functions:
+
+[source]
+----
+f_Count_JPEG_Header_Offset( in FileInfo_t fi);
+
+void log_info_list()
+
+int f_Fileinfo_Check(const int& fd, const Operation& OPERATION)
+
+int f_Operation_Check(const int& fd, const int& blockno, const int& nof_b, const Operation& OPERATION, const int& hdr_off)
+----

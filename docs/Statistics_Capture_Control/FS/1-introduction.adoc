@@ -1,0 +1,21 @@
+= Introduction
+
+== How to Read This Document
+
+This is the Function Description for the Statistics Capture Control of the Ericsson Performance Test Framework (TitanSim), Core Library (CLL). EPTF Core Library is developed for the TTCN-3 <<9-references.adoc#_1, ‎[1]>> Toolset with TITAN <<9-references.adoc#_2, ‎[2]>>.
+Additionally, to understand the functionality of this feature, read the documentation of the Variable <<9-references.adoc#_5, ‎[5]>> and the Statistics Measurement ‎<<9-references.adoc#_6, [6]>> features.
+
+== Scope
+
+This document is to specify the content and functionality of the Statistics Capture Control feature of the EPTF Core Library.
+
+== Recommended Way of Reading
+
+The readers are supposed to get familiar with the concept and functionalities of EPTF Core Library <<9-references.adoc#_3, ‎[3]>> in general, and the Variable ‎<<9-references.adoc#_5, [5]>> and Statistics Measure <<9-references.adoc#_6, ‎[6]>> features. They should get familiar with the list of acronyms and the glossary in Section ‎1.7 and ‎1.8, respectively.
+
+== Release Information
+
+This document contains actualized information on the TitanSim Release R4A. The new functionalities compared to the release R7A01 concerning the EPTF Statistics Capture Control feature are the following:
+
+* The feature is extended with the client component. The existing component behaves like before and adds server functionalities.
+* The changes are backward-compatible to the initial release R2A01 and tested according to this requirement.

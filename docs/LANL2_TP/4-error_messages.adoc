@@ -1,0 +1,150 @@
+= Error Messages
+
+The error messages have the following general form:
+
+[source]
+Dynamic test case error: LANL2asp_PT(`<port name>'): <error text>
+
+Error messages are written into the log file. In the log file a time stamp is also given before the message text.
+
+The list of possible error messages is shown below. Note that this list contains the error messages produced by the test port. The error messages coming from the TITAN are not shown.
+
+[[error-messages-in-case-of-sending-pdu-lanl2]]
+== Error Messages In Case of Sending PDU_LANL2
+
+`*Test port parameter `eth_mac_destination' has to be set in config file.*`
+
+The destination MAC address of an Ethernet II frame has to be set in the configuration file.
+
+`*Test port parameter `eth_proto' has to be set in config file.*`
+
+The `EtherType` field of an Ethernet II frame has to be set in the configuration file.
+
+`*Empty packet cannot be sent, PDU_LANL2 data has to be set.*`
+
+The payload of the Ethernet II frame has to be set in `PDU_LANL2`.
+
+`*Length of `PDU_LANL2 data' is not of correct size (expected: 46-<MTU>, given:* *<value> byte).*`
+
+According to Ethernet data, the size of `PDU_LANL2` has to be `_46-1500 _` bytes.
+
+The standard MTU size is `_1500_`, but if the Jumbograms are supported it can be higher.
+
+`*Cannot send packet on interface `<interface>'.*`
+
+Sending the packet to network failed.
+
+`*Sending error on interface `<interface>'. <value> bytes was sent instead of <value>.*`
+
+The packet was sent unsuccessfully. Not the entire packet was sent.
+
+[[error-messages-in-case-of-sending-asp-lanl2]]
+== Error Messages In Case of Sending ASP_LANL2
+
+`*Length of `eth_src_addr' is not of correct size (expected: 6, given: <value> octets).*`
+
+MAC addresses for Ethernet shell consist of 6 octets.
+
+`*Unbound argument `eth_dst_addr'. Destination MAC address has to be set in ASP_LANL2.*`
+
+The destination MAC address of `ASP_LANL2` has to be given.
+
+`*Length of `eth_dst_addr' is not of correct size (expected: 6, given: <value> octets).*`
+
+MAC addresses for Ethernet shell consist of 6 octets.
+
+`*Unbound argument `type_field'. Ethernet protocol type has to be set in ASP_LANL2.*`
+
+The `EtherType` field of `ASP_LANL2` has to be given.
+
+`*Length of `type_field' is not of correct size (expected: 2, given: <value> octets).*`
+
+The length of `EtherType` field shall be 2 octets. For example, `_"0800"_` is for IP.
+
+`*Unbound argument `payload'. Empty packet cannot be sent, payload has to be set.*`
+
+The payload of the Ethernet II frame has to be set.
+
+`*Length of `payload' is not of correct size (expected: 46-<MTU>, given: <value> byte).*`
+
+According to <<7-references.adoc#_4, [4]>>, the payload size of an Ethernet II frame has to be 46-<MTU> bytes. The standard MTU size is 1500, but if the Jumbograms are supported it can be higher.
+
+`*Cannot send packet on interface `<interface>'.*`
+
+Sending the packet to network failed.
+
+`*Sending error on interface `<interface>'. <value> bytes was sent instead of <value>.*`
+
+The packet was sent unsuccessfully. Not the entire packet was sent.
+
+== Test Port Parameter Setting Error Messages
+
+`*Parameter `eth_interface_name' is an empty string. It has to be set in config file.*`
+
+The name of the interface has to be set correctly in the configuration file.
+
+`*Parameter `eth_interface_name' is too long (expected: at most <value>, given: <value> characters).*`
+
+The length of the interface name is not correct.
+
+`*Parameter `<parameter>' is not of correct size (expected: <value>, given: <value> octets).*`
+
+The length of the given parameter is not correct.
+
+== Other Error Messages
+
+`*Pcap can't receive.*`
+
+An error occurred when capturing a packet with Libpcap.
+
+`*Parameter `eth_interface_name' must be set in config file.*`
+
+The name of the interface has to be set in the configuration file.
+
+`*Interface `<interface>' is down and cannot be set up.*`
+
+The test port could not set up the given interface.
+
+`*Cannot set up interface `%s'.*`
+
+The test port could not set up the given interface.
+
+`*Cannot open RAW socket on interface `<interface>'.*`
+
+Some error occurred or no privileges for opening a RAW socket.
+
+`*Cannot set broadcasting option for socket on interface `%s'.*`
+
+Some error occurred when setting socket options.
+
+`*Cannot open socket on interface `<interface>' for reading with pcap.*`
+
+Some error occurred when opening a socket for Libpcap.
+
+`*Packet filter `<expression>' is not correct and cannot be compiled.*`
+
+The given <expression> is not a correct packet filter expression. See <<7-references.adoc#_5, [5]>>.
+
+`*Error setting packet filter.*`
+
+Some error occurred when setting the filter for the pcap socket.
+
+`*Cannot open socket.*`
+
+Some error occurred when opening a socket.
+
+`*Cannot get index of interface `<interface>'.*`
+
+The test port could not get the index of the given interface.
+
+`*Cannot get flags of interface `<interface>'.*`
+
+The test port could not get the flags of the given interface.
+
+`*Cannot set flags of interface `<interface>'.*`
+
+The test port could not set the flags of the given interface.
+
+`*Cannot get MAC address of interface `<interface>'.*`
+
+The test port could not get the MAC address of the given interface.

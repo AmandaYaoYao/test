@@ -1,0 +1,13 @@
+= Terminology
+
+No specific terminology is used.
+
+= Abbreviations
+
+AVP:: Attribute Value Pair
+
+IETF:: Internet Engineering Task Force
+
+L2TP:: Layer Two Tunneling Protocol
+
+TTCN-3:: Testing and Test Control Notation version 3

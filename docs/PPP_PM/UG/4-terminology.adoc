@@ -1,0 +1,25 @@
+= Terminology
+
+TITAN TTCN-3 Test Executor.
+
+= Abbreviations
+
+CHAP:: PPP Challenge Handshake Authentication Protocol
+
+IETF:: Internet Engineering Task Force
+
+IP:: Internet Protocol
+
+IPCP:: PPP Internet Protocol Control Protocol
+
+LCP:: Link Control Protocol
+
+PAP:: PPP Authentication Protocols
+
+EAP:: Extensible Authentication Protocol
+
+PPP:: Point-to-Point Protocol
+
+RFC:: Request for Comments
+
+TTCN-3:: Testing and Test Control Notation version 3

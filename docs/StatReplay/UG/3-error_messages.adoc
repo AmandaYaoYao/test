@@ -1,0 +1,15 @@
+= Error Messages
+
+NOTE: Besides the below described error messages, error messages shown in ‎<<7-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+`*The <variable_name> variable doesn't exist in the <group_name> capture group in the file: <file_name>.*`
+
+The given variable not exists.
+
+`*The value of the variable is neither float nor integer!*`
+
+The Statistics Replay feature support only integer and float value visualization.
+
+`*There is no defined startLayout!*`
+
+The user has to give `stratLayout` to the GUI.

@@ -1,0 +1,28 @@
+= Terminology
+
+*Titan:* +
+Ericsson’s TTCN-3 Test environment
+
+*TitanSim:* +
+Ericsson’s Load Test Framework
+
+*Widgets:* +
+Description of a screen configuration
+
+= Abbreviations
+
+ETSI:: European Telecommunications Standards Institute
+
+GUI:: Graphical User Interface
+
+TCC:: (Ericsson R&D) Test Competence Center
+
+TTCN-3:: Testing and Test Control Notation version 3
+
+XML:: Extensible Markup Language
+
+XSD:: XML Schema Definition
+
+XTDL:: eXtensible Titan Display Language
+
+XTDP:: eXtensible Titan Display Protocol

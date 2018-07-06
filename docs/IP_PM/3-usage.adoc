@@ -1,0 +1,104 @@
+= Usage
+
+== Installation
+
+The set of protocol modules can be used in developing TTCN-3 test suites using any text editor. However to make the work more efficient a TTCN-3-enabled text editor is recommended (e.g. nedit, xemacs). Since the IP protocol is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<5-references.adoc#_4, [4]>>.
+
+== Configuration
+
+None.
+
+== Implementation Specifics
+
+The `f_IPv4_checksum`() can be used to calculate the value of the IPv4 checksum field. The parameter of the function is the encoded IP packet. The checksum is calculated over the *_IP_* header and the `_return_` value is the value of the IP checksum field. The length of the checksum field is always 2 octets.
+
+The `f_IPv4_addr_enc`() and `f_IPv4_addr_dec`() functions can be used to convert IPv4 addresses from character string format to encoded octetstring format and vice versa. The `_return_` value is the value of the source or destination IPv4 address field. The length of the address field is always 4 octets.
+
+The `IPv4_ASP` ASP is a very basic ASP, containing:
+
+* the IPv4 packet
+
+* a boolean flag, whether the IPv4 checksum should be calculated or not. The flag can be used to perform the IPv4 checksum calculation, when sending an IP packet.
+
+Function `f_IPv4_enc_eth` puts padding zeros to the end of the encoded IP message if shorter than 46 bytes, it assures the minimal length of payload in case of Ethernet frame is used as lower layer.
+
+== Examples
+
+=== IPv4 Packet Encoding and Decoding
+
+The following example shows how an IPv4 packet can be encoded and decoded:
+
+[source]
+----
+var IPv4_ASP v_ipv4_asp;
+var IPv4_packet v_ipv4_packet;
+var octetstring data;
+
+data:= f_IPv4_enc(v_ipv4_asp.ipv4_packet);
+if (v_ipv4_asp.cksum_calc) \{
+  var OCT2 cksum := f_IPv4_checksum(data);
+  // Copy the calculated checksum into the encoded data.
+  // The checksum field is on the 11th and 12nd octet.
+  data[10] := cksum[0];
+  data[11] := cksum[1];
+}
+v_ipv4_packet := f_IPv4_dec(data);
+----
+
+=== IPv4 Packet Encoding for Ethernet Support
+
+The following example shows how an IPv4 packet can be encoded to ensure the minimal payload length for Ethernet:
+
+[source]
+----
+var IPv4_ASP v_ipv4_asp;
+var IPv4_packet v_ipv4_packet;
+var octetstring data;
+
+data:= f_IPv4_enc_eth(v_ipv4_asp.ipv4_packet);
+var OCT2 cksum := f_IPv4_checksum(data);
+data[10] := cksum[0];
+data[11] := cksum[1];
+----
+
+=== IPv6 Packet Encoding and Decoding
+
+The following example shows how an IPv4 packet can be encoded and decoded:
+
+[source]
+----
+var IPv6_packet v_ipv6_packet;
+var octetstring data;
+
+data:= f_IPv6_enc(v_ipv6_packet);
+
+v_ipv6_packet := f_IPv6_dec(data);
+----
+
+=== IPv4 Address Encoding and Decoding
+
+The following example shows how the IPv4 address fields can be filled up:
+
+[source]
+----
+var IPv4_packet v_ipv4_packet;
+var charstring v_address := ”192.168.0.1”;
+
+v_ipv4_packet.header.srcaddr := f_IPv4_addr_enc(v_address);
+
+v_address := f_IPv4_addr_dec(v_ipv4_packet.header.srcaddr);
+----
+
+=== IPv6 Address Encoding and Decoding
+
+The following example shows how the IPv6 address fields can be filled up:
+
+[source]
+----
+var IPv6_packet v_ipv6_packet;
+var charstring v_address := ”2001:3ab5:5566:1234::1”;
+
+v_ipv6_packet.header.srcaddr := f_IPv6_addr_enc(v_address);
+
+v_address := f_IPv6_addr_dec(v_ipv6_packet.header.srcaddr);
+----

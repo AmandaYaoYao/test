@@ -1,0 +1,13 @@
+= Introduction
+
+== About This Document
+
+=== How to Read This Document
+
+This is the User Guide for EPTF Statistics Replay of the Ericsson Performance Test Framework (TitanSim), Core Load Library (CLL). TitanSim CLL is developed for the TTCN-3 <<7-references.adoc#_1, ‎[1]>> Toolset with TITAN <<7-references.adoc#_2, [2]>>. This document should be read together with the Function Description of the EPTF Statistics Replay feature ‎<<7-references.adoc#_5, [5]>>. For more information on the TitanSim CLL, consult the User's Guide ‎<<7-references.adoc#_4, [4]>> and the Function Specification <<7-references.adoc#_3, ‎[3]>> of the TitanSim.
+
+== System Requirements
+
+In order to use the EPTF Statistics Replay feature the system requirements listed in TitanSim CLL User's Guide <<7-references.adoc#_4, ‎[4]>> should be fulfilled.
+
+Additionally, this feature also uses the functionalities of TCC Useful Function product.

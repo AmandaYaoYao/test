@@ -1,0 +1,23 @@
+= Protocol Modules
+
+== Overview
+
+Protocol modules implement the messages structure of the related protocol in a formalized way, using the standard specification language TTCN-3. This allows defining of test data (templates) in the TTCN-3 language <<5-references.adoc#_1, [1]>> and correctly encoding/decoding messages when executing test suites using the Titan TTCN-3 test environment <<5-references.adoc#_2, [2]>>.
+
+Protocol modules are using Titan’s RAW encoding attributes <<5-references.adoc#_2, [2]>> and hence is usable with the Titan test toolset only.
+
+== Installation
+
+The set of protocol modules can be used in developing TTCN-3 test suites using any text editor. However, to make the work more efficient a TTCN-3-enabled text editor is recommended (e.g.`nedit`, `xemacs`). Since the ISUP ITU-T protocol is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<5-references.adoc#_2, [2]>>.
+
+== Configuration
+
+None.
+
+== Sending Order of Parameters
+
+From R2A02 the parameters are in "set", and not in "set of". It has the consequence that the parameters will be sent out in fixed order (as defined in set). So the tester cannot modify the sending order of the parameters with modification of the field order in the template. There is a limited number of parameters, which can be multiple within a message (e.g.: Generic digits). If such a parameter is repeated in the message then they are sent out directly after each other.
+
+Parameters in the received message can be in any order, but after decoding the tester will see the parameters in order as defined in TTCN protocol module.
+
+If the order is important, then the previous version of this protocol module should be used.

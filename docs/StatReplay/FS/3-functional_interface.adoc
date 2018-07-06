@@ -1,0 +1,24 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading ‎[5].
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_CLL_StatReplay_`.
+
+== Public Functions
+
+=== Initialization
+
+The user need only start the component with the `f_EPTF_CLL_StatReplay_Init_CT(…)` function. This function initializes the EPTF Statistics Replay feature and initiates the GUI.
+
+== Summary Table of All Public Functions for EPTF Statistics Replay
+
+See Summary of Statistics Replay functions in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|=============================================================================================
+|Function name |Description
+|`f_EPTF_CLL_StatReplay_Init_CT` |Initializes the GUI and starts the Statistics Replay Component
+| |
+|=============================================================================================

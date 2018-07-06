@@ -1,0 +1,98 @@
+= Warning Messages
+
+Since the LDAPasp_RFC4511 Test Port uses the Abstract Socket, it can produce the same warning messages. For this messages see <<8-references.adoc#_7, [7]>>.
+
+`*Unsupported Test Port parameter: <name>*`
+
+The test port parameter <name> in the runtime configuration file is not supported for this test port.
+
+`*get_TVL_length: there was no complete TLV in the buffer from the reading position.*`
+
+Occurs only if the `decode_incoming_message` test port parameter is set to the value `_"yes"_`. It means that there is not a complete TLV in the incoming buffer to send to the test suite. This warning message never occurs.
+
+[[warning-messages-produced-by-f-importldif]]
+== Warning Messages Produced by f_ImportLDIF
+
+`*The file <name> could not be opened*`
+
+The named file was not found, or could not be opened for reading.
+
+`*Wrong modification operation name at line <number>*`
+
+The operation name must be `_"add"_`, `_"delete"_` or `_"replace"_`
+
+`*Hyphen expected at line <value>*`
+
+Every modification operation inside a change record must end with a "-".
+
+`*Line number <value> contains more than one data.*`
+
+The line contains too much data, maybe two structures are in the same line.
+
+`*Wrong newsuperior value at line <value>*`
+
+The value of the `newsuperior` attribute is erroneous.
+
+`*The keyword <string> was expected at line <value>.*`
+
+Couldn’t find an expected keyword.
+
+`*Wrong deleteoldrdn value at line <value>*`
+
+The value of the `deleteoldrdn` attribute must be `_0_` or `_1_`.
+
+`*Wrong newrdn value at line <value>*`
+
+The value of the `newrdn` attribute has errors.
+
+`*Wrong moddn type at line <value>*`
+
+The moddn type must be `_"moddn"_`, or `_"modrdn"_`.
+
+`*deleteoldrdn missing from the change moddn structure ending at line <value>*`
+
+The change moddn structures must have a `deleteoldrdn` keyword – value pair inside.
+
+`*Add must be followed by at least 1 attribute:value pair at line <value>*`
+
+The change add structure must have values.
+
+`*Wrong option syntax at line <value>*`
+
+The options of an attribute type are given with wrong syntax.
+
+`*Attribute error at line <value>*`
+
+The attribute has errors, or is not present.
+
+`*<variable> could not be resolved*`
+
+The environmental variable could not be resolved. It might not exist or it was mistyped.
+
+`*Value error at line <value>*`
+
+The value in this attribute – value pair has some errors.
+
+`*Attribute must be separated from value with a colon at line <value>.*`
+
+The attribute must be separated from the value with a ":".
+
+`*ldap_oid error at line <value>*`
+
+The `LDAP_OID` has a syntax error.
+
+`*Wrong format for the dn at line <value>*`
+
+The string following the dn keyword has a syntax error, or is not separated from the dn keyword with a ":".
+
+`*Version error at line <value>*`
+
+The version string or the version number has a wrong format.
+
+`*Content and change records can not be mixed in one file*`
+
+There are content and change records in the same file, which is not allowed by the standard.
+
+`*The <value> modified attribute's type is different from the one described in the <value> changerecord's <value> modify record (<string>) (<string>)*`
+
+The attribute in attribute – value pairs inside change modify records must be the same as the described attribute to be modified.

@@ -1,0 +1,19 @@
+= BrowserGUI Setup
+
+The initial steps to start the `BrowserGUI` feature:
+
+.  The module parameter, which enables the feature, is the `tsp_EPTF_UIHandler_enableBrowserGUI`. The default value of it is `_true_`. If the feature does not start, check the value of this parameter.
+
+. Set module parameters
++
+If the application parameters differ from the default values of the module parameters, these parameters need to be updated. The additional files can be replaced by the user or deleted as well. The XSL transformation file is required for the browser to process and visualize the web page definition and the javascript files are required for the additional features of `BrowserGUI`.
++
+. Start a web browser
++
+See the required web browser version in link:1-introduction.adoc#system_requirements[System Requirements]
+
+.  Type the address
++
+(http://browsergui_address:browsergui_port)
+
+Make sure that the firewall settings are correct, if you try to use the feature from another machine, than the host of the application.

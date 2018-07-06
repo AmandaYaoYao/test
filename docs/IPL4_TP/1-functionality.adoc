@@ -1,0 +1,78 @@
+= Functionality
+
+The IPL4asp is a general purpose, session independent test port providing access to several transport layers over the Internet Protocols in an extensible manner. The most important features are the support of multiple IP addresses of both IPv4 and IPv6 and that the user of the test port can extend the base functionalities with session specific ones using either TTCN or external C++ function.
+
+The IPL4asp test port has been demanded by projects to produce very high load, therefore performance must always be a key factor during the design and implementation.
+
+The IPL4asp test port will replace the earlier UDP, TCP with SSL support and SCTP test ports, providing backward compatibility as far as possible, in order to reduce maintenance efforts.
+
+== Supported Internet Protocol Version
+
+The IPL4asp test port shall support both currently used Internet Protocol versions, i.e. IPv4 and IPv6. The version of the Internet Protocol shall be hidden at the level of the test port API (see <<2-feature_list.adoc#Use_of_DNS_Names_and_IP_Addresses, Use of DNS Names and IP Addresses>>.
+
+== Several Transport Protocols
+
+The IPL4asp test port shall support the UDP, TCP, TCP with SSL and SCTP transport layer (L4) protocols. The test port shall be designed in an extensible manner that other transport protocols can be added without modifying the framework and the test port API.
+
+== Backward Incompatibilities
+
+The following backward incompatibilities exist (R1A -> R2A):
+
+* The Result record was modified to include two more optional fields. This may require update of code if templates for Result are used or a variable of Result type is assigned a value.
+* The expected behavior of the callback function, registered with `f_IPL4_setGetMsgLen`, has been slightly modified - If the callback function returns a length bigger than the message part in the octetstring, then this value is stored and used later without calling the callback function again for the given message.
+* The definition of Connection ID is modified - It is a test port component level unique identifier of the connection. It is not guaranteed to be a file descriptor. The connection ID identifies also the protocol.
+
+== Platform Dependencies and Limitations
+
+The following table indicates which functionalities are available on different platforms:
+
+[cols=",,,",options="header",]
+|=================================================
+| |*Linux* |*Solaris* |*Cygwin*
+|*IPv6* |*X* |*X* |*X*
+|*Network interface setup* |*X* |*X* |
+|*IP address discovery* |*X* | |
+|*Connection options* 3+^.^|*All* – See <<3-test_port_usage.adoc#Parameters_for_IP_Auto-Configuration, Parameters for IP auto-configuration>>
+|*SCTP support* |*X* |*X* |
+|=================================================
+
+For guidance on building the test port and for compilation options see <<3-test_port_usage.adoc#Installation_and_Building_the_Test_Port, Installation and Building the Test Port>>.
+
+In order to take advantage of the SCTP support in IPL4 test port the following platforms can be used:
+
+* Solaris 10
+
+* Suse Linux 9.1 and above with SCTP packages installed as in <<system_requirements, System Requirements>>.
+
+On Ubuntu 8.10 one of the standard API calls used in the test port may block the execution for several seconds. This is a known issue with Ubuntu which may be resolved by applying the latest updates to the OS. To overcome this problem a workaround has been implemented. If specific IP addresses are used in a valid dot notation form instead of domain names, no DNS name resolution is needed, and no calls made to the faulty function.
+
+[[system_requirements]]
+== System Requirements
+
+In order to operate the IPL4asp test port the following system requirements must be satisfied:
+
+* TITAN TTCN-3 Test Executor version R8A (1.8.pl0) or higher installed. For installation guide see <<7-references.adoc#_2, [2]>>.
+
+NOTE: The usage of TITAN releases earlier than R8A can result a dynamic test case error.
+
+* The following functions from TCC Useful Functions <<7-references.adoc#_4, [4]>> are required:
+
+`TCCInterface_Functions` (__TCCInterface_Functions.ttcn__, _TCCInterface.cc_)
+
+* The BSD socket interface must be supported, which should be present in most UNIX-like operating systems, such as Solaris, Linux and Cygwin.
+* Root privileges are required when using automatic IP address discovery or IP address configuration.
+* For SCTP support the following SCTP Linux Kernel implementation packages (or higher version) should be installed:
+
+[source]
+----
+lksctp-tools-1.0.1-2.i586.rpm
+
+lksctp-tools-devel-1.0.1-2.i586.rpm
+----
+
+* If SSL is used, the same OpenSSL must be installed as used in TITAN. For an OpenSSL installation guide see <<7-references.adoc#_5, [5]>>.
+* Several functions rely on the OpenSSL library so the used OpenSSL version should support the required functionality. Please consult the OpenSSL manual for the exact versions.
+** The available chippers and SSL/TSL/DTLS versions depends on the OpenSSL versions. Check the OpenSSL manual
+** For DTLS support OpenSSL 1.0.1 or later version must be installed.
+** For DTLS over SCTP the OpenSSL 1.0.1q or later versions is required and the Linux kernel version >= 3.13.0.
+** For PSK support OpenSSL 1.0.2 or later version is required

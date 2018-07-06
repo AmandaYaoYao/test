@@ -1,0 +1,16 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* _main.cfg_
+* __EPTF_NameService_test.ttcn__
+
+== Configuration File
+
+The used configuration file (_main.cfg_) sets only the parameters in the `[LOGGING]` section. No special configuration is needed.
+
+== Demo Module
+
+The demo module __EPTF_NameService_test.ttcn__ illustrates a typical usage of the `NameService` feature.
+
+The usage of register/deregister/query functions are shown.

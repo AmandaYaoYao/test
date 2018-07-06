@@ -1,0 +1,64 @@
+= Function Definitions
+
+`external function f_FS_bsize(in charstring p_name) return integer`
+
+Returns the file system block size or `_-1_` on error
+
+`external function f_FS_block(in charstring p_name) return integer`
+
+Returns the total number of blocks in the file system or `_-1_` on error
+
+`external function f_FS_bfree(in charstring p_name) return integer`
+
+Returns the total number of free blocks in the file system or `_-1_` on error
+
+`external function f_FS_dspacerate(in charstring p_name) return integer`
+
+Returns the free space rate in the file system or `_-1_` on error
+
+== Error Messages
+
+None.
+
+== Warning Messages
+
+None.
+
+== Examples
+
+testcase f_test_FS_bsize() runs on FileSystem_CT
+\{
+
+  log(" ———– f_FS_bsize ———– “);
+  log(``Block size (f_FS_bsize):'', f_FS_bsize(``./''));
+
+  // no check
+  setverdict(pass);
+}
+
+testcase f_test_FS_block() runs on FileSystem_CT
+\{
+  log(" ———– f_FS_block ———– “);
+  log(``Number of blocks (f_FS_block):'', f_FS_block(``./''));
+
+  // no check
+  setverdict(pass);
+}
+
+testcase f_test_FS_bfree() runs on FileSystem_CT
+\{
+  log(" ———– f_FS_bfree ———– “);
+  log(``Number of free blocks (f_FS_bfree):'', f_FS_bfree(``./''));
+
+  // no check
+  setverdict(pass);
+}
+
+testcase f_test_FS_dspacerate() runs on FileSystem_CT
+\{
+  log(" ———– f_FS_dspacerate ———– “);
+  log(``The free space rate (f_FS_dspacerate):'', f_FS_dspacerate(``./''));
+
+  // no check
+  setverdict(pass);
+}

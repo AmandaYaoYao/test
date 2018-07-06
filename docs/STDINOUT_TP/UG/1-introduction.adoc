@@ -1,0 +1,25 @@
+= Introduction
+
+== About This Document
+
+=== How to Read This Document
+
+This is the User Guide for the STDINOUT Test Port. The STDINOUT Test Port is developed for the TTCN-3 Toolset with TITAN <<6-references.adoc#_4, [4]>>. This document is intended to be read together with Functional Specification <<6-references.adoc#_2, [2]>>.
+
+=== Presumed Knowledge
+
+The knowledge of the TITAN TTCN-3 Test Executor <<6-references.adoc#_4, [4]>> and the TTCN-3 language <<6-references.adoc#_1, [1]>> is essential.
+
+== System Requirements
+
+In order to operate the STDINOUT Test Port the following system requirements must be satisfied:
+
+* TITAN TTCN-3 Test Executor R7A (1.7.pl0) or higher installed. For installation guide see <<6-references.adoc#_3, [3]>>.
+
+NOTE: This version of the Test Port is not compatible with TITAN releases earlier than R7A.
+
+* Unix, Sun Solaris or Linux operating system.
+
+== Fundamental Concepts
+
+This Test Port handles connection between the TTCN-3 test executor and the operator.

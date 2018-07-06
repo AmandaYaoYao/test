@@ -1,0 +1,406 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading <<5-references.adoc#_4, [4]>>.
+
+== Naming Conventions
+
+All integer to integer (key, data) functions have the prefix `f_EPTF_int2int_HashMap`.
+
+All charstring to integer (key, data) functions have the prefix `f_EPTF_str2int_HashMap`.
+
+All octetstring to integer (key, data) functions have the prefix `f_EPTF_oct2int_HashMap`.
+
+== Public Functions
+
+=== Initialization
+
+Before using the EPTF HashMap functions the `f_EPTF_HashMap_init_CT(pl_selfName)` has to be called. This initializes the EPTF HashMap feature.
+
+NOTE: The previous init functions are obsolete and kept for backward compatibility only. These functions call the init function above:
+
+[source]
+----
+`f_EPTF_int2int_HashMap_Init()`,
+`f_EPTF_str2int_HashMap_Init()`,
+`f_EPTF_oct2int_HashMap_Init()`
+----
+
+=== Cleanup
+
+The cleanup of the HashMap database is managed by the Base feature. It is not necessary to call the cleanup function of the HashMap feature explicitly. Improper cleanup should not cause any problems in the HashMap feature. After the next initialization everything should behave smoothly.
+
+=== Creating a New HashMap
+
+To create a new HashMap the following functions should be called:
+
+[source]
+----
+f_EPTF_int2int_HashMap_New(pl_name),
+f_EPTF_str2int_HashMap_New(pl_name),
+f_EPTF_oct2int_HashMap_New(pl_name)
+----
+
+This function creates a HashMap called with the argument `pl_name`. The names of the HashMap and a generated ID will be stored in another HashMap called "hashnames". In return the function gives this ID, which will be used in HashMap element handling for specifying the HashMap. The name of the HashMap cannot be an empty value.
+
+=== Deleting the HashMap
+
+For deleting the HashMap, the following functions should be called:
+
+[source]
+----
+f_EPTF_int2int_HashMap_Delete(pl_name),
+f_EPTF_str2int_HashMap_Delete(pl_name),
+f_EPTF_oct2int_HashMap_Delete(pl_name)
+----
+
+This function deletes a HashMap called with the argument `pl_name`. The name and the ID of the HashMap will be deleted from the names HashMap too.
+
+=== Deleting the HashMap by ID
+
+For deleting the HashMap by its ID, the following functions should be called:
+
+[source]
+----
+f_EPTF_int2int_HashMap_DeleteById(pl_id),
+f_EPTF_str2int_HashMap_DeleteById(pl_id),
+f_EPTF_oct2int_HashMap_DeleteById(pl_id)
+----
+
+This function deletes a HashMap with the ID given in the argument `pl_id`. The name and the ID of the HashMap will be deleted from the names HashMap too.
+
+=== Getting the ID of HashMap
+
+For getting the ID of the HashMap the function
+
+[source]
+----
+f_EPTF_int2int_HashMap_GetID(pl_name),
+f_EPTF_str2int_HashMap_ GetID(pl_name),
+f_EPTF_oct2int_HashMap_ GetID(pl_name)
+----
+
+has to be called. This function returns the ID assigned to HashMap argument `pl_name`.
+
+=== Assignment of a HashMap
+
+To assign one HashMap to another the function
+
+[source]
+----
+f_EPTF_int2int_HashMap_Assign(pl_id1, pl_id2),
+f_EPTF_str2int_HashMap_ Assign(pl_id1, pl_id2),
+f_EPTF_oct2int_HashMap_ Assign(pl_id1, pl_id2)
+----
+
+has to be called. This function assigns the HashMap with id `pl_id2` to the HashMap with id `pl_id1`. In TTCN notation: `HashMap1:=HashMap2` happens.
+
+=== Dumping the Content of One HashMap
+
+To dump the content of one HashMap the function
+
+[source]
+----
+f_EPTF_int2int_HashMap_Dump(pl_name),
+f_EPTF_str2int_HashMap_Dump(pl_name),
+f_EPTF_oct2int_HashMap_Dump(pl_name)
+----
+
+has to be called. This function dumps all the key, data pairs of a specified HashMap.
+
+=== Dumping the Content of One HashMap by ID
+
+To dump the content of one HashMap by ID the function
+
+[source]
+----
+f_EPTF_int2int_HashMap_DumpByID(pl_id),
+f_EPTF_str2int_HashMap_DumpByID (pl_id),
+f_EPTF_oct2int_HashMap_DumpByID (pl_id)
+----
+
+has to be called. This function dumps all the key, data pairs of a specified HashMap by the ID if the HashMap.
+
+=== Dumping the Content of All HashMap
+
+To dump the content of all HashMap the function
+
+[source]
+----
+f_EPTF_int2int_HashMap_DumpAll(),
+f_EPTF_str2int_HashMap_DumpAll(),
+f_EPTF_oct2int_HashMap_DumpAll()
+----
+
+has to be called. This function dumps all the key, data pairs of a every existing HashMap.
+
+=== Inserting an Element
+
+To insert a key, data pair to a HashMap
+
+[source]
+----
+f_EPTF_int2int_HashMap_Insert(pl_id, pl_key, pl_data),
+f_EPTF_str2int_HashMap_Insert(pl_id, pl_key, pl_data),
+f_EPTF_oct2int_HashMap_Insert(pl_id, pl_key, pl_data)
+----
+
+has to be called. This function inserts a key and a dependent data to the specified HashMap. The key must be unique.
+
+=== Updating an Element
+
+To update a key, data pair to a HashMap
+
+[source]
+----
+f_EPTF_int2int_HashMap_Update(pl_id, pl_key, pl_data),
+f_EPTF_str2int_HashMap_Update(pl_id, pl_key, pl_data),
+f_EPTF_oct2int_HashMap_Update(pl_id, pl_key, pl_data)
+----
+
+has to be called. This function checks whether the key exists in the HashMap. If the key not exists, inserts the key, data pair to the HashMap. If the key already exists updates the data belongs to the key.
+
+=== Finding an Element
+
+To find the data assigned to a key
+
+[source]
+----
+f_EPTF_int2int_HashMap_Find(pl_id, pl_key, pl_data),
+f_EPTF_str2int_HashMap_Find(pl_id, pl_key, pl_data),
+f_EPTF_oct2int_HashMap_Find(pl_id, pl_key, pl_data)
+----
+
+has to be called. This function finds the data with the help of the key in the specified Hashmap. If the data has not founded, the function returns false and the return value of data argument is `_-1_`.
+
+=== Erasing an Element
+
+For erasing an element from the HashMap, the following functions should be called:
+
+[source]
+----
+f_EPTF_int2int_HashMap_Erase(pl_id, pl_key),
+f_EPTF_str2int_HashMap_Erase(pl_id, pl_key),
+f_EPTF_oct2int_HashMap_Erase(pl_id, pl_key)
+----
+
+This function erases the key and the data from the specified HashMap. If the key has not founded, a warning message will be sent.
+
+=== Clearing All Elements
+
+To clear all elements from the HashMap, the following functions should be called:
+
+[source]
+----
+f_EPTF_int2int_HashMap_Clear(pl_id),
+f_EPTF_str2int_HashMap_Clear(pl_id),
+f_EPTF_oct2int_HashMap_Clear(pl_id)
+----
+
+This function clears all key, data pairs from the specified HashMap. After calling this function the HashMap will be empty.
+
+=== Getting the Used Size of HashMap
+
+To get the used size of the HashMap, the following functions should be called:
+
+[source]
+----
+f_EPTF_int2int_HashMap_Size(pl_id),
+f_EPTF_str2int_HashMap_Size(pl_id),
+f_EPTF_oct2int_HashMap_Size(pl_id)
+----
+
+This function returns the number of key, data pairs in the HashMap.
+
+=== Resizing the HashMap
+
+There is no need to use this functionality anymore since the size of the HashMap is handled dynamically. These functions are kept for backward compatibility, they should not be used.
+
+To resize the HashMap, the following functions should be called:
+
+[source]
+----
+f_EPTF_int2int_HashMap_Resize(pl_id,pl_hashsize),
+f_EPTF_str2int_HashMap_Resize(pl_id,pl_hashsize),
+f_EPTF_oct2int_HashMap_Resize(pl_id,pl_hashsize)
+----
+
+This function increases the bucket count of the HashMap to at least of the specified size `pl_hashsize`.
+
+=== Get the Size of HashMap
+
+To get the size the HashMap, the following functions should be called:
+
+[source]
+----
+f_EPTF_int2int_HashMap_BucketCount(pl_id),
+f_EPTF_str2int_HashMap_BucketCount(pl_id),
+f_EPTF_oct2int_HashMap_BucketCount(pl_id)
+----
+
+This function returns the actual bucket count of the HashMap. This size contains the number of used and empty but booked buckets of the HashMap.
+
+=== Getting the maximum size of HashMap
+
+To get the maximum size of the HashMap, the following functions should be called:
+
+[source]
+----
+f_EPTF_int2int_HashMap_MaxSize(pl_id),
+f_EPTF_str2int_HashMap_MaxSize(pl_id),
+f_EPTF_oct2int_HashMap_MaxSize(pl_id)
+----
+
+This function returns the maximum allowed size of the HashMap.
+
+=== Check the Content of HashMap
+
+To get whether the HashMap is empty, the following functions should be called:
+
+[source]
+----
+f_EPTF_int2int_HashMap_Empty(pl_id),
+f_EPTF_str2int_HashMap_Empty(pl_id),
+f_EPTF_oct2int_HashMap_Empty(pl_id)
+----
+
+This function returns a boolean value whether the specified HashMap is empty. If the HashMap is empty the return value will be `_true_`.
+
+=== Get the Hash Value of a Key
+
+To use the hash function of the HashMap, the following functions should be called:
+
+[source]
+----
+f_EPTF_int2int_HashMap_CallHashFunc(pl_id, pl_key),
+f_EPTF_str2int_HashMap_CallHashFunc(pl_id, pl_key),
+f_EPTF_oct2int_HashMap_CallHashFunc(pl_id, pl_key)
+----
+
+This function calls the actual hashing function of the specified HashMap. With the help of this function it returns the hash value of an arbitrary key.
+
+=== To Get the Beginning Element
+
+To determine the beginning element of a HashMap
+
+[source]
+----
+f_EPTF_int2int_HashMap_Begin(pl_id, pl_ iter),
+f_EPTF_str2int_HashMap_Begin(pl_id, pl_ iter),
+f_EPTF_oct2int_HashMap_Begin(pl_id, pl_ iter)
+----
+
+has to be called. This function determines the first element of the specified HashMap. It returns a Boolean value whether the first element is found. If no element in HashMap it returns, `_false_`. The parameter `pl_iter_countains` the returned key of the first element.
+
+=== To Get the Next Element
+
+To determine the next element of a HashMap
+
+[source]
+----
+f_EPTF_int2int_HashMap_Next(pl_id, pl_iter),
+f_EPTF_str2int_HashMap_Next(pl_id, pl_iter),
+f_EPTF_oct2int_HashMap_Next(pl_id, pl_iter)
+----
+
+has to be called. This function determines the next element of the specified HashMap pointed by `__`pl_iter`__` value. Incoming value and next value is `__`pl_iter`__`. It returns a boolean, whether the next element is found.
+
+== Summary Table of All public Functions for EPTF HashMap
+
+See summary of str2int HashMap functions in the table below:
+
+[cols=",",options="header",]
+|===================================================
+|Function name |Description
+|`f_EPTF_HashMap_init_CT` |Initializes the hash table.
+|===================================================
+
+See summary of str2int HashMap functions in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|==========================================================================================================================
+|Function name |Description
+|`ASSERT_VALID_ID` |Assert macro, for checking whether the HashMap ID is correct.
+|`f_EPTF_str2int_HashMap_Init` |Initializes the hash table.
+|`f_EPTF_str2int_HashMap_Cleanup` |Deletes all hash maps.
+|`f_EPTF_str2int_HashMap_New` |Creates a new hash map.
+|`f_EPTF_str2int_HashMap_GetID` |To get the ID of the hash map from the name.
+|`f_EPTF_str2int_HashMap_Delete` |Deletes the hash map.
+|`f_EPTF_str2int_HashMap_DeleteById` |Deletes the hash map by ID.
+|`f_EPTF_str2int_HashMap_DumpByID` |Dump the content of a specific hash map by ID.
+|`f_EPTF_str2int_HashMap_Dump` |Dump the content of a specific hash map by name.
+|`f_EPTF_str2int_HashMap_DumpAll` |Dump the content of all hash maps.
+|`f_EPTF_str2int_HashMap_Assign` |Assignment of one hash map to another.
+|`f_EPTF_str2int_HashMap_Insert` |Inserts an element to hash map.
+|`f_EPTF_str2int_HashMap_Update` |Updates an element in hash map.
+|`f_EPTF_str2int_HashMap_Find` |Finds an element in hash map.
+|`f_EPTF_str2int_HashMap_Erase` |Erases an element from hash map.
+|`f_EPTF_str2int_HashMap_Clear` |Clear all elements from hash map.
+|`f_EPTF_str2int_HashMap_Size` |Returns the size of hash map.
+|`f_EPTF_str2int_HashMap_MaxSize` |Returns the maximum size of hash map.
+|`f_EPTF_str2int_HashMap_CallHashFunc` |Calls the hash function of a given hash map.
+|`f_EPTF_str2int_HashMap_Empty` |Check whether the hash map is empty.
+|`f_EPTF_str2int_HashMap_Resize` |Increases the bucket count to at least `_pl_hashsize_`. Deprecated, should not be used anymore.
+|`f_EPTF_str2int_HashMap_BucketCount` |Returns the number of buckets used by the `hash_map`.
+|`f_EPTF_str2int_HashMap_Begin` |Function call to get the first element of hash map.
+|`f_EPTF_str2int_HashMap_Next` |Function call to get the next element of hash map.
+|==========================================================================================================================
+
+See summary of oct2int HashMap functions in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|==========================================================================================================================
+|Function name |Description
+|`ASSERT_VALID_ID` |Assert macro, for checking whether the HashMap ID is correct.
+|`f_EPTF_oct2int_HashMap_Init` |Initializes the hash table.
+|`f_EPTF_oct2int_HashMap_Cleanup` |Deletes all hash maps.
+|`f_EPTF_oct2int_HashMap_New` |Creates a new hash map.
+|`f_EPTF_oct2int_HashMap_GetID` |To get the ID of the hash map from the name.
+|`f_EPTF_oct2int_HashMap_Delete` |Deletes the hash map.
+|`f_EPTF_oct2int_HashMap_DeleteById` |Deletes the hash map by ID.
+|`f_EPTF_oct2int_HashMap_DumpByID` |Dump the content of a specific hash map by ID.
+|`f_EPTF_oct2int_HashMap_Dump` |Dump the content of a specific hash map by name.
+|`f_EPTF_oct2int_HashMap_DumpAll` |Dump the content of all hash maps.
+|`f_EPTF_oct2int_HashMap_Assign` |Assignment of one hash map to another.
+|`f_EPTF_oct2int_HashMap_Insert_ext` |Inserts an element to hash map.
+|`f_EPTF_oct2int_HashMap_Find_ext` |Finds an element in hash map.
+|`f_EPTF_oct2int_HashMap_Erase_ext` |Erases an element from hash map.
+|`f_EPTF_oct2int_HashMap_Clear` |Clear all elements from hash map.
+|`f_EPTF_oct2int_HashMap_Size` |Returns the size of hash map.
+|`f_EPTF_oct2int_HashMap_MaxSize` |Returns the maximum size of hash map.
+|`f_EPTF_oct2int_HashMap_CallHashFunc_ext` |Calls the hash function of a given hash map.
+|`f_EPTF_oct2int_HashMap_Empty` |Check whether the hash map is empty.
+|`f_EPTF_oct2int_HashMap_Resize` |Increases the bucket count to at least `_pl_hashsize_`. Deprecated, should not be used anymore.
+|`f_EPTF_oct2int_HashMap_BucketCount` |Returns the number of buckets used by the `hash_map`.
+|`f_EPTF_oct2int_HashMap_Begin_ext` |Function call to get the first element of hash map.
+|`f_EPTF_oct2int_HashMap_Next_ext` |Function call to get the next element of hash map.
+|==========================================================================================================================
+
+See summary of int2int HashMap functions in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|==========================================================================================================================
+|Function name |Description
+|`ASSERT_VALID_ID` |Assert macro, for checking whether the HashMap ID is correct.
+|`f_EPTF_int2int_HashMap_Init` |Initializes the hash table.
+|`f_EPTF_int2int_HashMap_Cleanup` |Deletes all hash maps.
+|`f_EPTF_int2int_HashMap_New` |Creates a new hash map.
+|`f_EPTF_int2int_HashMap_GetID` |To get the ID of the hash map from the name.
+|`f_EPTF_int2int_HashMap_Delete` |Deletes the hash map.
+|`f_EPTF_int2int_HashMap_DeleteById` |Deletes the hash map by ID.
+|`f_EPTF_int2int_HashMap_DumpByID` |Dump the content of a specific hash map by ID.
+|`f_EPTF_int2int_HashMap_Dump` |Dump the content of a specific hash map by name.
+|`f_EPTF_int2int_HashMap_DumpAll` |Dump the content of all hash maps.
+|`f_EPTF_int2int_HashMap_Assign` |Assignment of one hash map to another.
+|`f_EPTF_int2int_HashMap_Insert` |Inserts an element to hash map.
+|`f_EPTF_int2int_HashMap_Find` |Finds an element in hash map.
+|`f_EPTF_int2int_HashMap_Erase` |Erases an element from hash map.
+|`f_EPTF_int2int_HashMap_Clear` |Clear all elements from hash map.
+|`f_EPTF_int2int_HashMap_Size` |Returns the size of hash map.
+|`f_EPTF_int2int_HashMap_MaxSize` |Returns the maximum size of hash map.
+|`f_EPTF_int2int_HashMap_CallHashFunc` |Calls the hash function of a given hash map.
+|`f_EPTF_int2int_HashMap_Empty` |Check whether the hash map is empty.
+|`f_EPTF_int2int_HashMap_Resize` |Increases the bucket count to at least `_pl_hashsize_`. Deprecated, should not be used anymore.
+|`f_EPTF_int2int_HashMap_BucketCount` |Returns the number of buckets used by the `hash_map`.
+|`f_EPTF_int2int_HashMap_Begin` |Function call to get the first element of hash map.
+|`f_EPTF_int2int_HashMap_Next` |Function call to get the next element of hash map.
+|==========================================================================================================================

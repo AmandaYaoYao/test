@@ -1,0 +1,113 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the EPTF Core Library Functions can be reached for on-line reading <<7-references.adoc#_4, [4]>>. This section describes the public TTCN interface of the DsRestAPI feature.
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_DsRestAPI_`.
+
+== Public Functions
+
+=== Initialization of the DsRestAPI Feature
+
+Before using the EPTF DsRestAPI functions, the
+
+`f_EPTF_DsRestAPI_init_CT(pl_selfName)`
+
+function should be called. This initializes the EPTF DsRestAPI feature. The name of the component should be passed as parameter `pl_selfName`.
+
+It does the following:
+
+* initializes the needed CLL features (`Base`, `DataSource`, `DsRestAPI`, `DSServer`, `DsRestAPI` Timeline)
+* creates and initializes the required component variables
+* registers the clean-up function of DsRestAPI (`f_EPTF_DsRestAPI_cleanup_CT`)
+
+=== Starting the DSServer, the HTTP Server and Creating Symlinks
+
+The
+
+[source]
+----
+f_EPTF_DsRestAPI_start(
+  in charstring pl_hostIPAddress,
+  in integer pl_hostPort,
+  in charstring pl_HTTPServer_dir := “”,
+  in charstring pl_customizableApp_dir := “”,
+  in charstring pl_API_dir := “”
+)
+----
+
+function can be used to start the DSServer and the HTTP server. The latter will use the given IP address and hostPort for communication.
+
+The `pl_HTTPServer_dir` server root directory parameter is optional. If specified, the server will be able to serve resources from it, and if not, the server will still serve the RESTful JSON API.
+
+When calling the function in case the argument `pl_HTTPServer_dir` is present, two symlinks are created if their location is given and is not an empty string.
+
+If specified, the `pl_API_dir` should be the directory where the Javascript API for DsRestAPI can be found. The directory will be symlinked to `pl_HTTPServer_dir/utils/DsRestAPI`.
+
+If specified, the `pl_customizableApp_dir` is a user created directory which may contain GUI elements to be used in a GUI. The directory will be symlinked to `pl_HTTPServer_dir/CustomizableContent/CustomizableApp`. If the symlink is created and the `pl_HTTPServer_dir/CustomizableContent/CustomizableApp/TimelineRequest.json` file exists, it will be appended to the Timeline collector. See <<collecting_timelines, Collecting Timelines>> for more details.
+
+=== Stopping the Server
+
+The `f_EPTF_DsRestAPI_stop()` function will stop the HTTP server and delete the created symlinks.
+
+=== Initialization of DSServer
+
+DSServer is a standalone sub-feature that provides the TTCN API for the Data Source and can be used on its own. The `f_EPTF_DsRestAPI_init_CT` function automatically initializes the DSServer as well.
+
+The `f_EPTF_DsRestAPI_DSServer_init_CT(pl_selfName)` function is used to initialize the DSServer when using it without the DsRestAPI feature. The name of the component should be passed as parameter `pl_selfName`.
+
+It does the following:
+
+* initializes the needed CLL features (`Base`, `DataSource`)
+* initializes the needed DsRestAPI sub-features:
+** `DsRestAPI_Filter` that handles the filters
+** `DsRestAPI_Storage` that caches requests and responses
+* creates and initializes the needed component variables
+* registers the clean-up function of DsRestAPI (`f_EPTF_DsRestAPI_DSServer_cleanup_CT`)
+
+[[processing_JSON_requests]]
+=== Processing JSON requests
+
+The
+
+[source]
+----
+f_EPTF_DsRestAPI_DSServer_processRequest(
+  in EPTF_DsRestAPI_Requests pl_request
+) runs on EPTF_DsRestAPI_DSServer_CT return EPTF_DsRestAPI_ContentList
+----
+
+function can be used to process a request. The function is synchronous.
+
+The function needs a request set organized in a tree as an input. This request tree is built out of atomic `getData` or `setData` request elements, and their children, which are also `getData` or `setData` request elements.
+
+The child request's parameters could depend on the result of its parent requests.
+
+The API calls will also result in an object, representing the response values, organized also in a tree.
+
+The structure of the result tree matches the structure of the request tree. The elements in the response tree are the resulted values of the `getData` and `setData` elements located on the corresponding places of the request tree.
+
+[source]
+----
+f_EPTF_DsRestAPI_DSServer_processJSONRequest(
+  in octetstring pl_request
+) runs on EPTF_DsRestAPI_DSServer_CT return octetstring
+----
+
+function can be used to process a JSON encoded request. The request will be decoded and the result of `f_EPTF_DsRestAPI_DSServer_processRequestf_EPTF_DsRestAPI_DSServer_processJSONRequest` returned as a JSON encoded octetstring.
+
+The JSON encoded objects are represented by octetstrings. Such octetstrings can be obtained for example from charstrings by using the char2oct function.
+
+[[collecting_timelines]]
+=== Collecting Timelines
+
+The DsRestApi Timeline subfeature can be used to collect a timeline of dataelements. DsRestAPI automatically initializes this component.
+
+The feature can also be used standalone, by calling the `f_EPTF_DsRestAPI_Timeline_init_CT` method.
+
+The method `f_EPTF_DsRestAPI_Timeline_start` has to be called to start the timeline collection.
+
+The component is a DataSource Client. Timeline data and other dataelements can be accessed using the DataSource. See <<7-references.adoc#_5, [5]>> and <<7-references.adoc#_7, [7]>> for more details.
+
+Timeline collection of an element is started when it is queried for the first time. Requests can also be appended to the timeline manually using the appropriate dataelements. These requests will be issued when the `f_EPTF_DsRestAPI_Timeline_start` function is called.

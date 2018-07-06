@@ -1,0 +1,23 @@
+= Simulation Mode
+
+There is a extended functionality in UIHandler, it can be started in simulation mode with a silmulation database file. The main purpose of the simulation mode is to be able to see the custom gui layout without knowing the data behind it. If the data is not available at all (not as dataelement, neither in presaved database), random data will show in the GUI to simulate its layout.
+
+There are several behaviors, depending on the initial parameters:
+
+[source]
+----
+public function f_EPTF_UIHandler_init_CT(
+    in charstring pl_selfName,
+    in boolean pl_connectGUI := true,
+    in template charstring pl_windowLayout := "",
+    in EPTF_CLI_CT pl_CLI_compRef := null,
+    in charstring pl_prefix := tsp_EPTF_UIHandler_CLIPrefix,
+    in boolean pl_simulationMode := false,
+    in charstring pl_simulation_buildDB_file := "")
+----
+
+For this functionality the last 2 parameters are important.
+
+1.  If the `pl_simulationMode` is false, and the `pl_simulation_buildDB_file` is empty string, the UIHandler works the usual way.
+2.  If the `pl_simulationMode` is false and the `pl_simulation_buildDB_file` is given, that means the user can use a button to save the used dataelements to the given file. This file is can be used as database file in simulation mode. Only use this mode, if you want to save the database to file, otherwise building the database has performance cost.
+3.  If the `pl_simulationMode` is true and the `pl_simulation_buildDB_file` is given, that means that the UIhandler will show the GUI layout with all dataelement. If the dataelement can not be handled by DataSource server, the UIhandler will use the given database. If the database does not contain it either, the UIHandler will use random data.

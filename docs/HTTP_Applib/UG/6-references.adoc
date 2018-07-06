@@ -1,0 +1,32 @@
+= References
+
+[[_1]]
+[1] https://tools.ietf.org/html/rfc1945[RFC 1945] +
+Hypertext Transfer Protocol – HTTP/1.0
+
+[[_2]]
+[2] https://tools.ietf.org/html/rfc2616[RFC 2616] +
+Hypertext Transfer Protocol – HTTP/1.1
+
+[[_3]]
+[3] http://tools.ietf.org/html/rfc2617[RFC 2617] +
+HTTP Authentication: Basic and Digest Access Authentication
+
+[[_4]]
+[4] ETSI ES 201 873-1 v.3.1.1 +
+The Testing and Test Control Notation version 3. Part 1: Core Language, July 2006
+
+[[_5]]
+[5] EPTF AppLib HTTP for TitanSim, Function Specification
+
+[[_6]]
+[6] User Documentation for the TITAN TTCN-3 Test Executor
+
+[[_7]]
+[7] EPTF Core Library for TTCN-3 toolset with TITAN, Function Specification.
+
+[[_8]]
+[8] Naturaldocs document for HTTP application library (\vobs\ttcn\TCC_Releases\Libraries\EPTF_Applib_HTTP_CNL113618\doc\apidoc)
+
+[[_9]]
+[9] TCC Useful Functions for TTCN-3 toolset with TITAN, Function Specification.

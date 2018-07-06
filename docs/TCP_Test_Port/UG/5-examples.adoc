@@ -1,0 +1,61 @@
+= Examples
+
+== Configuration file
+
+An example RTE configuration file is shown below:
+
+[source]
+----
+[LOGGING]
+LogFile := "TCPtest.log"
+FileMask := LOG_ALL | TTCN_MATCHING | TTCN_DEBUG
+ConsoleMask := TTCN_ERROR | TTCN_WARNING | TTCN_ACTION | TTCN_TESTCASE | TTCN_STATISTICS | TTCN_USER | TTCN_DEBUG
+SourceInfoFormat := Single
+
+[EXECUTE]
+TCPtest.tc_clientsend
+TCPtest.tc_clientsend_connect
+TCPtest.tc_serversend
+TCPtest.tc_serversendfalse
+TCPtest.tc_multipleclient
+TCPtest.tc_dynamic_behaviour
+TCPtest.tc_clientsend_multipleMessage
+
+[TESTPORT_PARAMETERS]
+*.TCP_server1.socket_debugging := "YES"
+*.TCP_server1.server_mode := "YES"
+*.TCP_server1.serverIPAddr := "localhost"
+*.TCP_server1.serverPort := "1972"
+*.TCP_server1.use_connection_ASPs := "NO"
+
+*.TCP_server2.socket_debugging := "YES"
+*.TCP_server2.server_mode := "YES"
+*.TCP_server2.use_connection_ASPs := "YES"
+
+*.TCP_server3.socket_debugging := "YES"
+*.TCP_server3.server_mode := "YES"
+*.TCP_server3.serverIPAddr := "localhost"
+*.TCP_server3.serverPort := "1972"
+*.TCP_server3.use_connection_ASPs := "NO"
+*.TCP_server3.packet_hdr_length_offset := "2";
+*.TCP_server3.packet_hdr_nr_bytes_in_length := "2";
+*.TCP_server3.packet_hdr_byte_order := "MSB";
+*.TCP_server3.packet_hdr_length_value_offset  :=  "2";
+*.TCP_server3.packet_hdr_length_multiplier := "3";
+
+*.TCP_client1.socket_debugging := "YES"
+*.TCP_client1.destIPAddr := "localhost"
+*.TCP_client1.destPort := "1972"
+*.TCP_client1.use_connection_ASPs := "NO"
+
+*.TCP_client2.socket_debugging := "YES"
+*.TCP_client2.use_connection_ASPs := "YES"
+
+*.TCP_client3.socket_debugging := "YES"
+*.TCP_client3.use_connection_ASPs := "YES"
+*.TCP_client3.addressFamily := "IPv6"
+
+
+[MAIN_CONTROLLER]
+TCPPort := 6781
+----

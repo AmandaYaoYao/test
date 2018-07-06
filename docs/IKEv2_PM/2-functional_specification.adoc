@@ -1,0 +1,46 @@
+= Functional Specification
+
+== Protocol Version Implemented
+
+This set of protocol modules implements protocol messages, constants and encode, decode functions of the IKEv2 protocol. The module is based on https://tools.ietf.org/html/rfc4306[RFC 4306]). The following messages are implemented:
+
+* `IKEv2_Message`
+* `IKEv2_Header`
+* `Payload_Header`
+* `IKEv2_Payload`
+* `Security_Association_Payload`
+* `Key_Exchange_Payload`
+* `Identification_Payload`
+* `Certificate_Payload`
+* `Certificate_Request_Payload`
+* `Authentication_Payload`
+* `Nonce_Payload`
+* `Notify_Payload`
+* `Delete_Payload`
+* `Vendor_ID_Payload`
+* `Traffic_Selector_Payload`
+* `Encrypted_Payload`
+* `Configuration_Payload`
+* `EAP_Payload`
+
+[[implemented-encoding-decoding-functions]]
+=== Implemented Encoding/Decoding Functions:
+
+[cols=2*,options=header]
+|===
+
+|Name |Type of formal parameters
+
+|`ef_IKEv2_encode` |in IKEv2_Message pl_pdu, +
+in boolean pl_set_payload_type, +
+out octetstring pl_stream
+|`ef_IKEv2_decode` |in octetstring pl_stream, +
+out IKEv2_Message pl_pdu +
+return integer
+|`ef_IKEv2_Payloads_encode` |in IKEv2_Payload pl_payloads, +
+return octetstring pl_stream
+|`ef_IKEv2_Payloads_decode` |in octetsring pl_stream, +
+in Next_Payload_Type pl _type, +
+out IKEv2_Payloads pl_payload_list +
+return integer
+|===

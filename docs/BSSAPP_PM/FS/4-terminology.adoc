@@ -1,0 +1,9 @@
+= Terminology
+
+No specific terminology is used.
+
+= Abbreviations
+
+BSSAPP:: Base Station System Application Part+ (BSSAP+)
+
+TTCN-3:: Testing and Test Control Notation version 3

@@ -1,0 +1,44 @@
+= Ring Buffer Support
+
+== Overview
+
+The EPTF CLL Ring Buffer component is a fundamental component providing an implementation for ring buffers in a load test environment.
+
+Ring buffer (or circular buffer) is a http://en.wikipedia.org/wiki/Data_structure[data structure] that uses a single, fixed-size http://en.wikipedia.org/wiki/Buffer_%28computer_science%29[buffer] as if it were connected end-to-end. This structure can be easily used for buffering http://en.wikipedia.org/wiki/Data_stream[data streams].
+
+TitanSim Ring Buffer is a sequence of elements with maximized size, called capacity. It allows random access to elements and provides constant time insertion and removal at both front-end and back-end of the sequence. If you insert a new element to a full buffer (i.e. number of elements is equal with buffer capacity), the element at the other end is being overwritten.
+
+TitanSim Ring Buffer component provides ring buffer implementation both for integer and generic types. Generic (type independent) ring buffer support is implemented through macro-preprocessor of C++ compiler.
+
+[[desc_files_this_feat]]
+== Description of Files In This Feature
+
+The EPTF CLL Ring Buffer Support API includes the following files:
+
+* __EPTF_CLL_IntegerRingBuffer_Functions.ttcn__: This TTCN-3 module contains the public interface of ring buffer for integer values.
+* __EPTF_CLL_GenericRingBuffer_Functions.ttcnin__: This TTCN-3 include file contains the public interface of generic ring buffer implementation can be used for any user defined TTCN3 data type.
+* __EPTF_CLL_RingBuffer_Definitions.ttcn__: This module contains common type definitions for ring buffer support.
+* __EPTF_CLL_GenericRingBuffer_Definitions.ttcnin__: This include file contains type definitions for generic ring buffer support.
+* __EPTF_CLL_RingBuffer_PrivateFunctions.ttcn__: This module contains common private functions are used by integer ring buffer and generic ring buffer.
+
+NOTE: TitanSim Ring Buffer component consists of two _.ttcnin_ files. These support the type independent, generic ring buffer management with the usage of C++ macros. The _Makefile_ Generator treats the _.ttcnin_ files as include files. They will be added to the _Makefile_ as special include file which will not be translated by the compiler, but will be checked for modification when building the test suite.
+
+== Description of Required Files From Other Features
+
+The TitanSim Ring Buffer does not have any dependencies to other features of TitanSim CLL.
+
+== Installation
+
+Since `EPTF_CLL_RingBuffer` is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<5-references.adoc#_2, ‎[2]>>.
+
+If not otherwise noted in the respective sections, the following are needed to use `EPTF_CLL_RingBuffer`:
+
+* Copy the files listed in section <<desc_files_this_feat, Description of Files In This Feature>> to the directory of the test suite or create symbolic links to them.
+* Import the Ring Buffer demo or write your own application using Ring Buffer Support.
+* Create _Makefile_ or modify the existing one. For more details see the relevant section of <<5-references.adoc#_2, ‎[2]>>.
+* Edit the config file according to your needs, see section <<config, Configuration>>. 
+
+[[config]]
+== Configuration
+
+The TitanSim Ring Buffer Support does not require any configuration setting.

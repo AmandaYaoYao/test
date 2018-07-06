@@ -1,0 +1,17 @@
+= General Description
+
+This data source feature was developed for the flexible GUI configuration feature.
+
+The feature can be used to share data between the data source client components and the data source main component. The DataSource clients can register data sources into the system, and the main DataSource component or another DataSource client component can access the data. The data source is identified with a feature name (like LGenBase), and a PTC name (like LGen1). When the main data source component is requested to get a certain data from the data source clients, this identification information should be provided together with the name of the data (like TrafficCaseCPS) and additional parameters (for example the name of the traffic case: TC1).
+
+The main data source component provides external data, iterators and conditions.
+
+For external data and iterators an EPTF Variable name is returned. This variable stores the value of the requested data on the component where the request was made. This variable is subscribed to the source variable on the component which provides the data (in this case the CPS of TC1 on LGen1) with the specified subscription mode and refresh rate.
+
+The type of value of the EPTF Variable that stores the value of the data is not restricted. It can be anything, like float or CharstringList that the EPTF Variable supports. It depends on the data source client that provides the variable. This means that even values containing certain lists can also appear as data sources.
+
+For conditions the value of the condition is requested from the data source client and its value is returned as a boolean value.
+
+It is also possible to request the data value directly, without using EPTF Variables. In addition, the provider has the possibility to deliver data which is not based on EPTF Variables.
+
+Additional details can be found in section <<3-detailed_description.adoc, Detailed Description>>.

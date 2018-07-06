@@ -1,0 +1,59 @@
+= Terminology
+
+*Core Library (CLL):* +
+It is that part of the TitanSim software that is totally project independent. (i.e., which is not protocol-, or application-dependent). The Core Library is to be supplied and supported by the TCC organization. Any Core Library development is to be funded centrally by Ericsson.
+
+*Calculated variables:* +
+Variables that are automatically calculated from other EPTF Variables
+
+*Calculating function (calcFn):* +
+This function is used in EPTF Variables with local provider to calculate its value automatically.
+
+*Content:* +
+The actual value of the EPTF Variable.
+
+*Direct content:* +
+Value type of the EPTF Variables.
+
+*Parameters:* +
+Variables that can have no provider.
+
+*Provider:* +
+The Variable that affects the value of the given EPTF Variable.
+
+*Provider, local:* +
+An EPTF Variable ah a local provider if it is calculated from other local EPTF Variable.
+
+*Provider, remote:* +
+An EPTF Variable has a remote provider if its value is the mirror of the value of the remote EPTF Variable.
+
+*Remote subscribers:* +
+Variables that are links to EPTF Variables in remote components. They can be used to access the value of Variables in remote components.
+
+*Referenced content:* +
+Reference to a value. Contains the memory address of the component variable.
+
+*Subscription, local:* +
+If an EPTF Variable is a local provider of some other EPTF Variable, that Variable is the local subscriber.
+
+*Subscription, remote:* +
+If an EPTF Variable has a remote provider, it is the remote subscriber of that Variable.
+
+*Variable:* +
+An enhanced component variable that makes it possible to access the values of other Variables in remote components.
+
+*Variable, direct:* +
+An EPTF Variable that creates the storage place for the value also.
+
+*Variable, reference:* +
+An EPTF Variable without the storage place. It contains only reference to the component variable that stores the value.
+
+= Abbreviations
+
+CLL:: Core Library
+
+EPTF:: Ericsson Performance Test Framework
+
+TitanSim:: New synonym for the EPTF Framework
+
+TTCN-3:: Testing and Test Control Notation version 3 <<5-references.adoc#_1, [1]>>.

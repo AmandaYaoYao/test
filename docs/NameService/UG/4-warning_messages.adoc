@@ -1,0 +1,23 @@
+= Warning Messages
+
+NOTE: Besides the below described warning messages, warning messages shown in <<7-references.adoc#_2, ‎[2]>> or those of other used features or product may also appear.
+
+`*The name already registered in msg: <msg> Original item is at <idx>: <registeredItem>*`
+
+The name already registered.
+
+`*The name is not registered in msg: <message>*`
+
+The name to be deregistered or queried does not exist.
+
+`*Registration failed for <registerNAck>*`
+
+The given name cannot be registered
+
+`*Query failed for name <name>*`
+
+The name was not found.
+
+`*–CLEANUP TIMEOUT– Not all responses received for bye messages.*`
+
+The cleanup not properly performed. The main `NameService` component does not respond. The execution of the current component is forced to terminate. This may result in errors in other components afterwards.

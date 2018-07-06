@@ -1,0 +1,11 @@
+= Terminology
+
+No specific terminology is used.
+
+= Abbreviations
+
+DSS1:: Digital Subscriber Signaling System No. 1
+
+ISDN:: Integrated Services Digital Network
+
+TTCN-3:: Testing and Test Control Notation version 3

@@ -1,0 +1,24 @@
+= Functions
+
+The following functions are available:
+
+* <<3_1-message_encoding_functions.adoc, Message Encoding Functions>>
+* <<3_2-test_environment_handling_functions.adoc, Test Environment Handling Functions>>
+* <<3_3-network_interface_functions.adoc, Network Interface Functions>>
+* <<3_4-file_io_functions.adoc, File I/O Functions>>
+* <<3_5-assertion_functions.adoc, Assertion Functions>>
+* <<3_6-conversion_functions.adoc, Conversion Functions>>
+* <<3_7-date_and_time_functions.adoc, Date and Time Functions>>
+* <<3_8-maths_functions.adoc, Maths Functions>>
+* <<3_9-security_functions.adoc, Security Functions>>
+* <<3_10-message_handling_functions.adoc, Message Handling Functions>>
+* <<3_11-permutated_parameters_handling.adoc, Permutated Parameters Handling>>
+* <<3_12-titan_metadata_functions.adoc, Titan Metadata Functions>>
+* <<3_13-text_template_substitution_functions.adoc, Text Template Substitution Functions>>
+* <<3_14-ipsec_functions.adoc, IPsec Functions>>
+* <<3_15-xpath_support_functions.adoc, XPath Support Functions>>
+* <<3_16-system_functions.adoc, System Functions>>
+* <<3_17-function_definitions.adoc, Function Definitions>>
+* <<3_18-filesystem_functions.adoc, FileSystem Functions>>
+* <<3_19-function_definitions.adoc, Function Definitions>>
+* <<3_20-regexp_functions.adoc, Regexp Functions>>

@@ -1,0 +1,111 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 V3.2.1 (2007-02) +
+Methods for Testing and Specification (MTS); The Testing and Test Control Notation version 3; Part 1: TTCN-3 Core Language
+
+[[_2]]
+[2] Installation Guide for the TITAN TTCN 3 Test Executor
+
+[[_3]]
+[3] User Guide for the TITAN TTCN 3 Test Executor
+
+[[_4]]
+[4] MTP3/MTP3b/M3UA Test Port for TTCN-3 Toolset with TITAN, Function Specification
+
+[[_5]]
+[5] EED/Z/P-03:015 Rev B +
+PDU CNES – TTCNV3 Requirement Specification
+
+[[_6]]
+[6] SEA homepage: +
+http://tcs.uab.ericsson.se/products/aps/ste/products/sea/sea_index.html
+
+[[_7]]
+[7] Interwork Description for MPH (Message Protocol Handler) component +
+http://tcs.uab.ericsson.se/products/aps/ste/products/sea/docs/iwd_latest/IWD_MPH.html
+
+[[_8]]
+[8] Interwork Description for MPH (Message Protocol Handler) libraries +
+http://tcs.uab.ericsson.se/products/aps/ste/products/sea/docs/iwd_latest/IWD_MPHclient.html
+
+[[_9]]
+[9] Interwork Description for SS7 Signaling Terminal protocol in SEA PA1 +
+http://tcs.uab.ericsson.se/products/aps/ste/products/sea/docs/iwd_latest/IWD_SS7ST.html
+
+[[_10]]
+[10] ITU-T Recommendations Q.700 (03/93) +
+Specifications of Signaling System No. 7 (SS7) +
+Introduction to CCITT Signaling System No. 7
+
+[[_11]]
+[11] ITU-T Recommendations Q.701 (03/93) +
+Specifications of Signaling System No. 7 (SS7) +
+Functional description of the Message Transfer Part (MTP) of Signaling System No. 7
+
+[[_12]]
+[12] ITU-T Recommendations Q.702 (Blue book) +
+Specifications of Signaling System No. 7 (SS7) +
+Signaling Data Link
+
+[[_13]]
+[13] ITU-T Recommendations Q.703 (07/96) +
+Specifications of Signaling System No. 7 (SS7) +
+Signaling Link
+
+[[_14]]
+[14] ITU-T Recommendations Q.704 (07/96) +
+Specifications of Signaling System No. 7 (SS7) +
+Signaling Network functions and messages
+
+[[_15]]
+[15] ITU-T Recommendations Q.707 (Blue Book) +
+Specifications of Signaling System No. 7 (SS7) +
+Testing and Maintenance
+
+[[_16]]
+[16] ITU-T Recommendations Q.710 (Blue Book) +
+Specifications of Signaling System No. 7 (SS7) +
+Simplified MTP Version for Small Systems
+
+[[_17]]
+[17] ITU-T Recommendations Q.2210 (07/96) +
+Specifications of Signaling System No. 7 (SS7) +
+Message Transfer Part Level 3 functions and messages using the services of ITU-T Recommendation Q.2140
+
+[[_18]]
+[18] IETF https://tools.ietf.org/html/rfc3332[RFC 3332] (2002 September) +
+Signaling System 7 (SS7) Message Transfer Part 3 (MTP3) – User Adaptation Layer
+
+[[_19]]
+[19] ANSI T.1.111 (2001) +
+Signaling System Number 7 (SS7) – Message Transfer Part (MTP)
+
+[[_20]]
+[20] TTC JT-Q704 (04/2002) +
+Message Transfer Part (MTP), Signaling Network Functions
+
+[[_21]]
+[21] CCITT7 Signaling System No.7, Message Transfer Part
+
+[[_22]]
+[22] M3UA Protocol Specification for SS7 over IP, CNCS 4.0
+
+[[_23]]
+[23] GF001-9001 (August 1990) +
+Technical Specifications of SS7 for National Telephone Network of China
+
+[[_24]]
+[24] TTCNv3 Requirement Specification for MSC R12
+
+[[_25]]
+[25] MTP3/M3UA, SCCP and TCAP Test Port Improvements
+
+[[_26]]
+[26] MSC-S BC Changes and Improvements_
+
+[[_27]]
+[27] TTCNv3 Requirement Specification for MSC R13
+
+[[_28]]
+[28] Interconnect User Part: Formats and Codes

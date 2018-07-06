@@ -1,0 +1,23 @@
+= Terminology
+
+*TitanSim Core (Load) Library(CLL)*	+
+It is that part of the TitanSim software that is totally project independent. (I.e., which is not protocol-, or application-dependent). The TitanSim CLL is to be supplied and supported by the TCC organization. Any TitanSim CLL development is to be funded centrally by Ericsson.
+
+*TitanSim Variables*	+
+They contain values, from which TitanSim Statistics can be calculated automatically on changes or periodically.
+
+*TitanSim Statistics Measure*	+
+It is a feature, which is responsible for creating TitanSim Statistics and updating their value when required.
+
+*TitanSim Statistics*	+
+They are Statistics of TTCN-3 Variables. Possible Statistics are among others minimum, maximum, mean, standard deviation, etc. and also the content of a Variable can be a Statistics itself. The values of such Statistics are automatically and periodically updated in the background.
+
+= Abbreviations
+
+CLL::	Core Load Library
+
+EPTF::	Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+TitanSim::	Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+TTCN-3 ::	Testing and Test Control Notation version 3 ‎<<6-references.adoc#_1, [1]>>.

@@ -1,0 +1,38 @@
+= Interface Description
+
+== Top Level PDU
+
+The top level PDUs are the TTCN-3 records `IMAP_ClientCommand`, `IMAP_ServerResponse`, and `IMAP_ServerResponse_separated`.
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product also contains encoding/decoding functions, which assure correct encoding of messages when sent from Titan and correct decoding of messages when received by Titan.
+
+=== Implemented Encoding and Decoding Functions
+
+Encoder functions for charstring format:
+
+[source]
+----
+external function textenc_IMAP_PDU(in IMAP_PDU pdu) return charstring
+
+external function textdec_IMAP_Command(in charstring stream) return IMAP_ClientCommand
+
+external function textdec_IMAP_Response(in charstring stream) return IMAP_ServerResponse
+
+external function textdec_IMAP_Response_separated(in charstring stream) return IMAP_ServerResponse_separated
+----
+
+Encoder functions for octetstring format:
+
+[source]
+----
+external function octenc_IMAP_PDU(in IMAP_PDU pdu) return octetstring
+
+external function octdec_IMAP_Command(in octetstring stream) return IMAP_ClientCommand
+
+external function octdec_IMAP_Response(in octetstring stream) return IMAP_ServerResponse
+
+external function octdec_IMAP_Response_separated(in octetstring stream) return IMAP_ServerResponse_separated
+----

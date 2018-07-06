@@ -1,0 +1,64 @@
+= General
+
+The purpose of the Telnet Test Port is to adapt TITAN abstract test components to the real test system interface. The Telnet Test Port makes it possible to use remote telnet login from TTCN-3 via the TCP layer of the operating system. The test port supports client and server mode operation either. In server mode operation the Telnet Test Port can handle one connection simultaneously.
+
+The Telnet Test Port supports the capabilities of Network Virtual Terminal as described in <<5_References.adoc#_3, [3]>>.
+
+Client mode operation: The supported commands are IAC, WILL, WONT, DO, DONT, SB and SE. Telnet options described in <<5_References.adoc#_4, [4]>>, <<5_References.adoc#_5, [5]>> and <<5_References.adoc#_6, [6]>> are supported. Unsupported options with WILL tag will be echoed to the host with DONT and options with DO tag will be echoed with WONT tag.
+
+Server mode operation: The supported commands are IAC, WILL, WONT, DO and DONT. Telnet options are not supported. Options with WILL tag will be echoed to the host with DONT and options with DO tag will be echoed with WONT tag.
+
+== Interface Description
+
+=== Client Mode
+
+In client mode operation the Telnet Test Port uses charstring messages as an interface towards the TITAN test executor environment, and ASPs to control the test port behavior dynamically. Supported ASPs are listed in the <<supported_ASPs, table>> below.
+
+See Supported ASPs in the table below:
+
+[[supported_ASPs]]
+[width="100%",cols="50%,50%",options="header",]
+|=================================================================================================================================================================================================================================================================================================================
+|*Type* |*Description*
+|`ASP_TelnetPortParameters` |The test port stores the parameters received in this ASP and applies them if the test port is remapped. Fields of this ASP are the same as the test port parameters. Omitted fields mean that the respective parameters will not change. This allows changing the test port parameters.
+|`ASP_TelnetDynamicConfig` |Allows changing the following test port parameters dynamically: read mode, window size, echo, prompt. Its effect is instantaneous.
+|`ASP_TelnetConnection` |Controls the connection. Currently supports one parameter: `CONNECT`. Can be used to re-establish the telnet connection (possibly with new test port parameters).
+|=================================================================================================================================================================================================================================================================================================================
+
+An `"in"` integer parameter is also used to signal any kind of notification by the test port to the user. Currently the following values are implemented listed in the <<test_port_client_notifications, table>> below:.
+
+See Test port client notifications below:
+
+[[test_port_client_notifications]]
+[width="100%",cols="50%,50%",options="header",]
+|===================================================================================================================================================================================================================================================================================================================================================
+|*Value* |*Description*
+|`_0_` |Used for signalling that the connection is terminated by the server or that the attempt to create a connection failed. The use of this integer value is configurable by setting the `CTRL_DETECT_SERVER_DISCONNECTED` or parameter `CTRL_DETECT_CONNECTION_ESTABLISHMENT_RESULT` parameter to `_"yes"_` respectively. For further information see <<5_References.adoc#_2, [2]>>.
+|`_2_` |Used for signalling that the attempt to create a connection succeeded. The use of this integer value is configurable by setting the parameter `CTRL_DETECT_CONNECTION_`
+|===================================================================================================================================================================================================================================================================================================================================================
+
+The Telnet Test Port is connected to the SUT/IUT via TCP connection.
+
+=== Server Mode
+
+In server mode operation the Telnet Test Port uses charstring messages as an interface towards the TITAN test executor environment, and an ASP to close the connection to the client.
+
+An `"in"` integer parameter is also used to signal events to the user. Currently the following values are implemented listed in the <<test_port_server_notifications, table>> below.
+
+See Test port server notification in the table below:
+
+[[test_port_server_notifications]]
+[width="100%",cols="50%,50%",options="header",]
+|=================================================================================================================================================================================================================================================================================================================================================================================================================================
+|*Value* |*Description*
+|`_1_` |a successful login from the client with the username `CTRL_USERNAME_CLIENT`. This value is only sent to the user after the login procedure (i.e. the user must provide the correct password set in `CTRL_PASSWORD_CLIENT`) or, if the `CTRL_LOGIN_SKIPPED` parameter is set to the value `_"yes"_`, `_"Yes"_` or `_"YES"_` in the runtime configuration file, immediately in case of incoming connection. For further information see <<5_References.adoc#_2, [2]>>.
+|`_3_` |Used for signalling that the connection is terminated by the client. The use of this integer value is configurable by setting the `CTRL_DETECT_CLIENT_DISCONNECTED` parameter to `"yes"`. For further information see <<5_References.adoc#_2, [2]>>.
+|=================================================================================================================================================================================================================================================================================================================================================================================================================================
+
+The Telnet Test Port is connected to the SUT/IUT via TCP connection. The supported ASP is:
+
+[width="100%",cols="50%,50%",options="header",]
+|==========================================================================================================================
+|*Type* |*Description*
+|`ASP_TelnetClose` |Closes the connection to the client. After sending this ASP the Test Port can accept further connections.
+|==========================================================================================================================

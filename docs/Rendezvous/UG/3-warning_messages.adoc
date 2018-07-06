@@ -1,0 +1,7 @@
+= Warning Messages
+
+NOTE: Warning messages shown in ‎‎<<6-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+`*Unexpected message has arrived from sender, discarded*`
+
+An unexpected message has been arrived to the EPTF Rendezvous port, which cannot be processed. The message will be discarded.

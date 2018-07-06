@@ -1,0 +1,41 @@
+= How to Find the Faulty Header in Case of Parse Error
+
+The following error or warning message indicates a faulty SIP message:
+
+`*-> unexpected character at character position:*`
+
+
+The behavior of the test port in case of the faulty SIP message is controlled by the `error_mode` test port parameter:
+
+* _``"ignore"``_ - The test port ignore any erroneous messages and discard them without notice.
+
+* _``"warning"``_ - The test port will issue a warning if erroneous message received and pass the message as RAW message to the test case.
+
+* _``"error"``_ - The test port will generate error if erroneous message received.
+
+The default value is `_error_`
+
+In order to avoid the TTCN error during the test campaign it is recommended to set it to _``"warning"``_. The default value is kept for backward compatibility reason.
+
+The decoder function, `f_SIP_decode`, returns the erroneous message as RAW message.
+
+== Identify the Error
+
+The error message contains the faulty character and its position within the faulty SIP message. In order to find the fault the message should be logged.
+
+The faulty message is logged if the _``"debug"``_ is enabled or the test case should log the received RAW message.
+
+The place of the fault is indicated in the error message, so SIP parser found the fault at the n^th^ character.
+
+== Example
+
+[source]
+----
+Warning: SIP Test Port: syntax error ``='' -> unexpected character at character position 170.
+
+f_EPTF_SIP_Message_MsgHandlerUnhandled raw message: \{ raw := &quot;SIP/2.0 200 OK-Length: 0: <sip:46750000001@thule.lugv.ericsson.se>;tag=ft1copij-8p7: <sip:10.64.66.134:5060;fid=traffic_instance_PL_2_8_1;bekey=sip=46750000001%40thule.lugv.ericsson.se>: 2125564419 REGISTER: SIP/2.0/TCP 130.100.127.147:37000;branch=z9hG4bK1633698T000001-Id: TTCN3293710000000@130.100.127.147: <sip:130.100.127.147:37000>;tag=168211000000: PGM5.0_RLS" }"
+----
+
+The faulty character, which is the 170^th^ character of the message, is indicated by red mark.
+
+NOTE: The and the represents only 1 character.

@@ -1,0 +1,370 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading <<5-references.adoc#_4, [4]>>.
+
+== Naming Conventions
+
+All data types have the prefix `EPTF_ExecCtrl_`, all functions have the prefix `f_EPTF_ExecCtrl_` or `f_EPTF_ExecCtrlClient_``.
+
+== Public Functions
+
+When using the `ExecCtrl` feature the listed public functions are provided as an interface. No component variables, timers, ports, or other functions are recommended for use. Using them may result in erroneous behavior. Also the backward compatibility of these items is not guaranteed.
+
+=== Initialization
+
+Before using the EPTF `ExecCtrl` functions the
+
+`f_EPTF_ExecCtrl_init_CT(…)`
+
+function should be called. This initializes the EPTF `ExecCtrl` feature.
+
+The Execution Control clients should call
+
+`f_EPTF_ExecCtrlClient_init_CT(…)`
+
+respectively. It is important that the `ExecCtrlClient` initialization should be invoked last, only after all other `LGenBase` components extensions initialization. To avoid data inconsistency, the user should not declare entity groups, scenarios, traffic case types directly in the application init (using the related `LGenBase` API functions) when using `ExecCtrl`, since those steps will be done by `ExecCtrlClient`.
+
+The ExecCtrl_CLI can be initialized by the function
+
+`f_EPTF_ExecCtrl_CLI_init_CT(…)`
+
+It calls the `f_EPTF_ExecCtrl_init_CT` function also.
+
+Before using the `ExecCtrl_UIHandler` feature the
+
+`f_EPTF_ExecCtrl_UIHandler_init(…)`
+
+function should be called. This initializes the EPTF `ExecCtrl` UI Handler feature. It calls the `f_EPTF_ExecCtrl_CLI_init_CT(…)` also. If the CLI component reference is not given explicitly, the `UIHandler` component is used as the CLI component.
+
+=== Loading the Configuration Parameters
+
+The configuration parameters are defined by the `ExecCtrl` module parameters. They are loaded automatically unless disabled in the `ExecCtrl` init function. It is possible to use additional module parameters or variables to configure the `ExecCtrl`. To load these parameters into `ExecCtrl` the function
+
+`f_EPTF_ExecCtrl_loadConfig`
+
+can be used. This function can be called more than once. Its arguments are appended to the existing `ExecCtrl` configuration database. Note, that in order to work properly, the `ExecCtrl` component should know about all possible scenarios, traffic cases etc. used in the system before `ExecCtrl` is started, so they all should be loaded into `ExecCtrl` either by its module parameters or by using this function.
+
+This function should be called before the start function of the `ExecCtrl` feature is called, because configuration parameters loaded after the start function are invisible for `ExecCtrl`. Since the start function is called automatically in the `ExecCtrl` init function if not disabled, calling of start function should be disabled in the init function to be able to load configuration after the init function is called.
+
+The `loadConfig` function can also be called before the init function of the `ExecCtrl` feature.
+
+TIP: If you need to load data corresponding to only one of the arguments of the function, the following notation can simplify the code since all arguments of this function are optional:
+
+[source]
+----
+f_EPTF_ExecCtrl_loadConfig(pl_EPTF_ExecCtrl_LGenFunction_Entry_List := vl_lgenCreatorFunctions);
+----
+
+It is also possible to load configuration data into `ExecCtrl` from the `ExecCtrl` client. This can be done by using the following function:
+
+`f_EPTF_ExecCtrlClient_loadConfig`
+
+This function works similarly and has similar parameters as the `f_EPTF_ExecCtrl_loadConfig` function. The configuration data can be loaded from the ExecCtrlClient before the `f_EPTF_ExecCtrlClient_readyToStart()` function is called. Since this function is called in the `f_EPTF_ExecCtrlClient_init_CT` by default, this has to be disabled in the init function. It is not possible to load configuration data from `ExecCtrlClients` that belong to `LGen`-pools. These `LGens` are created by `ExecCtrl` after the `ExecCtrl` was started and the configuration data was already loaded. Configuration can be loaded from `LGens` that are created `manually'.
+
+=== Enabling Progress Updates in `UIHandler`
+
+The `progressBar dataSource` in `UIHandler` can be updated with `ExecCtrl` progress information. It is enabled by default. It can be disabled/enabled by the function
+
+`f_EPTF_ExeCtrl_enableUIHandlerProgress(…)`
+
+=== Starting the Operation of `ExecCtrl`
+
+To start the operation of `ExecCtrl`, the function
+
+`f_EPTF_ExecCtrl_start(…)`
+
+has to be called. Configuration data can be loaded into `ExecCtrl` before this function is called. This function is called automatically by the `ExecCtrl` init function if not disabled.
+
+=== Terminate `ExecCtrl`
+
+To finish the test, generate a final test report and then terminate execution the function
+
+`f_EPTF_ExecCtrl_exit()`
+
+has to be called.
+
+== Summary Table of All Public Functions for EPTF `ExecCtrl`
+
+See Summary of `ExecCtrl` functions in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|========================================================================================================================================================================================
+|Function name |Description
+|`f_EPTF_ExecCtrl_init_CT` |Initializes the `ExecCtrl` Component
+|`f_EPTF_ExecCtrl_checkManualLGenStarted` |True if all manual `LGens` have started, `_false_` if not.
+|`f_EPTF_ExecCtrl_start` |Starts the execution of the `ExecCtrl`
+|`f_EPTF_ExecCtrl_getManualControl` |Gets the manual control mode
+|`f_EPTF_ExecCtrl_setManualControl` |Sets the manual control mode (overwrites config setting)
+|`f_EPTF_ExecCtrl_getTimePeriodForTcDeltaStats` |Gets The time period when delta stats are refreshed
+|`f_EPTF_ExecCtrl_setTimePeriodForTcDeltaStats` |Tells that the `ExecCtrl`'s Time period when delta stats are refreshed
+|`f_EPTF_ExecCtrl_loadConfig` |Loads all modulepar-type parameter into the `ExecCtrl` configuration database
+|`f_EPTF_ExecCtrl_setTimeFormat` |Sets the timeformat for the `timeElapsed` variable
+|`f_EPTF_ExeCtrl_enableUIHandlerProgress` |Enables/disables update of `UIHandler` `progressBar` `dataSource`
+|`f_EPTF_ExecCtrl_numEntities` |Returns the total number of entities
+|`f_EPTF_ExecCtrl_eGrp_lgenList` |Returns the `LGen` list data for an entity group
+|`f_EPTF_ExecCtrl_eGrp_scenarios` |Returns the scenarios of entity group in the instance DB
+|`f_EPTF_ExecCtrl_dumpTypeDB` |Write the type DB into the log file for debug purposes
+|`f_EPTF_ExecCtrl_eGrp_name` |Returns the name of entity group in the instance DB
+|`f_EPTF_ExecCtrl_getActiveEntities` |Returns the number of active entities for an entity group
+|`f_EPTF_ExecCtrl_setActiveEntities` |Sets the number of active entities for an entity group
+|`f_EPTF_ExecCtrl_checkReadyToRun` |Returns `_true_` if `ExecCtrl` is ready to run
+|`f_EPTF_ExecCtrl_waitForCondition` |General function to block execution until a specific condition becomes true
+|`f_EPTF_ExecCtrl_getEntityGroupIdx` |Returns the id of an entity group in the instance DB
+|`f_EPTF_ExecCtrl_getAllocatedEntities` |Returns the total number of allocated entities on all `LGens` for a given Entity Group
+|`f_EPTF_ExecCtrl_getTrafficCaseIdx` |Returns the ID of a traffic case
+|`f_EPTF_ExecCtrl_getTcOfScenarioIdx` |Returns the ID of a traffic case inside a scenario
+|`f_EPTF_ExecCtrl_getScenarioIdxForTc` |Returns the ID of the scenario instance the traffic case belongs to
+|`f_EPTF_ExecCtrl_getTrafficCaseName` |Returns the name of the traffic case instance for the given traffic case instance index
+|`f_EPTF_ExecCtrl_registerOnGroupFinishCallbackFn` |Register function to be called when `onGroupFinish` condition changes
+|`f_EPTF_ExecCtrl_deregisterOnGroupFinishCallbackFn` |Deregister callback function for `onGroupFinish` condition changes
+|`f_EPTF_ExecCtrl_checkOnGroupFinished` |Returns `_true_` if any `onGroupFinish` condition is fulfilled
+|`f_EPTF_ExecCtrl_getScenarioIdx` |Returns the index of the scenario in the instance DB
+|`f_EPTF_ExecCtrl_getScenarioIdxByInstanceName` |Returns the index of the scenario in the instance DB, using the scenario instance name
+|`f_EPTF_ExecCtrl_getScenarioName` |returns the scenario type name for a scenario instance
+|`f_EPTF_ExecCtrl_getScenarioInstanceName` |Returns the name of the scenario instance for the given scenario instance index
+|`f_EPTF_ExecCtrl_isWeightedScenario` |Returns `_true_` if the scenario instance in weighted scenario
+|`f_EPTF_ExecCtrl_numTcOfScenario` |returns the number of traffic cases in the scenario
+|`f_EPTF_ExecCtrl_getAvailableEntitiesOnLGenForEGrp` |Returns the available entities on an `LGen` for a given entity group
+|`f_EPTF_ExecCtrl_dumpInstanceDB` |Write the intance DB into the log file for debug purposes
+|`f_EPTF_ExecCtrl_getLGenIdxInEGrpForLGenAndEgrp`, |Useful get functions for accessing `LGen` data
+|`f_EPTF_ExecCtrl_startTimeProfiles`, |Start/stop time profiles
+|`f_EPTF_ExecCtrl_startAllScenarios`, |Start/stop/terminate all scenarios, including scenario groups
+|`f_EPTF_ExecCtrl_startAllScenarioGroups`, |Start/stop/terminate scenario groups
+|`f_EPTF_ExecCtrl_stopCurrentPhaseForAllScenarioGroups` |Stop the current phase in all scenario group (and continue with the next phase)
+|`f_EPTF_ExecCtrl_setCps_TC`, |Set the CPS of a traffic case/scenario and send it to the clients
+|`f_EPTF_ExecCtrl_setStartDelay_TC` |sets the Traffic case `startDelay` in all related `LGens`
+|`f_EPTF_ExecCtrl_getCPSToReach_TC`, |Get/set the target CPS (cps to reach) for a traffic case or a scenario
+|`f_EPTF_ExecCtrl_getTCWeight`, |Get/set the weight of a traffic case inside a weighted scenario
+|`f_EPTF_ExecCtrl_registerCPSChangedCallback_TC`, |Register or deregister call-back functions that are called when the CPS of the given Traffic Case or the Scenario changes
+|`f_EPTF_ExecCtrl_Regulator_addRegulator` |Add a regulator
+|`f_EPTF_ExecCtrl_Regulator_getRegulatorId` |Get the regulator ID
+|`f_EPTF_ExecCtrl_Regulator_setTotalCps`, |Set/Get total CPS to the regulator (the target value)
+|`f_EPTF_ExecCtrl_Regulator_getRegulatedItemId` |Determine the ID of a regulated item
+|`f_EPTF_ExecCtrl_Regulator_getRegulatorName`, |Get/set the name of a regulator for a regulated item
+|`f_EPTF_ExecCtrl_Regulator_logAll` |Log everything connected to regulators for debug purposes
+|`f_EPTF_ExecCtrl_Regulator_findRegulatorsForScenario` |find the regulators that regulate items in the current scenario
+|`f_EPTF_ExecCtrl_sendUpdatedCps`, |Send traffic case/scenario CPS to clients
+|`f_EPTF_ExecCtrl_registerScenarioGroupPhaseChangedCallback` |Function to register a callback function for the `scenarioGroup` phase change event
+|`f_EPTF_ExecCtrl_ScenarioGroup_get_byScIndex` |Returns a scenario group instance `idx` of a scenario instance
+|`f_EPTF_ExecCtrl_ScenarioGroup_getIdx` |Returns the index of a scenario group instance using its name
+|`f_EPTF_ExecCtrl_ScenarioGroup_start` |Starts the actual phase of the scenario group
+|`f_EPTF_ExecCtrl_ScenarioGroup_stop` |Stops the actual phase of the scenario group
+|`f_EPTF_ExecCtrl_getScenarioGroupInstanceName` |Returns the scenario group instance name
+|`f_EPTF_ExecCtrl_scenarioIsNotInScenarioGroup` |Checks if a scenario belongs to a scenario group
+|`f_EPTF_ExecCtrl_registerScenarioStateChangedCallback` |Function to register a callback function for the scenario state change event
+|`f_EPTF_ExecCtrl_registerTrafficCaseStateChangedCallback` |Function to register a callback function for the traffic case state change event
+|`f_EPTF_ExecCtrl_enableStartStopScenario`, |Enable/disable start/stop buttons and associated variables for the GUI
+|`f_EPTF_ExecCtrl_isDisabledStartStopScenario` |Check if the start/stop button is disabled or not for the scenario
+|`f_EPTF_ExecCtrl_getStartStopScenarioIdx` |Returns the ID of the database item associated with the start/stop scenario buttons
+|`f_EPTF_ExecCtrl_enableStartStopTC`, |Enable/disable start/stop buttons for traffic case
+|`f_EPTF_ExecCtrl_isDisabledStartStopTC` |Check if the start/stop button is disabled or not for the traffic case
+|`f_EPTF_ExecCtrl_getStartStopTCIdx` |Returns the ID of the database item associated with the start/stop traffic case buttons
+|`f_EPTF_ExecCtrl_startScenarioOnLGensByName`, |Start/stop a scenario on `ExecCtrlClient`/`LGen`
+|`f_EPTF_ExecCtrl_startScenarioOnLGens`, |Start/stop scenario on `LGens`
+|`f_EPTF_ExecCtrl_startTCOnLGens`, |Start/stop traffic case on `LGens`
+|`f_EPTF_ExecCtrl_singleShotTc` |Start traffic case for one entity on one of the `LGens` (single shot)
+|`f_EPTF_ExecCtrl_resetScenarioOnLGens` |Reset scenario on `LGens`
+|`f_EPTF_ExecCtrl_stopScenarioGroupOnLGens` |Stops the execution of the scenario group on `LGens`, next phase is not started
+|`f_EPTF_ExecCtrl_scenarioEnabled` |Check if the scenario is enabled
+|`f_EPTF_ExecCtrl_LGenPool_createLGens` |Creates the `LGens` for all `LGen` pools
+|`f_EPTF_ExecCtrl_nrOfClients` |Returns the number of `ExecCtrlClient` components
+|`f_EPTF_ExecCtrl_LGenPool_dumpInstanceDB` |Writes the `LGenPool` intance DB into the log file for debug purposes
+|`f_EPTF_ExecCtrl_addLGenFunctionsFromDeclarators` |Register the `LGen` creator functions to create LGen pools
+|`f_EPTF_ExecCtrl_getLGenCompRefsOfPool` |Get a list of `LGen` component indexes for a given `LGen` pool name
+|`f_EPTF_ExecCtrl_checkCreatorFnNameOfPool` |Checks if the given `LGen` creator function was used to create `LGens` in the given pool
+|`f_EPTF_ExecCtrl_registerFinalTestReportGeneratorFn` |Registers final test report generator function
+|`f_EPTF_ExecCtrl_deregisterFinalTestReportGeneratorFn` |Deregisters final test report generator function
+|`f_EPTF_ExecCtrl_generateFinalTestReport` |Generates the final test report
+|`f_EPTF_ExecCtrl_registerFSMStatsCreatedCallback` |Registers callback function to call when FSM statistics created for traffic cases
+|`f_EPTF_ExecCtrl_deregisterFSMStatsCreatedCallback` |Removes the FSM statistics created callback function
+|`f_EPTF_ExecCtrl_getFSMStatisticsOfTcs` |Returns all FSM statistics declared for all traffic cases
+|`f_EPTF_ExecCtrl_getNrOfExpectedClients` |Gets the number of Expected Clients set previously by `f_EPTF_ExecCtrl_setNrOfExpectedClients`()
+|`f_EPTF_ExecCtrl_setNrOfExpectedClients` |Sets the number of Expected Clients - this number is used during displaying the progress of the initialisation of the `ExecCtrl` lgenpool section.
+|`f_EPTF_ExecCtrl_behavior` |Example behavior of `EPTF_ExecCtrl` feature
+|`f_EPTF_ExecCtrl_exit` |Terminate test execution and generate final test report
+|`f_EPTF_ExecCtrl_setGenerateOwnReport` |Tells that the `ExecCtrl`'s own final report has to be generated or not
+|`f_EPTF_ExecCtrl_StatHandler_getVarIdx` |Returns the variable index for a statistics declared by `ExecCtrl`
+|`f_EPTF_ExecCtrl_StatHandler_getVarNameByStatName` |Returns the name of the variable for a statistics declared by `ExecCtrl`
+|`f_EPTF_ExecCtrl_StatHandler_getAuxVars` |Returns the names of auxiliary variables for a statistics declared by `ExecCtrl`
+|`f_EPTF_ExecCtrl_resetFSMStat` |Resets a given FSM Statistics of a Traffic Case
+|========================================================================================================================================================================================
+
+=== Functions That were Removed or Became Private in the R3 Version of `ExecCtrl`
+
+See Summary of `ExecCtrl` functions that are no longer public or removed in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|====================================================================================================================================
+|Function name |Description
+|`f_EPTF_ExecCtrl_initHashMaps` |Initializes hash tables used in `ExecCtrl`
+|`f_EPTF_ExecCtrl_cleanup_CT` |Cleanup function of `ExecCtrl`
+|`f_EPTF_ExecCtrl_sendCreateGrp` |Initiates entity group creation on load generators
+|`f_EPTF_ExecCtrl_resetGrp` |Initiates entity group deletion on load generators
+|`f_EPTF_ExecCtrl_splitTargetCps4groups` |On-demand decomposition of `targetCps` for Load Generators
+|`f_EPTF_ExecCtrl_sendUpdatedCps` |Sends updated Cps values for Load Generators
+|`f_EPTF_ExecCtrl_declareTrafficCasesOnClients` |Declares traffic case types on `ExecCtrlClients`/`LGens` from `v_ExecCtrl_tcTypeDeclarators`
+|`f_EPTF_ExecCtrl_declareSceanriosOnClients` |Declares traffic scenarios types on `ExecCtrlClients`/`LGens`
+|`f_EPTF_ExecCtrl_addScenarioToEntityGroup` |Assigns a scenario to entity group on `ExecCtrlClient`/`LGen`
+|`f_EPTF_ExecCtrl_startScenarioOnLGens(ByName)` |Starts a traffic scenario on `ExecCtrlClient`/`LGen`
+|`f_EPTF_ExecCtrl_stopScenarioOnLGens(ByName)` |Stops a traffic scenario on `ExecCtrlClient`/`LGen`
+|`as_EPTF_ExecCtrl_MgmtIf` |Main event handler of `ExecCtrl`
+|`f_EPTF_ExecCtrl_updateExecStatusDB` |Updates execution status DB according the last received client message
+|`f_EPTF_ExecCtrl_checkScenarioStatus` |Check if the execution state of a specified scenario is consistent in all `LGens`
+|====================================================================================================================================
+
+== Summary Table of All Public Functions for EPTF `ExecCtrl` UI `Handler`
+
+See summary of `ExecCtrl_UIHandler` functions
+
+[width="100%",cols="50%,50%",options="header",]
+|======================================================================================================
+|Function name |Description
+|`f_EPTF_ExecCtrl_UIHandler_init_CT` |Initializes the `ExecCtrl` UI Handler Component
+|`f_EPTF_ExecCtrl_UIHandler_setRefreshRates` |Set custom refresh period for different elements on the GUI
+|`f_EPTF_ExecCtrl_UIHandler_checkGuiDone` |Returns `_true_` when the creation of the GUI is finished
+|`f_EPTF_ExecCtrl_UIHandler_behavior` |Example behavior of `EPTF_ExecCtrl_UIHandler` feature
+|======================================================================================================
+
+== Summary Table of All Public Functions for EPTF `ExecCtrl` CLI
+
+See Summary of `ExecCtrl_CLI` functions in the table below:
+
+[cols=",",options="header",]
+|===================================================================
+|Function name |Description
+|`f_EPTF_ExecCtrl_CLI_init_CT` |Initializes the `ExecCtrl` CLI Component
+|===================================================================
+
+== Execution Control Client
+
+`ExecCtrlClient` with interaction of `ExecCtrl` provides traffic case execution and traffic case provisioning support along multiple Load Generators. In general, `ExecCtrl` initiates actions via internal management messages on multiple Load Generators, `ExecCtrlClients` processing the requests using `LGenBase` public API functions.
+
+During/after the initialization:
+
+* `ExecCtrl` Client can load configuration data to `ExecCtrl`
+* `ExecCtrlClient` reports the available resources (list of maximum available amount of different entity types)
+* `ExecCtrl` initiates entity group creations via internal management messages
+* `ExecCtrlClient` creates entity groups and reports the new resource allocation to `ExecCtrl`.
+* `ExecCtrlClient` creates and initializes traffic cases, traffic scenarios according the decomposed descriptors and sends initial execution status message to `ExecCtrl`
+* `EndOfConfig` message arrives from `ExecCtrl` when the configuration is finished
+* `ExecCtrlClient` calls registered callback functions when configuration ends
+* `ExecCtrlClient` notifies `ExecCtrl` that execution of traffic cases can begin
+* `ExecCtrlClient` notifies `ExecCtrl` when the GUI is ready. This can be done automatically or by calling the function `f_EPTF_ExecCtrlClient_reportGUIDone`.
+
+Test scenario execution:
+
+* `ExecCtrl` initiates traffic scenario starts on Load Generators
+* `ExecCtrlClient` starts scenario and reports its execution status back to `ExecCtrl` whenever it changes.
+
+== Summary Table of All Public Functions for EPTF `ExecCtrlClient`
+
+See Summary of `ExecCtrlClient` public functions in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|==============================================================================================================================================================
+|Function name |Description
+|`f_EPTF_ExecCtrlClient_init_CT` |Initializes the `ExecCtrlClient` Component
+|`f_EPTF_ExecCtrlClient_loadConfig` |Loads configuration data to `ExecCtrl` configuration database
+|`f_EPTF_ExecCtrlClient_registerEndOfConfigCallback` |Register callback function that is called when the configuration of the client is finished
+|`f_EPTF_ExecCtrlClient_readyToStart` |Notifies `ExecCtrl` that execution of traffic cases can begin
+|`f_EPTF_ExecCtrlClient_registerFinalTestReportGeneratorFn` |Registers final test report generator function
+|`f_EPTF_ExecCtrlClient_deregisterFinalTestReportGeneratorFn` |Deregisters final test report generator function
+|`f_EPTF_ExecCtrlClient_checkEndOfConfig` |Returns `_true_` when the configuration of the `ExecCtrlClient` is finished
+|`f_EPTF_ExecCtrlClient_registerGuiDoneCallback` |Register callback function which is called when the `ExecCtrl` `UIHandler` finished the GUI creation
+|`f_EPTF_ExecCtrlClient_checkGuiDone` |Returns `_true_` when the `ExecCtrl` GUI is ready
+|`f_EPTF_ExecCtrlClient_reportGUIDone` |Reports the `GUIDone` event to `ExecCtrl`
+|`f_EPTF_ExecCtrlClient_checkGuiDoneReported` |Returns `_true_` when the `ExecCtrlClient` reported the `GUIDone` event to `ExecCtrl`
+|`f_EPTF_ExecCtrlClient_getFirstEntityGlobalOffset` |Returns the global offset of the first entity of the entity group deployed on the `LGen`
+|`f_EPTF_ExecCtrlClient_getEntityGroupGlobalOffset` |Returns the global offset of the first entity of the entity group
+|`f_EPTF_ExecCtrlClient_getFirstEntityOffsetInEGrp` |Returns the relative offset of the first entity of the entity group deployed on the `LGen` in the entity group
+|`f_EPTF_ExecCtrlClient_getEntityGroupSize` |Returns the size of the of the entity group
+|==============================================================================================================================================================
+
+== Summary Table of Functions for EPTF `ExecCtrlClient` That are No Longer Public in R3
+
+See Summary of `ExecCtrlClient` functions that are no longer public or are removed in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|===================================================================================================================================================
+|Function name |Description
+|`f_EPTF_ExecCtrlClient_cleanup_CT` |Cleanup function of `ExecCtrlClient` Component
+|`f_EPTF_ExecCtrlClient_sendAvailableResourceList` |Function for sending the `LGen`'s resource availability and allocation info to `ExecCtrl`
+|`f_EPTF_ExecCtrlClient_sendExecStatus` |Reports execution status changes to `ExecCtrl`
+|`as_EPTF_ExecCtrlClient_MgmtIf_createGrp` |Creates entity groups on a Load Generator upon a request from `ExecCtrl`
+|`as_EPTF_ExecCtrlClient_MgmtIf_deleteGrp` |Removes entity groups on a Load Generator upon a request from `ExecCtrl`
+|`as_EPTF_ExecCtrlClient_MgmtIf_UpdateCps` |Updates targetCps values on a Load Generator upon a request from `ExecCtrl`
+|`as_EPTF_ExecCtrlClient_MgmtIf_DeclareScenario` |Declares traffic scenarios on a Load Generator upon a request from `ExecCtrl`
+|`as_EPTF_ExecCtrlClient_MgmtIf_AddScenarioToEntityGroup` |Assigns entity groups to traffic scenarios on a Load Generator upon a request from `ExecCtrl`
+|`as_EPTF_ExecCtrlClient_MgmtIf_DeclareTc` |Declares traffic case types on a Load Generator upon a request from `ExecCtrl`
+|`as_EPTF_ExecCtrlClient_MgmtIf_StartScenario` |Starts traffic scenario on a Load Generator upon a request from `ExecCtrl`
+|`as_EPTF_ExecCtrlClient_MgmtIf_StopScenario` |Stops traffic scenario on a Load Generator upon a request from `ExecCtrl`
+|`as_EPTF_ExecCtrlClient_MgmtIf` |Main event handler of `ExecCtrlClient` feature
+|===================================================================================================================================================
+
+== Summary Table of All Public Functions for EPTF `ExecCtrlClient` `UIHandler`
+
+See Summary of `ExecCtrlClient_UIHandler` public functions in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|=========================================================================================================
+|Function name |Description
+|`f_EPTF_ExecCtrlClient_UIHandler_init_CT` |Initializes the `ExecCtrlClient_UIHandler` Component
+|`f_EPTF_ExecCtrlClient_UIHandler_setRefreshRates` |Set custom refresh rates for certain elements on the GUI
+|=========================================================================================================
+
+== Public Variable Names in `ExecCtrl` `UIHandler`
+
+This section lists the variable names created by `ExecCtrl_UIHandler` with the help of `EPTF_Var` feature that are publicly available and can be used to access GUI functions for example from the `CommandLine` Interface of the `UIHandler` feature. Variables listed here are shown also in the GUI created by `ExecCtrl_UIHandler`. All variables are on the `UIHandler` component, and all variables have the prefix: "GUI. However, the following variables are on the `ExecCtrl_UIHandler` component, and have no "GUI." prefix:
+
+* Weighted scenario current CPS
+* All Traffic case statistics
+
+In Table 7 the following TTCN-3 style notation is used (& is the concatenation operator):
+
+* `c_EPTF_ExecCtrl_statisticsRoot`: "EPTF_ExecCtrl.Statistics"
+* `vl_eGrpName`: Name of the entity group
+* `vl_scTypeName`: name of the scenario type
+* `vl_tcName`: name of the traffic case
+* `vl_scGrpName`: scenario group name
+* `c_EPTF_ExecCtrl_tcStatNames[st]`: name of the statistics at index st
+* `c_EPTF_ExecCtrl_tcDeltaStatVarIds[idx]` indexes of delta statistics for `c_EPTF_ExecCtrl_tcStatNames` statistics at index idx
+
+See Summary of public variable names in `ExecCtrl` `UIHandler` in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|=============================================================================================================================================================================================================================================================================================
+|Variable name |Description
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".nofLGens"` |Number of LGens the entity group was deployed on
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".StatusLED"` |Scenario StatusLED
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".TargetCPS"` |Weighted scenario TargetCPS
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".TargetCPSRegulator.Name"` |Name `of the regulator that regulates the weighted scenario TargetCPS
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".SCGrp."&vl_scGrpName&".StartPhase"` |StartPhase of the Scenario group
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".SCGrp."&vl_scGrpName&".Mode"` |GroupMode of the scenario group
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".SCGrp."&vl_scGrpName&".GroupStatusLED"` |Scenario group StatusLED
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".SCGrp."&vl_scGrpName&".GroupStart"` |Scenario group `Start` button
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".SCGrp."&vl_scGrpName&".GroupReset"` |Scenario group reset button
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".ControlButtons.Start"` |Scenario start button
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".ControlButtons.Stop"` |Scenario Stop button
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".ControlButtons.Reset"` |Scenario Reset button
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".TC."&vl_tcName&".GroupFinishStatusLED"` |`GroupFinish` `StatusLED` for the traffic case
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".TC."&vl_tcName&".StatusLED"` |Traffic case `StatusLED`
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".TC."&vl_tcName&".Start"` |Traffic case start checkbox
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".TC."&vl_tcName&".Stop"` |Traffic case stop checkbox
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".TC."&vl_tcName&“.SingleShotTc.EIdx` |The entity index inside the entity group used by single shot
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".TC."&vl_tcName&".SingleShotTc.EnableLog"` |The enable log checkbox for single shot traffic
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".TC."&vl_tcName&".SingleShotTc.Start"` |The single shot start button
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".TC."&vl_tcName&".TargetCPSOrWeight"` |Traffic case target CPS if scenario is non-weighted, traffic case weight if weighted
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".TC."&vl_tcName&".TargetCPSRegulator.Name"` |Regulator of the `TargetCPS` of a traffic case
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName &".CurrentCPS"` |Weighted scenario current CPS
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".TC."&vl_tcName &"."&c_EPTF_ExecCtrl_tcStatNames[st]` |Traffic case statistics for each statistics in `c_EPTF_ExecCtrl_tcStatNames`
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".TC."&vl_tcName &"."&c_EPTF_ExecCtrl_tcStatNames[c_EPTF_ExecCtrl_tcDeltaStatVarIds[idx]]&”.delta”` |Traffic case delta statistics for each statistics which indices in `c_EPTF_ExecCtrl_tcDeltaStatVarIds` table
+|`c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".TC."&vl_tcName&”.GroupFinishCondStatusLED.“&c_EPTF_ExecCtrl_tcStatNames[st]` |The Status LED for `onGroupFinish` condition status
+|`c_EPTF_ExecCtrl_statisticsRoot&".eventStatus.EndOfConfig.StatusLED"` |The Status LED for the `EndOfConfig` event
+|`c_EPTF_ExecCtrl_statisticsRoot&".eventStatus.ReadyToRun.StatusLED"` |The Status LED for the `ReadyToRun` event
+|`c_EPTF_ExecCtrl_statisticsRoot&".eventStatus.GUIDone.StatusLED"` |The Status LED for the `GUIDone` event
+|`c_EPTF_ExecCtrl_statisticsRoot&".eventStatus.EndOfTest.StatusLED"` |The Status LED for the `EndOfTest` event
+|=============================================================================================================================================================================================================================================================================================
+
+== Public Widget IDs on the `ExecCtrl` `UIHandler` GUI
+
+The following widget Id can be used to put user defined custom information to the traffic cases information on the `Statistics` panel under `Custom stats` tab: `c_EPTF_ExecCtrl_statisticsRoot&".EG."&vl_eGrpName&".SC."&vl_scTypeName&".TC."&vl_tcName&".userSpecificTcData"`.

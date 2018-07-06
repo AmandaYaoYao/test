@@ -1,0 +1,11 @@
+= Warning Messages
+
+NOTE: Besides the below described warning messages, warning messages shown in ‎<<7-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+`*WARNING: Unexpected message received during termination process from <component>: <message> Message dropped.*`
+
+The component sent an unexpected message during cleanup. The message was ignored.
+
+`*WARNING: Cleanup is disabled in stopRemote message. CLEANUP IS NOT PERFORMED.*`
+
+The `stopRemote` message received requested a stop without cleanup.

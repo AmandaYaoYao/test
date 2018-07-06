@@ -1,0 +1,86 @@
+= Capture File Format Specification
+
+Using the `TCCFile_IO` functionality, the Capture Control feature defines two different file formats (the user can select the required file format from config file). The default file format (_readable_) is easy to process, filter, sort, etc. with standard POSIX text processing utilities (grep, sort, awk, sed. etc.). The second file format (_gnuplot_) is compatible with the input format of `Gnuplot`, a simple command-line data plotting utility.
+
+For efficiency reasons statistics shall be sampled, that is they shall be dumped to the file at regular intervals only.
+
+In the _gnuplot_ format, output files can contain comment lines. A comment line must start with a "#" character.
+
+The actual version of the capture file is printed out in a header line (for example #Capture File Version: 2.2).
+
+== Readable Format
+
+In the default file format, each line has the following general syntax:
+
+1. Empty lines are ignored. Whitespaces between fields are ignored.
+
+2. Non-empty lines start with a heading declaring the type of the line. The heading is separated by a colon from the fields.
+
+3. The heading might be structured, this is described at each heading
+
+4. String values are to be given as TTCN-3 charstring literals surrounded by double quotes
+
+The following line types are defined:
+
+[width="100%",cols="50%,50%",options="header",]
+|=====================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
+|*Line heading* |*Line fields and meaning*
+|`TimeStampBase` |The actual snapshot time when the dumping has been started
+|`CaptureFileVersion: x.x` |The actual version of the capture file format.
+|`CaptureGroup["GroupName"`] |Defines a `CaptureGroup` with the given `GroupName`. It also means that the capture of this `CaptureGroup` has been started.
+|`SampleTime["GroupName"`] |`<aa.bbbbbb>:` Sampling time in seconds
+|`ValueHeader["GroupName"`] |Each field defines the identifier of the respective variable in the corresponding `CaptureGroup` line
+|`["GroupName", Relative Time]` |Each field defines the value of the respective variable in the corresponding `ValueHeader` line.
+|`Capture_Started["GroupName", ID, user/execution/load-based/programmed]` |This text is printed out in all Capture Control Modes (in case of the programmed API control as well). It signals that the capture measurement period is started for the given Capture Group and an ID is assigned to the measurement period. Eg. the ID 2_12 signifies the 12^th^ measurement period belonging to the Capture Group with ID 2. This ID identifies the measurement period when it is stopped.
+|`Capture_Finished ["GroupName", ID]` |This text is printed out when the capture measurement period is stopped. It is noted, whether the measurement period (with belonging Capture Group Name and measurement period ID) is finished with success or it is aborted before its expected duration.
+|=====================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
+
+Example:
+
+[source]
+----
+TimeStampBase 2007-11-23-15:52:06.712812 0.578000
+CaptureFileVersion: 2.2
+CaptureGroup["Stat1"]
+Capture_Started[“Stat1”, 1_1, programmed]
+SampleTime["Stat1"]: 1.000000 sec
+ValueHeader["Stat1"]: TestCaseId respRecOK respRecNOK respTimeout
+["Stat1",0.578000]: “User” 1 0 0.005000
+["Stat1",1.578000]: “130.100.72.230” 1 0 0.020000
+Capture_Finished[“Stat1”, 1_1]
+CaptureGroup[“ErrorCodes“]
+Capture_Started[“ErrorCodes”, 2_1, programmed]
+SampleTime[“ErrorCodes“]: 2.000000 sec
+ValueHeader[“ErrorCodes“]: TestCaseId respCode numReceived description
+[“ErrorCodes“, 13.650000]: “User” 503 5 “User does not exist”
+SampleTime[“Stat1“]: 3.000000 sec
+----
+
+== _Gnuplot_ Format
+
+In the _Gnuplot_ format, all headers are commented out with the "#" character. The line containing groupname, relative time and actual variable values is changed to the following format:
+
+`GroupName RelativeTime value1 value2 … valueN.`
+
+String values and the `GroupName` are charstring literals, surrounded by double quotes.
+
+That means, all non-commented lines are of this format, the separator between fields is the whitespace character. Thus, the file can be easily processed by _Gnuplot_. An example for this format can be the following:
+
+[source]
+----
+# TimeStampBase 2007-11-23-15:52:06.712812 0.578000
+# Capture File Version: 2.2
+# CaptureGroup["Stat1"]
+# Capture_Started["Stat1", 1_1, programmed]
+# SampleTime["Stat1"]: 1.000000 sec
+# ValueHeader["Stat1"]:TestCaseId respRecOK respRecNOK respTimeout
+"Stat1" 0.578000 "User" 1 0 0.005000
+"Stat1" 1.578000 "130.100.72.230" 1 0 0.020000
+# Capture_Finished["Stat1", 1_1]
+# CaptureGroup["ErrorCodes"]
+# Capture_Started["ErrorCodes", 2_1, programmed]
+# SampleTime["ErrorCodes"]: 2.000000 sec
+# ValueHeader["ErrorCodes"]: TestCaseId respCode numReceived description
+"ErrorCodes" 13.650000 "User" 503 5 "User does not exist"
+# SampleTime["Stat1"]: 3.000000 sec
+----

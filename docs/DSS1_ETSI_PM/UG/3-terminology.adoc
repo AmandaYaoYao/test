@@ -1,0 +1,17 @@
+= Terminology
+
+No specific terminology is used.
+
+= Abbreviations
+
+DSS1:: Digital Subscriber Signaling System No. 1
+
+ETSI:: European Telecommunications Standards Institute
+
+GUI:: Graphical User Interface
+
+ISDN:: Integrated Services Digital Network
+
+SEA:: Simulated Environment Architecture
+
+TTCN-3:: Testing and Test Control Notation version 3

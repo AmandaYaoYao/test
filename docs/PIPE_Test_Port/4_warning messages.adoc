@@ -1,0 +1,7 @@
+= Warning messages
+
+The following list contains the possible warning messages of the PIPE test port:
+
+`*Unexpected message from stdout/stderr, no command is executing*`
+
+Message received on stdout/stderr, but there is no process executing.

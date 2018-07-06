@@ -1,0 +1,18 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 v4.4.1 (2012-04) +
+The Testing and Test Control Notation version 3; Part 1: Core Language
+
+[[_2]]
+[2] TITAN User Guide
+
+[[_3]]
+[3] BSSMAP (v11.2.0) Protocol Modules for TTCN-3 Toolset with TITAN, Function Specification
+
+[[_4]]
+[4] 3GPP TS 48.008 V11.2.0 (2012-05) +
+3rd Generation Partnership Project; +
+Technical Specification Group GSM/EDGE Radio Access Network; +
+Mobile Switching Centre - Base Station System(MSC-BSS) interface; +
+Layer 3 specification(Release 11)

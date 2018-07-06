@@ -1,0 +1,5 @@
+= Error messages
+
+Please note, that besides the below described error messages, error messages shown in [2] or those of other used features or product may also appear.
+
+There are no error messages defined in HostAdmin feature.

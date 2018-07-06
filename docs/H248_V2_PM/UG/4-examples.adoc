@@ -1,0 +1,36 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples and functions:
+
+== Mapping Module
+
+The mapping module provides the connection between the H.248 protocol module and the TCP test port (CNL 113 347). It encodes and decodes the H.248 messages.
+
+== SDP Parsing
+
+Use the `f_H248_SDP_Dec` function to decode a charstring SDP message list from the Local/Remote descriptor value.
+
+For encoding use the `f_H248_SDP_Enc` function to encode a SDP message list to charstring, and put it into the `Local`/`Remote` descriptor field.
+
+[source]
+----
+var H248_SDP_Message_list v_H248_SDP_Messages;
+var charstring v_descriptor;
+// put encoded value in v_descriptor
+v_H248_SDP_Messages := f_H248_SDP_Dec(v_descriptor);
+v_descriptor := f_H248_SDP_Enc(v_H248_SDP_Messages);
+----
+
+== Parser Generation Rules
+
+In order to generate the _.c_ and _.h_ files from _.y_ and _.l_, the following _Makefile_ rules should be used:
+
+[source]
+----
+H248_SDP_parse_.tab.c H248_SDP_parse_.tab.h: H248_SDP_parser.y
+bison -dv -p H248_SDP_parse_ -b H248_SDP_parse_ $<
+lex.H248_SDP_parse_.c: H248_SDP_parser.l
+flex -Cfr -8 -Bvpp -PH248_SDP_parse_ H248_SDP_parser.l
+----
+
+The _.h_ and _.c_ parser files should be generated during the protocol module development. Only the pregenerated files are needed for test case development and test execution.

@@ -1,0 +1,12 @@
+= Introduction
+
+== How to Read This Document
+
+This is the Function Specification for the HTTPmsg_CNL113312 (called HTTP from now on) test port. The HTTP test port is developed for the TTCN-3 Toolset with TITAN. This document is intended to be read together with User’s Guide <<5_references.adoc#_3, [3]>>
+
+== Scope
+
+The purpose of this document is to specify the functionality of the HTTP test port. The document is primarily addressed to the end users of the product. Basic knowledge of TTCN-3, TITAN TTCN-3 Test Executor and the HTTP protocol is valuable when reading this document (see <<5_references.adoc#_1, [1]>> and <<5_references.adoc#_2, [2]>>
+
+
+This document is based on specifications of Hypertext Transfer Protocol (HTTP1.1) defined by http://www.ietf.org/rfc/rfc2616.txt[RFC 2616].

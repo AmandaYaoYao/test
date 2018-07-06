@@ -1,0 +1,85 @@
+= Requests and Responses
+
+To communicate with the Data Source, JSON requests need to be sent to the HTTP server. For more detailed information on the format of the `JSON` and its encoding, please see the appropriate parts of <<8-references.adoc#_5, [5]>>.
+
+== Trees and Branches
+
+Using the _children_ member of the `getData` request, we can create a tree of nested requests.
+
+*Definition*: The _request tree_ is a graph, the nodes of the tree are the requests themselves, and an arc connects request A with request B if B is contained in the children list of A.
+
+This is useful when we want to use the result of one request as a parameter of another one.
+
+*Definition*: We call the requests located on a path from the root to some other request a _branch_ of the request tree.
+
+To refer to the result of the first request (the root) in a branch of the tree in a parameter, use `%Parent0%` in the `paramValue` of the parameter.
+
+Similarly, if we want to refer to the result of the 28th request on the branch, use `%Parent27%` in the `paramValue`.
+
+It is also possible to refer to more than one parent in the `paramValue`. In some cases we might want to have `%Parent0%.%Parent1%` as the `paramValue`.
+
+When the parent is a list, we can also refer to the current index using `%Parent0::idx%`. *Important*: this will only work if the request does not have a filter or a `rangeFilter`.
+
+A `setData` request cannot have children. However, they can be nested in a tree of other `getData` requests.
+
+See section <<6-examples.adoc, Examples>> for examples, and consult the Data Source help and <<8-references.adoc#_8, [8]>> for the parameters and the possible nesting of the requests.
+
+== Expanding Requests
+
+Suppose we have a request A whose response is a list. What happens to the requests of the children of A?
+
+The answer is, they are processed as many times as the number of elements in the list.
+
+Usually, this is not the intended behavior. We can fine-tune which requests get processed by using the `selection` member of the request A.
+
+The `selection` member of a `getData` request is a list of integers.
+
+When the response to the request is a list and the request has child requests, then the child requests will only be processed on those elements in the list that are specified in the `selection`.
+
+If the selection is an empty list, the child requests will not be processed on any of the elements in the list.
+
+If the selection element is omitted, then the child requests are processed on all elements.
+
+In a `setData` request, if the element is a list and we want to change the value of the third element in the list, we would have `indxsInList`: <<8-references.adoc#_2, [2]>> as a member of the `setData` request.
+
+For an example, please see section <<6-examples.adoc, Examples>>.
+
+== Filtering Requests
+
+Filters can be used to filter requests and responses based on specific criteria.
+
+=== Range Filter
+
+The `rangeFilter` member of a `getData` request can be used to query only a continuous part of a list.
+
+The offset member of the `rangeFilter` is the index of the first element in the original list, and the count is the maximum number of elements we wish to query.
+
+=== Filter
+
+The `filter` member of a `getData` request can be used to filter a list using conditions.
+
+The `filter` is a rooted tree. If the root evaluates to `_false_` on an element, it is filtered.
+
+If a single element response is filtered, the response will change to an empty string whose `tp` is `_0_` (see <<8-references.adoc#_5, [5]>> for more details about response types).
+
+If the response is a list, and the filter does not contain any reference to the list elements, then it is treated as a single element response in terms of filtering (the result will be either an empty string with `tp = 0`, or the whole list).
+
+If the response is a list and the filter contains references to its elements, then the filter will be evaluated for every element of the original list. The elements, for which the filter evaluates to `_false_`, will be removed from the result.
+
+See section <<6-examples.adoc, Examples>> for some examples.
+
+=== Evaluating Filters and Selections
+
+Suppose we are processing a request whose response is a list, and it contains a filter with reference to the elements, a `rangeFilter` and selection.
+
+First, the `rangeFilter` is applied. Then we run the filter on all elements. And finally, the selection is applied.
+
+This is why using `%Parent0::idx%` is not advised, since filtering cannot be done in this case.
+
+== Connection Between Request and Response
+
+The response has similar structure to the request.
+
+The response is also a tree and is built according to the rules described previously.
+
+Imagine the response as a graph which is a tree. We can obtain this tree structure from the request tree if we make a copy of certain subtrees. Namely take the node closest to the root whose response is a list. Copy the subtree that belongs to this node as many times as the length of the response list and connect the copies to the parent of the node. Repeat this for all nodes whose corresponding request returns a list.

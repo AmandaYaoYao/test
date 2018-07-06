@@ -1,0 +1,9 @@
+= Error Messages
+
+`*The component has been not initialized yet*`
+
+The component is not initialized, but used.
+
+`*Faulty input value in f_EPTF_Common_RndValues_init_CT*`
+
+The given input value is out of range.

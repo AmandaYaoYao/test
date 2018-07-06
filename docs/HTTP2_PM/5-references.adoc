@@ -1,0 +1,19 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 v4.4.1 (2012-04) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] User Guide for TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] Programmer’s Technical Reference for Titan TTCN–3 Test Executor
+
+[[_4]]
+[4] https://tools.ietf.org/html/rfc7540[RFC 7540] +
+Hypertext Transfer Protocol Version 2 (HTTP/2)
+
+[[_5]]
+[5] https://tools.ietf.org/html/rfc7541[RFC 7541] +
+HPACK: Header Compression for HTTP/2

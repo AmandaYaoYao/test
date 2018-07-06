@@ -1,0 +1,86 @@
+= UIHandler
+
+== Overview
+
+Users of TitanSim may want to interactively display their data on a user interface or they want to control the behaviour of their tests through such interface. The UIHandler feature provides support for this.
+
+The `EPTF_CLL_UIHandlerClient_CT` component may have EPTF Variables and it can connect these variables to widgets on a runtime GUI connected to an UIHandler. When the variable changes, the content of the connected widget will be changed automatically. When the user changes the content of a connected widget, its new value will be automatically forwarded to the associated variable.
+
+The `EPTF_CLL_UIHandler_VariableUI_CT` can be used just like `EPTF_CLL_UIHandlerClient_CT`, but it provides some functions that can be used to handle masses of variable – widget subscriptions.
+
+It also provides functions to change the layout of the GUI.
+
+Usage in steps:
+
+* Create an UIHandler component, and map the necessary ports.
+* Initialize the UIHandler component.
+* Create your component that extends `EPTF_CLL_UIProviderClient_CT` and implicitly the `EPTF_Var_CT`. Initialize the UIHandlerClient component.
+* Create and/or modify the runtime GUI configuration where you want to display your data.
+* Create your variables.
+* Order the UIHandler via functions of the UIHandlerClient to subscribe to your variables, and connect these variables to widgets. If you want to connect your variables to more than one widget, you can do it.
+* Run your test logic.
+
+The feature can operate in either as a client and a server too, to make connection with the Runtime GUI. The UIhandler, if used with headless mode activated, is capable of seamlessly continue operation even if the connection to the runtime GUI is lost. Alternately you can use a web browser to view the GUI. For more details see <<8-references.adoc#_3, [3]>>.
+
+== Compilation Dependencies
+
+The EPTF CLL UIHandler API includes the following files:
+
+* UIHandler
+** __EPTF_CLL_UIHandlerCLI_CommandDefinitions.ttcn__ +
+Contains the CLI command patterns.
+** __EPTF_CLL_UIHandlerCLI_Definitions.ttcn__ +
+Type definitions for the CLI feature of the UIHandler.
+** __EPTF_CLL_UIHandlerCLI_Functions.ttcn__ +
+Function definitions for the CLL feature of the UIHandler.
+** __EPTF_CLL_UIHandlerClient_Definitions.ttcn__ +
+Definitions for client layer of the UIHandler.
+** __EPTF_CLL_UIHandlerClient_Functions.ttcn__ +
+Private and public function definitions for client layer of the UIHandler.
+** __EPTF_CLL_UIHandlerVariableUI_Definitions.ttcn__ +
+Definitions for the VariableUI.
+** __EPTF_CLL_UIHandlerVariableUI_Functions.ttcn__ +
+Function definitions for the VariableUI.
+** __EPTF_CLL_UIHandlerBrowser_Functions.ttcn__ +
+These functions realizes the web browser GUI functionalities.
+** __EPTF_CLL_UIHandler_CLIClientDefinitions.ttcn__ +
+Definitions for client layer of the UIHandlerCLI.
+** __EPTF_CLL_UIHandler_ConvertFunctions.ttcn__ +
+These functions are used in data display converting data.
+** __EPTF_CLL_UIHandler_Definitions.ttcn__ +
+Type definitions for the `EPTF_CLL_UIHandler_CT` component.
+** __EPTF_CLL_UIHandler_MsgDefinitions.ttcn__ +
+Message structures and data types.
+** __EPTF_CLL_UIHandler_PrivateFunctions.ttcn__ +
+Internally used functions of `EPTF_CLL_UIHandler_CT` component.
+** __EPTF_CLL_UIHandler_WidgetFunctions.ttcn__ +
+Functions of the `EPTF_CLL_UIHandler_CT` component to manipulate runtime GUI.
+** __EPTF_CLL_UIHandler_XSD_XTDPTemplateDefinitions.ttcn__ +
+Message types and data structures used in the communication with the runtime GUI using XSD.
+** __EPTF_CLL_UIHandler_XTDPTemplateDefinitions.ttcn__ +
+Message types and data structures used in the communication with the runtime GUI using XTDP Test Port.
+
+[[usage_dependencies]]
+== Usage Dependencies
+
+The UIHandler feature is part of the EPTF Core Library (CLL). It relies on several features of the CLL. To use the UIHandler the user has to obtain the respective files from the following features:
+
+* Base
+* Common
+* FreeBusyQueue
+* HashMap
+* Logging
+* Semaphore
+* Transport
+* Variable
+
+UIHandler also requires files from TestPorts, ProtocolModules
+
+* XTDPasp_CNL113494
+* Common_Components/Abstract_Socket_CNL113384
+* Common_Components/Socket_API_CNL113686
+* XTDP_CNL113663
+* XSDASN_CNL113474
+* TELNETasp_CNL113320
+* IPL4asp_CNL113531
+* TCCUsefulFunctions_CNL113472

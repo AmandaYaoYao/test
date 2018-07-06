@@ -1,0 +1,49 @@
+= Functional Specification
+
+== Protocol Version Implemented
+
+This set of protocol modules implements protocol messages and constants of the UDP protocol (see <<5-references.adoc#_1, ‎[1]>>) with the modifications specified in <<modifications-deviations-related-to-the-protocol-specification, Modifications/Deviations Related to the Protocol Specification>> .
+
+[[modifications-deviations-related-to-the-protocol-specification]]
+== Modifications/Deviations Related to the Protocol Specification
+
+None.
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product also contains encoding/decoding functions which assure correct encoding of messages when sent from TITAN and correct decoding of messages when received by TITAN. Implemented encoding/decoding functions:
+
+[cols=3*,options=header]
+|===
+
+|Name
+|Type of formal parameters
+|Type of return value
+
+|f_UDP_enc
+|(UDP_packet)
+|returns octetstring
+
+|f_UDP_dec
+|(octetstring)
+|returns UDP_packet
+|===
+
+The product also provides some additional functionality to the user via the following functions. The `f_UDP_pseudo_header_enc` () can be used to encode the UDP pseudo header. The `f_UDP_checksum`() can be used to calculate the UDP checksum value.
+
+[cols=3*,options=header]
+|===
+
+|Name
+|Type of formal parameters
+|Type of return value
+
+|f_UDP_pseudo_header_enc
+|(UDP_pseudo_header)
+|returns octetstring
+
+|f_UDP_checksum
+|(octetstring)
+|returns OCT2
+|===

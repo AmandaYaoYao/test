@@ -1,0 +1,89 @@
+= Function Specification
+
+== Implementation
+
+The UDP layer is implemented in UNIX kernel. The test port implements the communication between UNIX UDP sockets and the TTCN-3 UDP ASPs.
+
+=== Module Structure
+
+The UDP test port is implemented in the following TTCN-3 blocks:
+
+* __UDPasp_Types.ttcn__
+* __UDPasp_PortType.ttcn__
+
+The file __UDPasp_Types.ttcn__ defines the UDP ASPs. The port type is defined in __UDPasp_PortType.ttcn__.
+
+The C++ implementation of the test port is contained in the following files:
+
+* __UDPasp_PT.hh__
+* __UDPasp_PT.cc__
+
+== Configuration
+
+The configuration of the UDP test port is done by the TITAN RTE configuration file. The description of the specific parameters can be found in the UDP test port user’s guide <<5-references.adoc#_3, [3]>>.
+
+== Operation Mode
+
+There are two operation modes of the test port
+
+* Basic mode: +
+The test port provides a simple ASP interface towards the TITAN RTE. This interface is compatible with the previous versions of the test port interface.
+* Advanced mode: +
+The advanced ASP interface provides the following port operations: open socket, close socket, send and receive data. One test port can handle multiple UDP sockets.
+
+== Start Procedure
+
+After the configuration is done, the user has to make sure that the target system is up and running. When the executable test suite is started it initializes the UDP socket. After the initialization is ready, the transmission of the ASPs can begin.
+
+[[sending-receiving-udp-asps]]
+== Sending/Receiving UDP ASPs
+
+When the communication between the UDP test port and the target system is set up, the test port starts transferring the UDP primitives towards the TITAN RTE and UDP datagrams towards the SUT.
+
+=== UDP ASPs Sent by the Test Port
+
+The UDP test port is able to send the following UDP primitives in basic mode:
+
+* `ASP_UDP`
+
+The UDP test port is able to send the following UDP primitives in advanced mode:
+
+* `ASP_UDP_message`
+* `ASP_UDP_open_result`
+
+=== UDP ASPs Received by the Test Port
+
+The UDP test port is able to receive the following type of UDP primitives in *basic mode*:
+
+* `ASP_UDP`
+
+The UDP test port is able to receive the following type of UDP primitives in *advanced mode*:
+
+* `ASP_UDP_message`
+* `ASP_UDP_open`
+* `ASP_UDP_close`
+
+== Logging
+
+The type of information that will be logged can be categorized into two groups. The first one consists of information that shows the flow of the internal execution of the test port, for example, important events, which function that is currently executing etc. The second group deals with presenting valuable data, for example, presenting the content of a PDU. The logging printouts will be directed to the RTE log file. The user is able to decide whether logging is to take place or not by setting appropriate configuration data, see <<5-references.adoc#_3, [3]>>.
+
+== Error Handling
+
+Erroneous behavior detected during runtime is shown on the console and directed into the RTE log file. The following two types of messages are handled:
+
+* Errors: +
+Information about errors detected is provided. If an error occurs the execution of the test case will stop immediately and the socket will be closed.
+* Warnings: +
+Information about warnings detected is provided. The execution continues after the warning is shown.
+
+== Closing Down
+
+After the test port has executed all test cases it stops automatically. It closes down the UDP socket towards the SUT and terminate.
+
+The execution of the test suite can be stopped at any time by pressing `<Ctrl>-c`. Before the executable terminates the socket is closed down.
+
+== Limitations
+
+The operating system is Solaris 5.8.
+
+The maximal length of the UDP data is 65536 bytes.

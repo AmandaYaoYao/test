@@ -1,0 +1,40 @@
+= Feature List
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product contains encoding/decoding functions, which assure correct encoding of messages when sent from Titan and correct decoding of messages when received by Titan. Implemented encoding/decoding functions:
+
+[cols=3*,options=header]
+|===
+
+|Name
+|Type of formal parameters
+|Type of return value
+
+|f_SDP_enc_Message
+|(in SDP_Message)
+|return charstring
+
+|f_SDP_enc_Message_RFC822Name
+|(in SDP_Message)
+|return charstring
+
+|f_SDP_dec_Message
+|(in charstring)
+|return SDP_Message
+
+|f_SDP_decodeMessage
+|(in charstring input, out SDP_Message msg)
+|return integer
+
+|f_SDP_enc_SRTP_Crypto
+|(in SRTP_Crypto input)
+|return charstring;
+
+|f_SDP_dec_SRTP_Crypto
+|(in charstring input)
+|return SRTP_Crypto
+|===
+
+The function __f_SDP_dec_Message__ decodes charstrings that represent an encoded SDP message. The function __f_SDP_enc_Message__ encodes an SDP message given as TTCN-3 data into a character string. The function __f_SDP_enc_Message_RFC822Name__ performs the same task as the __f_SDP_enc_Message__, but the email/phone address will be in form that RFC 822 specifies: displayable name <email> and displayable name <phone> (see <<6-references.adoc#_5, [5]>>).

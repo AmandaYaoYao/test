@@ -1,0 +1,225 @@
+= The Test Port
+
+== Overview
+
+The LDAPasp_RFC4511 test port offers LDAP message primitives to the test suite in TTCN-3 format. The TTCN-3 definition of the LDAP messages can be found in a separate ASN.1 module. This module should be imported into the test suite. For more information on LDAP see <<8-references.adoc#_6, [6]>>.
+
+The LDAP test port also offers LDIF importation, population, depopulation functionality. For more information on LDIF see <<8-references.adoc#_8, [8]>>.
+
+[[sending-receiving-ldap-messages]]
+== Sending/Receiving LDAP Messages
+
+LDAP message can be sent/received with the following ASP:
+
+[[asp-ldap-msg]]
+=== ASP_LDAP_msg
+
+* usage:
+
+Send to the test port to send an LDAP message. The test port will send this ASP in case of incoming LDAP message.
+
+* fields:
+
+`client_id` integer optional– used to identify the connection. In case of the sending operation the values get from the `ASP_LDAP_connect_result` or `ASP_LDAP_connected` ASPs can be used. In case of client operation, if only one connection is alive, this value can be omitted.
+
+== Connection ASPs
+
+When using connection ASPs, i.e. the `use_connection_ASPs`, Test Port parameter is set to the value `_"yes"_`, the following ASPs are used by the test port:
+
+[[asp-ldap-connect]]
+=== ASP_LDAP_connect
+
+* usage:
+
+Send to the test port to connect to a remote host.
+
+* fields:
+
+`hostname` charstring – remote host name to connect to
+
+`portnumber` integer – remote port to connect to
+
+`local_hostname` charstring optional – local host interface to connect from. If used with the `_"omit"_` value, the Test Port will use the value set in the `local_hostname` Test Port Parameter or the `_"localhost"_` value.
+
+`local_portnumber` integer optional – local port number to connect from. If used with the `_"omit"_` value, the Test Port will use the value set in the `local_port` Test Port Parameter or a random port.
+
+[[asp-ldap-connect-result]]
+=== ASP_LDAP_connect_result
+
+* usage:
+
+The Test Port sends it to the test suite as a result of the `ASP_LDAP_connect` ASP if the `use_connection_ASPs` Test Port parameter is set to the value `_"yes"_`.
+
+* fields:
+
+`client_id` integer – contains `_-1_` in case of connection error, otherwise the id of the connection which can be used during the send operation in the `ASP_LDAP_msg` ASP.
+
+[[asp-ldap-connected]]
+=== ASP_LDAP_connected
+
+* usage:
+
+The Test Port sends it to the test suite if an incoming connection is accepted and if the `use_connection_ASPs` Test Port parameter is set to the value `_"yes"_`.
+
+* fields:
+
+`client_address` charstring – host name of the connected client
+
+`client_id` integer – the ID of the connected client that can be used during the send operation in the `ASP_LDAP_msg` ASP.
+
+[[asp-ldap-listen]]
+=== ASP_LDAP_listen
+
+* usage:
+
+Send to the Test Port to open a server listening port. If a listening port was already opened, it will be closed before opening a new one. The client connections will remain alive.
+
+* fields:
+
+`portnumber` integer optional - the port number on the local host to listen on. If used with the `_"omit"_` value, the Test Port will use the value set in the `local_port` Test Port Parameter or a random port.
+
+`local_hostname` charstring optional – the host name on the local host to listen. If used with the `_"omit"_` value, the Test Port will use the value set in the `local_hostname` Test Port Parameter or the `_"localhost"_` value.
+
+[[asp-ldap-listen-result]]
+=== ASP_LDAP_listen_result
+
+* usage:
+
+The Test Port sends it to the test suite as a result of the `ASP_LDAP_listen` ASP if the `use_connection_ASPs` Test Port parameter is set to the value `_"yes"_`.
+
+* fields:
+
+`portnumber` integer – contains `_-1_` in case of listen error, otherwise the port on which the server listens on
+
+[[asp-ldap-close]]
+=== ASP_LDAP_close
+
+* usage:
+
+Send to the Test Port to close a specific or all connections.
+
+* fields:
+
+`client_id` integer optional – specify the connection to close, or if omitted, it means all alive connections
+
+[[asp-ldap-closed]]
+=== ASP_LDAP_closed
+
+* usage:
+
+The Test Port sends it to the test suite if a connection is closed by the other side and if the if the `use_connection_ASPs` Test Port parameter is set to the value `_"yes"_`.
+
+* fields:
+
+`client_id` integer optional – identifies the closed connection
+
+[[asp-ldap-shutdown]]
+=== ASP_LDAP_shutdown
+
+* usage:
+
+Send to the Test Port to shut down a server listening port
+
+* fields:
+
+None.
+
+== Installation
+
+Since the LDAPasp_RFC4511 test port is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of the LDAP test port. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<8-references.adoc#_2, [2]>>.
+
+The compilation of SSL related code parts can be disabled by not defining the `AS_USE_SSL` macro in the _Makefile_ during the compilation.
+
+When building the executable test suite the libraries compiled for the OpenSSL toolkit (if the `AS_USE_SSL` macro is defined) should also be linked into the executable along with the TTCN-3 Test Executor, i.e. the OpenSSL libraries should be added to the _Makefile_ generated by the TITAN executor (see example in <<6-examples.adoc#makefile, Makefile>>. To compile the source files you will also need the OpenSSL developer toolkit which contains the header files used by the source. If Share Objects (_.so_) are used in the OpenSSL toolkit, to run the executable, the path of the OpenSSL libraries must be added to the `LD_LIBRARY_PATH` environment variable. For more information see <<8-references.adoc#_5, [5]>>.
+
+NOTE: If you are using the test port on Solaris, you have to set the `PLATFORM` macro to the proper value. It shall be `_SOLARIS_` in case of Solaris 6 (SunOS 5.6) and `_SOLARIS8_` in case of Solaris 8 (SunOS 5.8).
+
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections (for example, `[TESTPORT_PARAMETERS]`) after each other. The usual suffix of configuration files is _.cfg_. For further information on the configuration file see <<8-references.adoc#_3, [3]>>.
+
+=== LDAP Test Port Parameters in the Test Port Configuration File
+
+The test port uses abstract socket, therefore the abstract socket’s parameters also apply when using the LDAP test port. For the parameters of the abstract socket see <<8-references.adoc#_7, [7]>>.
+
+Additional test port parameters:
+
+`decode_incoming_message ("yes", "no")`
+
+If this parameter is used with the value `_"yes"_`, the port will not decode the incoming messages, and sends octetstring messages instead of the `ASP_LDAP_msg` ASP. In case of big incoming messages, this can improve the performance of the Test Port.
+
+This parameter is optional and the default value is `_"no"_`.
+
+== LDIF support
+
+=== External Function for LDIF Import
+
+[source]
+external function f_ImportLDIF(in charstring pl_file_name, boolean pl_resolve_env) return LDIFData;
+
+Importing data from LDIF <<8-references.adoc#_8, [8]>> files into TTCN is possible with the external function `f_ImportLDIF`.
+
+The function has two parameters:
+
+* The name of the file to be opened
+* Whether the references to environmental variables should be resolved or passed into TITAN-3 as are.
+
+`f_ImportLDIF` returns a valid structure or prints warnings.
+
+==== Error Handling
+
+In case of errors, warnings are written in the RTE log file, and the version in the LDIFData structure is set to `_-1_`. If no error occurred the version number should be `_1_`, or omitted if not found in the file.
+
+If an error occurred, the returned LDIFData structure will still contain data to help finding the error.
+
+The data that could be read will be in the structure.
+
+Data that couldn’t be read will be in the structure in one of the following ways:
+
+* If the data is optional, it will be omitted.
+* If the data is a character string, it’s value will be `_"ERROR"_`.
+* If the error occurred inside the element of a list, the element will be filled with values mentioned.
+* It the error occurred in a list, the list will have no elements.
+
+=== Population, Depopulation
+
+`f_PopulateLDAPServer` and `f_DepopulateLDAPServer` issue LDAP queries based on input gathered with LDIF import external function.
+
+Both functions take the port to communicate on as a parameter. The connection must exist for the functions to work.
+
+Both functions assume that the parameter LDIFData structure is filled in with valid data, therefore they don’t check its validity.
+
+==== Populate
+
+[source]
+----
+function f_PopulateLDAPServer(LDIFData pl_info, LDAPasp_PT pl_LDAP, EntryConversion pl_conversion, boolean pl_continue, integer pl_clientID) return boolean;
+----
+
+`f_PopulateLDAPServer` performs LDAP operations on each entry of its LDIFData parameter:
+
+* LDAP Add for directory entries and for changerecords with changetype "add".
+* LDAP Delete for changerecords with changetype "delete".
+* LDAP Modify for changerecords with changetype "modify".
+* LDAP ModifyDN for changerecords with changetype "moddn" or "modrdn".
+
+Depending on the value of `pl_conversion` parameter, `f_PopulateLDAPServer` can perform LDAP Modify with "add" (`pl_conversion=Entry2ModifyAdd`) or "replace" (`pl_conversion=Entry2ModifyReplace`) operation instead of the normal LDAP "Add" (`pl_conversion=NoConversion`) for each directory entry.
+
+If the used LDIF data contains directory entries then `f_PopulateLDAPServer` will also merge all attributes with the same type into a single attribute. The resulting merged attribute will replace the first occurrence of the attribute.
+
+The `pl_continue` parameter can be used to determine whether the function shall continue (`pl_continue=true`) or immediately return (`pl_continue=false`) on error.
+
+The `pl_clientID` parameter identifies the client connection. In case of one connection, this parameter can be set to `_-1_`.
+
+`f_PopulateLDAPServer` returns true if all LDAP operations concluded successfully. It returns `_false_` when some LDAP operation failed.
+
+==== Depopulate
+
+[source]
+function f_DepopulateLDAPServer(LDIFData pl_info, LDAPasp_PT pl_LDAP, boolean pl_continue) return boolean;
+
+`f_DepopulateLDAPServer` performs LDAP Delete for each entry found in the LDIFData structure, and does nothing for changerecords. Depopulation happens in the opposite order or appearance of directory entries inside the LDIF input.
+
+The `pl_continue` parameter can be used to determine whether the function shall continue (`pl_continue=true`) or immediately return (`pl_continue=false`) on error during LDAP Delete operations.
+
+`f_DepopulateLDAPServer` returns true if all LDAP Delete operations concluded successfully. It returns `_false_` when some LDAP Delete operation failed.

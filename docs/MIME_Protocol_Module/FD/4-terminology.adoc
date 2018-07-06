@@ -1,0 +1,15 @@
+= Terminology
+
+No specific terminology is used.
+
+= Abbreviations
+
+ASP:: Abstract Service Primitive
+
+IUT:: Implementation Under Test
+
+MIME:: Multipurpose Internet Mail Extension
+
+SUT:: System Under Test
+
+TTCN-3:: Testing and Test Control Notation version 3

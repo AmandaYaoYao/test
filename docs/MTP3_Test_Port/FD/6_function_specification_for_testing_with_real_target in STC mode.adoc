@@ -1,0 +1,7 @@
+= Function Specification for Testing with Real Target in STC Mode
+
+The function specification described in <<4_function_specification_for_testing_with_real_target.adoc, Function Specification for Testing with Real Target>> is valid for this case with the following modifications:
+
+* `sio`, `opc`, `dpc`, `sls`, `ni`, `sut_pc`, `tester_pc` fields are unused and are always `_0_`.
+
+* `m3ua_ver` field is `_0_`, which shows to the M3UA Server / M3UA Daemon that the received registration belongs to a user in STC mode.

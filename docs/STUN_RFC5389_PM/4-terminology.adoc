@@ -1,0 +1,13 @@
+= Terminology
+
+No specific terminology is used.
+
+= Abbreviations
+
+STUN:: Session Traversal Utilities for NAT
+
+UDP:: User Datagram Protocol
+
+NAT:: Network Address Translators
+
+TTCN-3:: Testing and Test Control Notation version 3

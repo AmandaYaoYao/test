@@ -1,0 +1,15 @@
+= Examples
+
+The demo directory of the deliverable contains the following examples:
+
+* __DNS_Types.ttcn__ - definition module.
+* __DNS_EncDec.cc__ - source file.
+* __DNS_Demo.ttcn__ - demo testcases for DNS protocol module.
+* __DNS_Mapping.ttcn__ - mapping module.
+* _Makefile_
+* __UDPasp_PortType.ttcn__ - port type definition for UDP test port (CNL 113 346).
+* __UDPasp_Types.ttcn__ - type definitions for UDP test port.
+* __UDPasp_PT.cc__ - source file of UDP test port.
+* __UDPasp_PT.hh__ - header file of UDP test port.
+* _config.cfg_ - example runtime configuration file.
+* _readme.txt_ - brief description of how to use the demo.

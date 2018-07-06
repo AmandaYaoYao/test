@@ -1,0 +1,15 @@
+= General Description
+
+This document specifies the HashMap feature of the TitanSim CLL. The feature provides access to a well-tested, industry standard GCC HashMap implementation located in STL. For gcc versions above 4.0 the HashMap feature uses the `std::tr1::unordered_map` library. HashMap is a hashed associate container that associates object of type key with object of type data. It works by transforming the key using a hash function into a hash, a number that is used as an index in an array, to locate the desired location ("bucket") where the values should be. Looking up an element in a HashMap by its key is efficient, so HashMap is useful for "dictionaries" where the order of elements is irrelevant. The key in HashMap must be unique.
+
+This component supports the following key –> data type associations:
+
+[cols=",",options="header",]
+|====================
+|Key type |Data type
+|Integer |Integer
+|Charstring |Integer
+|Octetstring |Integer
+|====================
+
+To be able to use EPTF HashMap feature, the user component should extend the `EPTF_HashMap_CT` component and before using other HashMap functions, should call its initializing function `f_EPTF_HashMap_init_CT`.

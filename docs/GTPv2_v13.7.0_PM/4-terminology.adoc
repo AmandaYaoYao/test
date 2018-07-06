@@ -1,0 +1,11 @@
+= Terminology
+
+None.
+
+= Abbreviations
+
+PDU:: Protocol Data Unit
+
+GTPv2:: GPRS Tunnelling Protocol version 2
+
+TTCN-3:: Testing and Test Control Notation version 3

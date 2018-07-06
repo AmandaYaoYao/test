@@ -1,0 +1,76 @@
+= Usage
+
+To create new Statistics one of the `newStat` functions should be called. Stand-alone statistics can be created by specifying `_-1_` for the variable ID.
+
+When the Statistics is created it is reset and enabled automatically. New data can be added by the `addData` functions right after the statistics was created. For Statistics created for an existing EPTF Variable data is added automatically each time the value of the EPTF Variable is refreshed.
+
+For the `EPS` and `chrono` stats there is a special function to start the measurement. It is called `startMeasurement`. If it is not called the measurement is started when the first data is added by `addData`.
+
+The `addData` functions update the value of the Statistics for most of the stats, but for `EPS` and `chrono` the update function should be called explicitly.
+
+The value of the Statistics can be accessed by the `getStat` functions.
+
+If a Statistics is disabled by calling its disable function the `addData` functions will not add new data to the Statistics. The Statistics can be enabled by calling the enable functions.
+
+New measurement can be started by calling the reset function and then `startMeasurement` or `addData`.
+
+From each Statistics it is possible to create an EPTF Variable. This Variable is refreshed automatically when the value of the corresponding Statistics changes. The EPTF Variables can be created by the function `f_EPTF_StatMeasure_createVarFromStat`.
+
+If you call the update function of the Statistics from the `postProc` function of the created Variable, disable the refresh of the EPTF Variable to avoid infinite loops! For the same reasons do not call `addData` from `postProc` function!
+
+== Special Functions
+
+Some Statistics have additional functions. Please see the Function Description <<8-references.adoc#_5, ‎[5]>> also for more information.
+
+=== `Delta`, `DeltaSum`, `Min` and `Max`
+
+The function `f_EPTF_StatMeasure_changeToFloat_`* can be used to change the type of these statistics to float in case they are standalone stats. The type of these standalone statistics is set to integer by default. This function has to be called before a variable is created from the statistics by the `f_EPTF_StatMeasure_createVarFromStat` function. After a variable was created form the statistics, or a statistics was created from a variable (i.e. not standalone), this function cannot be called!
+
+=== `Mean`
+
+If EPTF Variable that contain the auxiliary data N (i.e. the number of data samples) of the mean statistics is needed, it can be created by the function `f_EPTF_StatMeasure_createVarFromStat_N_mean`.
+
+=== `StandardDev`
+
+The standard deviation statistics measures the mean also. It can be accessed by the `f_EPTF_StatMeasure_getStat_standardDev_mean` function. Also the index of the mean statistics can be accessed by `f_EPTF_StatMeasure_getStatIdx_standardDev_mean`.
+
+The functions `f_EPTF_StatMeasure_createVarFromStat_N_standardDev`, `f_EPTF_StatMeasure_createVarFromStat_S_standardDev` and `f_EPTF_StatMeasure_createVarFromStat_Mean_standardDev` can be used to create EPTF Variables from auxiliary data of the `standardDev` statistics. These functions correspond to the number of data samples, sum of the deviation squares and the mean of the data samples respectively.
+
+=== `EPS` and `Chrono`
+
+The EPS statistics can also measure the time. The functions `f_EPTF_StatMeasure_getMeasurementLength_EPS` and `f_EPTF_StatMeasure_getTime_EPS` return the length of the measurement and the time since measurement was started respectively in seconds. The value of the EPS Statistics is only updated when the `f_EPTF_StatMeasure_update_EPS` function is called. The same functions exist for `chrono` Statistics also.
+
+The `chrono` statistics has one additional function which can be used to stop the chronometer: `f_EPTF_StatMeasure_stop_chrono`. This function updates the statistics. No more update takes place after this function call until the statistics is reset.
+
+If an EPTF Variable is created from an EPS or `chrono` Statistics and it has a `sampledAtSync` subscriber then the Statistics can be updated automatically at the refresh event synchronously in the following way:
+
+1.	Register a `postProc` function for the Variable that calls `update_EPS` for the statistics with refresh disabled
+2.	Reset the statistics and start measurement after update in the `postProc` function if the Statistics should be reset after readout.
+
+In this way the value of the statistics is updated in-sync with the sync event of the EPTF Variables.
+
+Other Statistics are updated each time a new data is added, so the Variable created from them will also be updated.
+
+The number of events can be retrieved from the EPS Statistics if the update function is called with `_1.0_` sec set to the length of the measurement interval.
+
+=== `Density`
+
+The density statistics measures the distribution of the data values. It counts how many data falls between the user-given boundaries of values. The boundaries can be set by the function `f_EPTF_StatMeasure_setBoundaries_density`. This function automatically resets the statistics. Also the boundaries can be generated automatically between a minimal and a maximal value on a linear or a logarithmic scale by the function `f_EPTF_StatMeasure_setScale_density`. This function also resets the statistics. The function `f_EPTF_StatMeasure_getStat_density` returns the counters belonging to the intervals, whereas the function `f_EPTF_StatMeasure_getStat_normalized_density` returns the normalized distribution function, i.e. when the sum of all elements is normalized to 1.0.
+
+NOTE: The type of the value of this statistics is an `EPTF_IntegerList`. The 0^th^ element of the list measures the number of elements that fall below the lowest boundary; the 1^st^ counts the elements between the lowest boundary and the next boundary above it, and so on. The last element is for all data that falls above the highest boundary. The lower boundary in an interval belongs to the interval, i.e. if the value of the data equals the lower boundary it is considered to fall into the interval, while the upper boundary itself does not belong to the interval.
+
+=== `Percentile95`
+
+The `percentile95` statistics is based on density statistics so it also counts how many data falls between the user-given boundaries of values. The boundaries can be set by the function `f_EPTF_StatMeasure_setBoundaries_percentile95`. This function automatically resets the statistics. Also the boundaries can be generated automatically between a minimal and a maximal value on a linear or a logarithmic scale by the function `f_EPTF_StatMeasure_setScale_percentile95`. This function also resets the statistics.
+
+=== `PercentileP`
+
+The `percentileP` statistics is based on density statistics as `percentile95`, so it also counts how many data falls between the user-given boundaries of values. The boundaries can be set by the function `f_EPTF_StatMeasure_setBoundaries_percentileP`. This function automatically resets the statistics. Also the boundaries can be generated automatically between a minimal and a maximal value on a linear or a logarithmic scale by the function `f_EPTF_StatMeasure_setScale_` percentileP. This function also resets the statistics. The p value can be set with the function `f_EPTF_StatMeasure_setValueP_percentileP`, which resets the statistics too.
+
+=== `Limits`
+
+The limits statistics can be used to show a `StatusLED` with a colour that depends on the last measured data. The last data value is compared to preset limits, and the color that corresponds to the highest limit value below the data will be used to set the color of the LED. The text field of the LED is set to the latest value of the data if enabled. Otherwise it is set to empty string.
+
+The limiting values can be defined to set the lower margins of the LED colors. Also the default color of the LED is customizable. When new limits are set by the function `f_EPTF_StatMeasure_setLimits_limits`, the statistics is reset automatically. The limit values can be requested from the statistics by the function `f_EPTF_StatMeasure_getLimits_limits`.
+
+When the reference value is defined, the statistics is calculated as the LED color with highest limit margin below the data difference in percentage from the reference value.  For example when the last measured data value is 6.0 and the reference value is `_4.0_`, the difference in percentage is: `100.0*(6.0-4.0)/4.0= 50%.` The LED color with biggest limit that is smaller than 50 will be used for the color of the statistics LED, whereas the text will be set to `_"6.0"_`.

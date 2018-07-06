@@ -1,0 +1,269 @@
+= IPsec Functions
+
+== Overview
+
+The IPsec Functions provides a TTCN interface to handle the IPsec parameters stored in two databases: the Security Associations Database (SAD) and the Security Policy Database (SPD). Both the PF_KEY API and the Netlink XFRM API is supported with TTCN interfaces via different functions.
+
+[[pf-key-api]]
+=== PF_KEY API
+
+IPsec Handling Functions are implemented in the following files:
+
+* __TCCIPsec_Definitions.ttcn__
+* __TCCIPsec_Functions.ttcn__
+* _TCCIPsec.cc_
+
+These functions can only be used if the kernel supports IPsec. Moreover, SPD handling functions can only be used if the kernel contains the KAME IPsec implementation. To use all functions the `"-DUSE_KAME_IPSEC"` compiler switch should be added to the `CPPFLAGS` variable in the _Makefile_. To use only the portable part (SAD handling) the `"-DUSE_KAME_IPSEC"` compiler switch should be added to the CPPFLAGS variable in the _Makefile_.
+
+For using any of these functions root privileges are needed.
+
+=== Netlink XFRM API
+
+IPsec Handling Functions are implemented in the following files:
+
+* __TCCIPses_XFRM_Definitions.ttc__
+* __TCCIPsec_XFRM.hh__
+* __TCCIPsec_XFRM.cc__
+* __TCCIPsec_XFRM_SA.cc__
+* __TCCIPsec_XFRM_SP.cc__
+
+As only very old kernel versions do not support the XFRM interface, no extra build flags are required.
+
+For using any of these functions root privileges are needed.
+
+== Function Definitions
+
+=== Security Parameter Index Query Function
+
+The Security Parameter Index (SPI) is an identification tag added to the header while using IPsec for tunneling the IP traffic. This tag helps the kernel discern between two traffic streams where different encryption rules and algorithms may be in use.
+
+The kernel keeps track of the SPIs in use, and it does not allow creating multiple Security Associations with the same SPI. For this reason, it is recommended to query a unique SPI from the kernel before creating a new Security Association.
+
+==== PF_KEY API
+
+[source]
+----
+external function f_IPsec_SPI_get (
+  in charstring srcAddress,
+  in charstring dstAddress,
+  in TCCIPsec_Protocol protocol,
+  out integer spi
+) return TCCIPsec_Result;
+----
+
+Queries a unique SPI from the kernel and returns it in the 'spi' out parameter.
+
+==== Netlink XFRM API
+
+[source]
+----
+external function f_XFRM_allocate_SPI(
+  in AllocSPI_Info pl_AllocSPI_info,
+  inout integer pl_spi
+) return XFRM_Result;
+----
+
+Queries a unique SPI value from the kernel that is from the default SPI range or from a defined range in the `pl_AllocSPI_info` parameter. The execution result returned in by the function and the reserved SPI will be in the `pl_spi` parameter.
+
+=== Security Association Database Handling Functions
+
+Security Associations are identified by the source address (srcAddress), security protocol (protocol) and the Security Parameter Index (SPI).
+
+==== PF_KEY API
+
+Security Associations may contain various extensions (extensionList) beside the algorithms (alg). The algorithm identifies the security or integrity protocol and the keys. The extensions include the soft and hard lifetime and an id to link the SAs to SPs.
+
+IPSec supports two modes: transport, tunnel. It can be specified in the last `IPSecMode` parameter.
+
+The `useNatt` parameter can be used to enable NAT traversal support specified in UDP Encapsulation of IPsec ESP Packets RFC 3948.
+
+The functions return an error code to indicate success or the type of the error.
+
+external function f_IPsec_SADB_add ( in charstring srcAddress, in charstring dstAddress, in TCCIPsec_Protocol protocol, in integer spi, in TCCIPsec_ExtensionList extensionList := \{}, in TCCIPsec_Algorithm alg in boolean useNatt := false, in TCCIPsec_IPsecMode ipSecMode := anyMode) return TCCIPsec_Result;
+
+Add an SA (Security Association) into the SAD (Security Association Database).
+
+[source]
+----
+ external function f_IPsec_SADB_delete (
+  in charstring srcAddress,
+  in charstring dstAddress,
+  in TCCIPsec_Protocol protocol,
+  in integer spi
+) return TCCIPsec_Result;
+----
+
+Delete an SA from the SAD.
+
+`external function f_IPsec_SADB_flush () return TCCIPsec_Result;`
+
+Delete all SAs from the SAD.
+
+==== Netlink XFRM API
+
+The main attributes of the SAs are the communication addresses, the used protocol, the used IPsec protocol, the mode of usage (transport and tunneling mode), the SPI value, algorithms and keys. In addition, the NAT (Network Address Traversal), selectors (identification purpose) and the lifetime is also configurable.
+
+Each function returns an integer value, that represents the outcome of the execution. If it is `_zero_`, the execution was successful. If the execution fails, an additional string is returned that contains details on the cause of the failure. If the failure was on the application side, the error describes that, while if the error was on the kernel side processing, it contains the error message received from the kernel.
+
+To add an SA the following function may be used:
+
+[source]
+----
+external function f_XFRM_add_sa(
+  in SAAddInfo pl_sa_info
+) return XFRM_Result;
+----
+
+To delete an SA, the following function may be used:
+
+[source]
+----
+external function f_XFRM_delete_sa(
+  in SADelInfo pl_sa_info
+) return XFRM_Result;
+----
+
+To flush the complete SADB, the following function may be used:
+
+[source]
+----
+external function f_XFRM_flush_sa()
+return XFRM_Result;
+----
+
+=== Security Policy Database Handling Functions
+
+Security Policies are identified by the source and destination addresses ranges and port values, the transport protocol (UDP or TCP) and the direction of the data traffic to which the policy is applied.
+
+==== PF_KEY API
+
+The rule parameter specifies how IP packets should be handled.
+
+[source]
+----
+external function f_IPsec_SPDB_add (
+  in charstring srcAddress,
+  in integer srcPrefixLen := c_TCCIPsec_prefixAll,
+  in integer srcPort := c_TCCIPsec_anyPort,
+  in charstring dstAddress,
+  in integer dstPrefixLen := c_TCCIPsec_prefixAll,
+  in integer dstPort := c_TCCIPsec_anyPort,
+  in TCCIPsec_TranspProto transpProto := anyTranspProto,
+  in TCCIPsec_PolicyDirection dir,
+  in TCCIPsec_PolicyRule rule
+) return TCCIPsec_Result;
+----
+
+Add an SP (Security Policy) into the SPD (Security Policy Database).
+
+[source]
+----
+external function f_IPsec_SPDB_delete (
+  in charstring srcAddress,
+  in integer srcPrefixLen := c_TCCIPsec_prefixAll,
+  in integer srcPort := c_TCCIPsec_anyPort,
+  in charstring dstAddress,
+  in integer dstPrefixLen := c_TCCIPsec_prefixAll,
+  in integer dstPort := c_TCCIPsec_anyPort,
+  in TCCIPsec_TranspProto transpProto := anyTranspProto,
+  in TCCIPsec_PolicyDirection dir
+) return TCCIPsec_Result;
+----
+
+Delete an SP from the SPD.
+
+`external function f_IPsec_SPDB_flush () return TCCIPsec_Result;`
+
+Delete all SPs from the SPD.
+
+==== Netlink XFRM API
+
+The main parameter of the SPs are the communication addresses, the transport protocol, the direction and the template list that identifies the SP. The template contains the SPI, the IPsec protocol and additional information.
+
+To add an SP, the following function may be used:
+
+[source]
+----
+external function f_XFRM_add_policy(
+  in SPAddInfo pl_pol_info
+) return XFRM_Result;
+----
+
+To delete an SP, the following function may be used:
+
+[source]
+----
+external function f_XFRM_delete_policy(
+  in SPDelInfo pl_pol_info
+) return XFRM_Result;
+----
+
+To flush the SPDB, the following function may be used:
+
+[source]
+----
+external function f_XFRM_flush_policy()
+return XFRM_Result;
+----
+
+== Error Messages
+
+None.
+
+== Warning Messages
+
+`*TCCIPsec: f__IPsec__SADB__add: IPsec support was not specified during compilation*`
+
+`*The -DUSE_IPSEC or -DUSE_KAME_IPSEC compiler switch should be added to the CPPFAGS variable in the Makefile if the kernel supports IPsec.*``
+
+`*TCCIPsec: f__IPsec__SPDB__add: IPsec SPDB support was not specified during compilation*`
+
+`*The -DUSE_KAME_IPSEC compiler switch should be added to the CPPFLAGS variable in the Makefile in order to use SPD handling if the kernel contains the KAME IPsec implementation.*`
+
+== Examples
+
+[source]
+----
+testcase SA_example () runs on test_CT\
+{
+  var TCCIPsec_Result res;
+
+  res := f_IPsec_SADB_flush ();
+  if ( res != ok ) \{ setverdict(fail); }
+  res := f_IPsec_SADB_add ( ``192.168.1.1'', ``192.168.1.2'',
+    esp, 11001, \{ \{ hardLifetime := 180 }, \{ softLifetime := 60 } },
+    { encrAndAuth := {
+      ealgo := EALG_3DESCBC, ekey := \{ text := ``123456789012345678901234'' },
+      aalgo := AALG_MD5HMAC, akey := \{ text := ``1234567890123456'' } } } );
+  if ( res != ok ) \{ setverdict(fail); }
+
+  res := f_IPsec_SADB_delete ( ``192.168.1.1'', ``192.168.1.2'', esp, 11001 );
+  log ( ``f_IPsec_SADB_delete returns:'', res );
+
+  select ( res ) \{
+    case ( ok ) \{ setverdict(pass); }
+    case else \{ setverdict(fail); }
+  }
+}
+
+testcase SP_delete () runs on test_CT\
+{
+  var TCCIPsec_Result res;
+
+  res := f_IPsec_SPDB_flush ();
+  if ( res != ok ) \{ setverdict(fail); }
+
+  res := f_IPsec_SPDB_add ( ``192.168.1.1'', -, 2001, ``192.168.1.2'', -, 3001, tcpProto, outDir, \
+    { ipSec := \{ \{ protocol := ah, mode := \{ transport := \{} }, level := \{
+unique := \{ id := 101 } } } } } );
+  if ( res != ok ) \{ setverdict(fail); }
+
+  res := f_IPsec_SPDB_delete ( ``192.168.1.1'', -, 2001, ``192.168.1.2'', -, 3001, tcpProto, outDir );
+  log ( ``f_IPsec_SPDB_delete returns:'', res );
+
+  select ( res ) \{
+    case ( ok ) \{ setverdict(pass); }
+    case else \{ setverdict(fail); }
+  }
+}
+----

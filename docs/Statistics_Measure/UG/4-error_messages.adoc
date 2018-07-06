@@ -1,0 +1,11 @@
+= Error Messages
+
+NOTE: Besides the below described error messages, error messages shown in ‎<<8-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+`*Invlid scale boundaries specified for logarithmic scale: min: <minVal>, max: <maxVal>*`
+
+Boundaries defined for density statistic are invalid.
+
+`*<f_EPTF_StatMeasure_getStat_custom> function for custom statistics (<statNem>) is undefined!*`
+
+The given function must be defined if it is intended to be used.

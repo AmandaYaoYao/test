@@ -1,0 +1,12 @@
+= General Description
+
+This document specifies the Buffer feature of the TitanSim CLL.
+
+The EPTF Buffer component provides TTCN3 function access to the native buffer of Titan (‎‎<<5-references.adoc#_5, [5]>>, chapter 3.1.2 – TTCN Buffer).
+
+This component
+
+* stores an octetstring and allows of querying, adding to, extending, completing it.
+* supports the graceful termination feature of CLL Base in TitanSim ‎<<5-references.adoc#_6, ‎[6]>> .
+
+To be able to use EPTF Buffer, the user component should extend the `EPTF_Buffer_CT` component.

@@ -1,0 +1,71 @@
+= EPTF Logging
+
+== Overview
+
+The EPTF CLL Logging component is a fundamental component providing an implementation for logging features in a load test environment. It consists of sub-features Logging, LoggingUI and LoggingUIClient.
+
+The Logging feature provides the possibility to define component masks and logging classes per component types. Logging can be enabled or disabled per component mask (locally or globally per component type), component instance (all component types) and logging classes.
+
+Enabling or disabling log can be performed from TTCN via the public functions of the Logging feature, or through the user interface if the LoggingUI/LoggingUIClient sub-feature is used. For more details, see <<7-references.adoc#_5, [5]>>.
+
+[[description_of_files_in_this_feature]]
+== Description of Files in This Feature
+
+The EPTF CLL Logging API includes the following files:
+
+* EPTF Logging:
+** __EPTF_CLL_Logging_Definitions.ttcn__: +
+This TTCN-3 module contains common type definitions that should be used in all EPTF Logging Components.
+** __EPTF_CLL_Logging_Functions.ttcn__: +
+This TTCN-3 module contains the implementation of EPTF Logging functions.
+** __EPTF_CLL_Logging_ExternalFunctions.cc__: +
+This C++ source file contains the implementation of external functions used by EPTF Logging.
+* EPTF LoggingServer/LoggingClient:
+** __EPTF_CLL_LoggingServer_Definitions.ttcn__: +
+Contains component type, data and message type definitions for both LoggingServer and LoggingClient
+** __EPTF_CLL_LoggingServer_Functions.ttcn__: +
+Contains the functions of the LoggingServer.
+** __EPTF_CLL_LoggingClient_Functions.ttcn__: +
+Contains the functions of the LoggingClient.
+* EPTF LoggingUI/LoggingUIClient:
+** __EPTF_CLL_LoggingUI_Definitions.ttcn__: +
+This TTCN-3 module contains common type definitions that should be used in all LoggingUI and LoggingUIClient components.
+** __EPTF_CLL_LoggingUI_Functions.ttcn__: +
+This TTCN-3 module contains the implementation of LoggingUI functions.
+** __EPTF_CLL_LoggingUIClient_Functions.ttcn__: +
+This TTCN-3 module contains the implementation of LoggingUIClient functions.
+** __EPTF_CLL_LoggingUI_Private_Functions.ttcn__: +
+This TTCN-3 module contains implementation of private functions used in LoggingUI and LoggingUIClient components.
+
+[[description_of_required_files_from_other_feature]]
+== Description of Required Files from Other Features
+
+The EPTF Logging feature is part of the TitanSim EPTF Core Load Library (CLL). It relies on several features of the CLL. To use the Logging sub-feature of EPTF Logging, the user has to obtain the respective files from the following features:
+
+* Base
+* Common
+* DataSource
+
+Additionally, the following EPTF features are used by the LoggingUI/LoggingUIClient sub-feature:
+
+* HashMap
+* UIHandler
+* Variable
+
+== Installation
+
+Since `EPTF_CLL_Logging` is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<7-references.adoc#_2, [2]>>.
+
+If not otherwise noted in the respective sections, the following are needed to use `EPTF_CLL_Logging`:
+
+* Copy the files listed in section <<description_of_files_in_this_feature, Description of Files in This Feature>>. and <<description_of_required_files_from_other_feature, Description of Required Files from Other Features>> to the directory of the test suite or create symbolic links to them.
+* Import the Logging demo or write your own application using EPTF Logging
+* Create _Makefile_ or modify the existing one. For more details see the relevant section of <<7-references.adoc#_2, [2]>>.
+* Edit the config file according to your needs, see section <<configuration, Configuration>>.
+
+[[configuration]]
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual suffix of configuration files is _.cfg_. For further information on the configuration file see <<7-references.adoc#_2, [2]>>.
+
+This EPTF Logging feature does not define module parameters.

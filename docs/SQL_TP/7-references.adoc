@@ -1,0 +1,17 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 (2002) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] User Guide for TITAN TTCN–3 Test Executor
+
+[[_3]]
+[3] https://www.mysql.com/
+
+[[_4]]
+[4] https://www.sqlite.org/index.html
+
+[[_5]]
+[5] http://dev.mysql.com/doc/refman/5.0/en/mysql-real-connect.html

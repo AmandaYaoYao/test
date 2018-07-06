@@ -1,0 +1,25 @@
+= Examples
+
+== Configuration File
+
+An example RTE configuration file is shown below:
+
+[source]
+----
+[LOGGING]
+LogFile := ``UDPtest.log''
+FileMask := LOG_ALL | TTCN_DEBUG | TTCN_MATCHING
+ConsoleMask := TTCN_ERROR | TTCN_WARNING | TTCN_TESTCASE | TTCN_STATISTICS | TTCN_PORTEVENT
+LogSourceInfo := Yes
+
+[EXECUTE]
+UDPtest.tc1
+
+[TESTPORT_PARAMETERS]
+*.UDP1.debugging := ``yes''
+*.UDP1.localPAddr := ``localhost''
+*.UDP1.localPort := ``5679''
+*.UDP2.debugging := ``yes''
+*.UDP2.localPAddr := ``localhost''
+*.UDP2.localPort := ``5678''
+----

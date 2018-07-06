@@ -1,0 +1,52 @@
+= Interface Description
+
+== HTTP2 Frame Handling
+
+The HTTP2 frame is represented by the `HTTP2_Frame` union.
+
+=== HTTP2 Frame Encoding Functions
+
+[source]
+f_HTTP2_encode_frame(in HTTP2_Frame pl_frame) return octetstring
+
+Used to encode the `HTTP2_Frame`. Returns the encoded frame in octetstring.
+
+[source]
+----
+f_HTTP2_decode_frame( in octetstring pl_stream, out HTTP2_Frame pl_frame, out HTTP2_decoder_error_descr pl_error_descr) return integer
+----
+
+Used to decode the received HTTP2 frame. If the decoder function detects errors detectable only during decoding, the description of the error is returned via `pl_error_descr`.
+
+Return value: `_1_` – Decoding failed. `_0_` – Decoding OK
+
+== Header Compression
+
+The protocol module provides functions and framework for header compression.
+
+A header compression context is represented by the `HTTP2_comp_context` record. Separate context should be maintained for sending and receiving.
+
+How to use the header compression:
+
+1. Create the context with function:
+
+[source]
+----
+HTTP2_comp_context_init(in integer h_table_size_local:=4096, in integer h_table_size_remote:=4096 ) return HTTP2_comp_context
+----
+
+2. Encode/Decode every header block with the functions in the exactly the same order as the header blocks are sent or received in order to maintain the header compression context:
+
+[source]
+----
+HTTP2_comp_context_encode(inout HTTP2_comp_context pl_context, in HTTP2_header_block pl_hblock, out octetstring pl_frame_data) return integer
+
+HTTP2_comp_context_decode(inout HTTP2_comp_context pl_context, out HTTP2_header_block pl_hblock, in octetstring pl_frame_data) return integer
+----
+
+3. Delete the context with
+
+[source]
+HTTP2_comp_context_free(inout HTTP2_comp_context pl_context)
+
+NOTE: Non-freed context leads to memory leak!!!!

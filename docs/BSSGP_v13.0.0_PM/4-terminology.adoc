@@ -1,0 +1,15 @@
+= Terminology
+
+None.
+
+== Abbreviations
+
+PDU:: Protocol Data Unit
+
+BSSGP:: BSS GPRS Protocol
+
+BSS:: Base Station System
+
+GPRS:: General Packet Radio Service
+
+TTCN-3:: Testing and Test Control Notation version 3

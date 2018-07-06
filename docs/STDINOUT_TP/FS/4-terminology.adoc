@@ -1,0 +1,15 @@
+= Terminology
+
+None.
+
+= Abbreviations
+
+ASP:: Abstract Service Primitive
+
+MTC:: Main Test Component:
+
+SUT:: System Under Test
+
+TP:: Test Port
+
+TTCN-3:: Testing and Test Control Notation version 3

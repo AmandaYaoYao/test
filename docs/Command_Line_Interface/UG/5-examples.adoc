@@ -1,0 +1,28 @@
+= Examples
+
+== Example Configuration
+
+The following shows example test port configuration settings to configure the Command Line Interface telnet ports:
+
+[source]
+----
+*.EPTF_CLI_TELNET_PCO.CTRL_PORTNUM := "17100"
+*.EPTF_CLI_TELNET_PCO.CTRL_LOGIN_SKIPPED := "yes"
+*.EPTF_CLI_TELNET_PCO.CTRL_USERNAME_CLIENT := "ttcn"
+*.EPTF_CLI_TELNET_PCO.CTRL_PASSWORD_CLIENT := "ttcn"
+*.EPTF_CLI_TELNET_PCO.CTRL_SERVER_PROMPT := "TTCN> "
+*.EPTF_CLI_TELNET_PCO.CTRL_MODE := "server"
+Similar settings with different CTRL_PORTNUM value can be used to configure the display terminal:
+*.EPTF_CLI_displayTELNET_PCO.CTRL_PORTNUM := "17101"
+*.EPTF_CLI_displayTELNET_PCO.CTRL_LOGIN_SKIPPED := "yes"
+*.EPTF_CLI_displayTELNET_PCO.CTRL_USERNAME_CLIENT := "ttcn"
+*.EPTF_CLI_displayTELNET_PCO.CTRL_PASSWORD_CLIENT := "ttcn"
+*.EPTF_CLI_displayTELNET_PCO.CTRL_SERVER_PROMPT := "TTCN> "
+*.EPTF_CLI_displayTELNET_PCO.CTRL_MODE := "server"
+----
+
+If the TELNET test port is used to connect to these ports, the `CTRL_MODE` has to be set to `_"client"_`, CTRL_PORTNUM and `CTRL_SERVER_PROMPT` has to be exactly the same as given here and the `CTRL_DETECT_SERVER_DISCONNECTED` has to be set to `_"yes"_`.
+
+== Demo Module
+
+The demo module in the demo directory illustrates a typical usage of the EPTF CLI feature. It demonstrates how to register a command, how a command handler should work, how to use the display terminal etc.

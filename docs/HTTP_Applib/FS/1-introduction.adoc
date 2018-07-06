@@ -1,0 +1,9 @@
+= Introduction
+
+== How to Read This Document
+
+This is the Function Specification for the HTTP Application Library. The modules are developed by the TTCN-3 Toolset with TITAN. This document shall be read together with the User Guide <<5-references.adoc#_5, [5]>>.
+
+== Scope
+
+The purpose of this document is to specify the content of the HTTP Application Library modules.

@@ -1,0 +1,17 @@
+= Function Specification for Testing with SEA in STC Mode
+
+== Connection Establishment
+
+By map operation an MPH connection is established towards the SEA entity determined via the Test Port Parameters. See <<8_references.adoc#_5, [5]>>, <<8_references.adoc#_6, [6]>>, <<8_references.adoc#_7, [7]>>, <<8_references.adoc#_8, [8]>>.
+
+== Data Transfer
+
+The same ASPs are used as in other modes, but only the 'data' field is used. Every other field is filled with `_0_`.
+
+When `ASP_MTP3_TRANSFERreq` is received from TTCN, then the 'data' field is forwarded to the SEA without any modification.
+
+At reception of any message from SEA the message is put into the 'data' field of `ASP_MTP3_TRANSFERind` and every other field is filled with `_0_`.
+
+== Disconnection
+
+At `unmap` operation the MPH connection towards SEA is closed.

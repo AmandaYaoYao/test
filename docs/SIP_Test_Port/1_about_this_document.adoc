@@ -1,0 +1,9 @@
+= About This Document
+
+=== How to Read This Document
+
+The SIPmsg test port is developed for the TTCN-3 Toolset with TITAN.
+
+=== Presumed Knowledge
+
+The knowledge of the TITAN TTCN-3 Test Executor and the TTCN-3 language is essential.

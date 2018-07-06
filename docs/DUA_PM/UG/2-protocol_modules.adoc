@@ -1,0 +1,45 @@
+= Protocol Modules
+
+== Overview
+
+Protocol modules implement the message structure of the related protocol in a formalized way, using the standard specification language TTCN-3. This allows defining of test data (templates) in the TTCN-3 language <<5-references.adoc#_1, [1]>> and correctly encoding/decoding messages when executing test suites using the Titan TTCN-3 test environment.
+
+Protocol modules are using Titan’s RAW encoding attributes <<5-references.adoc#_2, [2]>> and hence are usable with the Titan test toolset only.
+
+The table below contains the implemented messages and the corresponding TTCN-3 type records. Using those type records, templates can be defined to send and receive a given message.
+
+The majority of the type records are imported from the IUA protocol module. These records are given left justified, whereas the ones defined in the DUA protocol module are shown right justified.
+
+[cols=",,,"]
+|=====================================================
+.2+^.^|*Message name* .2+^.^|*Reference* 2+^.^|*Corresponding type record in* |__IUA_Types.ttcn__ |__DUA_Types.ttcn__
+|Establish Request |<<5-references.adoc#_4, [4]>> 2.2 | |DUA_EST_REQ
+|Establish Confirm |<<5-references.adoc#_4, [4]>> 2.2 | |DUA_EST_CFM
+|Establish Indication |<<5-references.adoc#_4, [4]>> 2.2 | |DUA_EST_IND
+|Release Request |<<5-references.adoc#_4, [4]>> 2.2 | |DUA_REL_REQ
+|Release Confirm |<<5-references.adoc#_4, [4]>> 2.2 | |DUA_REL_CFM
+|Release Indication |<<5-references.adoc#_4, [4]>> 2.2 | |DUA_REL_IND
+|Data Request |<<5-references.adoc#_4, [4]>> 2.2 | |DUA_DATA_REQ
+|Data Indication |<<5-references.adoc#_4, [4]>> 2.2 | |DUA_DATA_IND
+|ASP Up |<<5-references.adoc#_5, [5]>> 3.3.2.1 |IUA_ASPUP |
+|ASP Up Ack |<<5-references.adoc#_5, [5]>> 3.3.2.2 |IUA_ASPUP_Ack |
+|ASP Down |<<5-references.adoc#_5, [5]>> 3.3.2.3 |IUA_ASPDN |
+|ASP Down Ack |<<5-references.adoc#_5, [5]>> 3.3.2.4 |IUA_ASPDN_Ack |
+|ASP Active |<<5-references.adoc#_5, [5]>> 3.3.2.5 |IUA_ASPAC |
+|ASP Active Ack |<<5-references.adoc#_5, [5]>> 3.3.2.6 |IUA_ASPAC_Ack |
+|ASP Inactive |<<5-references.adoc#_5, [5]>> 3.3.2.7 |IUA_ASPIA |
+|ASP Inactive Ack |<<5-references.adoc#_5, [5]>> 3.3.2.8 |IUA_ASPIA_Ack |
+|Heartbeat |<<5-references.adoc#_5, [5]>> 3.3.2.9 |IUA_BEAT |
+|Heartbeat Ack |<<5-references.adoc#_5, [5]>> 3.3.2.10 |IUA_BEAT_Ack |
+|Error |<<5-references.adoc#_5, [5]>> 3.3.3.1 |IUA_ERR |
+|Notify |<<5-references.adoc#_5, [5]>> 3.3.3.2 |IUA_NTFY |
+|DLC Status Request |<<5-references.adoc#_4, [4]>> 2.4 | |DUA_DLCs_REQ
+|DLC Status Confirm |<<5-references.adoc#_4, [4]>> 2.4 | |DUA_DLCs_CFM
+|DLC Status Indication |<<5-references.adoc#_4, [4]>> 2.4 | |DUA_DLCs_IND
+|=====================================================
+
+NOTE: There is a conflict between the drafts <<5-references.adoc#_4, [4]>> and <<5-references.adoc#_5, [5]>>. For message class 0 (Management Messages) and message type 5 they define two different messages: DLC Status Request in <<5-references.adoc#_4, [4]>> and TEI Query Request in <<5-references.adoc#_5, [5]>>. To resolve this contradiction, message types for MGNT messages defined in chapter 2.4 of <<5-references.adoc#_5, [4]>> have been arbitrarily incremented by one. The new values are: _``6``_ for DLC Status Request, _``7``_ for DLC Status Confirm and _``8``_ for DLC Status Indication.
+
+== Installation
+
+The set of protocol modules can be used in developing TTCN-3 test suites using any text editor. However to make the work more efficient a TTCN-3-enabled text editor is recommended (e.g. `nedit`, `xemacs`). Since the DUA protocol is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<5-references.adoc#_2, [2]>>.

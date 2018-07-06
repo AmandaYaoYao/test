@@ -1,0 +1,237 @@
+= Feature List
+
+== Service Classes
+
+Service primitives are implemented as messages in the test ports.
+
+There are four service classes in SCCP (see 6/Q.711 and 2/T1.112.1-2001) as follows:
+
+* 0 - Basic connectionless class
+
+* 1 - In-sequence delivery connectionless class
+
+* 2 - Basic connection-oriented class
+
+* 3 - Flow control connection-oriented class.
+
+The SCCP PE supports classes 0,1,2 but does not support class 3.
+
+There is no difference between class 0 and 1 because only one test port used by `MTP`.
+
+== MTP3 Service Primitives
+
+`MTP3` Abstract Service Primitives are received and sent by SCCP across service access points (see <<2_functionality.adoc#functionality_SS7_service_primitives, figure>>) and can be found in the <<MTP3_primitives_handled_by_SCCP_PE, table>> below.
+
+"Not implemented" primitives are discarded by SCCP PE.
+
+[[MTP3_primitives_handled_by_SCCP_PE]]
+[cols=",,,",options="header",]
+|==============================================
+3+^.^|*ITU-T, ANSI, and TTC names* |*Implementation info*
+|*Generic name* |*Specific name*|*Parameters*|*ASP Name*
+|`MTP-TRANSFER` |Request or indication |OPC, DPC, SLS, SIO,
+User data |ASP_MTP3_TRANSFERreq,
+ASP_MTP3_TRANSFERind
+|`MTP-PAUSE` |Indication |Affected DPC |Not implemented
+|`MTP-RESUME` |Indication |Affected DPC |Not implemented
+|`MTP-STATUS` |Indication |Affected DPC Cause |Not implemented
+|==============================================
+
+The fields are the same for ITU, ANSI, MPT and TTC but their lengths are different as follows:
+
+See the Size of fields in different specifications below:
+
+[[size_of_fields_in_different_specifications]]
+[cols=",,,,",options="header",]
+|==================
+| 4+^.^|*Length in bits* |
+*Field* |*ITU-T* |*ANSI* |*MPT national*** |*TTC national** |
+SIO |8 |8 |8 |8 |
+DPC |14 |24 |24 |16 |
+OPC |14 |24 |24 |16 |
+SLS |4 |8 |4 |4 |
+|==================
+
+*:If SIO sub-service field=0`. Otherwise TTC international is the same as ITU-T
+
+**:MPT international is the same as ITU-T
+
+== SCCP Messages
+
+User data fields of MTP3 primitives received by SCCP from MTP3 (or from M3UA) are mapped to N-service primitives that will be sent to the SCCP User(s).
+
+The User data field of an MTP3 signal unit contains the SCCP message as an octetstream (i.e. an octetstring) in order LSB (lowest bit sent/received first).
+
+The structure and fields of an SCCP message are coded and decoded according to ITU Q.713 <<9_references.adoc#_8, [8]>>, ANSI T1.112-2001 <<9_references.adoc#_10, [10]>> or TTC JT-Q713 <<9_references.adoc#_13, [13]>>.
+
+The first octet of the SCCP message is the message type. Its value determines the decoding of the octetstring further handling. An SCCP message received may be mapped to an N-service primitive or may invoke an exception handling procedure based on the state of the SCCP PE. The supported message types and the related mappings are summarized in table below.
+
+(Compare it with Table 1/Q.713, Table1/T1.112.3 and Table1/JT-Q713.)
+
+See Message types implemented by SCCP PE in the table below:
+
+[[message_types_implemented_by_SCCP_PE]]
+[width="100%",cols="15%,5%,5%,5%,15%,30%,25%",options="header",]
+|=============================================================================================================================
+.1+^.^|*Message type (in MTP-TRANSFER req)* 3+^.^|*Protocol Classes* |*Message type code* |*Handling (depending on SCCP state)* |*Remark*
+| |*0* |*1* |*2* | | | |
+CR Connection request | | |X |0000 0001 |N-CONNECT ind |Not supported by TTC |
+CCConnection confirm | | |X |0000 0010 |N-CONNECT conf / or Back: ERR / |Not supported by TTC |
+CREF Connection refused | | |X |0000 0011 |N-DISCONNECT (see Q.713.A.1) |Not supported by TTC |
+RLSD Released | | |X |0000 0100 |Active=>N-DISCONNECT indication Idle OR wait for CC=>Back RLC
+Otherwise=>discard, log only see Q.714/B.2 |Not supported by TTC |
+RLC Release complete | | |X |0000 0101 |N-DISCONNECT ind |Not supported by TTC |
+DT1Data form1 | | |X |0000 0110 |Active=>N-DATA ind OR
+Conn pending OG=>N-DISCONNECT |Not supported by TTC |
+UDTUnitdata |X |X | |0000 1001 |N-UNITDATA indication OR UDT with SSA | |
+UDTSUnitdata Service |X |X | |0000 1010 |N-UNITDATA indication | |
+ERRProtocol data unit error | | |X |0000 1111 |Idle=>ERR OR Active=>N-DISCONNECT ind |Not supported by TTC |
+IT Inactivity Test | | |X |0001 0000 | |Not supported by TTC |
+XUDTExtended Unitdata |X |X | |0001 0001 |N-UNITDATA indication | |
+XUDTSExtended Unitdata Service |X |X | |00010010 |N-UNITDATA indication | |
+|=============================================================================================================================
+
+This table describes what kind of messages SCCP PE accepts from MTP3 and how they are translated. The translation rule is more complicated than it is described in <<message_types_implemented_by_SCCP_PE, table>> above. Details can be found in Q.714.
+
+== SCCP Primitives of the Connectionless Service
+
+SCCP can provide 2 classes of connectionless services (0 and 1) but there is no difference between them in this implementation (see 6/Q.711 and 2/T1.112.1-2001).
+
+The primitives to the upper layers and the corresponding parameters for connectionless service are implemented as follows:
+
+See Primitives and their Mappings for Connectionless Service below:
+
+[cols=",,,,",options="header",]
+|==============================================
+3+^.^|*ITU-T, ANSI, and TTC names* 2+^.^|*Protocol implementation info*
+|*Generic name* |*Specific name*|*Parameters*|*ASP Name* |*Msg type mapped to OR next msg to be sent back* |
+`N-UNITDATA` |Request or indication |Called Address
+Calling Address
+Sequence Control
+Return Option
+Importance
+User data |N_UNITDATA_req
+N_UNITDATA_ind |Req=>UDT
+From UDT=> Ind |
+`N-NOTICE` |Indication |Called Address
+Calling Address
+Reason for return
+User Data
+Importance |N_NOTICE_ind |From UDTS
+|==============================================
+
+== SCCP Primitives for Connection-Oriented Services
+
+[cols=",,,,",options="header"]
+|===
+3+^.^|*ITU-T, ANSI, and TTC* 2+^.^|*Protocol implementation info*
+|*Generic name* |*Specific name*|*Parameters*|*ASP Name* |*Msg type mapped to*
+.2+|`N-CONNECT` |Request indication .2+|Called Address
+Calling Address +
+Responding Address +
+Expedited selection +
+Quality of services parameter set +
+User data +
+Importance +
+Connection identification |N_CONNECT_req
+N_CONNECT_ind |Connection request (CR)
+|Response Confirm |N-CONNECT_res |Connection confirm (CC)
+|`N-DATA` | Request indication |Importance
+User data
+Connection identification | |Data form 1 (DT1)
+|`N-DISCONNECT` |Request Indication |
+Originator +
+Reason +
+User data +
+Responding address +
+Importance +
+Connection identification | |Released (RLSD) OR Connection refusal (CREF) see Q.714/3.3
+|===
+
+[[SCCP_management_functionality]]
+== SCCP Management Functionality
+
+There is no interworking between MTP3/M3UA and SCCP management.
+
+SCCP management messages (see 1.15-1.19/Q.712/):
+
+`SSA`:: Subsystem-allowed (1.15/ Q.712)
+
+`SOG`:: Subsystem-out-of-service-grant (1.16/Q.712)
+
+`SOR`:: Subsystem-out-of-service-request (1.17/Q.712)
+
+`SSP`:: Subsystem-prohibited (1.18/Q.712)
+
+`SST`:: Subsystem-status-test (Q.712/1.19)
+
+These messages are not supported by TTC.
+
+The SCCP management is restricted to the following:
+
+[[management_message_handling]]
+[cols=",",options="header",]
+|======================
+|*Received* |*Returned*
+|`SST` |`SSA`
+|`SSP` |`SST`
+|`SSA` |`SSA`
+|======================
+
+== Inactivity Control
+
+It is implemented.
+
+== Message Sequence Control
+
+SCCP PE maintains the order of messages between of upper and lower layer interfaces.
+
+== Segmentation and Reassembly
+
+It is a feature in service class 0 and 1. SCCP PE supports it.
+
+== State Machine
+
+SCCP PE maintains a state machine behavior for each connection-oriented services according to Figure 8/Q.711.
+
+[[global_title_translation]]
+== Global Title Translation
+
+Not supported.
+
+[[capacity_and_limitation]]
+== Capacity and Limitation
+
+See features with restriction in SCCP PE in the following table:
+
+[width="100%",cols="34%,33%,33%",options="header",]
+|==========================================================================================================================================
+|*Feature* |*Restriction* |*Remark*
+|Handling different length of signaling point codes thus addresses |ITU ANSI and TCC are implemented. |Specification dependent, see <<size_of_fields_in_different_specifications, table>> above.
+|Management |Partially implemented (see <<management_message_handling, table>> above) |Not supported by TCC
+|Service class 1 |Supported |
+|Service class 2 |Supported |Not supported by TTC
+|Service class 3 |NOT IMPLEMENTED |Not supported by TTC
+|Routing |NOT IMPLEMENTED |SCCP PE is a signaling endpoint
+|Message sequence control |NOT IMPLEMENTED |Indifferent
+|Flow control |NOT IMPLEMENTED |Because class 3 not supported
+|Reassembly |NOT IMPLEMENTED |
+|LUDT, LUDTS transfer |NOT IMPLEMENTED |Because ATM carrier not considered
+|Global title translation |NOT IMPLEMENTED |
+|MTP3-PAUSE, MTP3-RESUME, MTP3-STATUS sending and processing after receiving |NOT IMPLEMENTED |
+|==========================================================================================================================================
+
+There shall be exactly one SCCP User test component instance for each SCCP PE instance. An SCCP PE instance is able to handle up to 16 SCCP connections and 16 segmented `N-UNITDATA` messages at the same time.
+
+[[differences_between_ITU_ANSI_MPT_and_TC]]
+== Differences Between ITU, ANSI, MPT and TTC
+
+1.  Address length (see <<size_of_fields_in_different_specifications, table>> above).
+2.  TTC doesn’t support connection-oriented services and management functionality.
+3.  TTC doesn’t support management functionality.
+4.  ANSI has different Address Indicator structure (Order of PC and SSN is changed, see Figure 4/Q.713 (07/96) and Figure 4/T1.112.3)
+5.  ANSI has different Address Elements structure (Ordering of PC and SSN is changed, see Figure 5/Q.713 (07/96) and Figure 4A/T1.112.3)
+6.  ANSI has different gti0001 structure (see Figure 7/Q.713 (07/96) and Figure 6/T1.112.3)
+7.  ANSI doesn’t support gti0011 and gti0100. More exactly ANSI gti0001 = ITU gti0011
+8.  ANSI doesn’t support optional field ``importance''.
+9.  TTC doesn’t support LUDT, LUDTS

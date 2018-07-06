@@ -1,0 +1,31 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 (2002) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] User Documentation for the TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] TCP Socket Test Port for TTCN-3 Toolset with TITAN, User’s Guide
+
+[[_4]]
+[4] Functional Test System Requirement Specification for GSN
+
+[[_5]]
+[5] https://tools.ietf.org/html/rfc793[RFC 793] (1981) +
+Transmission Control Protocol
+
+[[_6]]
+[6] OpenSSL toolkit +
+http://www.openssl.org
+
+[[_7]]
+[7] Hickman, Kipp, "The SSL Protocol", Netscape Communications Corp., Feb 9, 1995.
+
+[[_8]]
+[8] A. Frier, P. Karlton, and P. Kocher, "The SSL 3.0 Protocol", Netscape Communications Corp., Nov 18, 1996.
+
+[[_9]]
+[9] https://tools.ietf.org/html/rfc2246[RFC 2246] (1999), T. Dierks, C. Allen: "The TLS Protocol Version 1.0"

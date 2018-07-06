@@ -1,0 +1,22 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* __Common/Common_Definitions.ttcn__
+* __EPTF_CS_demo.cfg__
+* __EPTF_CS_demo.prj__
+* __LoadRegulator/LoadRegulatro_Definitions.ttcn__
+* __LoadRegulator/LoadRegulatro_Functions.ttcn__
+* _Main/MainModule.ttcn_
+* __protocolA/A_defs.ttcn__
+* __protocolA/CS_A_Definitions.ttcn__
+* __protocolA/CS_A_Functions.ttcn__
+* __protocolA/LGen_A_Functions.ttcn__
+* __protocolB/B_defs.ttcn__
+* __protocolB/CS_B_Definitions.ttcn__
+* __protocolB/CS_B_Functions.ttcn__
+* __protocolB/LGen_B_Functions.ttcn__
+
+== _Makefile_
+
+The demo uses the `HostAdmin` feature of the CLL which needs the _Makefile_ script demo/HostAdmin/__makefile_patch.sh__ to be executed after _Makefile_ generation.

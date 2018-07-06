@@ -1,0 +1,18 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873–1 v.4.1.1 (2009-06) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] Programmer’s Technical Reference for the TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] Installation Guide for the TITAN TTCN-3 Test Executor
+
+[[_4]]
+[4] TCP Protocol Modules for TTCN-3 Toolset with TITAN, Function Specification
+
+[[_5]]
+[5] IETF https://tools.ietf.org/html/rfc793[RFC 793] +
+Transmission Control Protocol

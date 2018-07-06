@@ -1,0 +1,27 @@
+= Warning Messages
+
+NOTE: Besides the below described warning messages, warning messages shown in <<6-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+`*f_EPTF_HostAdmin_DSProcessData: Invalid processID on this Host*`
+
+This warning message is reported when the `DataSource` functionality is used and the current data element needs a process ID as a parameter and it is wrong.
+
+`*f_EPTF_HostAdmin_DSProcessData: Unhandled element:*`
+
+This warning message is reported when the `DataSource` functionality is used and the current data element is unknown for the feature.
+
+`*f_EPTF_HostAdmin_DSProcessData: Invalid iterator or externalData or parameter:*`
+
+This warning message is reported when the `DataSource` functionality is used and the something with the request was wrong.
+
+`*f_EPTF_HostAdmin_getParams: Parameters are not correct:*`
+
+This warning message is reported when the `DataSource` functionality is used and the parameters of the current data element are not correct.
+
+`*f_EPTF_HostAdmin_getParams: Too few parameter is given:*`
+
+This warning message is reported when the `DataSource` functionality is used and the parameters of the current data element are less than required.
+
+`*f_EPTF_HostAdmin_getParams: Too many parameters are given:*`
+
+This warning message is reported when the `DataSource` functionality is used and the parameters of the current data element are more than required.

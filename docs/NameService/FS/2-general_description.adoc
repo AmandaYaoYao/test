@@ -1,0 +1,12 @@
+= General Description
+
+This document specifies the `NameService` feature of the TitanSim CLL.
+
+The EPTF Name Service feature makes it possible to register and query component references by name. Any charstring can be registered into the name service by the name service client components. When the registered charstring name is queried by some other name service client component, the component reference of the component which registered the name is returned.
+
+The registered names are stored in the `EPTF_NS_CT` component. The components which can register names in the `EPTF_NS_CT` have to extend `EPTF_NS_Client_CT`.
+
+The NS client component has the following functionality
+
+* register a name in the NS
+* query a name from the name service

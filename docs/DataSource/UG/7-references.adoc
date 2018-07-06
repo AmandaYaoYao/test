@@ -1,0 +1,21 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 v3.2.1 (2007-02) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] User Guide for the TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] TitanSim CLL for TTCN-3 toolset with TITAN, Function Specification
+
+[[_4]]
+[4] TitanSim CLL for TTCN-3 toolset with TITAN, User Guide
+
+[[_5]]
+[5] EPTF CLL DataSource, Function Description
+
+[[_6]]
+[6] TitanSim CLL for TTCN-3 toolset with TITAN +
+http://ttcn.ericsson.se/products/libraries.shtml[Reference Guide]

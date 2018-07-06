@@ -1,0 +1,332 @@
+= Execution Control
+
+== Overview
+
+The EPTF Core Library `ExecCtrl` in connection with `ExecCtrlClient` components are fundamental components providing an implementation for traffic case execution control in a TitanSim-based load test environment. `ExecCtrl` provides central configuration and execution control support when using multiple, even different types of Load Generators during parallel test execution.
+
+The `ExecCtrl` feature is designed to control and distribute the traffic case execution on several `LGens`. This makes possible to execute the same test using more CPUs. The management and synchronization of the `LGen` components is the main role of the `ExecCtrl` feature.
+
+The `ExecCtrl` component is able to deploy the `LGen` components that execute the traffic cases automatically. It uses user written `LGen` creator functions that are registered into `ExecCtrl` to create the `LGens`. The `LGens` can be organized into groups. These groups are called `LGen`-pools. A scenario, which is basically a list of traffic cases, is executed only on the `LGens` of a single `LGen` pool. This makes the configuration easily manageable.
+
+`ExecCtrl` supports multiple phase execution. This means that several scenarios can be organized into groups with a given phase list. The execution of the scenarios in these scenario groups is repeated for every phase in the phase list in sequential order. The next phase is only started when all scenarios finished their execution in the current phase. This functionality can be used to synchronize the execution of different scenarios, and to make possible phase dependent scenario and traffic case execution.
+
+`ExecCtrl` can be configured with the help of module parameters. It uses the same module parameters as `LGenBase` uses to declare scenarios, entity groups and traffic cases, but has its own module parameters also.
+
+== Description of Files in This Feature
+
+The EPTF Core Library ExecCtrl API includes the following files:
+
+* `ExecCtrl` and `ExecCtrlClient`:
+** _EPTF_CLL_ExecCtrl_Definitions.ttcn_: This TTCN-3 module contains common type definitions that should be used in `ExecCtrl` and `ExecCtrlClient` components.
+** _EPTF_CLL_ExecCtrl_Functions.ttcn_: This TTCN-3 module contains the implementation of Execution Control functions.
+** _EPTF_CLL_ExecCtrlUIHandler_Definitions.ttcn_: This TTCN-3 module contains common type definitions that should be used in `ExecCtrl_UIHandler` components.
+** _EPTF_CLL_ExecCtrlUIHandler_Functions.ttcn_: This TTCN-3 module contains the implementation of Execution Control UI handler functions.
+** _EPTF_CLL_ExecCtrlTimeProfile_Definitions.ttcn_: Types needed for `TimeProfile` functionality
+** _EPTF_CLL_ExecCtrl_LoggingFunctions.ttcn_: Functions used for logging in `ExecCtrl`
+** _EPTF_CLL_ExecCtrl_PhaseDefinitions.ttcn_: Type definitions for phases
+** _EPTF_CLL_ExecCtrl_PhaseFunctions.ttcn_: Function definitions for using phases
+** _EPTF_CLL_ExecCtrl_ScenarioDefinitions.ttcn_: Type definitions for scenario, traffic case and entity group databases
+** _EPTF_CLL_ExecCtrl_ScenarioFunctions.ttcn_: Scenario database handling functions
+** _EPTF_CLL_ExecCtrlClient_Functions.ttcn_: Functions that used by `ExecCtrlClient`
+
+== Description of Required Features from TCC
+
+The `ExecCtrl` feature is part of the TitanSim EPTF Core Load Library (CLL). It relies on several features of the CLL and also some protocol modules and test ports. To use the `ExecCtrl`, the user has to obtain the respective files from the following features:
+
+Features from CLL:
+
+* `Base`
+* `Common`
+* `LGenBase`
+* `Variable`
+* `HashMap`
+* `UIHandler`
+* `Logging`
+* `RandomNArray`
+* `LoadRegulator`
+* `Scheduler`
+* `RedBlackTree`
+* `FreeBusyQueue`
+* `Semaphore`
+* `StatHandler`
+* `StatMeasure`
+
+Protocol modules:
+
+* XSDNASN protocol module
+* XTDP protocol module
+
+TCC Useful library:
+
+* `DateTime`, `Encoding`, `FileIO`, `Maths`, `Conversion` from `TCCUsefulFunctions`
+
+Test ports:
+
+* XTDP test port
+* `AbstractSocket` test port
+* Telnet test port
+* UDP test port
+* Socket API
+
+== Installation
+
+Since `EPTF_CLL_ExecCtrl` is used as a part of the TTCN-3 test environment, this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor see the relevant section of ‎[2].
+
+If not otherwise stated in the respective sections, the following are needed to use `EPTF_CLL_ExecCtrl`:
+
+* Copy the files of the features listed in section ‎2.3 to the directory of the test suite or create symbolic links to them.
+* Import the `ExecCtrl` demo or write your own application using `ExecCtrl` and `ExecCtrlClient`.
+* Create _Makefile_ or modify the existing one. For more details see Execution Control.
+* Edit the config file according to your needs, see <<configuration, Configuration>>.
+
+[[configuration]]
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual suffix of configuration files is _.cfg_. For further information on the configuration file see ‎[2].
+
+The `ExecCtrl` and `ExecCtrlClient` feature in general relies on TTCN-3 module parameters defined for entity groups, traffic scenarios, traffic case types in `LGenBase` ‎in the <<9-warning_messages.adoc, Warning Messages>> section. `ExecCtrl` centralizes and pre-processes the handling of such traffic descriptor parameters and makes the configuration and control easier in complex load generator scenarios. Actual values of these parameters – when no default value or a different from the default actual value is to be used – shall be given in the `[MODULE_PARAMETERS]` section of the configuration file.
+
+Configuration of `ExecCtrl` is possible with the help of the `loadConfig` API function as well. Parameters loaded by this function are appended to existing data. Confiuration data can be loaded by the `loadConfig` function before `ExecCtrl` was started. Since the start function is called automatically in the `ExecCtrl` init function if not disabled, calling of start function should be disabled in the init function to be able to load configuration after the init function is called.
+
+Configuration data from `ExecCtrl` clients can be loaded before the client reports `readyToStart` to `ExecCtrl`. To be able to load configuration from the `ExecCtrlClients`, reporting ready to start in the init function has to be disabled. Additionally, the `ExecCtrl` client has to be created `manually', because `LGens` belonging to `LGen` pools are created after the configuration data was loaded into `ExecCtrl`.
+
+Configuration data is loaded from the module parameters automatically. This can be disabled in the `ExecCtrl` init function.
+
+The module parameters used by the `ExecCtrl` feature are described in the following sections.
+
+=== Control Parameters
+
+These parameters control the behavior of the `ExecCtrl`.
+
+`tsp_ExecCtrl_ignoreOutOfResource`
+
+This boolean type module parameter is defined in module `EPTF_CLL_ExecCtrl_Definitions`. It is used to define the behavior of entity group creation method. When the number of entities to be created in a group exceeds the maximum number of possible entities declared by the Load Generator, and this flag is set to false, the test system stops with configuration error. Default value is: `_true_`.
+
+`tsp_ExecCtrl_manualControl`
+
+This boolean type module parameter is defined in module `EPTF_CLL_ExecCtrl_Definitions`. It is used to define the behavior of the `ExecCtrl` state machine. When this flag is set to true, the configured scenarios will be started only upon user interaction, via Runtime GUI or CLI. Default value is: `_false_`.
+
+`tsp_EPTF_ExecCtrl_StartStopScenarioDisable`
+
+This parameter can be used to specify which Scenario Start/Stop checkboxes should be enabled/disabled at startup. If not specified the Scenario Start/Stop checkboxes are enabled by default, which means they can be started/stopped using the GUI during runtime.
+
+`tsp_ExecCtrl_LGenBaseStatsUI_columnDescriptorList`
+
+This module parameter can be used to enable/disable elements on the `ExecCtrl`/`Clients` tab. See `LGenBase` documentation for details. Default setting is to display all available information with read-only format.
+
+`tsp_ExecCtrl_LGenBaseStatsUI_scColumnDescriptorList`
+
+This module parameter can be used to enable/disable elements on the `ExecCtrl`/`Clients` tab. See `LGenBase` documentation for details. Default setting is to display all available information with read-only format.
+
+`tsp_EPTF_ExecCtrl_finalTestReportFile`
+
+This module parameter specifies the name of the file where the final test report is written. It can also be used to disable final test report generation by setting it to empty string. If enabled (file name specified), the final test report generator functions that were registered in `ExecCtrl` and the `ExecCtrlClients` are called, and the report is written (or appended) to the specified file. The file name can also be a format string where the time-stamp can be defined. For allowed formats see the `f_getTimeFormatted` function description in `TCCDateTime_Functions`. The default value of this module parameter uses this kind of format. Default value: `EPTF_ExecCtrl_FinalTestReport_%Y-%m-%d_%H.%M.%S.txt`.
+
+=== Scenarios and Entity Groups
+
+Some of these parameters are defined in `LGenBase`, but also used by `ExecCtrl`.
+
+`tsp_LGenBase_EntityGrpDeclarators`
+
+This module parameter is defined in `LGenBase`. It is used to declare a list of entity groups. The referred entity types should be already declared by application libraries or from user code using `f_EPTF_LGenBase_declareEntityType()` in the `ExecCtrl` client.
+
+`tsp_LGenBase_TcMgmt_tcTypeDeclarators2`
+
+This module parameter is defined in `LGenBase`. It is used to define a list of traffic case types. The traffic case names should be unique. The referred FSM names should be already declared by application libraries or from user code using, for example, `f_EPTF_LGenBase_declareFSMTable ()` in the `ExecCtrl` client.
+
+Makes the `tsp_LGenBase_tcTypeDeclarators` obsolete.
+
+`tsp_LGenBase_TcMgmt_ScenarioDeclarators3`
+
+This module parameter is defined in `LGenBase`. It is used to declare a list of traffic scenarios of type `EPTF_LGenBase_ScenarioTypeDeclaratorList`. The referred traffic case type names should be consistent with traffic case declarations. Empty scenarios (scenario with zero or of traffic cases) are not allowed. This module parameter makes the following scenario declarators obsolete:
+
+* `tsp_LGenBase_TcMgmt_ScenarioDeclarators`
+* `tsp_LGenBase_TcMgmt_ScenarioDeclarators2`
+* `tsp_LGenBase_TcMgmt_WeightedScenarioDeclarators`
+
+`tsp_EPTF_ExecCtrl_Scenario2EntityGroupList`
+
+This module parameter is used to define a list of entity group – traffic scenario associations. The referred entity group and scenario names should be declared also in `tsp_LGenBase_EntityGrpDeclarators` and `tsp_LGenBase_TcMgmt_ScenarioDeclarators3` (or in other scenario declarators). A scenario instance name can also be associated to the scenario deployed on the given entity group. In addition to the given instance name, the following instance name is automatically associated to the scenario instance: `<EntityGroupName>+ "." + <ScenarioName>`.
+
+NOTE: The entity type of the entity group, and the entity type of the traffic cases in the scenario has to be the same. This is checked at startup, and an error is generated if the entity types do not match.
+
+This module parameter makes the following declarator obsolete:
+
+* `tsp_LGenBase_Scenarios2Grps`
+
+It is allowed to associate more than one scenario to a single entity group. This means that these scenarios can be executed in parallel on the same entity group.
+
+Also it is allowed to assign the same scenario to different entity groups. This means that the same scenario can be executed on different entity groups assuming they support the entity type of the traffic cases in the scenario.
+
+`tsp_EPTF_ExecCtrl_EntityGroupDistributionDeclarators`
+
+Using this module parameter custom entity group distribution can be specified. The name of the entity group identifies the entity group for which the distribution is given. The distribution is a list of `LGen` names and weight pairs. The `LGen` name should match with the name of an `LGen` returned by the `f_EPTF_Base_selfName` function. Two distribution for the same entity group is not allowed.
+
+=== Phases
+
+`tsp_EPTF_ExecCtrl_PhaseList_Declarators`
+
+This module parameter is used to define phase lists. Default value: empty list, that is, no phase lists are declared.
+
+`tsp_EPTF_ExecCtrl_ScenarioGroup_Declarators`
+
+This module parameter can be used to define scenario groups. Scenario groups are used for synchronized phase handling. Each scenario in a scenario group should support the same phase lists. The scenario names in this modulepar should be one of the scenario instance names defined in the modulepar `tsp_EPTF_ExecCtrl_Scenario2EntityGroupList`. Default value: empty list.
+
+=== Regulator Parameters
+
+`tsp_EPTF_ExecCtrl_RegulatorNames`
+
+This module parameter specifies the names of the regulators that can be used to regulate scenario parameters such us Scenario CPS or Traffic case CPS. The regulators should have `selfNames` chosen from this list.
+
+`tsp_EPTF_ExecCtrl_RegulatedItems`
+
+This parameter defines the assignment between regulators and regulated items. The regulated items can be Scenario CPS that are identified by `EntityGroup` name and Scenario name, and Traffic case CPS, identified by `EntityGroup` name, Scenario name and `TrafficCase` name. If the scenario is in a scenario group with multiple execution phases, then the phase in which the regulation should take place has to be set also. The regulated items belonging to a regulator or the phase in which the regulation should take place can be changed during runtime from the GUI also.
+
+=== Time Profile Parameters
+
+`tsp_EPTF_ExecCtrl_TimeProfileDescrList`
+
+This module parameter defines the list of available `TimeProfile` descriptors. Each time profile descriptor has a name and a list of `time-targetValue` pair. So each `TimeProfile` descriptor is simply a time-series of target values. These time profile descriptors can be used to build complex time profiles.
+
+`tsp_EPTF_ExecCtrl_TimeProfileList`
+
+This module parameter defines the list of `TimeProfiles`. Each time profile is built up from `TimeProfile` descriptors. It is possible to set the start time (with respect to the start of the scenario), period of repetition (time at which the time series will be repeated) and the number of repetition (the number of times the time series is repeated) for each `TimeProfile` descriptor (time series). These time profile descriptors can be assigned to Traffic Case CPS-s and Scenario CPS-es to define time-dependent CPS levels.
+
+`tsp_EPTF_ExecCtrl_TimeProfile2TcList`
+
+This module parameter can be used to assign a time profile to the CPS of a traffic case identified by the `EntityGroup` name, Scenario name and the `TrafficCase` name, or a CPS of a weighted scenario. The traffic case name for weighted scenario is ignored when identifying the scenario.
+
+=== LGen Pool Parameters
+
+`tsp_EPTF_ExecCtrl_LGenPool_Declarators`
+
+This module parameter can be used to define the `LGen` pools. `LGen` pools are collections of load generators on specific hosts created by user written creator functions.
+
+`tsp_EPTF_ExecCtrl_EntityGroup2LGenPool_List`
+
+This module parameter is used to assign an `EntityGroup` to an `LGen` pool. An entity group can be assigned to one `LGen` pool only, but several entity groups can be assigned to the same `LGen` pool.
+
+If an entity group is assigned to an `LGen` pool, all scenario instances belonging to the entity group will be executed on the `LGens` of the `LGen` pool.
+
+If an entity group is not assigned to any `LGen` pools, it will be deployed on the default pool. The default pool is the collection of `LGens` that are created by the user. The number of `LGens` in the default pool should be specified in the init function of `ExecCtrl`.
+
+[[parameter_ranges]]
+=== Parameter Ranges
+
+Parameter ranges are "chained counters" used to iterate through several integer ranges in a hierarchical way. An integer range defines finite number of increasing consecutive integer values with a start value (`baseOffset`) and count (count). Ranges are used for iterate through its element. The iterator (the actual value of the range) can be used directly or for referencing or indexing other list types inside a traffic generator application. A list of range items defines a chained range. A traffic case in a scenario can have zero or more parameter ranges chained together. The next element of a chained range is calculated by invoking `f_EPTF_Common_incParamRanges()`. When a chained range increased, always the least significant range iterator is increased with one. When all the values used out ("overflow") it increases the next range iterator recursively, etc. The function returns with true, when the most significant iterator (the 0th element inside the range list) finished. When `nrOfRangeLoop` was set for this traffic case type in its declarator, a traffic case finish condition check is also performed.
+
+Parameter ranges may be decomposed into several Load Generators in order to create discrete, non overlapping sub-ranges of the original range by setting the flag `enableSplit` to `_true_`.
+
+Example: Scenario "scenario_0" has 3 ranges handled as one chained range. The 0^th^ element will be decomposed by `ExecCtrl` during initialization `(enableSplit := true)`.
+
+[source]
+----
+tsp_LGenBase_ScenarioDeclarators := {
+  {
+    name := "scenario_0",
+    tcList := {
+      {
+        tcName := "TC0",
+        startDelay := 0.0,
+        cpsToReach := 1.0,
+        enableEntities := true,
+        enable := true,
+        ranges := {
+          {name := "myRange_MSB",
+           enableSplit := true,
+           baseOffset := 10,
+           count := 30},
+          {name := "myRange_middle",
+           enableSplit := false,
+           baseOffset := 10,
+           count := 30},
+          {name := "myRange_LSB",
+           enableSplit := false,
+           baseOffset := 0,
+           count := 9}
+        }
+//…
+
+----
+
+=== Parameter Decomposition
+
+The following traffic scenario parameters are decomposed during the initialization:
+
+* `cpsToReach`: always decomposed. The total traffic case cps values are split among load generators running the corresponding scenario. The amount of CPS distributed proportional to the entity number distribution
+* `cpsToReach`: always decomposed. The total weighted scenario cps values are split among load generators running the corresponding scenario. The amount of CPS distributed proportional to the entity number distribution
+* `ranges`: decomposition can be disabled. Creates discrete sub-ranges of the original one. For more info see <<‎parameter_ranges, Parameter Ranges>>.
+* group finish conditions are not decomposed. All conditions except `nrOfExecStart`, `nrOfSuccesses`, `nrOfFails`, `nrOfTimeouts`, `nrOfErrors` are distributed without splitting (for example,`execTime`). They are evaluated locally on the clients. However, the exceptional ones listed above are not distributed. They are evaluated globally in `ExecCtrl` by summing the appropriate values in the clients.
+
+=== Obsolete Parameters
+
+The module parameters listed in this section are obsolete. They are kept for backward compatibility.
+
+`tsp_LGenBase_TcMgmt_ScenarioDeclarators`
+
+This module parameter is defined in module `EPTF_CLL_LGenBase_Definitions`. It is used to declare a list of traffic scenarios. The referred traffic case type names should be consistent with traffic case declarations. Empty scenarios (scenario with zero or of traffic cases) are not allowed.
+
+`tsp_LGenBase_TcMgmt_ScenarioDeclarators2`
+
+A newer version of `tsp_LGenBase_TcMgmt_ScenarioDeclarators`.
+
+`tsp_LGenBase_TcMgmt_WeightedScenarioDeclarators`
+
+A scenario declarator with CPS. In this scenario the traffic cases have weights which determine how the scenario CPS is distributed among its traffic cases.
+
+`tsp_LGenBase_tcTypeDeclarators`
+
+The old version of the `tsp_LGenBase_tcTypeDeclarators2`. This module parameter can only be used with scenarios defined in `tsp_LGenBase_TcMgmt_ScenarioDeclarators`.
+
+Note, that the tsp_LGenBase_TcMgmt_tcTypeDeclarators2 can be used with the scenario declarators `tsp_LGenBase_TcMgmt_ScenarioDeclarators2`, `tsp_LGenBase_TcMgmt_WeightedScenarioDeclarators` and `tsp_LGenBase_TcMgmt_ScenarioDeclarators3`. They replace the pair `tsp_LGenBase_TcMgmt_ScenarioDeclarators` and `tsp_LGenBase_TcMgmt_tcTypeDeclarators`. This latter pair of parameters is kept for compatibility. These parameter pairs can be used at the same time also.
+
+`tsp_LGenBase_Scenarios2Grps`
+
+This module parameter is defined in module `EPTF_CLL_LGenBase_Definitions`. It is used to define a list of entity group – traffic scenario associations. The referred entity group and scenario names should be also declared in `tsp_LGenBase_EntityGrpDeclarators` and one of the scenario declarators.
+
+=== Traffic Case Custom Parameters
+
+Traffic case custom parameters provide the possibility to assign arbitrary traffic case type specific parameters inside the common traffic case type descriptors. Since the parameter names and even the values are represented only with charstrings, it is the responsibility of the application libraries to provide function references to convert the parameters to the desired data types during the traffic case initialization. The corresponding functions should be declared prior the test case initializations by `f_EPTF_LGenBase_declareFunction()`.
+
+Example: "TC0" has 2 custom parameters, expecting here 2 different registered functions for the parameters, since they used in different application libraries.
+
+[source]
+----
+tsp_LGenBase_tcTypeDeclarators := {
+  {
+    name := "TC0",
+//…
+params := {
+      {aName := "applib_A_paramInterpreter", pName := "header", pValue := "$EXTPATH/sip_support/templates/deregister.header"},
+      {aName := "applib_B_paramInterpreter", pName := "boost", pValue := "true"}
+    }
+//…
+----
+
+Since this type of custom parameters makes the configuration too confusing it is adviced to avoid using them. An alternative way to define custom parameters is to use custom module parameters. Inside this custom module parameter place the identification information of the traffic case to which the custom parameter should belong. For example, for a traffic case instance this identification information is the triplet of the entity group name, scenario name and traffic case name. For a traffic case type, it is the name of the traffic case type. Of course custom parameters can be defined not only for traffic cases but anything identifiable you like. The straightforward advantage of custom module parameters over the traffic case custom parameters is that custom module parameters can be structured and not only charstring type values are allowed.
+
+So the example above can be rewritten like this using custom module parameters:
+
+[source]
+----
+tsp_Applib_A_paramInterpreter_customParam := {
+  tcInstanceId := {
+    eGrpName := "egrp",
+    scName := "sc",
+    tcName := "TC0"
+  },
+  header :=
+    "$EXTPATH/sip_support/templates/deregister.header"
+}
+
+tsp_Applib_B_paramInterpreter_customParam := {
+  tcTypeId := "TC0",
+  boost := true
+}
+----
+
+=== Customizable GUI
+
+The `ExecCtrl` GUI layout can be customized. This can be done without using the Execution Control UI Handler. The custom GUI layout can be created by loading and appropriate XML into the `UIHandler` feature. This XML should contain `dataSources` for `ExecCtrl`. The `dataSource` name of the `ExecCtrl` is defined by the constant `c_ExecCtrl_DataSource_sourceId`. The required data elements and iterators are created by `ExecCtrl` if the `dataSource` component is passed to the init function of `ExecCtrl`.
+
+These data elements and iterators have certain parameters. The value of these parameters usually come from the iterators. The description of the data elements, iterators and their parameters can be found in the HTML API doc.

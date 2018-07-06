@@ -1,0 +1,99 @@
+= Function Specification
+
+== Implementation
+
+The SQL Test port consists of two layers:
+
+* Common part: +
+Responsible for the common functions of the SQL test port. The common part provide an unified interface towards the TTCN test suite.
+
+* SQL engine connectors: +
+Provides a connection towards the specific SQL engines. Handles the SQL engine specific functions.
+
+== Configuration
+
+The configuration of the SQL test port is done via the run time ASPs
+
+== Start Procedure
+
+During the start up of the SQL test port, the SQL engine connectors register their handlers in the common part.
+
+[[sending-receiving-sql-asps]]
+== Sending/Receiving SQL ASPs
+
+The common part handles the ASP call from the test suite, and forwards them to the appropriate SQL engine connector. The SQL engine connector connects to the database, executes the SQL query, and send back the result of the query to the common part. The common part converts the result into TTCN-3 data and forwards to the test suite.
+
+=== Closing Down
+
+The SQL test port closes down the active SQL connections.
+
+=== Logging
+
+The logging printouts will be directed to the RTE log file.
+
+=== Error Handling
+
+Erroneous behavior detected during runtime is shown on the console and directed into the RTE log file. The following two types of messages are taken care of:
+
+* Errors: information about errors detected is provided. If an error occurs the execution will stop immediately.
+* Warnings: information about warnings detected is provided. The execution continues after the warning is shown.
+
+== Functions and Rollback
+
+In __SQL_Functions.ttcn__ there are some useful functions to use the SQL TestPort.
+
+[[f-connect]]
+=== `f_connect`
+
+[source]
+----
+*function* f_connect(*inout* SQLasp_PT pl_port, *in* SQL_Connection pl_connection, *out* SQL_Result pl_result, *out* SQL_exception pl_exception) *return* boolean
+----
+
+Can connect the testport to the connection.
+
+[[f-query]]
+=== `f_query`
+
+[source]
+----
+*function* f_query(*inout* SQLasp_PT pl_port, *in* integer pl_connId, *in* SQL_Query pl_query, *out* SQL_Query_result pl_result, *out* SQL_exception pl_exception) *return* boolean
+----
+Runs the query on the testport with the given connection id.
+
+[[f-disconnect]]
+=== `f_disconnect`
+
+[source]
+----
+*function* f_disconnect(*inout* SQLasp_PT pl_port, *in* integer pl_connId, *out* SQL_Result pl_result, *out* SQL_exception pl_exception) *return* boolean
+----
+Disconnects the port with the given connection id.
+
+[[ef-sql-execute]]
+=== `ef_SQL_Execute`
+
+[source]
+----
+*external function* ef_SQL_Execute (*in* charstring pl_sql_file, *inout* SQLasp_PT pl_sqlPort, *in* integer pl_connId, *in* SQL_Primary_Keys pl_primary_keys, *out* SQL_Rollback_Queries pl_result, *out* SQL_Query_Result_Record pl_result_record) *return* boolean;
+----
+
+Execute and generate the rollback queries. You have to specify the used tables’s primary key. This function just executes the original commands and creates the rollback functions. To do the rollback use the `f_SQL_Rollback`
+
+`pl_sql_file`- path to the sql file.
+
+`pl_primary_keys`- record of primary keys (for example: \{\{"table1", "key1"}, \{"table2", "key2"}}
+
+`pl_result`- holds the rollback queries. If you run these queries, you can rollback your database into the original state.
+
+`pl_result_record`- holds the record of the original queries result data. If the statement won’t update, insert or delete anything, it won’t register neither in the result record nor in the result.
+
+[[f-sql-rollback]]
+=== `f_SQL_Rollback`
+
+[source]
+----
+*function* f_SQL_Rollback(*inout* SQLasp_PT pl_sqlPort, *in* integer pl_connId, *inout* SQL_Rollback_Queries pl_queries)
+----
+
+If you have the rollback queries you can run them with this function. From the last to the first. If you caught an exception while the rollback, in the `pl_queries` the function will return the remaining queries. If it is empty, the rollback was complete.

@@ -1,0 +1,13 @@
+= Terminology
+
+No specific terminology used.
+
+= Abbreviations
+
+ETSI:: European Telecommunications Standards Institute
+
+IETF:: Internet Engineering Task Force
+
+GRE:: Generic Routing Encapsulation
+
+TTCNv3:: Testing and Test Control Notation version 3

@@ -1,0 +1,13 @@
+= Terminology
+
+TITAN TTCN-3 Test Executor (see <<5-references.adoc#_3, [3]>>).
+
+= Abbreviations
+
+ISDN:: Integrated Services Digital Network
+
+M2UA:: Message Transfer Part 2 User Application Layer Protocol
+
+PDU:: Protocol Data Unit
+
+TTCN-3:: Testing and Test Control Notation version 3

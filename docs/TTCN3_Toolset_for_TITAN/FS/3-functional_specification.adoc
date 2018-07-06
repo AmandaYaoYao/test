@@ -1,0 +1,165 @@
+= Functional Specification
+
+The TitanSim CLL consists of a number of features listed in this section. The detailed documentation for each feature can be found under the delivered directory _EPTF_Core_Library_CNL113512/doc_ with the following naming convention: __EPTF_CLL__<FeatureName>_FD_ for Function Description and __EPTF_CLL__<FeatureName>_UG_ for User Guide, respectively.
+
+== Base
+
+The EPTF Base component is a fundamental component that handles common tasks (e.g. managing cleanup functions, graceful termination, etc.) that should be implemented in all EPTF components. All EPTF components should extend this component (i.e. explicitly) or a component that extends this component (i.e. implicitly).
+
+See <<5-references.adoc#_7, ‎[7]>> for more details.
+
+== Central Scheduling
+
+The EPTF Central Scheduling feature makes it possible to write load test cases using similar methodology than in function test. Load testing means executing several traffic cases in parallel.
+
+See <<5-references.adoc#_30, ‎[30]>> for more details.
+
+== Common
+
+The EPTF Common feature contains common type and function definitions used by other EPTF features.
+
+See ‎<<5-references.adoc#_8, [8]>> for more details.
+
+== Execution Control
+
+The aim of the EPTF `ExecCtrl` feature is to provide common framework for configuring and handling multiple Load Generators in one test scenario.
+
+See ‎<<5-references.adoc#_9, [9]>> for more details.
+
+[[free_busy_queue]]
+== `FreeBusyQueue`
+
+The EPTF Free Busy Queue feature provides dynamic memory allocation for the TTCN-3 language in an efficient way.
+
+See <<5-references.adoc#_10, ‎[10]>> for more details.
+
+== `HashMap`
+
+The EPTF `HashMap` feature provides access to a well-tested, industry standard GCC `HashMap` implementation. `HashMap` is a hashed associate container that associates object of type key with object of type data.
+
+See <<5-references.adoc#_11, ‎[11]>> for more details.
+
+== `HostAdmin`
+
+The aim of the EPTF Host Admin feature is to provide processor and memory usage measurement for a given host it is started on. Remote measurements are also possible using the feature by subscribing to EPTF Variables (see <<variable, Variable>>).
+
+See ‎<<5-references.adoc#_12, [12]>> for more details.
+
+== `LGenBase`
+
+The EPTF `LGenBase` feature is the basis for all load generators (`LGens`) components of TitanSim, i.e. this feature should be used to write efficient load generators.
+
+See ‎<<5-references.adoc#_13, [13]>> for more details.
+
+== `LoadRegulator`
+
+The EPTF Load Regulator feature makes it possible to regulate the CPS of a load generator based on the load of the SUT.
+
+See <<5-references.adoc#_14, ‎[14]>> for more details.
+
+== `Logging`
+
+The aim of the EPTF Logging feature is, to use the library provided logging framework for event-class based per-PTC log control. The feature manages the logging database, defines default log classes and functions without the extension of GUI.
+
+See <<5-references.adoc#_15, ‎[15]>> for more details.
+
+== `NameService`
+
+The EPTF Name Service feature makes it possible to register and query component references by name.
+
+See <<5-references.adoc#_17, ‎[18]>> for more details.
+
+== `PTCDeployment`
+
+The EPTF `PTCDeployment` implements the functionality that allows components to select a host, where new PTCs can be deployed according to specified tasks (called roles) in the PTCD component.
+
+See ‎<<5-references.adoc#_18, [18]>> for more details.
+
+== `RandomNArray`
+
+The aim of the EPTF Random N Array feature is to provide dynamic memory allocation for the TTCN-3 language in an efficient way. The EPTF Random N Array feature makes it possible to manage lists over `record of' data structures easily using index-arithmetics.
+
+See ‎<<5-references.adoc#_32, [32]>> for more details.
+
+== `RedBlackTree`
+
+The EPTF Red Black Tree feature is a self-balancing binary search tree. It can be used to store indexes into an associated array, similar to the EPTF Free Busy Queue (see <<‎free_busy_queue, `FreeBusyQueue`>>).
+
+See ‎<<5-references.adoc#_19, [19]>> for more details.
+
+== `Rendezvous`
+
+The aim of the EPTF Rendezvous feature is, to make a _Rendezvous service_. `Rendezvous` service provides a generic solution for synchronization among/between various entities either locally and remotely.
+
+See <<5-references.adoc#_29, ‎[29]>> for more details.
+
+== `RingBuffer`
+
+The EPTF Ring Buffer feature provides a general ring buffer (or circular buffer) implementation. Ring buffer is a http://en.wikipedia.org/wiki/Data_structure[data structure] that uses a single, fixed-size http://en.wikipedia.org/wiki/Buffer_%28computer_science%29[buffer] as if it were connected end-to-end. This structure can be easily used for buffering http://en.wikipedia.org/wiki/Data_stream[data streams].
+
+See ‎<<5-references.adoc#_20, [20]>> for more details.
+
+== `Scheduler`
+
+The EPTF Scheduler feature makes it possible to schedule events (actions) that should happen at a given time measured from the start of the component or relative to the schedule of the event. The Scheduler is efficient, it uses only two TTCN-3 timers to implement scheduling.
+
+See <<5-references.adoc#_21, ‎[21]>> for more details.
+
+== `Semaphore`
+
+The EPTF Semaphore feature makes it possible to implement blocking functions and to perform synchronization in TTCN-3.
+
+See ‎[23] for more details.
+
+== `StatCapture`
+
+The aim of the EPTF Statistics Capture feature is to group Statistics into capture groups and to print capture group contents regularly at sampling intervals to predefined capture files.
+
+See ‎<<5-references.adoc#_23, [23]>> for more details.
+
+== `StatHandler`
+
+`StatHandler` feature makes it possible to collect global, aggregated statistics via the existing EPTF Variable interface.
+
+See ‎<<5-references.adoc#_33, [33]>> for more details.
+
+== `StatMeasure`
+
+The aim of the EPTF Statistics Measure feature is to create Statistics (stand-alone or belonging to a Variable) and update their value when required.
+
+See ‎<<5-references.adoc#_24, [24]>> for more details.
+
+== `StatReplay`
+
+The aim of the EPTF Statistics Replay feature is to display a given Statistics from a given capture group on the chart in a slider window in the GUI.
+
+See ‎<<5-references.adoc#_25, [25]>> for more details.
+
+== Time Profile Editor
+
+The EPTF CLL Time Profile Editor is an application which allows the user to create and edit time profiles used by the EPTF CLL Execution Control <<5-references.adoc#_9, ‎[9]>> component.
+
+See ‎<<5-references.adoc#_31, [31]>> for more details.
+
+== `Transport`
+
+The EPTF Transport Control feature makes it possible to
+
+* Route the incoming and outgoing messages between the components
+* Store messages and information in a `FreeBusyQueue`
+* Handle the UDP and IPL4 testports dynamically.
+
+See ‎<<5-references.adoc#_28, [28]>> for more details.
+
+== `UIHandler`
+
+With the EPTF `UIHandler` feature, the user can manage display and manipulation of subscribed Variables on the runtime GUI. Apart from this, it is even possible to change the runtime GUI. The user can add, remove, enable or disable GUI elements.
+
+See ‎<<5-references.adoc#_26, [26]>> for more details.
+
+[[variable]]
+== `Variable`
+
+The EPTF Variable feature makes it possible to access component variables in remote components and to create automatically calculated Variables triggered by the refresh of other Variables.
+
+See ‎<<5-references.adoc#_27, [27]>> for more details.

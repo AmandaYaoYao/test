@@ -1,0 +1,25 @@
+= Introduction
+
+== How to Read This Document
+
+This is the Function Specification for the `MTP3`/`MTP3b`/`M3UA` test port. The `MTP3`/`MTP3b`/`M3UA` test port is developed for the TTCN-3 Toolset with TITAN according to the Requirement Specifications <<8_references.adoc#_4, [4]>>, <<8_references.adoc#_24, [24]>>, <<8_references.adoc#_25, [25]>>, <<8_references.adoc#_26, [26]>>, <<8_references.adoc#_27, [27]>>.
+
+The knowledge of the TITAN TTCN-3 Test Executor <<8_references.adoc#_2, [2]>> and the TTCN-3 language <<8_references.adoc#_1, [1]>> is essential.
+
+The knowledge of the specifications of Signaling System 7 and `M3UA` created by `ITU-T`, `ANSI`, `IETF`, `TTC` and `MPT` (<<8_references.adoc#_9, [9]>>-<<8_references.adoc#_19, [19]>>, <<8_references.adoc#_23, [23]>>) is of importance. Knowledge of Ericsson function specifications <<8_references.adoc#_20, [20]>>, <<8_references.adoc#_21, [21]>> is useful.
+
+== Scope
+
+The purpose of this document is to specify the functionality of the `MTP3`/`MTP3b`/`M3UA` test port. The test port can inter-work with
+
+* `SEA` by means of `MPH` <<8_references.adoc#_5, [5]>>, <<8_references.adoc#_6, [6]>>, <<8_references.adoc#_7, [7]>> and <<8_references.adoc#_8, [8]>>
+
+* Real target through M3UA server or M3UA Daemon
+
+This specification is based on the specifications created by `ITU-T`, `ANSI`, `TTC`, `MPT` and `IETF` (<<8_references.adoc#_9, [9]>>-<<8_references.adoc#_19, [19]>>, <<8_references.adoc#_23, [23]>>) and the related Ericsson functional specifications (<<8_references.adoc#_20, [20]>> and <<8_references.adoc#_21, [21]>>).
+
+In several nodes the `GCP` over `SCTP` is implemented, meaning the `M3UA` layer is missing. In order to minimize the impact on existing `GCP` over `M3UA` test suites new modes are added to `MTP3`/`M3UA` Test Port, which simulate the lack of `MTP3`/`M3UA` layer:
+
+`MTP3ServiceType=’STC’` used for testing with `SEA`. See chapter <<5_function_specification_for_testing_with_sea_in_stc.adoc, 5>>
+
+`MTP3ServiceType=’TargetSTC’` used for testing real target through M3UA Server. See chapter <<6_function_specification_for_testing_with_real_target in STC mode.adoc, Function Specification for Testing with Real Target in STC Mode>>.

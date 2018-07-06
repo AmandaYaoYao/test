@@ -1,0 +1,187 @@
+= XPath Support Functions
+
+== Overview
+
+XPath Support Functions enable you to get any information stored in an XML document by making XPath queries. XPath is a language for finding information in an XML document. XPath is used to navigate through elements and attributes in an XML document. You can find reference and any further information about XPath 1.0 (base of the implementation) on the page:
+
+http://www.w3.org/TR/xpath
+
+XPath Support Functions are implemented in the following files:
+
+* __TCCXPathSupport_Functions.ttcn__
+* _TCCXPathSupport.cc_
+
+== Function Definitions
+
+The following function was defined to enable you to use XPath queries in order to access the required data stored in the XML document.
+
+[source]
+----
+external function XPathQuery (
+          in universal charstring xml_doc,
+          in universal charstring xpath_query )
+return universal charstring;
+----
+
+Parameters:
+
+* `xml_doc`:
+
+The XML document to be processed. It is modeled by a pure TTCN-3 universal charstring and passed as an input parameter to this function
+
+* `xpath_query`:
+
+The XPath Query. With this technology we can access a node of the XML tree. It is passed to the function as a universal charstring
+
+Return Value:
+
+universal charstring - result of the query (information about a node of the XML tree)
+
+Function to check the validity of the XML document:
+
+[source]
+----
+external function XPathCheckXML (
+          in universal charstring xml_doc,
+          out charstring error_string)
+return boolean;
+----
+
+Parameters:
+
+* `xml_doc`:
+
+the XML document to be processed. It is modeled by a pure TTCN-3 universal charstring and passed as an input parameter to this function
+
+* `error_string`:
+
+The function returns the description of the error in that string
+
+Return Value:
+
+boolean – `_true_` if the document is valid, `_false_` otherwise.
+
+== Building the TinyXPath External Library
+
+This TTCN-3 function is an application of the open-source TinyXPath external library.
+
+TinyXPath is an XPath syntax decoder written in C++ built on top of the TinyXML package. TinyXML forms a tree form the XML document and TinyXPath uses this tree to apply XPath query on it.
+
+So with TinyXPath you can apply an XPath syntax decoding to a TinyXML tree, and you can extract the required information from the XML document.
+
+TinyXPath is covered by the zlib license.
+
+In order to use the TinyXPath library, first you need to build the library, which you can import to your project.
+
+You need to follow these instructions below.
+
+First you have to get the whole TinyXPath folder and save it to your computer. You can find this folder in:
+
+/vobs/ttcn/TCC_Releases/Other/TinyXPath
+
+You must remember the exact location of the directory (where you saved it).
+
+Within the folder you can find subfolders containing:
+
+* source files: /source
+
+* header files: /include
+
+* library file: /lib
+
+In order to generate this library file from source files we provide a _Makefile_. You can find it outside the subfolders, in the TinyXPath directory. You can use two commands:
+
+* make
+* make clean
+
+First command is to build the library. The working directory must be:
+
+<where you saved the dir>/TinyXPath
+
+And then you type only: _make._
+
+You can find the library file (_libtinyxpath.a_) in the TinyXPath/lib subfolder.
+
+== Preparing your TTCN-3 Environment for Using TinyXPath
+
+=== Modification of the TTCN-3 Files in your Project
+
+You need to add two files:
+
+_TCCXPathSupport.cc_
+
+__TCCXPathSupport_Functions.ttcn__
+
+to your project. These contain the XPathSupport function declaration and definition.
+
+In order to use the implemented function in your module you have to import definitions from the module containing the definition of XPathSupport function. You can use line below in the beginning of the module:
+
+`import from TCCXPathSupport_Functions all;`
+
+=== Modification of the Makefile of Your Project
+
+Finally, your generated _Makefile_ needs some changes to be able to find the external library.
+
+1. Before every command in the _Makefile_ you have to insert the next row specifying the place where you saved the TinyXPath folder:
+
+`TINYXPATH_DIR = <path to the dir>`
+
+For example, if you saved this folder straight to the project folder, you can write:
+
+`TINYXPATH_DIR = ./TinyXPath`
+
+2. Next you have to add text to the end of the line starting with CPPFLAGS:
+
+`-I$(TINYXPATH_DIR)/include`
+
+3. Finally, at the section of $(TARGET): $(OBJECTS) you will find this two lines:
+
+[source]
+----
+-Llatexmath:[$(TTCN3_DIR)/lib -l$](TTCN3_LIB) +
+
+-L$(OPENSSL_DIR)/lib-lcrypto latexmath:[$($](PLATFORM)_LIBS)
+----
+
+You have to insert a line between them according to this:
+
+[source]
+----
+-Llatexmath:[$(TTCN3_DIR)/lib -l$](TTCN3_LIB) +
+
+-Llatexmath:[$(TINYXPATH_DIR)/lib -ltinyxpath \
+ -L$](OPENSSL_DIR)/lib-lcrypto latexmath:[$($](PLATFORM)_LIBS)
+----
+
+Now with this modified _Makefile_ your project will be able to find and use the TinyXPath library.
+
+== Error Messages
+
+None.
+
+== Warning Messages
+
+None.
+
+== Examples
+
+[source]
+----
+module TCCXPathSupport_Example \{
+  import from TCCXPathSupport_Functions all;
+  control \{
+    var universal charstring doc := “<a><b val=`123'><b />
+                <c/><!— 122.0 –><d /></b><!– 500.0 –>
+                <x target=`xyz'>sub text</x></a>“;
+    log (``The XML document:'');
+    log (doc);
+    var universal charstring q := “sum(//*/comment())“;
+    log (``The XPath query:'');
+    log (q);
+
+    var universal charstring res := XPathQuery (doc, q);
+    log (``The result of the query:'');
+    log (res);
+  }
+}
+----

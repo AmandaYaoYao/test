@@ -1,0 +1,5 @@
+= Implementation Specifics
+
+The `enc_EAP_PDU` and `dec_EAP_PDU` are used to encode and decode the given TTCN PDU_EAP type to octetsting and vice versa respectedly.
+
+The other functions implemented in the Protocol Module are used in junction with the EAP protocol to compute the various parameters in the EAP messages. A usage example can be found in section <<4-interface_description.adoc#implemented_encoding_and_decoding_functions, Implemented Encoding and Decoding Functions>>. List of the functions implemented can be found in the Function Specification.

@@ -1,0 +1,11 @@
+= Usage
+
+== Installation
+
+The set of protocol modules can be used in developing TTCN-3 test suites using any text editor. However to make the work more efficient a TTCN-3-enabled text editor is recommended (for example, `nedit`, `xemacs`). Since the SNMP protocol is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<5-references.adoc#_6, [6]>>.
+
+== Examples
+
+The demo directory contains the file __SNMP_IPL4_Definitions.ttcn__ which defines a dual face port. It can be used with the IPL4 test port to send and receive `SNMPv1_Message`, `SNMPv2_Message` or `SNMPv3_Message` in the test case in the same way it was implemented in the SNMP test port. The only difference is the dynamic update of the remote address. This can be performed now with the IPL4 test port’s `f_IPL4_Connect` function.
+
+The demo directory also contains the file __SNMP_Test.ttcn__. This `file` includes two test cases. The first test case is called `tc_SNMP_1` which sends and receives an `SNMPv1_Message`, an SNMPv2_Message and an SNMPv3_Message using the dual face port. The second test case is called `tc_SNMP_2`. It performs the same actions as the first test case, then the remote address is changed, then the actions of the first test case are repeated using the new remote address.

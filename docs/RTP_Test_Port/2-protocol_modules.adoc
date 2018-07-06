@@ -1,0 +1,17 @@
+= Protocol Modules
+
+== Overview
+
+Protocol modules implement the message structure of the related protocol in a formalized way, using the standard specification language TTCN-3. This allows defining of test data (templates) in the TTCN-3 language ‎<<8-references.adoc#_1, [1]>> and correct encoding/decoding messages when executing test suites using the Titan TTCN-3 test environment.
+
+Additionally, there are some implemented functions, which are able to read/write media files. The return value of the reading function is in the RTP payload format according to the media. The incoming parameter of the writing function is an octetstring (an RTP payload format packet).
+
+Protocol module uses Titan’s RAW encoding attributes and hence is usable with the Titan test toolset only.
+
+== Installation
+
+* The set of protocol modules can be used for developing TTCN-3 test suites using any text editor. However to make the work more efficient a TTCN-3-enabled text editor is recommended (e.g.`nedit`, `xemacs`). Since the RTP protocol is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant section of ‎<<8-references.adoc#_2, [2]>>.
+
+== Configuration
+
+None.

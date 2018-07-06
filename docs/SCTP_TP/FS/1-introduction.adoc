@@ -1,0 +1,11 @@
+= Introduction
+
+== How to Read This Document
+
+This is the Function Specification for the SCTPasp test port. The SCTPasp test port is developed for the TTCN-3 Toolset with TITAN.
+
+== Scope
+
+The purpose of this document is to specify the functionality of the SCTPasp test port. The document is primarily addressed to the end users of the product. Basic knowledge of TTCN-3 and TITAN TTCN-3 Test Executor is valuable when reading this document (see ‎<<6-references.adoc#_1, [1]>> and ‎<<6-references.adoc#_3, [3]>>).
+
+This document is based on specifications of Stream Control Transmission Protocol (SCTP) defined by https://tools.ietf.org/html/rfc2960[RFC 2960] and on Socket API Extensions for Stream Control Transmission Protocol <<6-references.adoc#_5, ‎[5]>>.

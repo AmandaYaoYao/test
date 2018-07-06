@@ -1,0 +1,14 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* __EPTF_ILog_demo.cfg__
+* __EPTF_ILog_demo.ttcn__
+
+== Configuration file
+
+The used configuration file (__EPTF_ILog_demo.cfg__) is for the `ILog` example, it is placed in the demo directory.
+
+== Demo Module
+
+The demo module __EPTF_ILog_demo.ttcn__ illustrates a typical usage of the `ILog` feature. It is placed in the demo directory of the released feature.

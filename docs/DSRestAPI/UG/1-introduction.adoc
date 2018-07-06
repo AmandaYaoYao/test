@@ -1,0 +1,11 @@
+= Introduction
+
+== About This Document
+
+=== How to Read This Document
+
+This is the User Guide for the DsRestAPI feature of the Ericsson Performance Test Framework (EPTF), Core Library (CLL). CLL is developed for the TTCN-3 <<8-references.adoc#_1, [1]>> Toolset with TITAN <<8-references.adoc#_2, [2]>>. This document should be read together with the Function Description of the DsRestAPI feature <<8-references.adoc#_5, [5]>>. For more information consult the User Guide <<8-references.adoc#_4, [4]>> and the Function Specification <<8-references.adoc#_3, [3]>> of CLL.
+
+== System Requirements
+
+In order to use the DsRestAPI feature the system requirements listed in EPTF Core Library User Guide <<8-references.adoc#_4, [4]>> should be fulfilled.

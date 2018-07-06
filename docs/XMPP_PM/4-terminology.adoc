@@ -1,0 +1,9 @@
+= Terminology
+
+No specific terminology is used.
+
+= Abbreviations
+
+TTCN-3:: Testing and Test Control Notation version 3
+
+XMPP:: Extensible Messaging and Presence Protocol

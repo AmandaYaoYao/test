@@ -1,0 +1,99 @@
+= Encoder-Decoder Functions
+
+The following functions are available to encode SIP messages into charstring/octetstring or decode charstring/octetstring that contains SIP message.
+
+== Encoder Function
+
+[source]
+external function f_SIP_encode(in PDU_SIP pdu) return charstring
+
+
+Encodes a PDU_SIP value into a charstring using long header names and multiple header fields are encoded as a comma separated list.
+
+[source]
+external function f_SIP_encode_binary(in PDU_SIP pdu) return octetstring;
+
+Encodes a PDU_SIP value into an octetstring using long header names and multiple header fields are encoded as a comma separated list. (To be used when binary message is carried in PDU_SIP.)
+
+[source]
+----
+external function f_SIP_encode_formatted (
+      in PDU_SIP pdu,
+      in boolean short_headers,
+      in boolean multiple_headers
+      in Boolean ipv6enabled) return charstring
+----
+
+
+Encodes a PDU_SIP value into a charstring. If the `short_headers` parameter is `_true_` the header names encoded in short form and if it is `_false_` the header names encoded in long form.
+
+
+If the `multiple_headers` parameter is `_true_` the multiple headers encoded as several header rows and if it is `_false_` the multiple header fields encoded as comma separated list.
+
+
+The `ipv6enabled` means the same as the Test Port parameter  <<4_protocol_modules.adoc#IPv6enabled,`IPv6enabled`>>.
+
+[source]
+----
+external function f_SIP_encode_formatted_binary(
+      in PDU_SIP pdu,
+      in boolean short_headers,
+      in boolean multiple_headers,
+      in boolean ipv6enabled) return octetstring;
+----
+
+The above function works as `77f_SIP_encode_formatted` but encodes PDU_SIP into an octetstring. (To be used when binary message is carried in PDU_SIP.)
+
+
+The following external functions are capable of handling fragmented SIP messages (according to RFC 3420 <<12_references.adoc#_24,[24]>>) and can be used the same way as the previous ones, with the difference that they use values of type PDU_SIP_Fragment.
+
+[source]
+----
+external function f_SIP_encode_fragment(in PDU_SIP_Fragment pdu) return charstring;
+
+external function f_SIP_encode_fragment_formatted(
+      in PDU_SIP_Fragment pdu,
+      in boolean short_headers,
+      in boolean multiple_headers
+      in Boolean ipv6enabled) return charstring;
+----
+
+== Decoder Function
+
+
+[source]
+----
+
+external function f_SIP_decode(in charstring pdu, in Boolean ipv6enabled, in boolean wildcarded_uri) return PDU_SIP;
+
+external function f_SIP_decode_backtrack(in charstring pdu, out PDU_SIP msgin Boolean ipv6enabled, in boolean wildcarded_uri) return integer;
+
+----
+
+Decodes encoded SIP messages. If the supplied message contains syntax errors the decoder function returns raw SIP messages.
+
+
+[source]
+----
+
+external function f_SIP_decode_binary (
+      in octetstring pdu,
+      in Boolean ipv6enabled,
+      in boolean wildcarded_uri,
+      in SIPmsg_body_handling_modes body_mode) return PDU_SIP;
+
+external function f_SIP_decode_binary_backtrack
+      in octetstring pdu,
+      out PDU_SIP msg,
+      in Boolean ipv6enabled,
+      in boolean wildcarded_uri,
+      in SIPmsg_body_handling_modes body_mode) return integer;
+
+----
+
+Decodes encoded SIP messages from octetstring format. (To be used when binary message is carried in PDU_SIP.)
+
+Similarly, the following external function works with `PDU_SIP_Fragment`:
+
+[source]
+external function f_SIP_decode_fragment(in charstring pdu, in Boolean ipv6enabled) return `PDU_SIP_Fragment`;

@@ -1,0 +1,7 @@
+= Warning Messages
+
+NOTE: Besides the below described warning messages, warning messages shown in ‎<<7-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+`*f_EPTF_SMacro_define: Warning: macro name <macro name> is invalid, should contain only characters 'a..z', 'A..Z', '_', '0..9'. Macro definition ignored.*`
+
+If you try to define (`f_EPTF_SMacro_define`) a macro with invalid name you will get this warning message and the macro will be ignored. List of the allowed characters can be found in <<7-references.adoc#_5, [5]>>.

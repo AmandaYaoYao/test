@@ -1,0 +1,94 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading ‎<<5-references.adoc#_4, [4]>>.
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_Semaphore_`.
+
+== Public Functions
+
+=== Initialization
+
+Before using the EPTF Semaphore functions the Semaphore feature should be initialized by calling the function:
+
+`f_EPTF_Semaphore_init_CT(selfName)`
+
+=== Create a Semaphore
+
+To create a Semaphore, call the function
+
+`f_EPTF_Semaphore_new() return integer`
+
+The ID of the Semaphore is returned by this function.
+
+The created semaphore is in locked state (lock level is 1).
+
+=== Delete a Semaphore
+
+To delete a Semaphore, call the function
+
+`f_EPTF_Semaphore_delete(id)`
+
+The Semaphore with the given ID is deleted. After that it cannot be locked.
+
+=== Unlock a Semaphore
+
+To unlock a Semaphore call:
+
+`f_EPTF_Semaphore_unlock(id)`
+
+This function sets the locking state of the semaphore to unlocked (lock level 0). The function that waits for unlock will continue its execution after this function is called.
+
+=== Lock a Semaphore
+
+To lock a Semaphore call:
+
+`f_EPTF_Semaphore_lock(id)`
+
+This function sets the locking state to locked (lock level 1 if it was unlocked, or does not change if it was already locked). The function that waits for unlock will block its execution.
+
+=== Increase the Lock Level of a Semaphore
+
+To increase the level of a Semaphore call:
+
+`f_EPTF_Semaphore_increaseLock(id)`
+
+This function increases the lock level of the semaphore by 1. The function that waits for unlock will block its execution until the lock level decreases to zero.
+
+=== Decrease the Lock Level of a Semaphore
+
+To decrease the lock level of a Semaphore call:
+
+`f_EPTF_Semaphore_decreaseLock(id)`
+
+This function decreases the lock level of the semaphore by 1. The function that waits for unlock will continue its execution when lock level is decreased to zero.
+
+=== Wait for Unlocking the Semaphore
+
+To block the execution until the Semaphore is unlocked call the function:
+
+`f_EPTF_ Semaphore_waitForUnlock(id, maxWaitTime, autoDeleteSemaphore) return boolean`
+
+This function blocks the execution until the given Semaphore is unlocked. The maximum time to wait in seconds can also be specified. By default it is set to infinity (value `_-1.0_`). If the semaphore is not unlocked, the function will return `_true_` when the maximum waiting time passes, or never return if maximum waiting time is set to `_-1_`. If the semaphore is unlocked, the function will return `_false_`. The third parameter `autoDeleteSemaphore` can be used to enable/disable the deletion of the semaphore automatically before this function exits. By default the semaphore is deleted automatically.
+
+To be able to unlock the Semaphore when this function is called, the event handler of the unlocking event should be activated as default before calling this function, and that event handler shall unlock the semaphore when the requested event arrives.
+
+Note, that this function automatically deletes the Semaphore if the argument `autoDeleteSemaphore` is set to `_true_`.
+
+== Summary Table of All Public Functions for EPTF Semaphore
+
+See Summary of EPTF Semaphore functions in the table below:
+
+[width="100%",cols="40%,60%",options="header",]
+|=========================================================================================================================================================================================================================================================================================================================
+|Function name |Description
+|http://mwlx122.eth.ericsson.se:8080/EPTF_CORE_REFERENCE_GUIDE/R2/files/Semaphore/EPTF_CLL_Semaphore_Functions-ttcn.html[f_EPTF_Semaphore_init_CT] |Initializes the http://mwlx122.eth.ericsson.se:8080/EPTF_CORE_REFERENCE_GUIDE/R2/files/Semaphore/EPTF_CLL_Semaphore_Definitions-ttcn.html[EPTF_Semaphore_CT] component
+|http://mwlx122.eth.ericsson.se:8080/EPTF_CORE_REFERENCE_GUIDE/R2/files/Semaphore/EPTF_CLL_Semaphore_Functions-ttcn.html[f_EPTF_Semaphore_new] |Creates a new semaphore and returns its index.
+|http://mwlx122.eth.ericsson.se:8080/EPTF_CORE_REFERENCE_GUIDE/R2/files/Semaphore/EPTF_CLL_Semaphore_Functions-ttcn.html[f_EPTF_Semaphore_delete] |Deletes the semaphore.
+|http://mwlx122.eth.ericsson.se:8080/EPTF_CORE_REFERENCE_GUIDE/R2/files/Semaphore/EPTF_CLL_Semaphore_Functions-ttcn.html[f_EPTF_Semaphore_lock] |Locks the semaphore.
+|http://mwlx122.eth.ericsson.se:8080/EPTF_CORE_REFERENCE_GUIDE/R2/files/Semaphore/EPTF_CLL_Semaphore_Functions-ttcn.html[f_EPTF_Semaphore_unlock] |Unlocks the semaphore.
+|http://mwlx122.eth.ericsson.se:8080/EPTF_CORE_REFERENCE_GUIDE/R2/files/Semaphore/EPTF_CLL_Semaphore_Functions-ttcn.html[f_EPTF_Semaphore_increaseLock] |Increases the lock level by one.
+|http://mwlx122.eth.ericsson.se:8080/EPTF_CORE_REFERENCE_GUIDE/R2/files/Semaphore/EPTF_CLL_Semaphore_Functions-ttcn.html[f_EPTF_Semaphore_decreaseLock] |Decreases the lock level by one.
+|http://mwlx122.eth.ericsson.se:8080/EPTF_CORE_REFERENCE_GUIDE/R2/files/Semaphore/EPTF_CLL_Semaphore_Functions-ttcn.html[f_EPTF_Semaphore_waitForUnlock] |Blocks the execution until the semaphore is unlocked.
+|=========================================================================================================================================================================================================================================================================================================================

@@ -1,0 +1,13 @@
+= Terminology
+
+No specific terminology is used.
+
+= Abbreviations
+
+BSSAPP:: Base Station System Application Part+ (BSSAP+)
+
+ES:: ETSI Standard
+
+ETSI:: European Telecommunications Standards Institute
+
+TTCN-3:: Testing and Test Control Notation version 3

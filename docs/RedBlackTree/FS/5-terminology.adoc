@@ -1,0 +1,32 @@
+= Terminology
+
+*TitanSim Core (Load) Library(CLL):* +
+It is that part of the TitanSim software that is totally project independent. (I.e., which is not protocol-, or application-dependent). The TitanSim CLL is to be supplied and supported by the TCC organization. Any TitanSim CLL development is to be funded centrally by Ericsson
+
+*Free Busy Queue:* +
+The aim of the EPTF Free Busy Queue feature is to provide dynamic memory allocation and list element sorting for the TTCN-3 language in an efficient way.
+
+*Item:* +
+An item in the red black tree. Can be a node, a chain item or a free item. It is uniquely identified by its index. An EPTF red black tree can contain multiple items with the same key.
+
+*Node Item:* +
+A node of the red black tree. If there are more than one items in the tree with the same key, subsequently added items are stored in a linked list, with the node item being the head of the list.
+
+*Chain Item:* +
+An item that is stored in a linked list and is not the head of the list (i.e. the node itself). Its key equals the key of the node item it is chained after.
+
+*Free Item:* +
+An item that was previously removed from the tree, it will be reused in a subsequent insert operation.
+
+*Key:* +
+The key is a non-unique identifier of an item in the tree. Each item in the tree is added with a specific key and the first item added with a given key can be searched for. Items in a tree can be sorted by their keys (and addition order in case of multiple items with the same key).
+
+= Abbreviations
+
+CLL:: Core Load Library
+
+EPTF:: Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+TitanSim:: Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+TTCN-3:: Testing and Test Control Notation version 3 <<6-references.adoc#_1, ‎[1]>>

@@ -1,0 +1,66 @@
+= Protocol Modules
+
+== Overview
+
+Protocol modules implement the message structures of the corresponding protocol in a formalized way, using the standard specification language TTCN-3. This allows defining of test data (templates) in the TTCN-3 language [1] and correctly encoding/decoding messages when executing test suites using the TITAN TTCN-3 test environment.
+
+Protocol modules are using TITAN’s RAW encoding attributes <<4-references.adoc#_2, [2]>> and hence are usable with the TITAN test toolset only.
+
+The table below contains the implemented DHCPv6 messages and the corresponding TTCN-3 type records. Using those type records, templates can be defined to send and receive a given message.
+
+[cols=",,",options="header",]
+|=========================================================================
+|Message name |Reference |Corresponding type record in __DHCPv6_Types.ttcn__
+|Client-server message |<<4-references.adoc#_7, [7]>> 6. |`Client_Server_Message`
+|Relay Message |<<4-references.adoc#_7, [7]>> 7. |`Relay_Message`
+|=========================================================================
+
+The list below contains the implemented DHCPv6 options from <<4-references.adoc#_5, [5]>>, <<4-references.adoc#_6, [6]>>, <<4-references.adoc#_8, [8]>>, <<4-references.adoc#_10, [10]>>.
+
+* DNS Recursive Name Server option
+* Domain Search List option
+* Client Identifier Option
+* Server Identifier Option
+* Identity Association for Non-temporary Addresses Option
+* Identity Association for Temporary Addresses Option
+* IA Address Option
+* Option Request Option
+* Preference Option
+* Elapsed Time Option
+* Relay Message Option
+* Authentication Option
+* Server Unicast Option
+* Status Code Option
+* Rapid Commit Option
+* User Class Option
+* Vendor Class Option
+* Vendor-specific Information Option
+* Interface-Id Option
+* Reconfigure Message Option
+* Reconfigure Accept Option
+* SIP Server DHCPv6 Option
+* Identity Association for Prefix Delegation Option
+* IA_PD Prefix option
+
+== Installation
+
+The set of protocol modules can be used in developing TTCN-3 test suites using any text editor. However to make the work more efficient a TTCN-3-enabled text editor is recommended (e.g. `nedit`, `xemacs`). Since the DHCPv6 protocol module is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor and a C compiler be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant parts of <<4-references.adoc#_2, [2]>>.
+
+== Configuration
+
+None.
+
+== Encoding, Decoding, Backtrack
+
+Implemented encoding/decoding functions:
+
+[cols=3*,options=header]
+|===
+
+|Name |Type of formal parameters |Type of return value
+|`ef_enc_PDU_DHCPv6` |PDU_DHCPv6 |octetstring
+|`ef_dec_PDU_DHCPv6` |octetstring |PDU_DHCPv6
+|`ef_dec_PDU_DHCPv6_backtrack` |octetstring, PDU_DHCPv6 |integer
+|===
+
+The encoding function `ef_enc_PDU_DHCPv6` performs basic RAW encoding <<4-references.adoc#_2, [2]>>.

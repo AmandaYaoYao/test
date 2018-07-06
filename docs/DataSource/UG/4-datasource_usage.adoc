@@ -1,0 +1,25 @@
+= DataSource Usage
+
+== Initialization
+
+The DataSource and DataSourceClient features have to be initialized before use.
+
+== Registration of Data Sources
+
+The data source client then registers the data source with the feature name and the PTC name. The PTC name has to be the Base selfName. At registration a handler function has to be given. The role of this handler function is to return the EPTF Variable name of a given data specified by the `dataElement` and `params` arguments of the handler function.
+
+== Data Access
+
+After the data sources are registered on the DataSourceClient, the values of the data can be retrieved on the DataSource or the DataSourceClient component by the `getData` function. This function returns the name of the variable on the local component that stores the value of the data. The refresh period can be set at the first time when the `getData` function is called with appropriate data.
+
+To check the presence of a dataSource, the function checkData can be used. This function does not perform variable subscription so the returned variable name might not exist even if the returned error code is `_zero_`. The `getData` function can be used to create the subscription also.
+
+The conditions in data source have to be registered too. They have also a handler function which returns true or false if the condition is fulfilled for the given parameters or not. An error code is also retuned (`_0_` for no error, non-zero for error).
+
+After the condition is registered on the DataSourceClient, the value of the condition can be retrieved on the DataSource component by the `getCondition` function. This function returns the Boolean value of the condition and the error code.
+
+== DataSource with Command Line Interface Support
+
+To be able to execute DataSource commands from the Telnet command line interface, the `DataSource_CLI` should be initialized. The `DataSource_CLI_CT` is an extension of the DataSource with command line interface support. It acts as a `CLI_Client` and registers the DataSource commands to the main CLI component. After initialization the DataSource commands can be used from the telnet CLI terminal.
+
+Before accessing any dataElement from the CLI, their sources should be registered already otherwise the command will fail to retrieve the data.

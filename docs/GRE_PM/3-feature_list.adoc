@@ -1,0 +1,14 @@
+= Feature List
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product also contains encoding/decoding functions that assure correct encoding of messages when sent from TITAN and correct decoding of messages when received by TITAN. Implemented encoding/decoding functions:
+
+[cols=3*,options=header]
+|===
+
+|Name |Type of formal parameters |Type of return value
+|`enc_GRE_PDU` |(in PDU_GRE pdu) |octetstring
+|`dec_GRE_PDU` |(in octetstring stream) |PDU_GRE
+|===

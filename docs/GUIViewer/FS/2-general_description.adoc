@@ -1,0 +1,20 @@
+= General Description
+
+This document specifies the `GUIViewer` feature of the TITANSim CLL.
+
+The EPTF `GUIViewer` feature makes it possible to see the GUI layout from a Custom GUI XML
+
+== Usage
+
+To use `GUIViewer` component, the
+
+[source]
+----
+function f_EPTF_GUIViewer_behaviour(
+    in charstring pl_selfName,
+    in charstring pl_simulation_buildDB_file := tsp_EPTF_GUIViewer_DBFileName,
+    in charstring pl_guiXML := tsp_EPTF_GUIViewer_guiXMLFileName
+)
+----
+
+function should be called. The `pl_selfName` parameter specifies the name of the component. The `pl_simulation_buildDB_file` parameter can be used as the data elements database for displaying the layout. The `pl_guiXML` parameter is the custom GUI XML file, which describes the layout to be displayed.

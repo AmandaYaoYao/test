@@ -1,0 +1,11 @@
+= Examples
+
+There is a simple example test case in the demo directory. It contains the following files:
+
+*_PipeTest.ttcn_, __PIPEasp_Templates.ttcn__, _ShellNotice.sh_, _ShellQuestionString.sh_, _ShellQuestionStringYesNo.sh_, PipeTest.*
+
+These files define the example test suite and some useful templates. The example test suite can be used as a starting point when using the PIPE test port. There is also an associated configuration file _PIPE.cfg_, which can be used to execute the test suite. There are also three shell scripts that can be added to any test suite and used for presenting notices to the user, or for asking things from the user. The notices and questions are presented in their own X window.
+
+Before running the test case set the _ShellTestDir_ environment variable to the demo directory.
+
+The file _PipeTest.prj_ is the project definition file for the TITAN GUI.

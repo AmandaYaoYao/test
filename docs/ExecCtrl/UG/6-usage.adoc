@@ -1,0 +1,77 @@
+= Usage
+
+The `ExecCtrl` or the `ExecCtrl_UIHandler` component can be a stand-alone component, which means that after creation its behavior function can be started on it. After that all `ExecCtrlClient` components should get the component reference of this component so that they can establish connection towards the `ExecCtrl` or the `ExecCtrl` UI Handler component. There can be only one `ExecCtrl` component in the test configuration. The `ExecCtrlClient` components can be used as an interface to the `LGenBase` feature. Note, that in the `ExecCtrlClient` component the initialization should follow this order:
+
+1.  Initialize the `LGenBase`
+2.  Declare entity types
+3.  Initialize the `ExecCtrlClient`
+4.  Declare more entity types
+5.  Report `readyToStart` towards `ExecCtrl`
+
+== Using `ExecCtrl`
+
+The `ExecCtrl` feature can be used without calling its behavior function. In this case the `ExecCtrl` API can be used to initialize, configure, start and terminate it.
+
+The `ExecCtrl` feature has to be initialized first by its init function. This `init` function loads the module parameters by default and starts the execution of the test cases automatically.
+
+To be able to load additional configuration data, the `loadConfig` function can be used. This function has to be called before the operation of `ExecCtrl` is started. This means that the automatic calling of start function has to be disabled in the `init` function of `ExecCtrl`.
+
+When all configuration data is loaded by the `loadConfig` function, the manual control mode has to be set. The automatic mode means, that when the operation of `ExecCtrl` is started, all enabled scenarios and scenario groups will be started automatically.
+
+After the configuration of `ExecCtrl` is finished, the operation of `ExecCtrl` can be started by the start function. After that the code has to enter into an infinite alt loop. In this alt loop the default altsteps will handle the events and operate `ExecCtrl`. `LGens` belonging to `LGenPool` will be created by the start function, or can be created after the start function is called by the `createLGens` function. If there are `LGens` that should be created manually, they can be created after `ExecCtrl` is started. Regulator components, if they are used, have to be created also after `ExecCtrl` is started.
+
+During execution, scenarios can be started and stopped; CPS can be adjusted, etc.
+
+At the end of the test the exit function has to be called, or the `ExecCtrl` component has to be stopped using the Base feature. A final test report will be generated if configured to do so at exit.
+
+== Events in `ExecCtrl`
+
+The following events can be detected in ExecCtrl and ExecCtrl_UIHandler:
+
+* `EndofConfig` - happens when the all client configuration has finished. This event cannot be checked, and there is no callback function for this event in `ExecCtrl` yet.
+* `ReadyToRun` - happens when all clients are reported ready to run. By the time this event happens, all variables had been created, and subscribes had been done for variables in all `ExecCtrlClients`. The state can be checked by `f_EPTF_ExecCtrl_checkReadyToRun`.
+* `GuiDone` - happens when ExecCtrl_UIHandler finished creating its GUI and all `ExecCtrl` clients have reported the `GUIDone` event to `ExecCtrl`. This condition can be checked by the function: `f_EPTF_ExecCtrl_UIHandler_checkGuiDone` in `ExecCtrl` `UIHandler`.
+* `ScenarioGroupPhaseChange` - happens when the phase of the scenario group changes. Callback functions that are called at this event can be registered by the function `f_EPTF_ExecCtrl_registerScenarioGroupPhaseChangedCallback`
+* `ScenarioStateChange` - happens when the state of the scenario on all `LGens` becomes the same (i.e. becomes syncronized). Callback functions that are called at this event can be registered by the function `f_EPTF_ExecCtrl_registerScenarioStateChangedCallback`.
+* `TrafficCaseStateChange` - happens when the state of the traffic case on all `LGens` becomes the same (i.e. becomes syncronized). Callback functions that are called at this event can be registered by `f_EPTF_ExecCtrl_registerTrafficCaseStateChangedCallback`.
+* `OnGroupFinishCondition` - happens when any of the `onGroupFinish` conditions becomes true, or when all set to false. Callback functions registered by the function `f_EPTF_ExecCtrl_registerOnGroupFinishCallbackFn` are called when this event occurs.
+* `CPSChange` - happens when a traffic case or a scenario target CPS changes. Callback functions registered by `f_EPTF_ExecCtrl_registerCPSChangedCallback_TC` for traffic cases and `f_EPTF_ExecCtrl_registerCPSChangedCallback_SC` for scenarios are called when the target CPS for the corresponding traffic case or scenario changes (that is, when the `f_EPTF_ExecCtrl_setCps_TC or f_EPTF_ExecCtrl_setCps_SC` function was called).
+* `EndOfTest` - happens when any `LGen` reports the `EndOfTest` event or when the Exit button is pressed. Functions registered by `f_EPTF_ExecCtrl_registerFinalTestReportGeneratorFn` are called.
+
+Events in `ExecCtrlClient`:
+
+* `ReadyToStart`: To report this event to ExecCtrl the function `f_EPTF_ExecCtrlClient_readyToStart` should be called, or it is called automatically in the client’s `init` function if enabled to do so. Call this function only after all entity types are declared. Entity types declared after calling this function will be invisible for `ExecCtrl`.
+* `ScenarioInitialized`: When a scenario is created in the `ExecCtrlClient`, the function registered by `f_EPTF_ExecCtrlClient_set_scenarioInitialized_fcb` is called.
+* `EndOfConfig`: This event is detected when `ExecCtrl` finished configuring the `ExecCtrlClient` and the `scenarioInitialized` callback function finished its operation. Callback functions registered with `f_EPTF_ExecCtrlClient_registerEndOfConfigCallback` will be called in the order they were registered when this event is detected. The event can be detected by the `f_EPTF_ExecCtrlClient_checkEndOfConfig` function.
+* `GuiDone`: This event occurs when the ExecCtrl reports this event to the Client (when the `ExecCtrl` GUI is ready) and all call-back functions registered by `f_EPTF_ExecCtrlClient_registerGuiDoneCallback` have finished in the `ExecCtrlClient`. The event can be detected by the function `f_EPTF_ExecCtrlClient_checkGuiDone`. Also, callback functions can be registered by `f_EPTF_ExecCtrlClient_registerGuiDoneCallback`. The `ExecCtrlClient` (if not disabled in its init function) reports a `GUIDone` event to `ExecCtrl` when these call-back functions all return. The `ExecCtrl` synchronizes this reported `GUIDone` events. It is possible to disable the automatic reply and the `GUIDone` event can be reported to `ExecCtrl` later (for example, after custom GUI has been created) by the `f_EPTF_ExecCtrlClient_reportGUIDone` function.
+* `GUIDoneReported`: This event happens when the `ExecCtrlClient` has reported the `GUIDone` event to `ExecCtrl`. This event can be checked by the `f_EPTF_ExecCtrlClient_checkGuiDoneReported` function.
+* `EndOfTest`: happens when any `LGen` reports the `EndOfTest` event or when the *Exit* button is pressed. Functions registered by `f_EPTF_ExecCtrlClient_registerFinalTestReportGeneratorFn` are called.
+
+== Using `LGen` Pools
+
+The `LGen` pools can be useful to deploy the `LGen` components automatically by the `ExecCtrl` with the help of user defined `LGen` creator functions.
+
+`LGens` created manually will be placed in the "default pool". The number of manually created `LGens` should be specified in the init function of `ExecCtrl` or `ExecCtrl_UIHandler` (`f_EPTF_ExecCtrl_init_CT`, or `f_EPTF_ExecCtrl_UIHandler_init_CT`).
+
+The `LGen` pool definition consists of a list of triplets containing the creator function, the hostname and the number of `LGens` to create on that host. Since the creator functions are implemented by the user, they have to be registered by the user into `ExecCtrl` so that they can be referred to from the configuration file as a string. This registration can be done by the `f_EPTF_ExecCtrl_loadConfig` function using its `pl_EPTF_ExecCtrl_LGenFunction_Entry_List` parameter. Note, that although it is possible to specify a custom name for the function, the following name can also be used in the `tsp_EPTF_ExecCtrl_LGenPool_Declarators` module parameter even if no custom name is given: `<Modulename.functionName>`.
+
+The creator function should create the `LGen` (the `LGen` should extend the `ExecCtrlClient_CT` component) on the specified host. It is not checked by ExecCtrl that the `LGen` created is actually running on the given host. The function should return null if the `LGen` could not be created, or if the function deploys non-`LGen` components, i.e. components that do not extend `ExecCtrlClient_CT`, or if the creation failed. Otherwise it should return the component reference to the created `LGen`. The `LGen` creator function should run on a component that extends `ExecCtrl_CT` because the creator functions are called by `ExecCtrl`.
+
+The Entity Groups can be associated to `LGen` pools with the help of the `tsp_EPTF_ExecCtrl_EntityGroup2LGenPool_List` module parameter. One Entity Group can be assigned only to one `LGen` pool, while one `LGen` pool can support more than one Entity Groups. The Entity Groups not associated to any `LGen` pool will be declared on the default pool.
+
+When using `LGen` pools, the following should be taken care of:
+
+* The creator functions are registered, otherwise the `LGens` of the pools cannot be created, because the function names in the configuration file are not recognized.
+* Assure that there are `LGens` in the `LGen` pool with entity types suitable to support the entity groups associated to the `LGen` pool.
+* The `LGens` have enough entities to support the Entity Groups.
+* At least one Scenario is added to the Entity Group.
+
+NOTE: The LGen creator functions shall have a runs on clause with a component that extends `ExecCtrl`. Otherwise a compilation error is shown stating a "runs on cause mismatch". If the created `LGens` need the UIHandler component reference (for example for creating their own GUI) the `LGen` creator function shall run on a component that extends `ExecCtrl` and `UIHandlerClient`. The UIHandler component reference can be accessed via the following variable in the `UIHandlerClient`: `v_UIHandlerClient_DefaultUIHandler`.
+
+== Limited Traffic Execution
+
+Limited traffic execution means that the traffic case is executed only on a part of the entire entity group. In this smaller part of the entity group are the active entities which can execute the traffic. The size of the active part of the entity group can be changed during runtime. If the traffic case is in a running state when the number of active entities is changed, all statistics values of the traffic cases will be reset and the CPS values will be redistributed on the `LGens`.
+
+The number of active entities has to be between `_zero_` and the number of allocated entities. If the value is out of this range, the value will be adjusted to the smallest or largest permitted value.
+
+The initial value of the number of active entities is the number of allocated entities. The traffic case is executed with different number of active entities in the same way as if all the entities were active, except that the number of entities that are allowed to execute the traffic is different. This means that traffic finish actions are executed.

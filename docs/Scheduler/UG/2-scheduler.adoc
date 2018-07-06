@@ -1,0 +1,87 @@
+= Scheduler
+
+== Overview
+
+The EPTF CLL Scheduler component is a fundamental component providing an implementation for scheduling in a load test environment.
+
+The EPTF Scheduler feature makes it possible to schedule events (actions) that should happen at a given time measured from the start of the component or relative to the schedule of the event. The Scheduler uses only two TTCN-3 timers to implement scheduling. These are the component clock – which is started at initialization – and the next event timer.
+
+== Red Black Tree Scheduler
+
+The EPTF Scheduler feature contains an event queue which is based on Red Black Tree <<7-references.adoc#_6, [6]>>.
+
+The Red Black Tree can insert, delete and search elements in `O(log n)` time.
+
+[[description_of_files_in_this_feature]]
+== Description of Files in This Feature
+
+The EPTF CLL Scheduler API includes the following files:
+
+* Scheduler
+** __EPTF_CLL_Scheduler_Definitions.ttcn__ - This TTCN-3 module contains common type definitions of the Scheduler Component.
+** __EPTF_CLL_RBTScheduler_Definitions.ttcn__ - This TTCN-3 module contains type definitions for the Red Black Tree based Scheduler
+** __EPTF_CLL_RBTScheduler_Functions.ttcn__ - This TTCN-3 modlue contains function definitions for the Red Black Tree based Scheduler.
+
+[[description_of_required_files_from_other_features]]
+== Description of Required Files from Other Features
+
+The Scheduler feature is part of the TitanSim EPTF Core Library (CLL). It relies on several features of the CLL. To use the Scheduler the user has to obtain the respective files from the following features:
+
+* `Base`
+* `Common`
+* `Logging`
+* `Red Black Tree`
+
+== Installation
+
+Since `EPTF_CLL_Scheduler` is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<7-references.adoc#_2, [2]>>.
+
+If not noted otherwise, in the respective sections, the following are needed to use `EPTF_CLL_Scheduler`:
+
+* Copy the files listed in sections <<description_of_files_in_this_feature, Description of Files in This Feature>> and <<description_of_required_files_from_other_features, Description of Required Files from Other Features>> to the directory of the test suite or create symbolic links to them.
+* Import the Scheduler demo or write your own application using Scheduler.
+* Create _Makefile_ or modify the existing one. For more details see the relevant section of <<7-references.adoc#_2, [2]>>.
+* Edit the config file according to your needs, see the following section <<configuration, Configuration>>].
+
+[[configuration]]
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual suffix of configuration files is _.cfg_. For further information on the configuration file see <<7-references.adoc#_2, [2]>>.
+
+This Scheduler feature defines TTCN-3 module parameters as defined in <<7-references.adoc#_2, [2]>>, clause 4. Actual values of these parameters – when no default value or a different from the default actual value wished to be used – shall be given in the `[MODULE_PARAMETERS]` section of the configuration file.
+
+This Scheduler feature defines the following module parameters:
+
+`tsp_debug_EPTF_SchedulerFunctions`
+
+This boolean type module parameter is defined in module `EPTF_CLL_Scheduler_Definitions`. It is used to enable debug logging. By default, its value is false.
+
+`tsp_debugVerbose_EPTF_SchedulerFunctions`
+
+This boolean type module parameter is defined in module `EPTF_CLL_Scheduler_Definitions`. It is used to enable debug logging. By default, its value is false.
+
+`tsp_EPTF_ELEMENTARY_TIMESTEP_PARAM`
+
+This float type module parameter defines the granularity of the time-axis of the event queue.
+
+`tsp_EPTF_Scheduler_enableRounding`
+
+This boolean type module parameter enables/disables rounding the desired time of the scheduled event.
+
+`tsp_EPTF_Scheduler_enableLoadMeasurement`
+
+This boolean type module parameter enables/disables the load measurement functionality.
+
+== DTE Handling
+
+When the user wants his own function to be called at the time, when during the execution of his action a DTE happens, then this function can be given in the `f_EPTF_SchedulerComp_scheduleAction` `pl_dteHandler` parameter.
+
+The given function, after the DTE intervention, will be called by the system and the action’s data just as the message of DTE will be transmitted in a parameter.
+
+By default DTE handling is disabled.
+
+== Load Measurement
+
+Load measurement functionality can be used to detect/prevent overload situation. It measures the load based on the cumulative sum of lag of events during the measurement period (`LoadMeasurementPeriod`). When the measured load level exceeds the threshold (`MaxLoadThreshold`), the events to be scheduled into the past are scheduled in the future. This way the overload situation can be prevented.
+
+By default the load measurement is enabled.

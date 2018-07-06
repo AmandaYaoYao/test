@@ -1,0 +1,71 @@
+= The Command Line Interface
+
+== Overview
+
+The EPTF CLI implements the functionality to be able to control TTCN3 code via a telnet interface by issuing commands on the connected terminal.
+
+[[description_of_files_in_this_feature]]
+== Description of Files in This Feature
+
+The EPTF CLL CLI includes the following files:
+
+*	__EPTF_CLL_CLI_Definitions.ttcn__ - This TTCN-3 module contains common type definitions used by the CLI feature.
+*	__EPTF_CLL_CLI_Functions.ttcn__ - This TTCN-3 module contains the implementation of CLI functions.
+
+[[description_of_required_files_in_other_CLL_features]]
+== Description of Required Files from Other CLL Features
+
+The EPTF CLI feature depends on the following features of EPTF:
+
+*	__EPTF_CLL_Base_Definitions__
+*	__EPTF_CLL_Variable_Definitions__
+*	__EPTF_CLL_Semaphore_Definitions__
+*	__EPTF_CLL_Common_Definitions__
+*	__EPTF_CLL_Logging_Definitions__
+
+== Description of Required External Features Outside CLL
+
+*	`TCCUsefulFunctions_CNL113472`
+*	`TELNETasp_CNL113320` test port
+
+== Installation
+
+Since `EPTF_CLL_CLI` is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<7-references.adoc#_2, ‎[2]>>‎.
+
+If not otherwise noted in the respective sections, the following are needed to use `EPTF_CLL_CLI`:
+
+*	Copy the files listed in section <<description_of_files_in_this_feature, Description of Files in This Feature>> and <<description_of_required_files_in_other_CLL_features, Description of Required Files from Other CLL Features>> to the directory of the test suite or create symbolic links to them.
+*	Import the CLI demo or write your own application using EPTF CLI.
+*	Create _Makefile_ or modify the existing one. For more details see the relevant section of ‎<<7-references.adoc#_2, [2]>>.
+*	Edit the config file according to your needs, see following section <<configuration, Configuration>>.
+
+[[configuration]]
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual suffix of configuration files is _.cfg_. For further information on the configuration file see ‎<<7-references.adoc#_2, [2]>>.
+
+The CLI feature defines TTCN-3 module parameters as defined in <<7-references.adoc#_2, ‎[2]>>, clause 4. Actual values of these parameters – when no default value or a different from the default actual value wished to be used – shall be given in the `[MODULE_PARAMETERS]` section of the configuration file.
+
+The EPTF CLI feature uses the Telnet test port. This test port requires test port parameters to configure it. See the Telnet test port user guide <<7-references.adoc#_7, ‎[7]>> for more details.
+
+NOTE: The `CTRL_MODE` parameter of the telnet test ports used by the CLI should be set to ‘server’ to be able to connect to them via a telnet client.
+
+The EPTF CLI feature defines the following module parameters:
+
+=== `tsp_EPTF_CLL_CLI_ShowWelcome`
+
+This is a boolean parameter which can be used to enable a welcome message when connected to the CLI terminals.
+
+Default value: `_false_` (disabled).
+
+=== `tsp_EPTF_CLI_Functions_debug`
+
+Module parameter to switch on debug logging in CLI.
+
+Default: `_false_` (disabled).
+
+=== `tsp_EPTF_CLI_Client_Functions_debug`
+
+Module parameter to switch on debug logging in `CLI_Client`.
+
+Default: `_false_` (disabled).

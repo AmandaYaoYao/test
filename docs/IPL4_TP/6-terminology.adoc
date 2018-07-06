@@ -1,0 +1,48 @@
+= Terminology
+
+Connection tuple: +
+Set of parameters that unambiguously identify a transport connection. It consists of the protocol (TCP, UDP, SCTP or SSL), the local IP address and port and the remote IP address and port.
+
+NOTE: Even though UDP is not connection oriented, the term connection is used in order to hide the details of different transports at the test port API level as much as possible.
+
+Connection ID: +
+Test port component level unique identifier of the connection.
+
+OpenSSL: +
+The OpenSSL Project is a collaborative effort to develop a robust, commercial-grade, full-featured, and open source toolkit implementing the Secure Sockets Layer (SSL v2/v3) and Transport Layer Security (TLS v1) protocols as well as a full-strength general purpose cryptography library. For more information on the OpenSSL project see <<7-references.adoc_5, [5]>>.
+
+= Abbreviations
+
+API:: Application Programming Interface
+
+ARP:: Address Resolution Protocol
+
+ASP:: Abstract Service Primitive
+
+DHCP:: Dynamic Host Configuration Protocol
+
+DNS:: Domain Name System
+
+DSCP:: Differentiated Services Codepoint
+
+DTLS:: Datagram Transport Layer Security
+
+MTU:: Maximum Transmission Unit
+
+PMTU:: Path MTU
+
+SCTP:: Streaming Control Transport Protocol
+
+SIP:: Session Initiation Protocol
+
+SRTP:: Secure Real-time Transport Protocol
+
+SSL:: Secure Socket Layer
+
+TLS:: Transport Layer Security
+
+TCP:: Transmission Control Protocol
+
+TTCN-3:: Testing and Test Control Notation version 3
+
+UDP:: User Datagram Protocol

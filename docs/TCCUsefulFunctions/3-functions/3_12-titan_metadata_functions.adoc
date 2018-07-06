@@ -1,0 +1,81 @@
+= Titan Metadata Functions
+
+== Overview
+
+Titan Metadata functions enable you to get meta information provided by the Titan compiler directly from TTCN-3.
+
+These Titan Metadata Functions were tested under Linux/Solaris/Cygwin platforms.
+
+Titan Metadata Functions are implemented in the following files:
+
+* __TCCTitanMetadata_Functions.ttcn__
+* _TCCTitanMetadata.cc_
+
+== Function Definitions
+
+The following Metadata Functions are defined. For the exact API check the generated NaturalDocs documentation.
+
+`external function f_assert(boolean pl_predicate);`
+
+Return the compilation time of module
+
+== Error Messages
+
+None.
+
+== Warning Messages
+
+None.
+
+== Examples
+
+The following example shows the compilation time of module, for example Nov 17 2007 17:14:09.
+
+[source]
+----
+module TCCTitanMetadata_Example
+
+\{
+
+import from TCCTitanMetadata_Functions all;
+
+type component Metadata_CT
+
+\{
+
+}
+
+//////////////////////////////////////////////////////////////
+
+// TitanMetadata functions
+
+//////////////////////////////////////////////////////////////
+
+// test f_time function
+
+function f_test_compilationTime() runs on Metadata_CT
+
+\{
+
+log(" ———– f_compilationTime ———– “);
+
+log(``Compilation time:'', f_compilationTime());
+
+}
+
+// test all TitanMetadata functions
+
+testcase tc_TitanMetadata_execAll() runs on Metadata_CT
+
+\{
+
+log(" ################# TITAN MetaData ################# “);
+
+f_test_compilationTime();
+
+setverdict(pass);
+
+}
+
+}
+----

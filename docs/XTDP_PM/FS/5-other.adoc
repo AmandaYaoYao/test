@@ -1,0 +1,9 @@
+= Other
+
+== Supported platforms
+
+Since the used functions are provided by the TITAN the protocol module supports all the platforms supported by the TITAN.
+
+== Limitations
+
+The protocol module requires TITAN version R8A or later. When used in conjunction with the Runtime GUI CNL 113 437, the RT GUI shall be of version R9A or later. Compatibility with other products is not guaranteed.

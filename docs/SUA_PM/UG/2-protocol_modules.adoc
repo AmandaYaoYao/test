@@ -1,0 +1,57 @@
+= Protocol Modules
+
+== Overview
+
+Protocol modules implement the message structures of the related protocol in a formalized way, using the standard specification language TTCN-3. This allows definition of test data (templates) in TTCN-3 language <<5-references.adoc#_1, [1]>> and correct encoding/decoding of messages when executing test suites using the Titan TTCN-3 test environment.
+
+Protocol modules are using Titan’s RAW encoding attributes <<5-references.adoc#_2, [2]>> and hence are usable with the Titan test toolset only.
+
+The table below contains the implemented messages and the corresponding TTCN-3 type records. Using those type records, templates can be defined to send and receive a given message.
+
+[width="100%"cols="45%,15%,40%",options="header",]
+|======================================================================
+|Message name |Reference |Corresponding type record in __SUA_Types.ttcn__
+|Connectionless Data Transfer |<<5-references.adoc#_4, [4]>> 3.2.1 |SUA_CLDT
+|Connectionless Data Response |<<5-references.adoc#_4, [4]>> 3.2.2 |SUA_CLDR
+|Connection Oriented Data Transfer |<<5-references.adoc#_4, [4]>> 3.3.1 |SUA_CODT
+|Connection Oriented Data Acknowledge |<<5-references.adoc#_4, [4]>> 3.3.2 |SUA_CODA
+|Connection Request |<<5-references.adoc#_4, [4]>> 3.3.3 |SUA_CORE
+|Connection Acknowledge |<<5-references.adoc#_4, [4]>> 3.3.4 |SUA_COAK
+|Connection Refused |<<5-references.adoc#_4, [4]>> 3.3.5 |SUA_COREF
+|Release Request |<<5-references.adoc#_4, [4]>> 3.3.6 |SUA_RELRE
+|Release Complete |<<5-references.adoc#_4, [4]>> 3.3.7 |SUA_RELCO
+|Reset Request |<<5-references.adoc#_4, [4]>> 3.3.8 |SUA_RESRE
+|Reset Confirm |<<5-references.adoc#_4, [4]>> 3.3.9 |SUA_RESCO
+|Connection Oriented Error |<<5-references.adoc#_4, [4]>> 3.3.10 |SUA_COERR
+|Connection Oriented Inactivity Test |<<5-references.adoc#_4, [4]>> 3.3.11 |SUA_COIT
+|Destination Unavailable |<<5-references.adoc#_4, [4]>> 3.4.1 |SUA_DUNA
+|Destination Available |<<5-references.adoc#_4, [4]>> 3.4.2 |SUA_DAVA
+|Destination State Audit |<<5-references.adoc#_4, [4]>> 3.4.3 |SUA_DAUD
+|Signalling Congestion |<<5-references.adoc#_4, [4]>> 3.4.4 |SUA_SCON
+|Destination User Part Unavailable |<<5-references.adoc#_4, [4]>> 3.4.5 |SUA_DUPU
+|Destination Restricted |<<5-references.adoc#_4, [4]>> 3.4.6 |SUA_DRST
+|ASP Up |<<5-references.adoc#_4, [4]>> 3.5.1 |SUA_ASPUP
+|ASP Up Ack |<<5-references.adoc#_4, [4]>> 3.5.2 |SUA_ASPUP_Ack
+|ASP Down |<<5-references.adoc#_4, [4]>> 3.5.3 |SUA_ASPDN
+|ASP Down Ack |<<5-references.adoc#_4, [4]>> 3.5.4. |SUA_ASPDN_Ack
+|Heartbeat |<<5-references.adoc#_4, [4]>> 3.5.5 |SUA_BEAT
+|Heartbeat Ack |<<5-references.adoc#_4, [4]>> 3.5.6 |SUA_BEAT_Ack
+|ASP Active |<<5-references.adoc#_4, [4]>> 3.6.1 |SUA_ASPAC
+|ASP Active Ack |<<5-references.adoc#_4, [4]>> 3.6.2 |SUA_ASPAC_Ack
+|ASP Inactive |<<5-references.adoc#_4, [4]>> 3.6.3 |SUA_ASPIA
+|ASP Inactive Ack |<<5-references.adoc#_4, [4]>> 3.6.4 |SUA_ASPIA_Ack
+|Error |<<5-references.adoc#_4, [4]>> 3.7.1 |SUA_ERR
+|Notify |<<5-references.adoc#_4, [4]>> 3.7.2 |SUA_NTFY
+|Registration Request |<<5-references.adoc#_4, [4]>> 3.8.1 |SUA_REGREQ
+|Registration Response |<<5-references.adoc#_4, [4]>> 3.8.2 |SUA_REGRSP
+|Deregistration Request |<<5-references.adoc#_4, [4]>> 3.8.3 |SUA_DEREGREQ
+|Deregistration Response |<<5-references.adoc#_4, [4]>> 3.8.4 |SUA_DEREGRSP
+|======================================================================
+
+== Installation
+
+The set of protocol modules can be used for developing TTCN-3 test suites using any text editor. However to make the work more efficient a TTCN-3-enabled text editor is recommended (e.g. `nedit`, `xemacs`). Since the SUA protocol is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<5-references.adoc#_2, [2]>>.
+
+== Configuration
+
+None.

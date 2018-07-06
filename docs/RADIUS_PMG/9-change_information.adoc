@@ -1,0 +1,17 @@
+= Change Information
+
+== R6A
+
+CR_TR00019869 has been implemented.
+
+== R9A
+
+Artf372817 has been implemented.
+
+== R10A
+
+The AVPs from _VCPE.rdf_ was added to _Smartedge.rdf_
+
+== R11A
+
+https://eforge.ericsson.se/sf/go/artf388130[Artf388130] has been implemented.

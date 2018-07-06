@@ -1,0 +1,5 @@
+= Error Messages
+
+`*ERROR: Routing context was not received after map operation!*`
+
+The test port used by SUA PE should send the Routing Context associated with the instance and set in the runtime configuration file immediately after the map operation was issued. Check is the parameter is set correctly in the configuration file.

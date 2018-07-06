@@ -1,0 +1,11 @@
+= Introduction
+
+== How to Read This Document
+
+This is the Function Specification for the LDAPasp_RFC4511 test port. The LDAPasp_RFC4511 test port is developed for the TTCN-3 Toolset.
+
+== Scope
+
+The purpose of this document is to specify the functionality of the LDAPasp_RFC4511 test port. The document is primarily addressed to the end users of the product. Basic knowledge of TTCN-3, TITAN TTCN-3 Test Executor, LDAP, and SSL protocols is valuable when reading this document.
+
+This document is based on specifications of Lightweight Directory Access Protocol defined by https://www.ietf.org/rfc/rfc4511.txt[RFC 4511] (see <<5-references.adoc#_4, [4]>>).

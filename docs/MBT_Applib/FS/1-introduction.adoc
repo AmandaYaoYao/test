@@ -1,0 +1,9 @@
+= Introduction
+
+== How to Read This Document
+
+This is the Function Specification for the MBT application library of the Ericsson Performance Test Framework (TitanSim). The modules are developed for the TTCN-3 Toolset <<5-references.adoc#_1, ‎[1]>> with TITAN <<5-references.adoc#_2, ‎[2]>>.
+
+== Scope
+
+The purpose of this document is to specify the content of the MBT Application Library.

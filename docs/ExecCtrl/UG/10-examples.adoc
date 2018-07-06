@@ -1,0 +1,74 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* _execctrld.cfg_
+* __ExecCtrl_Demo.ttcn__
+* __AppLib_A_Definitions.ttcn__
+* __AppLib_A_Functions.ttcn__
+* __ExecCtrlUIHandler_Demo.ttcn__
+* __ExecCtrlLGenPool_Demo.ttcn__
+* __ExecCtrlLGenPool_Demo.cfg__
+
+== Configuration File
+
+The used configuration file (_execctrld.cfg_) is for the `ExecCtrl` example is placed in the demo directory. You may change Runtime GUI related parameters, like:
+
+[source]
+----
+EPTF_CLL_UIHandler_Widget_Functions.tsp_xtdp_listen_addr := "127.0.0.1"; // RuntimeGUI is running on localhost
+EPTF_CLL_UIHandler_Widget_Functions.tsp_xtdp_listen_port := 55678;
+----
+
+The configuration file _ExecCtrlLGenPool_Demo.cfg_ is a simple setup to demonstrate how to configure `ExecCtrl` when `LGen` pools are used.
+
+== Demo Module
+
+The demo module (__ExecCtrl_Demo.ttcn__) illustrates a typical usage of the execution control feature, while __ExecCtrlUIHandler_Demo.ttcn__ demonstrates the usage of the execution control UI handler feature. The module __ExecCtrlLGenPool_Demo.ttcn__ shows how to register the LGen creator function and how to use `LGen` pools. It is also demonstrated how to create a component that is not an `LGen`.
+
+Example Load Generator component definition using feature "A" with `ExecCtrlClient`:
+
+[source]
+----
+type component ExecCtrl_Demo_CT extends EPTF_LGenBase_CT, EPTF_ExecCtrlClient_CT, LGen_A_CT {
+  var integer v_myBIdx;
+}
+----
+
+The initialization of `ExecCtrlClient` feature should called only after all the extended application library initializations (incl. virtual application libraries) in `f_LGen_Demo_init()`:
+
+[source]
+----
+f_EPTF_ExecCtrlClient_init_CT(pl_selfName, pl_ExecCtrlRef);
+----
+
+The main altstep of the feature should put into the main event handler altstep, or, alternatively, activate as default altstep:
+[source]
+----
+alt {
+    [] t.timeout {}
+  }
+----
+
+MTC should extend and initialize `UIHandler` in order to provide user interface for interactive features (limited functionality in the current drop):
+
+[source]
+----
+type component myMTC_CT extends EPTF_Base_CT, EPTF_CLL_UIHandler_CT {}
+//…
+  map(self:EPTF_guiPortIf,system:EPTF_guiPortIf);
+
+  f_EPTF_CLL_UIHandler_init_CT("ExecCtrlDemo_UIHandler", true, ""/*pl_wndLayout*/);
+  f_EPTF_CLL_UIHandler_clearGUI();
+  f_EPTF_CLL_UIHandler_addWindow();
+
+  f_ExecCtrl_Demo_initGui();
+----
+
+Starting `ExecCtrl` from MTC:
+
+[source]
+----
+var EPTF_ExecCtrl_CT ExtCtrl := EPTF_ExecCtrl_CT.create;
+  ExtCtrl.start(f_EPTF_ExecCtrl_behavior("ExecCtrl", tsp_nrOfLGens));
+----

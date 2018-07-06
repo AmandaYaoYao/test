@@ -1,0 +1,144 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the EPTF CLL Functions can be reached for on-line reading <<7-references.adoc#_4, [4]>>. This chapter describes the public interface of the `SMacro` feature.
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_SMacro_`.
+
+== Public Functions
+
+=== Initialization of the `SMacro` Feature
+
+Before using the EPTF `SMacro` functions, the
+
+`f_EPTF_SMacro_init_CT(pl_selfName)`
+
+function should be called. This initializes the EPTF `SMacro` feature. The name of the component should be passed as parameter `pl_selfName`.
+
+It does the following:
+
+* initializes the needed EPTF CLL features (`Base`, `HashMap`, `FBQ`)
+* creates and initializes the needed component variables
+* registers the built-in `EVAL` macro
+* registers the clean-up function of `SMacro` (`f_EPTF_SMacro_cleanup_CT`)
+
+=== Define String Macro
+
+The following function can be used to define String Macro.
+
+[source]
+----
+function f_EPTF_SMacro_define(
+  in charstring pl_macro_name,
+  in charstring pl_macro_value
+) runs on EPTF_SMacro_CT return integer
+----
+
+It assigns the macro value given by `pl_macro_value` to the macro name given by `pl_macro_name`.
+
+It is possible to redefine macro value by calling the function again. In that case the latest assigned value is used.
+
+If the macro is successfully defined, the return value is `_zero_`, otherwise non-zero.
+
+=== Undefine String Macro
+
+The following function can be used to undefine String Macro.
+
+`function f_EPTF_SMacro_undefine( in charstring pl_macro_name)`
+
+It removes the assignment between the macro name given by `pl_macro_name` and its macro value. So the macro is undefined after calling this function.
+
+Undefined String Macro is not resolved in the String Template, therefore the content of the String Template is unchanged.
+
+=== Registering Macro Calculator Callback Function
+
+The following function can be used to register macro calculator callback functions:
+
+[source]
+----
+function f_EPTF_SMacro_registerCalcFn(
+  in charstring pl_functionName := "",
+  in f_EPTF_CLL_SMacro_calc_FT pl_macro_function,
+  in EPTF_IntegerList pl_userArgs := {}
+) runs on EPTF_SMacro_CT
+----
+
+It registers the function given by `pl_macro_function` with function name given by `pl_function_name`.
+
+The parameter `pl_function_name` is optional, by default it is an empty string. If it is not specified, the function name is automatically set to `log2str(refers(pl_macro_function))` without `refers()statement`.
+
+The parameter `pl_userArgs` is an integer list which can be used to pass parameters to the macro calculator function when it is invoked. It is optional, by default it is an empty list.
+
+Example:
+
+[source]
+----
+f_EPTF_SMacro_registerCalcFn(
+  pl_macro_function := refers(f_calc_sum)
+)
+----
+
+The macro calculator function is registered according to the following:
+
+* `functionName := "<module name>.f_calc_sum"`
+* `macro_function := refers(<module name>.f_calc_sum)`
+
+=== De-registering Macro Calculator Callback Function
+
+The following function can be used to de-register macro calculator call back functions:
+
+[source]
+----
+function f_EPTF_SMacro_deregisterCalcFn(
+in charstring pl_functionName := ""
+)
+----
+
+It de-registers the function given by `pl_function_name`.
+
+=== Resolve String Macro
+
+The following function can be used to resolve the String Template given by `pl_stringTemplate`:
+
+[source]
+----
+function f_EPTF_SMacro_resolve(
+  in charstring pl_stringTemplate,
+  in boolean pl_autoEVAL := false
+) runs on EPTF_SMacro_CT return charstring
+----
+
+It returns with the value of the String Template where all defined String Macro is replaced by its value.
+
+If `pl_autoEVAL` formal parameter is set to true, all mathematical expressions are evaluated after each String Macro is resolved in the String Template. It is the same behavior as if the EVAL built-in macro was applied on the whole String Template.
+
+=== Built-In Callback Function for EVAL Macro
+
+The following function is used to calculate the value of the built-in EVAL String Macro.
+
+[source]
+----
+function f_EPTF_SMacro_calcFn_EVAL(
+  in EPTF_CharstringList pl_macroArgs,
+  in EPTF_IntegerList pl_userArgs := {}
+) runs on EPTF_SMacro_CT return charstring
+----
+
+This function can be registered to be used in user defined String Macros.
+
+== Summary Table of All Public Functions for EPTF `SMacro`
+
+See Summary of SMacro functions in the table below:
+
+[width="100%",cols="40%,60%",options="header",]
+|==============================================================================
+|*Function name* |*Description*
+|`f_EPTF_SMacro_init_CT` |Initializes the `SMacro` Component
+|`f_EPTF_SMacro_define` |Defines the String Macro
+|`f_EPTF_SMacro_undefine` |Undefines the String Macro
+|`f_EPTF_SMacro_registerCalcFn` |Registers macro calculator callback function
+|`f_EPTF_SMacro_deregisterCalcFn` |Deregisters macro calculator callback function
+|`f_EPTF_SMacro_resolve` |Resolves the String Template
+|`f_EPTF_SMacro_calcFn_EVAL` |Built-in callback function for `EVAL` String Macro
+|==============================================================================

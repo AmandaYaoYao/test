@@ -1,0 +1,11 @@
+= Terminology
+
+TITAN TTCN-3 Test Executor (see <<5-references.adoc#_3, [3]>>).
+
+= Abbreviations
+
+PDU:: Protocol Data Unit
+
+SUA:: Signalling Connection Control Part User Adaptation Layer
+
+TTCN-3:: Testing and Test Control Notation version 3

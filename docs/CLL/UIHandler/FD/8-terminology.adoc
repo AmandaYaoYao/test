@@ -1,0 +1,61 @@
+= Terminology
+
+*TitanSim Core (Load) Library(CLL):* +
+It is that part of the TitanSim software that is totally project independent. (I.e., which is not protocol-, or application-dependent). The EPTF Core Library is to be supplied and supported by the TCC organization. Any EPTF Core Library development is to be funded centrally by Ericsson
+
+*UIHandler:* +
+It is a main feature or an abstract layer of the TitanSim Core Library that is supposed to communicate with a User Interface, for example, Runtime GUI, or CLI.
+
+*UIHandler component:* +
+It means a component that extends the `EPTF_UIHandler_CT` component.
+
+*UIHandlerClient or UIHandlerClient component:* +
+It is a component that extends the `EPTF_UIHandlerClient_CT`.
+
+*UIHandler CLI:* +
+It means a component that extends the `EPTF_UIHandler_CLI_CT` component.
+
+*Headless mode:* +
+It is a feature of the `UIHandler` that is useful, when the runtime GUI goes away. When running TitanSim applications with headless mode turned on, the `UIHandler` will be able to reconnect to the GUI.
+
+*EPTF Variable:* +
+It is a variable of `EPTF_Var_CT` component.
+
+*Widget:* +
+It is a screen element of the runtime GUI.
+
+*Command TELNET terminal:* +
+It is the terminal that connects to the `v_UIHandler_CLI_TELNETaspIf` port of the `EPTF_UIHandler_CLI_CT` component.
+
+*Display TELNET terminal:* +
+It is the terminal that connects to the `v_UIHandler_CLI_displayTELNETaspIf` port of the `EPTF_UIHandler_CLI_CT` component.
+
+*VariableUI:* +
+It is a feature of the `UIHandler`, that allows easier widget – variable connections and subscriptions.
+
+
+= Abbreviations
+
+CLI:: Command Line Interface
+
+CLL:: Core Load Library
+
+EPTF:: Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+GUI:: Graphical User Interface
+
+PTC:: Parallel Test Component
+
+TitanSim:: Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+TTCN-3:: Testing and Test Control Notation version 3 [1]
+
+UDP:: User Datagram Protocol
+
+UI:: User Interface
+
+XTDP:: eXtensible Titan Display Protocol
+
+XTDL:: eXtensible Titan Display Language, a derivative of XUL
+
+XUL:: eXtensible User-interface Language

@@ -1,0 +1,71 @@
+= Upgrading from previous version
+
+The type structure has changed between R1A04 and R1A05 that causes backward incompatibilities in the TTCN-3 type definition module. With the updated protocol module both V2 and V3 version of H248 messages can be used with the limitation listed in clause 3.2 of <<6-references.adoc#_5, [5]>>.
+
+When upgrading from version R1A04 the following files need to be added to the project file (see 4.3 of <<6-references.adoc#_2, [2]>>) or the _Makefile_ (see 12.1.1 of <<6-references.adoc#_2, [2]>>) of the existing files (theses files are needed for decoding using flex/bison parser):
+
+* __H248_p_types.hh__
+
+* __H248_p.hh__
+
+* __H248_p.cc__
+
+* __H248_la.cc__
+
+Functions and templates using the types of H248 module R1A04 need to be updated according to the changes of the type definition.
+
+In case if new fields were added into existing record or set types, the new templates should contain these fields set to omit.
+
+In case if a type has changed completely the whole template or part of template must be changed.
+
+If a function is accessing a field that has changed that function needs to be updated as well.
+
+Here you can find a list of changes within the type definition module of H248 from R1A04 to R1A05.
+
+. A new parameter called `par_H248_Enc_header_format` is introduced. See clause <<2.3, 2.3>> for information about its usage.
+
+. All text coding attributes have been removed.
+
+. `SegmentReply` is a new type in the module. It was added as a new field called `segmentReply` to the Transaction union type.
+
+. Mistyped field `greathethan` was corrected to `greaterthan` in the type `ParmValue`. Templates or function referred to this name need to be corrected as well.
+
+. In the set type `ContextRequest` two new optional fields have been added. These fields are `iepsValue` and `contextAttrDescriptor`. To update a template containing this type, the new fields have to be added and shall be set to omit.
+
+. Two new enumerated values have been added to the `TopologyDirection` type. These are: `onewayExternal` and `onewayBoth`.
+
+. The set type `ContextAttrAuditRequest` has been changed. The type of existing fields `topology`, `emergency` and `priority` have been changed from boolean to `H248_token` type. In templates you should update the value of this field to `_present_` instead of `_true_` and `_omit_` instead of `_false_`. The following new fields have been added to the set: `priorityValue`, `emergencyValue`, `iepsValue`, `contextAttrDescriptor`, `auditSelectionLogic`, `iEPS` and `pkgdName`. To update a template containing this type, the new fields have to be added and shall be set to omit.
+
+. A new alternative `statisticsDiscriptor` was added to the union type `AmmDescriptor`.
+
+. Two new optional fields `–segmentNumber` and `segmentationComplete-` were added to the `TransactionReply` type. To update a template containing this type, the new fields have to be added and shall be set to omit.
+
+. The mandatory `contextBody` field of `ActionReply` has been changed to optional.
+
+. The type named `AuditToken` was renamed to `AuditTokens`. The type name shall be updated when referred.
+
+. The type `IndAudTerminationStateDescriptor` has completely changed. Templates using this type need to be updated accordingly.
+
+. The `multiStream` alternative of Stream type now contains a record of `IndAudStreamDescriptor` type instead of a single value. In order to update the templates based on this type, an extra {..} need to be added around a single `IndAudStreamDescriptor` record.
+
+. The following new optional fields have been added to the `IndAudStreamParms` type: `localDescriptor`, `remoteDescriptor` and `statisticsDescriptor`. To update a template contain this type, the new fields have to be added and shall be set to `_omit_`.
+
+. The type `IndAudLocalControlDescriptor` has completely changed. Templates using this type need to be updated accordingly.
+
+. The type `IndAudSignalsDescriptor` has completely changed. Templates using this type need to be updated accordingly.
+
+. In the `RequestedEvent` type the `eventParameters` field has changed from a `record of union` type to a `set` type. As a result the outer {…} shall be removed from the templates, and all elements of the set must be listed and set to omit if not present. Additionally, some new elements were added to the set, according to the version 3 of H.248.
+
+. Similar changes listed in item 17 have been done on type `SecondRequestedEvent`.
+
+. In the set type `ServiceChangeDescriptor` a new optional field `serviceChangeIncomplete` has been added. To update a template contain this type, the new fields has to be added and shall be set to omit.
+
+. The set type `SignalParams` has been changed. The type of existing field `priority` has been changed from boolean to `H248_token` type. In templates you should update the value of this field to `_present_` instead of `_true_` and `_omit_` instead of `_false_`. The following new fields have been added to the set: `sigDirection` and `sigRequestId`. To update a template containing this type, the new fields have to be added and shall be set to `_omit_`.
+
+. The set type `NotifyCompletion` has been changed. The type of all existing fields have been changed from boolean to `H248_token` type. In templates you should update the value of these fields to `_present_` instead of `_true_` and `_omit_` instead of `_false_`. A new field called `onIteration` has been added to the set. To update a template containing this type, the new field has to be added and shall be set to omit.
+
+. In the record type `StatisticsParameter` the field `statValue` has been renamed to `values` and its type has been changed to `record of Value` instead of a single `Value` type.
+
+. The type of `streamParms` field of `StreamDescriptor` type has been changed to a record of `StreamParm` instead of a single `StreamParm`.
+
+. A new optional `statiscticsDescriptor` field to the `StreamParm` set type. To update a template containing this type, the new field has to be added and shall be set to omit.

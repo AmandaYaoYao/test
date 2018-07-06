@@ -1,0 +1,66 @@
+= Feature List
+
+=== Comparison of Version 12, Version 19 and the Implemented Version
+
+[width="100%",cols="25%,25%,25%,25%",options="header",]
+|=============================================================================================================================================================================================================================================================================================================================================================================
+|*Item/field* |*V12 specification* |*V19 specification* |*Implemented version*
+|`Userinfo` |userid:[pwd], pwd prohibited (":" prohibited) (RFC 3986) |userid:[pwd], pwd prohibited (":" prohibited) (RFC 3986) |V12=v19
+|`hostport` |host[:port] (RFC3261) |See authority v19 |See authority v19
+|`MSRP-URL vs. MSRP-URI` |MSRP-URL = msrp-scheme "://" [userinfo "@"] hostport ["/" session-id] ";" transport *(";" url-parameter), where transport = "tcp", url-parameter not used in examples |MSRP-URL = msrp-scheme "://" authority ["/" session-id] ";" transport *( ";" URI-parameter), where transport ="tcp", url-parameter not used in examples |V19
+|`url-parameter` |url-parameter = token ["=" token] |Renamed for URI-parameter |Use as URI-parameter
+|`Authority` |Not specified |authority = [ userinfo "@" ] host [ ":" port ] (RFC3986) |V19
+|`URI-parameter` |Not specified |URI-parameter = token ["=" token] |V19
+|`namespace` |"3 DIGIT" |"3 DIGIT" |Implemented as charstring and restricted for digits at decoding
+|`Session-id` |session-id = 1*( unreserved / "+" / "=" / "/" ) |RFC3986 + "min 80bits" see Ch 14.1 in draftv19, i.e. min 10 bytes |Restricted in receiving templates by version parameters
+|`Transaction-id` |Min 4 bytes |min 64 bits according to Ch 7.1 of draftv19 i.e 8 bytes |Restricted in receiving templates by version parameters
+|=============================================================================================================================================================================================================================================================================================================================================================================
+
+=== IPv6 Address Encoding
+
+The protocol module supports the automatic square bracket adding/removing if needed. The behavior is controlled by module parameter and function parameter.
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product also contains encoding/decoding functions that assure correct encoding of messages when sent from TITAN and correct decoding of messages when received by TITAN. Implemented encoding/decoding functions:
+
+[cols=3*,options=header]
+|===
+
+|Name
+|Type of formal parameters
+|Type of return value
+
+|`f_MSRP_Enc`
+|(in PDU_MSRP pl_pdu in in boolean pl_IPv6_bracketing:=tsp_MSRP_EncDec_IPv6_bracketing)
+|charstring;
+
+|`f_MSRP_Dec`
+|(in charstring pl_stream) in in boolean pl_IPv6_bracketing:=tsp_MSRP_EncDec_IPv6_bracketing)
+|PDU_MSRP;
+
+|`f_MsrpUri_Enc`
+|(in MsrpUri pl_pdu in in boolean pl_IPv6_bracketing:=tsp_MSRP_EncDec_IPv6_bracketing)
+|charstring;
+
+|`f_MsrpUri_Dec`
+|(in charstring pl_stream) in in boolean pl_IPv6_bracketing:=tsp_MSRP_EncDec_IPv6_bracketing)
+|MsrpUri;
+
+|`f_MSRP_Enc_binary`
+|(in PDU_MSRP pl_msg, in octetstring pl_content_data, in boolean pl_IPv6_bracketing:=tsp_MSRP_EncDec_IPv6_bracketing)
+|octetstring;
+
+|`f_MSRP_Dec_binary`
+|(in octetstring pl_stream,out octetstring pl_content_data, in boolean pl_IPv6_bracketing:=tsp_MSRP_EncDec_IPv6_bracketing)
+|PDU_MSRP;
+
+|`f_MSRPmsg_MessageLength`
+|(in octetstring pl_stream)
+|return integer;
+|===
+
+The binary encoder and decoder have an additional parameter for handling the binary data in the MSRP message. The binary encoder generates an octetstring from the MSRP PDU and changes the content data part to the received `pl_content_data` binary string. The binary decoder generates an MSRP PDU. It sends the binary content to the `pl_content_data` out parameter and if the `pl_content_data` cannot be used as charstring, then the function changes the content data part of the PDU to an empty string.
+
+The `f_MSRPmsg_MessageLength` function returns the length of the first complete message in the input octetstring. If it does not find an MSRP message in the string, it returns with the value `_-1_`. The function does not check if the message is correct!

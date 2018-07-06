@@ -1,0 +1,344 @@
+= Security Functions
+
+== Overview
+
+Security Functions enable you to use some security related functions from TTCN-3.
+
+These Security Functions were tested under Linux/Solaris/Cygwin platforms.
+
+Security Functions are implemented in the following files:
+
+* __TCCSecurity_Functions.ttcn__
+* _TCCSecurity.cc_
+
+== Function Definitions
+
+The `pl_OP` input of the following functions is the Operator Variant OP that configures the AKA Algorithms to generate the proper keys for the Operator who will verify the generated keys.
+
+The following Security Functions are defined. For the exact API check the generated NaturalDocs documentation.
+
+[source]
+----
+ external function f_calculateDigestResponse(
+  charstring nonce,
+  charstring cnonce,
+  charstring user,
+  charstring realm,
+  charstring passwd,
+  charstring alg,
+  charstring nonceCount,
+  charstring method,
+  charstring qop,
+  charstring URI,
+  charstring HEntity) return charstring;
+----
+
+Calculate digest response. Support HTTP authentication (detailed description in RFC 2617) using uses one-way hash (md5) specified in https://www.ietf.org/rfc/rfc1321.txt[RFC 1321]. When a request arrives to server for an access-protected object, it responds an "401 Unauthorized" status code and a WWW-Authenticate header (encapsulate nonce and other necessary parameters). The client is expected to retry the request, passing an Authorization header with response field calculated with `f_calculateDigestResponse`(). +
+Overview: http://en.wikipedia.org/wiki/Digest_access_authentication
+
+[source]
+----
+*external function f_calculateDigestHA1(
+  charstring nonce,
+  charstring cnonce,
+  charstring user,
+  charstring realm,
+  charstring passwd,
+  charstring alg) return charstring;*
+----
+
+Calculate digest H(A1) hash (detailed description in https://www.ietf.org/rfc/rfc2617.txt[RFC 2617]).
+
+`external function f_calculateMD5(in charstring pszHashInput) return charstring;`
+
+Calculate the md5 hash value of `pszHashInput`. The result is the hash converted to hexa string.
+
+`external function f_calculateMD5_oct(in octetstring pszHashInput) return octetstring;`
+
+Calculate the md5 hash value of `pszHashInput`.
+
+`external function f_calculateHMACMD5(in octetstring msg, in OCT_64 key) return octetstring;`
+
+Calculate the HMAC MD5 hash value of msg with the encryption key. The result is the hash octetstring which is 16 octet long.
+
+`external function f_calculate_HMAC_MD5(in octetstring pl_key, in octetstring pl_input, in integer pl_length) return octetstring;`
+
+Calculate the HMAC MD5 value of a message with specified key.
+
+`external function f_calculate_HMAC_SHA1(in octetstring pl_key, in octetstring pl_input, in integer pl_length) return octetstring;`
+
+Calculate the HMAC SHA1 value of a message with specified key.
+
+`external function f_calculate_HMAC_SHA256(in octetstring pl_key, in octetstring pl_input, in integer pl_length) return octetstring;`
+
+Calculate the HMAC SHA256 value of a message with specified key.
+
+`external function f_calculateRAND_oct(in integer pl_length) return octetstring;`
+
+Generate a random octetstring via OpenSSL
+
+`external function f_calculateSHA1_oct(in octetstring pszHashInput) return octetstring;`
+
+Compute SHA1 hash value via OpenSSL in octetstring format
+
+`external function f_calculateSHA1(in charstring pszHashInput) return charstring;`
+
+Compute SHA1 hash value via OpenSSL
+
+`external function f_AES_CBC_Encrypt_OpenSSL(octetstring p_key, octetstring p_iv, octetstring p_data) return octetstring;`
+
+Calculate via OpenSSL the AES CBC encrypted value with arbitrary key length up to 128 bits
+
+`external function f_AES_CBC_Decrypt_OpenSSL(octetstring p_key, octetstring p_iv, octetstring p_data) return octetstring;`
+
+Calculate via OpenSSL the AES CBC decrypted value with arbitrary key length up to 128 bits
+
+The IMSAKA related functions have two forms:
+
+* One which takes OP as input parameter
+* One which works with OPC instead of OP
+
+The latter ones are post-fixed with `"_opc"`
+
+`external function ef_3DES_ECB_Decrypt(in octetstring pl_data, in octetstring pl_key, in boolean pl_use_padding:=true) return octetstring;`
+
+It encrypts the data using the triple DES algorithm in ECB (Electronic Codebook) mode taking key `pl_key`. The `pl_use_padding` parameter controls the usage of standard PKCS padding.
+
+`external function ef_3DES_ECB_Decrypt(in octetstring pl_data, in octetstring pl_key, in boolean pl_use_padding:=true) return octetstring;`
+
+Decrypts triple DES ECB encrypted data using `pl_key`. The `pl_use_padding` parameter controls the usage of standard PKCS padding.
+
+`external function ef_3DES_CBC_Encrypt(in octetstring pl_data, in octetstring pl_key, in octetstring pl_iv, in boolean pl_use_padding:=true) return octetstring;`
+
+It encrypts the data using the triple DES algorithm in CBC (Cipher-block chaining) mode taking key `pl_key`. The `pl_use_padding` parameter controls the usage of standard PKCS padding.
+
+`f_3DES_CBC_Encrypt(octetstring p_key, octetstring p_iv, octetstring p_data) return octetstring`
+
+Wrapper function for above `ef_3DES_CBC_Encrypt`
+
+`external function ef_3DES_CBC_Decrypt(in octetstring pl_data, in octetstring pl_key, in octetstring pl_iv, in boolean pl_use_padding:=true) return octetstring;`
+
+Decrypts triple DES CBC encrypted data using `pl_key`. The `pl_use_padding` parameter controls the usage of standard PKCS padding.
+
+`function f_3DES_CBC_Decrypt(octetstring p_key, octetstring p_iv, octetstring p_data) return octetstring`
+
+Wrapper function for above `ef_3DES_CBC_Decrypt`
+
+`external function ef_Calculate_AES_XCBC_128(in octetstring pl_data, in octetstring pl_key, in integer pl_out_length) return octetstring;`
+
+Calculates the AES XCBC value from `pl_data` and `pl_key`. AES XCBC generates a value that is 16 bytes long and this can be truncated to the length given in `pl_out_length`.
+
+`external function ef_DH_shared_secret(in octetstring pl_pubkey, in octetstring pl_privkey) return octetstring;`
+
+Computes the shared secret for the Diffie-Hellman exchange given the private key of the originating side and the public key of the responding side. The keys must be 96 or 128 or 256 bytes long. (DH MODP group 768 and 1024 and 2048)
+
+`external function ef_DH_generate_private_public_keys (in integer pl_keyLength, inout octetstring pl_pubkey, inout octetstring pl_privkey) return integer;`
+
+Computes the shared secret from the originating side's private key and the public key of the responding side as described in DH group 2 and 14. Keys must be either 96, 128 or 256 bytes long.
+
+== Error Messages
+
+None.
+
+== Warning Messages
+
+None.
+
+== Examples
+
+The following example shows a basic usage of digest response calculation. The provided data values are acquired from the server resp`__`onse and client data.
+
+NOTE: `_qop_` is equal to `_auth_` and therefore `_HEntity_` is the md5 hash value of empty string.
+
+There is a sample test case for AKA key generation functions and EEA3 and EIA3 calculation.
+
+[source]
+----
+module TCCSecurity_Example
+
+\{
+
+import from TCCSecurity_Functions all;
+
+type component Security_CT \{
+
+var DigestData dg;
+
+var AKAInput aka_input;
+
+var SIMOutput sim_output;
+
+};
+
+//////////////////////////////////////////////////////////////
+
+// Security functions
+
+//////////////////////////////////////////////////////////////
+
+type record DigestData \{
+
+charstring nonce,
+
+charstring cnonce,
+
+charstring user,
+
+charstring realm,
+
+charstring passwd,
+
+charstring alg,
+
+charstring nonceCount,
+
+charstring method,
+
+charstring qop,
+
+charstring URI,
+
+charstring HEntity
+
+}
+
+type record AKAInput \{
+
+octetstring k,
+
+octetstring rand,
+
+octetstring sqn,
+
+octetstring amf
+
+}
+
+type record SIMOutput \{
+
+octetstring sres,
+
+octetstring kc
+
+}
+
+// test f_calculateDigestResponse function
+
+testcase f_test_digestresponse() runs on Security_CT
+
+\{
+
+log(" ——— f_calculateDigestResponse ——— “);
+
+dg := \{
+
+nonce := ``dcd98b7102dd2f0e8b11d0f600bfb0c093'',
+
+cnonce := ``0a4f113b'',
+
+user := ``Mufasa'',
+
+realm := ``testrealm@host.com'',
+
+passwd := ``password'',
+
+alg := ``MD5'',
+
+nonceCount := ``00000001'',
+
+method := ``GET'',
+
+qop := ``auth'',
+
+URI := ``/dir/index.html'',
+
+// MD5 hash of entity body
+
+HEntity := ``d41d8cd98f00b204e9800998ecf8427e''
+
+}
+
+log(``Data to compute digest from:'', dg);
+
+log(``Digest response:'',
+
+f_calculateDigestResponse(
+
+dg.nonce,
+
+dg.cnonce,
+
+dg.user,
+
+dg.realm,
+
+dg.passwd,
+
+dg.alg,
+
+dg.nonceCount,
+
+dg.method,
+
+dg.qop,
+
+dg.URI,
+
+dg.HEntity));
+
+// no check
+
+setverdict(pass);
+
+}
+----
+
+3DES ECB encrypt decrypt
+
+[source]
+----
+var octetstring vl_key := '000102030405060708090A0B0C0D0E0F0011223344556677'O
+
+var octetstring vl_data := '61A7D3BEAA4C7DBD1FA3B2237A8CC92AE6575BADF894A34643D74AFF502BF523973DF1637453388CC4C06EC02D8AB44E3EDC866555BC0FDC56D0B2029110D7A1A1F585B65FB84D3674EC87B30BF5E7E8F747330549C77A9CCD348B7898825302408CE53D25ED62D56CA0FFACC0DFECDC9CFCBD03279047'O
+
+var octetstring vl_encrypted_data := ef_3DES_ECB_Encrypt(vl_data, vl_key);
+
+var octetstring vl_decrypted_data := ef_3DES_ECB_Decrypt(vl_encrypted_data, vl_key);
+----
+
+3DES CBC encrypt decrypt
+
+[source]
+----
+var octetstring vl_data := '61A7D3BEAA4C7DBD1FA3B2237A8CC92AE6575BADF894A34643D74AFF502BF523973DF1637453388CC4C06EC02D8AB44E3EDC866555BC0FDC56D0B2029110D7A1A1F585B65FB84D3674EC87B30BF5E7E8F747330549C77A9CCD348B7898825302408CE53D25ED62D56CA0FFACC0DFECDC9CFCBD03279047'O
+
+var octetstring vl_key := '000102030405060708090A0B0C0D0E0F0011223344556677'O
+
+var octetstring vl_iv := '0001020304050607'O
+
+var octetstring vl_encrypted := ef_3DES_CBC_Encrypt(vl_data, vl_key, vl_iv);
+
+var octetstring vl_decrypted := ef_3DES_CBC_Decrypt(vl_encrypted, vl_key, vl_iv);
+----
+
+AES XCBC 128 with 20 bytes of data
+
+[source]
+----
+var octetstring vl_data := '000102030405060708090a0b0c0d0e0f10111213'O
+
+var octetstring vl_key := '000102030405060708090a0b0c0d0e0f'O
+
+var octetstring vl_computed_value := ef_Calculate_AES_XCBC_128(vl_data, vl_key, 16);
+----
+
+Diffie-Hellman secret key
+
+[source]
+----
+var octetstring vl_key_other := '73DF1637453388CC4C06EC02D8AB44E3EDC866555BC0FDC56D0B2029110D7A1A1F585B65FB84D3674EC87B30BF5E7E8F747330549C77A9CCD348B7898825302408CE53D25ED62D56CA0FFACC0DFECDC9CFCBD03279047E90E4E5013F173AE9E61A7D3BEAA4C7DBD1FA3B2237A8CC92AE6575BADF894A34643D74AFF502BF5239'O
+
+var octetstring vl_priv_key := '9FCF731129397EF7DC51562D71DD819DE35891B739BD6BE7A5177F676F1A06775A0E915E3758130FE5493B95C7A67F11F45E4C541DDD2834E4A9248F18EE2597936499C97D25227C4A4B78BABD4F33BBC3E3A2C591369A3A4FAF3D851839249E23E90D15051268986E562D76D756F7FAF942FFBC4669199A3C04E31335E2BD70'O
+
+var octetstring vl_shared_secret := ef_DH_shared_secret(vl_key_other, vl_priv_key);
+----

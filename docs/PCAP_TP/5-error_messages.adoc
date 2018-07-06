@@ -1,0 +1,21 @@
+= Error Messages
+
+`*Invalid parameter: <parameter_name>*`
+
+The given parameter was not recognized as a valid parameter by the test port.
+
+`*PCAP can’t capture*`
+
+The test port was not able to read the network interface via the pcap library in capturing mode.
+
+`*Failed to open capture file "<filename>"*`
+
+The test port could not open the given capture file for reading. After this error message, the pcap error message is also shown. A pcap error message:
+
+`*Bad dump file format*`
+
+is printed if the capture file format is not set to Ethereal/tcpdump format. The input file should be saved in this format for the test port.
+
+`*Failed to set the packet filter <filter expression>*`
+
+The test port could not apply the given packet filter expression. Check the expression whether it has a correct syntax!

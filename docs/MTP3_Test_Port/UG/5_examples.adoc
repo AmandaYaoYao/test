@@ -1,0 +1,94 @@
+= Examples
+
+[[configuration-file-sea]]
+== Configuration file - SEA
+
+[source]
+----
+[LOGGING]
+#FileName := ``mtp3test_MTP3_ansi2.cfg''
+FileMask := LOG_ALL | TTCN_DEBUG | TTCN_MATCHING
+ConsoleMask := LOG_ALL | TTCN_DEBUG | TTCN_MATCHING
+
+[EXECUTE]
+mtp3test.TC1
+mtp3test.TC2
+
+[TESTPORT_PARAMETERS]
+// *******************************************************
+// * DO NOT FORGET TO SET THE FOLLOWING TWO LINE TO YOUR SEA *
+// *******************************************************
+system.*.Hostname := ``zaire'' //sea server name
+system.*.HttpPort := ``5000'' //sea http port
+system.*.Loop:= ``OFF''
+system.*.Filter:= ``OFF''
+system.*.MTP3ServiceType := ``MTP3itu'' // [``MTP3itu'' (default)|``MTP3ansi'' | ``M3UA'' | ``MTP3ttc'' | ``MTP3bttc'' | ``MTP3mpt'' | ``MTP3iup'' | ``TargetM3UA'' ]
+
+// CMGW6 -> SCTP_ASSOC_10.2.110.102
+// CMGW3 data: SCTP_ASSOC_10.2.110.2
+system.CMGW6.EntityName := ``S7ST-0'' //device name to connect
+system.CMGW6.NI:= ``2''
+system.CMGW6.SUT_Pc:= ``461086'' // 07-09-30 =0x07091E see command: s7stp:st=s7stg-0&&-32;
+system.CMGW6.TESTER_Pc:= ``461087'' //07-09-31=0x07091F
+system.CMGW6.M3UA_version:= ``1''
+
+[MODULE_PARAMETERS]
+
+// MTP3_user_part for test suite `mtp3userpart_test' in mtp3test.ttcn
+MTP3_UserPart_SIO := \{
+ni := '10'B,
+prio := '00'B,
+si := '1110'B
+};
+MTP3_UserPart_OPC := 461087 // =0x07091E
+MTP3_UserPart_DPC := 461086 //
+MTP3_UserPart_SLS := 0;
+
+[MAIN_CONTROLLER]
+TCPPort := 7145
+NumHCs := 1
+----
+
+[[configuration-file-target-test]]
+== Configuration File - Target Test
+
+[source]
+----
+#ModuleName.SampleParameter := SampleValue
+[TESTPORT_PARAMETERS]
+system.MTP3_A.socket_debugging := ``yes''
+system.MTP3_A.forward_pause := ``forward''
+system.MTP3_A.forward_resume := ``forward''
+system.MTP3_A.forward_status := ``forward''
+system.MTP3_A.MTP3ServiceType := ``TargetM3UA''
+system.MTP3_A.NI := ``143''
+system.MTP3_A.TESTER_Pc := ``101''
+system.MTP3_A.SUT_Pc := ``300''
+system.MTP3_A.M3UAtarget_TCP_IPAddr := ``159.107.197.130''
+system.MTP3_A.M3UAtarget_TCP_Port := ``17705''
+system.MTP3_A.DestinationName := ``Peer_A''
+
+system.MTP3_B.socket_debugging := ``yes''
+system.MTP3_B.forward_pause := ``forward''
+system.MTP3_B.forward_resume := ``forward''
+system.MTP3_B.forward_status := ``forward''
+system.MTP3_B.MTP3ServiceType := ``TargetM3UA''
+system.MTP3_B.NI := ``143''
+system.MTP3_B.TESTER_Pc := ``300''
+system.MTP3_B.SUT_Pc := ``101''
+system.MTP3_B.M3UAtarget_TCP_IPAddr := ``159.107.197.130''
+system.MTP3_B.M3UAtarget_TCP_Port := ``17706''
+system.MTP3_B.DestinationName := ``Peer_B''
+
+[LOGGING]
+FileMask := LOG_ALL | TTCN_MATCHING | TTCN_DEBUG
+ConsoleMask := TTCN_ERROR | TTCN_WARNING | TTCN_ACTION | TTCN_TESTCASE | TTCN_STATISTICS | TTCN_DEBUG
+SourceInfoFormat := Single
+
+[MAIN_CONTROLLER]
+TCPPort := 19999
+NumHCs := 1
+
+[EXECUTE]
+MTP3asp_regressiontest_Testcases.control
+----

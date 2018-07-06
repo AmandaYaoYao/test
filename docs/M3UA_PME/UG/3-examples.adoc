@@ -1,0 +1,77 @@
+= Examples
+
+== Configuration File
+
+This is a simple example configuration file for testing. The relevant information can be found under the sections `TESTPORT_PARAMETERS` and `MODULE_PARAMETERS`.
+
+[source]
+----
+[LOGGING]
+LogSourceInfo := Yes
+FileMask := LOG_ALL | TTCN_DEBUG | TTCN_MATCHING
+ConsoleMask := LOG_ALL | TTCN_DEBUG | TTCN_MATCHING
+
+[EXECUTE]
+M3UA_Emulation_Test.tc_M3UA_demo_bicc
+
+[TESTPORT_PARAMETERS]
+system.SCTP_PORT.debug := ``yes''
+
+[MODULE_PARAMETERS]
+M3UA_Emulation.tsp_logVerbose := true;
+M3UA_Emulation.tsp_M3UA_Server_Mode := false;
+M3UA_Emulation_Test.tsp_address :=
+{
+  local_sctp_port := 2905,
+  local_ip_addr := ``10.6.70.19'',
+  remote_sctp_port := 2905,
+  remote_ip_addr := ``159.107.193.33''
+}
+----
+
+== Test Suite
+
+This is an example how to build up the protocol stack in case of BICC test. The test function on BICC level should be started after `f_testconfig_bicc`() was called.
+
+[source]
+----
+type component BICC_CT
+{
+  port MTP3asp_PT BICC_MTP3_PORT;
+}
+
+type component MTC_CT
+{
+  var BICC_CT vlc_BICC_COMPONENT_1;
+  var M3UA_CT vlc_M3UA_COMPONENT_1;
+  port SCTPasp_PT SCTP_PORT;
+}
+
+function f_testconfig_bicc(SCTP_Association_Address pl_address) runs on MTC_CT
+{
+  vlc_BICC_COMPONENT_1 := BICC_CT.create;
+  vlc_M3UA_COMPONENT_1 := M3UA_CT.create;
+  connect(vlc_BICC_COMPONENT_1:BICC_MTP3_PORT,
+          vlc_M3UA_COMPONENT_1:MTP3_SP_PORT);
+  map(system:SCTP_PORT, vlc_M3UA_COMPONENT_1:SCTP_PORT);
+
+vlc_M3UA_COMPONENT_1.start(f_M3UA_Emulation(pl_address));
+}
+
+function f_testconfig_end_bicc() runs on MTC_CT
+{
+  unmap(system:SCTP_PORT,
+        vlc_M3UA_COMPONENT_1:SCTP_PORT);
+  disconnect(vlc_BICC_COMPONENT_1:BICC_MTP3_PORT,
+        vlc_M3UA_COMPONENT_1:MTP3_SP_PORT);
+  vlc_M3UA_COMPONENT_1.stop;
+}
+
+testcase tc_M3UA_demo_bicc() runs on MTC_CT
+{
+  f_testconfig_bicc(tsp_address);
+  vlc_BICC_COMPONENT_1.start(f_BICC());
+  vlc_BICC_COMPONENT_1.done;
+  f_testconfig_end_bicc();
+}
+----

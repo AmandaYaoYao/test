@@ -1,0 +1,30 @@
+= Introduction
+
+== About This document
+
+=== How to read This document
+
+This is the User Guide for the MTP3/MTP3b/M3UA Test Port. The MTP3/MTP3b/M3UA Test Port is developed for the TTCN-3 Toolset with TITAN according to the Requirement Specifications <<7_references.adoc#_5, [5]>>, <<7_references.adoc#_24, [24]>>, <<7_references.adoc#_25, [25]>>, <<7_references.adoc#_27, [27]>>. This document should be read together with Functional Specification <<7_references.adoc#_4, [4]>>.
+
+=== Presumed Knowledge
+
+The knowledge of the TITAN TTCN-3 Test Executor <<7_references.adoc#_3, [3]>> and the TTCN-3 language <<7_references.adoc#_1, [1]>> is essential.
+
+Knowledge of specifications <<7_references.adoc#_10, [10]>>-<<7_references.adoc#_20, [20]>>, <<7_references.adoc#_23, [23]>> is supposed but Ericsson documents <<7_references.adoc#_21, [21]>>, <<7_references.adoc#_22, [22]>> give a good summary and analysis and emphasize the key points.
+
+In case of testing with SEA user of this Test Port can write TTCN test suites without knowledge about the simulated test environment SEA <<7_references.adoc#_6, [6]>> but running the test communicating with SEA already requires expertise about it.
+
+
+== System Requirements
+
+In order to operate the MTP3/MTP3b/M3UA Test Port the following system requirements must be satisfied:
+
+* TITAN TTCN-3 Test Executor version R8A (1.8.pl0) or higher installed. For installation guide see <<7_references.adoc#_2, [2]>>.
+
+NOTE: This version of the Test Port is not compatible with TITAN releases earlier than R8A.
+
+* The `Abstract_Socket` CNL 113 384, rev. R6A or later product has to be installed.
+
+== Fundamental Concepts
+
+The Test Port establishes connection between the TTCN-3 test executor and SUT and transmits/receives messages.

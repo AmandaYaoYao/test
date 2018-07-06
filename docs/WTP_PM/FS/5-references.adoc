@@ -1,0 +1,15 @@
+= References
+
+[[_1]]
+[1] WAP-224-WTP-20010710-a +
+Wireless Application ProtocolVersion 10-Jul-2001
+
+[[_2]]
+[2] ETSI ES 201 873-1 v3.2.1 (2007-02) +
+The Testing and Test Control Notation version 3; Part 1: Core Language
+
+[[_3]]
+[3] Programmer’s Technical Reference for the TITAN TTCN-3 Test Executor
+
+[[_4]]
+[4] User Guide for the TITAN TTCN-3 Test Executor

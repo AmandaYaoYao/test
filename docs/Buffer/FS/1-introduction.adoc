@@ -1,0 +1,13 @@
+= Introduction
+
+== How to Read This Document
+
+This is the Function Description for the Buffer of the Ericsson Performance Test Framework (TitanSim), Core Load Library (CLL). TitanSim CLL is developed for the TTCN-3 ‎‎<<5-references.adoc#_1, [1]>> Toolset with TITAN ‎‎<<5-references.adoc#_2, [2]>>.
+
+== Scope
+
+This document is to specify the content and functionality of the Buffer feature of the TitanSim CLL.
+
+== Recommended Way of Reading
+
+The readers are supposed to get familiar with the concept and functionalities of TitanSim CLL ‎‎<<5-references.adoc#_3, [3]>>. They should get familiar with the list of acronyms and the glossary in Section ‎1.7 and ‎1.8, respectively.

@@ -1,0 +1,24 @@
+= Terminal Interface
+
+The telnet terminals provided by the EPTF CLI feature can be accessed via the telnet command using the configured ports.
+
+== Built-in Commands
+
+This section lists the commands that are available by default on the telnet command line interface terminal:name: value
+
+*	`alias` - creates an alias to a command
+*	`unalias` - removes an alias
+*	`lsalias` - prints information about an alias
+*	`allalias` - lists all aliases
+*	`help` - prints a general help message
+*	`exit` - closes the terminal
+*	`quit` - closes the terminal
+*	`stop` - terminates execution, stop all components
+*	`stopAll` - terminates execution, stop all components
+
+The help command can be used to get a general help which lists all available command. The command also gives help about a specific command by calling help with the given command name: `"help <commandName>"`.
+Lines entered on the CLI terminals are ignored if they start with '#' or '//'. These lines are treated as comments.
+
+== User-Defined Commands
+
+It is possible to extend the list of commands available on the terminal by user defined commands. The commands together with their handler can be registered in the CLI Client. The user defined commands will appear after the list of built-in commands when a general help is requested with the help command.

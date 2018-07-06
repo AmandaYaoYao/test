@@ -1,0 +1,29 @@
+= Terminology
+
+*RDF RADIUS Definitions File:* +
+TTCN-3 type definitions describing RADIUS Attributes outside module
+
+*RPMG:* +
+RADIUS Protocol Module Generator
+
+= Abbreviations
+
+TCC:: Test Competence Center
+
+TTCN-3:: Testing and Test Control Notation version 3
+
+RADIUS:: Remote Authentication Dial In User Service
+
+MD5:: Message-Digest Algorithm 5
+
+ASP:: Abstract Service Primitive
+
+RPMG:: RADIUS Protocol Module Generator
+
+GUI:: Graphical User Interface
+
+PDU:: Protocol Data Unit
+
+SUT:: System Under Test
+
+UDP:: User Datagram Protocol

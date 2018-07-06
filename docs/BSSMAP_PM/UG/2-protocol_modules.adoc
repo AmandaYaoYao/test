@@ -1,0 +1,40 @@
+= Protocol Modules
+
+== Overview
+
+The BSSMAP protocol modules implement the messages structure of the BSSMAP protocol in a formalized way, using the standard specification language TTCN-3. This allows defining of test data (templates) in the TTCN-3 language <<4-references.adoc#_1, [1]>> and correctly encoding/decoding messages when executing test suites using the Titan TTCN-3 test environment.
+
+The BSSMAP protocol modules are using Titan’s RAW encoding attributes <<4-references.adoc#_2, [2]>> and hence are usable with the Titan test toolset only.
+
+== Installation
+
+The set of protocol modules can be used in developing TTCN-3 test suites using any text editor. However to make the work more efficient a TTCN-3-enabled text editor is recommended (e.g. `nedit`, `xemacs`). Since the BSSMAP protocol is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<4-references.adoc#_2, [2]>>.
+
+== Configuration
+
+None.
+
+== Usage with BSSAP Modules
+
+The top-level PDU type of BSSMAP protocol module is the following:
+
+* `PDU_BSSAP`.
+
+This type can encapsulate information fields of either BSSMAP PDU or DTAP. This way the complete BSSAP PDU can be encoded with one encoder function and vice versa, the decoding can be done in one step. It is not necessary to encode separately the BSSMAP PDU.
+
+== Encoder and Decoder Functions
+
+The following encoder/decoder functions are available to treat BSSAP PDUs:
+
+[source]
+----
+external function enc_PDU_BSSAP(in PDU_BSSAP pdu) return octetstring with \{ extension ``prototype(convert) encode(RAW)'' };
+
+external function dec_PDU_BSSAP(in octetstring stream) return PDU_BSSAP with \{ extension ``prototype(convert) decode(RAW)'' };
+
+external function enc_PDU_BSSAP_fast(in PDU_BSSAP pdu, out octetstring stream)
+with \{ extension ``prototype(fast) encode(RAW)'' };
+
+external function dec_PDU_BSSAP_backtrack(in octetstring stream, out PDU_BSSAP pdu) return integer
+with \{ extension ``prototype(backtrack) decode(RAW)'' };
+----

@@ -1,0 +1,13 @@
+= Introduction
+
+== How to Read This Document
+
+This is the Function Specification for the Ericsson Performance Test Framework (TitanSim), Core Load Library (CLL). TitanSim CLL is developed for the TTCN-3 Toolset with TITAN ‎<<5-references.adoc#_2, [2]>>. This document should be read together the User's Guide <<5-references.adoc#_3, ‎[3]>>.
+
+== Scope
+
+This document is to specify the content and functionality of the TitanSim CLL.
+
+== Recommended Way of Reading
+
+The readers are supposed to get familiar with the scope and goals of the project from <<5-references.adoc#_5, ‎[5]>> and also the glossary therein. The next step is to read the Quick Study <<5-references.adoc#_6, ‎[6]>> and its glossary. Finally they should get familiar with the list of acronyms and the glossary in Section ‎1.6 and ‎1.7, respectively.

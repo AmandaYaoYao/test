@@ -1,0 +1,15 @@
+= Terminology
+
+No specific terminology is used.
+
+= Abbreviations
+
+ESP:: Encapsulating Security Payload
+
+IPsec:: Internet Protocol Security
+
+TTCN-3:: Testing and Test Control Notation version 3
+
+ETSI:: European Telecommunications Standards Institute
+
+ITU-T:: International Telecommunication Union – Telecommunication Standardization Sector

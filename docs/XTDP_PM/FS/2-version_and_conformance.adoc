@@ -1,0 +1,15 @@
+= Version and Conformance
+
+== Version
+
+The protocol described in this document has the versions:
+
+* XTDP version: 1.0
+
+* XTDL version: 1.0.
+
+== Conformance
+
+It is not mandatory for an implementation to be able to initiate all procedures specified in this document. The designer of an application using XTDP may decide which procedures need to be supported by the given application (and in cases of some procedures, also further features, see <<4-procedures.adoc#authentication, Authentication>>, `*Error! Reference source not found.*` and `*Error! Reference source not found.*`). Also, an application designer may limit the allowed directions of the individual procedures, except of handling unsupported procedures, which shall be supported by all entities.
+
+However, all implementations claiming conformance to this version of the protocol shall support at least the client, the server or both roles of the Handshake procedure (see clause <<4-procedures.adoc#handshake, Handshake>>) and shall be able to handle all non-supported procedures initiated by the peer entity according to clauses <<4-procedures.adoc#‎general, General>> and ‎<<4-procedures.adoc#handling_of_unsupported_procedures, Handling of Unsupported Procedures>>.

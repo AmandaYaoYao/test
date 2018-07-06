@@ -1,0 +1,14 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* _main.cfg_
+* __EPTF_Stat_Measure_test.ttcn__
+
+== Configuration File
+
+The used configuration file (_main.cfg_) is for the Statistics Measure example is placed in the demo directory.
+
+== Demo Module
+
+The demo module __EPTF_StatMeasure_Test.ttcn__ illustrates a typical usage of the Statistics Measure feature. It is placed in the demo directory of the released feature.

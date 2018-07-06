@@ -1,0 +1,13 @@
+= Usage
+
+== Installation
+
+The set of protocol modules can be used in developing TTCN-3 test suites using any text editor; however, to make the work more efficient a TTCN3enabled text editor is recommended (for example `nedit`, `xemacs`). Since the GTPv2 PrivateExtensions protocol is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<6-references.adoc#_2, [2]>>.
+
+== Configuration
+
+None.
+
+== Examples
+
+None.

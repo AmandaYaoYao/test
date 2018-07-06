@@ -1,0 +1,39 @@
+= Protocol Modules
+
+== Overview
+
+Protocol modules implement the message structure of the related protocol in a formalized way, using the standard specification language TTCN-3. This allows defining of test data (templates) in the TTCN-3 language <<5-references.adoc#_1, [1]>> and correctly encoding/decoding messages when executing test suites using the Titan TTCN-3 test environment.
+
+== Installation
+
+The set of protocol modules can be used for developing TTCN-3 test suites using any text editor. However, to make the work more efficient a TTCN-3- enabled text editor is recommended (e.g. `nedit`, `xemacs`). Since the RTSP protocol is used as a part of a TTCN-3 test suite, this requires Titan TTCN-3 Test Executor be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<5-references.adoc#_2, [2]>>.
+
+== Configuration
+
+== Module Parameters
+
+[[tsp-rtsp-encdec-debugging]]
+=== tsp_RTSP_EncDec_debugging
+
+There is a boolean module parameter for debugging purposes of encode/decode functions:
+
+Its default value is `_false_`, thus in order to have debug information about encoding and decoding it must be set to `_true_` in the test suite configuration file in the `[MODULE_PARAMETERS]` section.
+
+[[tsp-crlf-mode]]
+=== tsp_crlf_mode
+
+There is a module parameter `tsp_crlf_mode` of type `strict_crlf_mode` which defined as follows:
+
+[source]
+type enumerated strict_crlf_mode \{ERROR, WARNING, WARNING_ONCE, ACCEPT};
+
+This module parameter is introduced to control the reaction of the decoder for the missing "\r". In RTSP (and in HTTP 1.0) each line shall be finished by a sequence of "\r\n". If only a "\n" has been found, the decoder can report and return according to the following table:
+
+[cols=",,",options="header",]
+|======================================================================
+|Tsp_crlf_value |Decoder returns with |Log report
+|`ERROR` |`BUFFER_FAIL` |
+|`WARNING` |/no interruption/ |Missing "\r".
+|`WARNING_ONCE` |/no interruption/ |Missing "\r" at first occurrence
+|`ACCEPT` |/no interruption/ |/no report/
+|======================================================================

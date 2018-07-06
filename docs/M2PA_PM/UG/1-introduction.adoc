@@ -1,0 +1,17 @@
+= Introduction
+
+== About This Document
+
+=== How to read This document
+
+This is the User Guide for the M2PA protocol module. The M2PA protocol module is developed for the TTCN-3 Toolset with TITAN. This document should be read together with the Function Specification <<4-references.adoc#_3, [3]>>.
+
+=== Presumed Knowledge
+
+To use this protocol module, the knowledge of the TTCN-3 language <<4-references.adoc#_4, [4]>> is essential.
+
+== System Requirements
+
+Protocol modules are a set of TTCN-3 source code files that can be used as a part of TTCN-3 test suites only. Hence protocol modules alone do not put specific requirements on the system used. However in order to compile and execute a TTCN-3 test suite using the set of protocol modules the following system requirements must be satisfied:
+
+* TITAN TTCN-3 Test Executor 1.7.pl0 or higher installed. For installation guide see <<4-references.adoc#_1, [1]>>.

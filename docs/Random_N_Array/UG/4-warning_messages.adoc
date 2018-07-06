@@ -1,0 +1,23 @@
+= Warning Messages
+
+NOTE: Besides the below described warning messages, warning messages shown in <<7-references.adoc#_2, ‎[2]>> or those of other used features or product may also appear.
+
+`*Warning: f_EPTF_RNA_getRndSlot: Invalid number of lists*`
+
+`*Warning: f_EPTF_RNA_getRndOrCreateSlot: Invalid number of lists*`
+
+`*Warning: f_EPTF_RNA_createSlots: Invalid list number*`
+
+`*Warning: f_EPTF_RNA_createSlots: Invalid number of new slots*`
+
+`*Warning: f_EPTF_RNA_moveSlot: Invalid `list to' number*`
+
+`*Warning: f_EPTF_RNA_moveSlot: The size of RNA is smaller than this element index*`
+
+`*Warning: f_EPTF_RNA_moveSlot: This element index cannot be moved to the same list! Do nothing*`
+
+`*Warning: f_EPTF_RNA_getList: The size of RNA is smaller than this element index*`
+
+`*Warning: f_EPTF_RNA_getLengthOfList: Invalid list number*`
+
+`

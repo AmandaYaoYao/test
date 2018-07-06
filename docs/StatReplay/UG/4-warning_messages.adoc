@@ -1,0 +1,7 @@
+= Warning Messages
+
+NOTE: Besides the below described warning messages, warning messages shown in <<7-references.adoc#_2, ‎[2]>> or those of other used features or product may also appear.
+
+`*The number of the values is fewer than the size of the slider window!*`
+
+The size of the slider window is too big. The missing values will be compensating with zero elements after the exist interval.

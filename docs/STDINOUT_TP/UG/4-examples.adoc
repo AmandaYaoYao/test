@@ -1,0 +1,101 @@
+= Examples
+
+The "demo" directory includes the example TTCN-3 file __STDINOUT_Test.ttcn__. This file includes a simple test which outputs "Hello, world!" and expects the user input of "Hello, TTCN-3!". An example _Makefile_, _stdinout.cfg_ file and __ttcn3_autostart.sh__ file is also included.
+
+== Non-Parallel Execution Mode
+
+When the _Makefile_ includes `TTCN3_LIB = ttcn3` the user can run the example test in a single terminal:
+
+[source]
+----
+ehubuux110> STDINOUT_Test stdinout.cfg
+TTCN-3 Test Executor (single mode), version 1.7.pl4
+Using configuration file: `stdinout.cfg'
+Execution of control part in module STDINOUT_Test started.
+Test case HelloW2 started.
+Hello, world!
+Hello, TTCN-3!
+Test case HelloW2 finished. Verdict: pass
+Execution of control part in module STDINOUT_Test finished.
+Verdict statistics: 0 none (0.00 %), 1 pass (100.00 %), 0 inconc (0.00 %), 0 fail (0.00 %), 0 error (0.00 %).
+Test execution summary: 1 test case was executed. Overall verdict: pass
+ehubuux110>
+----
+
+== Parallel Execution Mode
+
+When the _Makefile_ includes `TTCN3_LIB = ttcn3-parallel` the host controller terminal can be used for the input/output:
+
+– Main Controller Terminal –
+
+[source]
+----
+ehubuux110> mctr_cli stdinout.cfg
+
+********************************************
+* TTCN-3 Test Executor - Main Controller 2 *
+* Version: 1.7.pl4 (R7E)                   *
+********************************************
+
+Using configuration file: stdinout.cfg
+MC@ehubuux110: Listening on TCP port 56550.
+MC2>
+----
+
+– Host Controller Terminal –
+
+[source]
+----
+ehubuux110> STDINOUT_Test ehubuux110 56550
+TTCN-3 Host Controller (parallel mode), version 1.7.pl4
+----
+
+– Main Controller Terminal –
+
+[source]
+----
+MC2> MC@ehubuux110: New HC connected from ehubuux110 [159.107.193.33]. ehubuux110: SunOS 5.8 on sun4u.
+MC2> cmtc
+MC@ehubuux110: Downloading configuration file to all HCs.
+MC@ehubuux110: Configuration file was processed on all HCs.
+MC@ehubuux110: Creating MTC on host ehubuux110.
+MC@ehubuux110: MTC is created.
+MC2> smtc
+Executing all items of [EXECUTE] section.
+MC2> MTC@ehubuux110: Execution of control part in module STDINOUT_Test started.
+MTC@ehubuux110: Test case HelloW2 started.
+----
+
+– Host Controller Terminal –
+[source]
+----
+Hello, world!
+Hello, TTCN-3!
+----
+
+– Main Controller Terminal –
+
+[source]
+----
+MTC@ehubuux110: Test case HelloW2 finished. Verdict: pass
+MTC@ehubuux110: Execution of control part in module STDINOUT_Test finished.
+MC@ehubuux110: Test execution finished.
+Execution of [EXECUTE] section finished.
+MC2> emtc
+MC@ehubuux110: Terminating MTC.
+MTC@ehubuux110: Verdict statistics: 0 none (0.00 %), 1 pass (100.00 %), 0 inconc (0.00 %), 0 fail (0.00 %), 0 error (0.00 %).
+MTC@ehubuux110: Test execution summary: 1 test case was executed. Overall verdict: pass
+MC@ehubuux110: MTC terminated.
+MC2> exit
+MC@ehubuux110: Shutting down session.
+MC@ehubuux110: Shutdown complete.
+----
+
+== Parallel Execution Mode with Autostart Script
+
+When the _Makefile_ includes `TTCN3_LIB = ttcn3-parallel`  the example shell script __ttcn3_autostart.sh__ can also be used. This script needs the binary executable and the configuration file as parameters (`NumHCs := 1` in the configuration file). For example it can be started as:
+
+[source]
+ttcn3_autostart.sh STDINOUT_Test stdinout.cfg
+
+This script will open a new terminal which can be used for the input/output.

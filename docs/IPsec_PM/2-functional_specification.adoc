@@ -1,0 +1,28 @@
+= Functional Specification
+
+== Protocol Version Implemented
+
+This set of protocol modules implements protocol messages, constants and encode/decode functions of the IPsec ESP protocol. The module is based on https://tools.ietf.org/html/rfc2406[RFC 2406]). The following messages are implemented:
+
+* `ESP_Message`
+* `ESP_Data`
+
+[[implemented-encoding-decoding-functions]]
+=== Implemented Encoding/Decoding Functions:
+
+[cols=2*,options=header]
+|===
+
+|Name |Type of formal parameters
+
+|`ef_ESP_encode` |in ESP_Message pl_pdu, +
+return octetstring pl_stream
+|`ef_ESP_decode` |in octetstring pl_stream, in integer pl_auth_length +
+out ESP_Message pl_pdu +
+return integer
+|`ef_ESP_Cipher_Data_encode` |in ESP_Data pl_payloads, +
+return octetstring pl_stream
+|`f_ESP_Cipher_Data_decode` |in octetsring pl_stream, +
+out ESP_Data +
+return ESP_Message pl_pdu
+|===

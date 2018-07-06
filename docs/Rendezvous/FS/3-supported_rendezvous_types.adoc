@@ -1,0 +1,7 @@
+= Supported Rendezvous Types
+
+Supported rendezvous types are:
+
+* "Wait For A Trigger" type rendezvous. The rendezvous ID is an integer number. There are two requestors. The success trigger is to receive the requests from the two requestors. Upon receiving the requests, the server notifies the requestors with a rendezvous response.
+* "Wait For N Trigger" type rendezvous. The rendezvous ID is an integer number. There are N requestors. The success trigger is to receive request from all of the requestors. Upon receiving all the requests, the server notifies the requestors with a rendezvous response.
+* "State Trigger" type rendezvous. The rendezvous ID is a charstring in this type of rendezvous. There is unlimited number of requestors, who subscribes for a rendezvous ID. The success trigger is a State Change from a Rendezvous Client to that particular rendezvous ID. At that event, the clients subscribed will execute a pre-defined call-back function specified at the subscription note.

@@ -1,0 +1,7 @@
+= Feature GUIs
+
+== `HostAdminUI`
+
+It is possible, to use HostAdmin CLL feature with GUI support. When building the test executable with `EPTF_HostAdmin_CT` it acts exactly like the HostAdmin feature, but an extra parameter should be added at the usage: the UIHandler component reference. It will automatically put it’s own tab under the given parent, that can be specified via a tsp. On that tab, it will put out a table, and each HostAdmin in the system, will put out his own row to the table, that shows the name of the host, it is executed on and the average CPU load on that host.
+
+See the documentation of the HostAdmin feature, and the reference in this document.

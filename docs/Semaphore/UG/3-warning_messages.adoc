@@ -1,0 +1,11 @@
+= Warning Messages
+
+NOTE: Besides the below described warning messages, warning messages shown in ‎<<6-references.adoc#_2, ‎[2]>> or those of other used features or product may also appear.
+
+`*Semaphore is already locked: <id>*`
+
+The lock function is called for a semaphore that is already locked.
+
+`*Semaphore <idx> was not unlocked before max waiting time expired. Semaphore unlocked*`
+
+The wait function reached the max waiting time but the Semaphore was not unlocked. The semaphore is unlocked automatically to let the wait function run.

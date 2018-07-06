@@ -1,0 +1,33 @@
+= Functional Specification
+
+== Protocol Version Implemented
+
+This set of protocol modules implements protocol messages and constants of the SRTP protocol.
+
+[[protocol-modifications-deviations]]
+=== Protocol Modifications/Deviations
+
+None.
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product also contains encoding/decoding [4] functions which assure correct encoding of messages when sent from Titan and correct decoding of messages when received by TITAN. Implemented encoding/decoding functions:
+
+[cols=",",options="header",]
+|===
+|Name |Type of formal parameters
+|`ef_SRTP_enc_pdu` |in RTP_messages_union pl_pdu, +
+out octetstring pl_result, +
+in BIT32_BO_LAST pl_first_ssrc, +
+in Key_Generators pl_generators, (session key and salt record) +
+in Srtp_Crypto_Transform pl_srtp_crypto_transform := SRTP_AES_CM, +
+in Srtp_Crypto_Hash pl_srtp_crypto_hash := SRTP_HMAC_SHA1
+|`ef_SRTP_dec_pdu` |in octetstring pl_stream, +
+out RTP_messages_union pl_pdu, +
+in BIT32_BO_LAST pl_first_ssrc, +
+in Key_Generators pl_generators , (session key and salt record) +
+in Srtp_Message_Types pl_message_type, (RTP or RTCP message) +
+in Srtp_Crypto_Transform pl_srtp_crypto_transform := SRTP_AES_CM, +
+in Srtp_Crypto_Hash pl_srtp_crypto_hash := SRTP_HMAC_SHA1
+|===

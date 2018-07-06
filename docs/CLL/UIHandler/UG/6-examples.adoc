@@ -1,0 +1,70 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* _cfg.cfg_
+* __UI_Handler_Test.ttcn__
+
+== Configuration File
+
+The used configuration file (_cfg.cfg_) is for the UIHandler example is placed in the demo directory.
+
+== Demo Module
+
+In this section we will look at the `tc_Messages` testcase in the demo directory.
+
+The task is simply making two textboxes, that one is writeable, and the second updates itself automatically to the the data of the first. This is done by two variables and two subscribing methods.
+
+After installing and setting up the dependencies, we need to design the layout as described in the previous section. It is done by a simple TTCN code, what sends the widgets (XTDP templates) directly to GUI.
+
+[source]
+----
+var EPTF_UIHandlerClient_SubsRet ret := f_EPTF_UIHandlerClient_addElementToGUI(c_MainHBox, tsp_EPTF_GUI_Main_Window_WidgetId);
+  ret := f_EPTF_UIHandlerClient_addElementToGUI(c_MainTabBox, tsp_EPTF_GUI_Main_Window_WidgetId);
+ret := f_EPTF_UIHandlerClient_addElementToGUI(c_MainWidgets, "bubuTab");
+f_EPTF_UIHandlerClient_removeElementFromGUI("EPTF_snapshot_button");
+f_EPTF_UIHandlerClient_enableGUIElement(c_EPTF_runtimeGuiExitButtonWidgetId);
+var XTDP_XML_Tag vl_xul;
+vl_xul :={
+    xtdp_textbox := {
+      disabled := false,
+      flex := omit,
+      id := "bubuTextBox",
+      multiline := false,
+      readonly := false,
+      rows := 1.0,
+      textvalue := "bubu",
+      widgetType := "console",
+      wrap := false
+    }
+  };
+ret := f_EPTF_UIHandlerClient_addElementToGUI(vl_xul, "EPTF_Main_hbox_Textboxes");
+vl_xul.xtdp_textbox.id := "tb2";
+vl_xul.xtdp_textbox.textvalue := "tb2";
+ret := f_EPTF_UIHandlerClient_addElementToGUI(vl_xul, "EPTF_Main_hbox_Textboxes");
+----
+
+We will be using the UIHandlerClient component as the type of our MTC and create a PTC with type UIHandler. This component will be the subscriber to the variables. Creating them and make a subscription is done by the following code:
+
+[source]
+----
+f_EPTF_Var_newInt("intVarProv",10, vl_intVarIdx);
+f_EPTF_Var_newFloat("floatVar",9.7, vl_floatVarIdx);
+f_EPTF_UIHandlerClient_subscribeMe("intVarProv", "intVar_Subscriber","bubuTextBox");
+f_EPTF_UIHandlerClient_subscribeMe("intVarProv","","tb2");
+----
+we may deploy two load measuring components:
+[source]
+----
+var EPTF_HostAdminUI_CT ct_hostadmin := EPTF_HostAdminUI_CT.create;
+ct_hostadmin.start(f_EPTF_HostAdminUI_behavior("LocalHostAdmin","Localhost",ct_subscriber));
+
+var EPTF_HostAdminUI_CT ct_hostadmin2 := EPTF_HostAdminUI_CT.create(-,”192.168.0.2”);
+ct_hostadmin2.start(f_EPTF_HostAdminUI_behavior("HostAdmin2","Host2",ct_subscriber));
+----
+
+After that, we only need to implement a main loop and the behaviors that describe the actions to our events. Only one exists in this case, the pressing of the Exit button.
+
+NOTE: The widgets that can be manipulated, or can control execution like buttons, should be connected to a variable, and only the variable’s changes should be handled, not the widget’s. In case it is not connected, but used as a controlling action, the shadowed GUIs won’t be updated, and actions from them may affect the execution.
+
+The whole source code can be found in the `tc_Messages` testcase of the demo ttcn file.

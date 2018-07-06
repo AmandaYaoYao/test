@@ -1,0 +1,56 @@
+= `NameService`
+
+== Overview
+
+The EPTF CLL `NameService` component is a fundamental component providing an implementation for name services in TTCN-3 environment. Such name services can be used to query values by name, for example, to query which component stores what resource.
+
+[[descr_of_files_in_this_feat]]
+== Description of Files in This Feature
+
+The EPTF CLL `NameService` API includes the following files:
+
+* `NameService`
+** __EPTF_CLL_NameService_Definitions.ttcnpp__: This TTCN-3 module contains common type definitions that should be used in all `NameService` Components.
+** __EPTF_CLL_NameService_Functions.ttcnpp__: This TTCN-3 module contains the implementation of `NameService` main functions.
+** __EPTF_CLL_NameService_Client_Functions.ttcnpp__: This TTCN-3 module contains the implementation of `NameService` client functions.
+** _EPTF_CLL_NameService_ExternalFunctions.cc_: This TTCN-3 module contains the c++ implementation of external functions of `NameService`.
+
+[[desc_req_files_other_feat]]
+== Description of Required Files from Other Features
+
+The `NameService` feature is part of the TitanSim EPTF Core Load Library (CLL). It relies on several features of the CLL. The user has to obtain the products/files to be found under the respective feature names:
+
+* `Base`
+
+== Installation
+
+Since EPTF CLL `NameService` is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor see the relevant section of ‎<<7-references.adoc#_2, [2]>>.
+
+If not otherwise noted in the respective sections, the following are needed to use EPTF CLL `NameService`:
+
+* Copy the files listed in section <<descr_of_files_in_this_feat, Description of Files in This Feature>> and <<desc_req_files_other_feat, Description of Required Files from Other Features>> to the directory of the test suite or create symbolic links to them.
+* Import the `NameService` demo or write your own application using `NameService`.
+* Create _Makefile_ or modify the existing one. For more details see the relevant section of <<7-references.adoc#_2, ‎[2]>>.
+* Edit the config file according to your needs, see following section <<configuration, Configuration>>.
+
+[[configuration]]
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual suffix of configuration files is _.cfg_. For further information on the configuration file see <<7-references.adoc#_2, ‎[2]>>.
+
+This set of features defines TTCN-3 module parameters as defined in <<7-references.adoc#_2, ‎[2]>>, clause 4. Actual values of these parameters – when there is no default value or a different from the default actual value to be used – shall be given in the `[MODULE_PARAMETERS]` section of the configuration file.
+
+The EPTF `NameService` feature does not define any module parameters.
+
+== Usage
+
+To use the EPTF `NameService` feature
+
+* Extend one of your component with the `EPTF_NS_CT` component and initialize it.
+* Extend your component with `EPTF_NS_Client_CT`.
+* call the `init` function of the `NameService` Client to initialize the feature
+* use its public functions to register/query names
+
+Note, that the `init` function activates the main altstep of the NameService, so it is not necessary to call it explicitly in any of your altsteps.
+
+Do not access the component variables in `EPTF_NS_CT` and `EPTF_NS_Client_CT` directly! Use the API functions instead.

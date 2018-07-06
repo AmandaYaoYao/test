@@ -1,0 +1,5 @@
+= DTE Handling
+
+When the Transport executes the message handler functions registered by `f_EPTF_CommPort_IPL4_setReceive`, `f_EPTF_CommPort_IPL4_send` or `EPTF_CLL_TransportIPL4_Functions`.`f_EPTF_Transport_registerMsgCallback` and a dynamic test case error occurs, then the execution of the component will not stop due to the error. However, Transport will print out a warning message about the error.
+
+By default DTE handling is disabled.

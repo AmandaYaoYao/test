@@ -1,0 +1,23 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 v4.3.1 (2011-06) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] User Guide for the TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] Programmer’s Technical Reference for TITAN TTCN–3 Test Executor
+
+[[_4]]
+[4] packet (7) Linux man page +
+http://www.die.net/doc/linux/man/man7/packet.7.html
+
+[[_5]]
+[5] Libpcap library +
+http://www.tcpdump.org
+
+[[_6]]
+[6] dlpi(7P) Solaris man page +
+http://docs.sun.com/app/docs/doc/816-5177/6mbbc4g4s?a=view

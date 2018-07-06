@@ -1,0 +1,17 @@
+= Terminology
+
+No specific terminology is used.
+
+= Abbreviations
+
+DHCP:: Dynamic Host Configuration Protocol
+
+ES:: ETSI Standard
+
+ETSI:: European Telecommunications Standards Institute
+
+GUI:: Graphical User Interface
+
+RFC:: Request for Comments
+
+TTCN-3:: Testing and Test Control Notation version 3

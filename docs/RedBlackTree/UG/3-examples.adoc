@@ -1,0 +1,15 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* __EPTF_RedBlackTree_demo.cfg__
+* __EPTF_RedBlackTree_demo.prj__
+* __EPTF_RedBlackTree_demo.ttcnpp__
+
+== Configuration File
+
+The used configuration file (__EPTF_RedBlackTree_demo.cfg__) for the Red Black Tree example is placed in the demo directory.
+
+== Demo Module
+
+The demo module (__EPTF_RedBlackTree_demo.ttcn__) illustrates a typical usage of the Red Black Tree feature.

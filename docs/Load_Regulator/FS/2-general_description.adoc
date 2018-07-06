@@ -1,0 +1,7 @@
+= General Description
+
+This document specifies the Load Regulator feature of the TitanSim CLL.
+
+The EPTF Load Regulator feature makes it possible to regulate the CPS of a load generator based on the load of the SUT.
+
+To be able to use EPTF Load Regulator, the user component should extend the `EPTF_LoadRegulator_CT` component.

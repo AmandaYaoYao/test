@@ -1,0 +1,14 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* __Transport_Demo.cfg__
+* __Transport_Demo.ttcn__
+
+== Configuration File
+
+The used configuration file (__Transport_Demo.cfg__) is for the Statistics Replay example is placed in the demo directory.
+
+== Demo Module
+
+The demo module (__Transport_Demo.ttcn__) illustrates a typical usage of the Transport feature.

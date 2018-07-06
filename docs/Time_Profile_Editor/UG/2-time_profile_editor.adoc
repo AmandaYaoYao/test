@@ -1,0 +1,89 @@
+= Time Profile Editor
+
+== Overview
+
+The EPTF CLL Time Profile Editor is an application which allows the user to create and edit time profiles used by the EPTF CLL Execution Control ‎<<6-references.adoc#_7, [7]>> component.
+
+[[description_of_files_in_this_feature]]
+== Description of Files in This Feature
+
+The EPTF CLL Time Profile Editor includes the following files:
+
+* __EPTF_CLL_Time_Profile_Editor.ttcn__ - the main module of the TPE.
+* __EPTF_CLL_Time_Profile_Editor_Definitions.ttcn__ - contains definitions that are used in the TPE.
+* __EPTF_CLL_Time_Profile_Editor_Functions.ttcn__ - contains the implementation of TPE functions.
+* __EPTF_CLL_TimeProfileEditor_XTDP_Templates.ttcn__ - contains template definitions for the sent and received XTDP (see <<6-references.adoc#_8, ‎[8]>>) messages.
+
+[[description_of_required_files_from_other_features]]
+== Description of Required Files From Other Features
+
+The Time Profile Editor feature is part of the TitanSim EPTF Core Load Library (CLL). It relies on several features of the CLL and the TCC Useful Functions. To use the Time Profile Editor, the user has to obtain the respective files from the following features:
+
+* `Common`
+* `ExecCtrl` (only the __EPTF_CLL_ExecCtrl_TimeProfile_Definitions.ttcn__ file is needed)
+
+From the TCC Useful Functions:
+
+** __TCCEncoding_Functions.ttcn__
+** _TCCEncoding.cc_
+** _TCCFileIO.cc_
+** __TCCFileIO_Functions.ttcn__
+
+[[installation]]
+== Installation
+
+Since `EPTF_CLL_TimeProfileEditor` is used as a part of the TTCN-3 test environment it requires TTCN-3 Test Executor to be installed before any operation. For more details on the installation of TTCN-3 Test Executor see the relevant section of ‎<<6-references.adoc#_2, [2]>>.
+
+If not otherwise noted in the respective sections, the following steps are to be carried out in order to use `EPTF_CLL_TimeProfileEditor`:
+
+* Copy the files listed in section ‎<<description_of_files_in_this_feature, Description of Files in This Feature>> and <<description_of_required_files_from_other_features, Description of Required Files From Other Features>> to the directory of the test suite or create symbolic links to them.
+* Copy the XTDP port ‎‎<<6-references.adoc#_8, [8]>> related files with their dependencies to the directory of the test suite or create symbolic links to them.
+* Create _Makefile_ or modify the existing one. For more details, see the relevant section of ‎‎<<6-references.adoc#_2, [2]>>.
+* Edit the configuration file according to your needs; see section <<configuration, Configuration>>.
+
+[[configuration]]
+== Configuration
+
+The executable program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual extension of configuration files is _.cfg_. For further information on the configuration file see <<6-references.adoc#_2, ‎[2]>>.
+
+The Time Profiler Editor defines TTCN-3 module parameters as defined in ‎<<6-references.adoc#_2, [2]>>, clause 4. Actual values of these parameters – when there is no default value or when a value that is different from the default value is to be used, the actual values of these parameters is to be given in the `[MODULE_PARAMETERS]` section of the configuration file.
+
+The Time Profiler Editor defines the following module parameters:
+
+`tsp_TimeProfileEditor_GuiPortListenAddr`
+
+This charstring parameter specifies the interface name where the TPE listens to the incoming Runtime GUI connection.
+
+Its default value is `_"localhost"_`.
+
+`tsp_TimeProfileEditor_GuiPortListenPort`
+
+This integer parameter specifies the port number where the TPE listens to the incoming Runtime GUI connection.
+
+Its default value is `_7331_`.
+
+`tsp_TimeProfileEditor_ConfigFilename`
+
+This charstring parameter specifies the configuration file path to which the edited time profile settings will be saved.
+
+Its default value is `_"edited_time_profiles.cfg"_`.
+
+`tsp_TimeProfileEditor_DisplayedTimeUnit`
+
+This charstring parameter specifies the time unit to be displayed in the TPE.
+
+Its default value is `_"hours"_`, and can be one of `_"hours"_`, `_"minutes"_` and `_"seconds"_`.
+
+*Note:* the user should not specify this setting in his or her main configuration file, or should not change it in the generated configuration file. This parameter is written automatically in the generated configuration file.
+
+`tsp_EPTF_ExecCtrl_TimeProfileDescrList`
+
+This parameter specifies previously edited _time sequence_s to be loaded and initialized by the TPE on start-up.
+
+NOTE: The user should not specify this setting in his or her main configuration file, or should not change it in the generated configuration file. This parameter is written automatically in the generated configuration file.
+
+`tsp_EPTF_ExecCtrl_TimeProfileList`
+
+This parameter specifies previously edited time profiles to be loaded and initialized by the TPE on start-up.
+
+NOTE: The user should not specify this setting in his or her main configuration file, or should not change it in the generated configuration file. This parameter is written automatically in the generated configuration file.

@@ -1,0 +1,27 @@
+= Abbreviations
+
+ASP:: Abstract Service Primitives
+
+IP:: Internet Protocol
+
+LAN:: Local Area Network
+
+LDAP:: Lightweight Directory Access Protocol
+
+RADIUS:: Remote Authentication Dial In User Service
+
+SCTP:: Stream Control Transmission Protocol
+
+SIP:: Session Initiation Protocol
+
+SSL:: Secure Socket Layer
+
+TCP:: Transmission Control Protocol
+
+TP:: Test Port
+
+TTCN-3:: Testing and Test Control Notation version 3
+
+UDP:: User Datagram Protocol
+
+VLAN:: Virtual LAN

@@ -1,0 +1,217 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* _HashMap.cfg_
+* __HashMap_demo.ttcn__
+
+== Configuration File
+
+The used configuration file (_HashMap.cfg_) is for the HashMap example is placed in the demo directory.
+
+== Demo Module
+
+The demo module (__HashMap_demo.ttcn__) illustrates a typical usage of the HashMap feature.
+
+Example 1 shows how to initialize, create, delete and handle a specific HashMap:
+
+[source]
+----
+Module HashMap_str2int_demo {
+
+  import from EPTF_CLL_str2int_HashMap all;
+
+  testcase tc_HashMap()
+    runs on MyMTC_CT
+  {
+
+    f_EPTF_str2int_HashMap_Init ();
+    var charstring v_first := "my_first_hashmap";
+    var integer v_first_int;
+    v_first_int := f_EPTF_str2int_HashMap_New (v_first);
+
+    var integer v_first_check;
+    var boolean is_first;
+    is_first := f_EPTF_str2int_HashMap_GetID(v_first,v_first_check);
+    log("The ID of ",v_first,"is ",v_first_check);
+
+    f_EPTF_str2int_HashMap_Delete (v_first);
+  }
+  control
+  {
+    execute( tc_HashMap() );
+  }
+}
+----
+
+Example 2 shows how to insert, find elements of HashMap:
+
+[source]
+----
+Module HashMap_str2int_demo {
+
+  import from EPTF_CLL_str2int_HashMap all;
+
+  testcase tc_HashMap()
+    runs on MyMTC_CT
+  {
+
+    f_EPTF_str2int_HashMap_Init ();
+    var charstring v_first := "my_first_hashmap";
+    var integer v_first_int;
+    v_first_int := f_EPTF_str2int_HashMap_New (v_first);
+
+    f_EPTF_str2int_HashMap_Insert ( v_first_int,"hello", 11 );
+    f_EPTF_str2int_HashMap_Insert ( v_first_int,"world", 22 );
+
+    var integer v_hm_data;
+    if ( f_EPTF_str2int_HashMap_Find (v_first_int,"hello", v_hm_data ) )
+    {
+      log("Reading data from hashmap first, key = hello data: \n", v_hm_data );
+    }
+
+    f_EPTF_str2int_HashMap_Erase (v_first_int, "hello" );
+
+    f_EPTF_str2int_HashMap_Delete (v_first);
+  }
+  control
+  {
+    execute( tc_HashMap() );
+  }
+}
+----
+
+Example 3 shows how to get and set the size of HashMaps:
+
+[source]
+----
+Module HashMap_str2int_demo {
+
+  import from EPTF_CLL_str2int_HashMap all;
+
+  testcase tc_HashMap()
+    runs on MyMTC_CT
+  {
+
+    f_EPTF_str2int_HashMap_Init ();
+    var charstring v_first := "my_first_hashmap";
+    var integer v_first_int;
+    v_first_int := f_EPTF_str2int_HashMap_New (v_first);
+
+    f_EPTF_str2int_HashMap_Insert ( v_first_int,"hello", 11 );
+    f_EPTF_str2int_HashMap_Insert ( v_first_int,"world", 22 );
+
+    var integer v_hm_size;
+    v_hm_size := f_EPTF_str2int_HashMap_Size (v_first_int);
+    log( "Number of elements in hashmap: \n", v_hm_size );
+
+    var float v_max_size;
+    v_max_size := f_EPTF_str2int_HashMap_MaxSize (v_first_int);
+    log( "Maximum size of hashmap: \n", v_max_size );
+
+    log( "Resizing the hashmap to countain at least 500 empty buckets”);
+    f_EPTF_str2int_HashMap_Resize (v_first_int,500);
+
+
+    f_EPTF_str2int_HashMap_Delete (v_first);
+  }
+  control
+  {
+    execute( tc_HashMap() );
+  }
+}
+----
+
+Example 4 shows a while cycle with begin and next functions:
+
+[source]
+----
+Module HashMap_str2int_demo {
+
+  import from EPTF_CLL_str2int_HashMap all;
+
+  testcase tc_HashMap()
+    runs on MyMTC_CT
+  {
+
+    f_EPTF_str2int_HashMap_Init ();
+    var charstring v_first := "my_first_hashmap";
+    var integer v_first_int;
+    v_first_int := f_EPTF_str2int_HashMap_New (v_first);
+
+    f_EPTF_str2int_HashMap_Insert ( v_first_int,"hello", 11 );
+    f_EPTF_str2int_HashMap_Insert ( v_first_int,"world", 22 );
+
+
+    var charstring v_readkey:="";
+    var boolean v_cycleIsOver:= f_EPTF_str2int_HashMap_Begin(v_first_int, v_readkey);
+    if( not v_cycleIsOver )
+    {
+      log("No elements in hashmap" );
+    };
+
+    while (v_cycleIsOver)
+    {
+      var integer v_hm_data;
+      if ( f_EPTF_str2int_HashMap_Find (v_first_int, v_readkey, v_hm_data ) )
+      {
+        log("key,data pairs: \n", v_readkey," ", v_hm_data );
+      }
+      v_cycleIsOver := f_EPTF_str2int_HashMap_Next(v_first_int, v_readkey);
+  }
+
+    f_EPTF_str2int_HashMap_Delete (v_first);
+  }
+
+  control
+  {
+    execute( tc_HashMap() );
+  }
+}
+----
+
+Example 5 shows the dumping HashMap functions:
+
+[source]
+----
+Module HashMap_str2int_demo {
+
+  import from EPTF_CLL_str2int_HashMap all;
+
+  testcase tc_HashMap()
+    runs on MyMTC_CT
+  {
+
+    f_EPTF_str2int_HashMap_Init ();
+    var charstring v_first := "my_first_hashmap";
+    var integer v_first_int;
+    v_first_int := f_EPTF_str2int_HashMap_New (v_first);
+    f_EPTF_str2int_HashMap_Init ();
+    var charstring v_second := "my_second_hashmap";
+    var integer v_second_int;
+    v_second_int := f_EPTF_str2int_HashMap_New (v_second);
+
+
+    f_EPTF_str2int_HashMap_Insert ( v_first_int,"hello", 11 );
+    f_EPTF_str2int_HashMap_Insert ( v_first_int,"world", 22 );
+    f_EPTF_str2int_HashMap_Insert ( v_second_int,"good", 88 );
+    f_EPTF_str2int_HashMap_Insert ( v_second_int,"day", 99 );
+
+    log("Dumping first hashmap by name");
+    f_EPTF_str2int_HashMap_Dump(v_first);
+
+    log("Dumping first hashmap by ID");
+    f_EPTF_str2int_HashMap_DumpByID(v_first_int);
+
+    log("Dumping all hashmaps");
+    f_EPTF_str2int_HashMap_DumpAll();
+
+    f_EPTF_str2int_HashMap_Delete (v_first);
+    f_EPTF_str2int_HashMap_Delete (v_second);
+  }
+  control
+  {
+    execute( tc_HashMap() );
+  }
+}
+----

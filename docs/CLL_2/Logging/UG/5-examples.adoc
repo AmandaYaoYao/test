@@ -1,0 +1,8 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* __EPTF_Logging_test.ttcn__
+* __EPTF_Logging_test.cfg__
+* __LoggingUI_Demo.ttcn__
+* _LoggingUI.cfg_

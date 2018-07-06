@@ -1,0 +1,11 @@
+= Warning Messages
+
+NOTE: Besides the below described warning messages, warning messages shown in <<6-references.adoc#_2, ‎[2]>> or those of other used features or product may also appear.
+
+The Free Busy Queue feature may log one or more of the following warning messages:
+
+* `*f_EPTF_FBQ_getQueueData: : invalid item ("<item idx>")*` or `*data("<data idx>") index. Items:''<number of items>"*`
+* `*f_EPTF_FBQ_moveFromFreeHeadToBusy : pl_idx is not the head of chain!*`
+* `*f_EPTF_FBQ_moveFromFreeHeadToBusy : the pl_afteridx does not points to the tail!*`
+* `*f_EPTF_FBQ_moveFromFreeHeadToBusy : the pl_beforeidx does not points to the head!*`
+* `*f_EPTF_FBQ_moveFromFreeHeadToBusy : the item after pl_afteridx is not pl_beforeidx!*` 

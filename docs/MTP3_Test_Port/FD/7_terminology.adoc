@@ -1,0 +1,77 @@
+= Terminology
+
+MTP3 MTP level 3 the signaling network layer of SS7
+
+MTP3-User Any protocol normally using the services of the SS7 MTP3 or M3UA (e.g.` ISUP`, SCCP, TUP, etc).
+
+M3UA MTP3 User Adaptation Layer. M3UA is a protocol supporting the transport of any SS7. MTP3-User signaling over IP using the services of the SCTP protocol. (See <<8_references.adoc#_17, [17]>>)
+
+Test Port An adaptation between the TTCN-3 Test Executor and the SUT.
+
+`SEA` Simulator Environment Architecture, provides the possibility to have simulated `AXE` nodes running on a Unix workstation.
+
+`STC` Mode In this mode the implementation of `MTP3` layer or the `M3UA` layer is missing. It was introduced to be able to test `GCP` over `SCTP` with the same test cases as `GCP` over M3UA, but it can be used also to test the `MTP3` layer or the `M3UA` layer itself.
+
+= Abbreviations
+
+ANSI:: American National Standards Institute
+
+ASP:: Abstract Service Primitive
+
+ATM:: Asynchronous Transfer Mode
+
+BICC:: Bearer Independent Call Control
+
+DPC:: Destination Point Code
+
+IETF:: Internet Engineering Task Force
+
+IP:: Internet Protocol
+
+ISUP:: ISDN User Part
+
+ITU:: International Telecommunication Union
+
+ITU-T:: Telecommunication Standardization Sector of ITU
+
+IUP:: Interconnect User Part
+
+IUT:: Implementation Under Test
+
+MPH:: Message Protocol Handler
+
+MPT:: Ministry of Post and Telecommunications (People’s Republic of China)
+
+MSU:: Message Signal Unit
+
+MTP3:: Message Transfer Part level 3
+
+MTP3b:: MTP3 adaptation for Q.2140
+
+M3UA:: SS7 MTP3 User Adaptation Layer
+
+NI:: Network Indicator
+
+OPC:: Originating Point Code
+
+PDU:: Protocol Data Unit
+
+RFC:: Request For Comments
+
+SEA:: Simulator Environment Architecture
+
+SIF:: Service Information Field
+
+SIO:: Service Information Octet
+
+SPC:: Signaling Point Code
+
+SS7:: Signaling System No 7
+
+SCTP:: Stream Control Transmission Protocol
+
+SUT:: System Under Test
+
+TTCN-3:: Testing and Test Control Notation version 3
+
+TTC:: Telecommunications Technology Committee (Standardization body of Japan)

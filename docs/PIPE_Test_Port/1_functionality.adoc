@@ -1,0 +1,23 @@
+= Functionality
+
+The test port establishes connection between the TTCN-3 test executor and the Unix/Linux shell.
+
+== Overview
+
+The PIPE test port provides the following functionalities:
+
+* Execute a given command directly without any interaction of the running command.
+* Execute a given command in the background with the possibility of the live interaction of the command via _``stdin``_, _``stdout``_, and _``stderr``_.
+* Input and output of commands can be sent as a charstring (string) or octetstring (binary data)
+* Able to select method to handle new lines in the inputs and outputs
+* Able to kill a background process
+* Exit code of the process is returned when the process terminates
+* Able to execute command attached to a new PTY.
+
+== System Requirements
+
+In order to operate the PIPE test port the following system requirements must be satisfied:
+
+* TITAN TTCN-3 Test Executor R7A (1.7.pl0) or higher installed. For installation guide see <<7_references.adoc#[_2], [2]>>.
+
+NOTE: This version of the test port is not compatible with TITAN releases earlier than R7A.

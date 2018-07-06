@@ -1,0 +1,55 @@
+= Upgrading Templates Used by the DIAMETER Test Port
+
+The DPMG type structure differs from the one that is used in the DIAMETER message test port. This causes backward incompatibilities in the TTCN-3 type definition module. Therefore, functions and templates developed for DIAMETER message test port need to be updated according to the changes of the type definition so that they can be used with DPMG.
+
+In case new fields were added into existing record or set types, the new templates should contain these fields set to omit.
+
+In case a type has changed completely the whole template or part of template must be changed.
+
+If a function is accessing a field that has changed that function needs to be updated as well.
+
+Here you can find a list of major changes:
+
+1.  The module name containing DIAMETER type definitions has been changed, thus you should replace `DIAMETERmsg_Types` by `DIAMETER_Types` in import lines of modules using DIAMETER type definitions.
+
+2. The name of top level PDU changed from `DIAMETER_message` to `PDU_DIAMETER`.
+
+3. Command flags of the PDU are handled as an 8 bit length bitfield instead of separated bits.
+
+4. The field of the PDU contains the list of AVPs renamed from `AVPs` to `avps`.
+
+5. The enumerated type that contains command codes is renamed from `message_code` to `Command_Code`, and the names of enumerated items are changed according to the naming convention of the protocol module generator.
+
+6. The type of fields `hop_by_hop_id` and `end_to_end_id` is changed from integer to a 4 octets long octetstring.
+
+7. The type tree that models the AVPs was modified. A `GenericAVP` type was introduced for error-handling purposes. Its `avp` branch contains the correctly decoded `AVP`, but if something goes wrong during decoding, the `avp_UNKNOWN` branch is used instead, which is of type octetstring.
+
+8. Instead of a union type `AVP`, an `AVP` record is applied with two fields that contain the `AVP_Header` and the `AVP_Data`, respectively.
+
+9. The field names of the union type `AVP_Data` are denominated according to the naming convention.
+
+10. All type names of AVPs are changed according to the naming convention.
+
+11. In the `AVP_Header` type the name and type of the field contains the AVP code changed. The name is changed from `AVP_code` to `avp_code`. The type has changed from integer to a union of enumerations.
+
+12. AVP flags in `AVP_Header` type are handled as an 8 bit long bitfield instead of separated bits.
+
+13. The type of `vendor_id` field is changed from octetstring to enumeration.
+
+14. Name of enumeration types and values within AVPs are changed according to 3.1.2.
+
+15. To ease the process of template development the `DPMG AWK` script generates `AVP_Code` constants. These make it possible to avoid using the enumeration union and provide an easy way to reference an AVP code. The names of the constants take the following form:
+
+[source]
+c_AVP_Code_<Application-Name>_<Official-Vendor-Id>_<Official-AVP-Name>
+
+Example:
+
+[source]
+----
+const AVP_Code c_AVP_Code_SCAP_Ericsson_Cost :=
+\{
+vendor_id_Ericsson := avp_code_SCAP_Ericsson_Cost
+}
+----
+It is recommended to use these constants in order to prevent incompatibilities with future versions of DPMG.

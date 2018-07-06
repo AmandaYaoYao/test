@@ -1,0 +1,63 @@
+[[eptf-statcapturecontrol-ct-component-api]]
+= `EPTF_StatCaptureControl_CT` Component API
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_StatCaptureControl_`.
+
+== Public Functions
+
+=== Initialization
+
+In order to use the (optional) EPTF Statistics Capture Control functionality the
+
+[source]
+----
+f_EPTF_StatCaptureControl_init(componentname, nameserverRef,
+			         autoControlEnabled)
+----
+
+function should be called. The `EPTF_StatCaptureControl_CT` component extends the `EPTF_NS_Client_CT` Name Server Client component to use the Name Service functionality. Therefore, in the `nameserverRef` parameter, the component reference to the belonging Name Service Server Component is needed. This initializes the EPTF Statistics Capture Control component, processes the configuration parameters (for example capture control mode), registers component references to the Name Service Server and adds `PostProc` functions (see <<automatic_capture_control_functionality, Automatic Capture Control Functionality>> for capture control. These `PostProc` functions automatically control the statistics capture according to the changes of the capture control Variables.
+
+In case the function is called with the optional `autoControlEnabled` parameter set to `_false_`, the component behaves exaclty like the `EPTF_StatCapture_CT` component (see <<4-eptfstatcapture_ct_component_api.adoc, EPTF StatCaptureControl_component_API>> ). (Automatic capture control is switched off). By default, this parameter is set to `_true_`.
+
+== Private Functions
+
+These functions _should not be called_ by the user of the EPTF Statistics Capture Control feature.
+
+[[automatic_capture_control_functionality]]
+=== Automatic Capture Control Functionality
+
+The capture control functionality is implemented with `PostProc` functions belonging to the control Variables of the Capture Control Modes respectively.
+
+`f_EPTF_StatCaptureControl_User_PostProc (idx, argList)`
+
+`f_EPTF_StatCaptureControl_Execution_PostProc (idx, argList)`
+
+`f_EPTF_StatCaptureControl_Load_PostProc (idx, argList)`
+
+If certain guard conditions are fulfilled, they call the statistics starting/stopping functions (`f_EPTF_StatCapture_startCaptureAll()`, `f_EPTF_StatCapture_stopCaptureAll()`) of the `EPTF_StatCapture_CT` API.
+
+=== Cleanup Function
+
+`f_EPTF_StatCaptureControl_cleanup()`
+
+This function is responsible for a peaceful cleanup after termination of the program module or in case of errors.
+
+NOTE: This is a private function; it should not be called by the user. On the other hand, it is important that the user application should _register this cleanup function_ in its init function with
+
+`f_EPTF_Base_RegisterCleanup(refers(f_EPTF_StatCaptureControl _cleanup())`
+
+and make sure that you call the `f_EPTF_Base_cleanup_CT()` function (not the private `StatCaptureControl_cleanup function!)` before terminating the component execution. See more details on the usage of the EPTF Base functions in its Function Description <<<<9-references.adoc#_7, ‎[7]>>.
+
+NOTE: Other private functions not mentioned in the documentation can be found in the source code after the //Private Functions comment. These functions should not be called by the user.
+
+== Summary Table of the Public Functions for EPTF Statistics Capture Control
+
+See Summary of Statistics Capture Control functions belonging to the `EPTF_StatCaptureControl_CT` component in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|=============================================================================================================
+|Function name |Description
+|`f_EPTF_StatCaptureControl_init_CT` |Initializes the `StatCaptureControl` component and activates event handling.
+|=============================================================================================================

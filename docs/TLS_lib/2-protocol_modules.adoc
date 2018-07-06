@@ -1,0 +1,13 @@
+= Protocol Modules
+
+== Overview
+
+The TLS library implement the control functions in a formalized way. This allows defining of test data (templates) in the TTCN-3 language <<5-references.adoc#_2, [2]>> and correct encoding/decoding of messages when executing test suites using the TITAN TTCN-3 test environment.
+
+== Installation
+
+The set of protocol modules can be used in developing TTCN-3 test suites using any text editor. However, to make the work more efficient a TTCN-3-enabled text editor is recommended (e.g. `nedit`, `xemacs`). Since the TLS library is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<5-references.adoc#_3, [3]>>.
+
+== Configuration
+
+None.

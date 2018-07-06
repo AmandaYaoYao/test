@@ -1,0 +1,11 @@
+= Terminology
+
+No specific terminology used.
+
+== Abbreviations
+
+IP:: Internet Protocol
+
+SDP:: Session Description Protocol
+
+TTCN-3:: Testing and Test Control Notation version 3

@@ -1,0 +1,13 @@
+= Warning Messages
+
+`*WARNING: maximum allowed buffer length exceeded!*`
+
+The maximum allowed reassembly buffer length has been exceeded during the assembly of a SUA CODT message. Try setting the parameter `tsp_SUA_data_maxlen`.
+
+`*WARNING: N-CONNECTres ASP received without a connection Id param.!*`
+
+For successful connection establishment in SUA PE the `N-CONNECTresp` primitive must convey a connection Id field.
+
+`*WARNING: N-DISCONNECT_req ASP received without a connection Id param.!*`
+
+For successful disconnection in SUA PE the `N-CONNECTresp` primitive must convey a connection Id field.

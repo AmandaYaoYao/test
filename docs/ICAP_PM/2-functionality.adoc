@@ -1,0 +1,33 @@
+= Functionality
+
+The protocol module implements the message structure of the Internet Content Adaption Protocol (ICAP), using the standard specification language TTCNv3. This allows defining of test data in the TTCNv3 language <<6-references.adoc#_3, [3]>> and correctly encoding/decoding these messages when executing test suites using the TITAN TTCNv3 test environment.
+
+== Protocol Version Implemented
+
+This set of protocol modules implements protocol messages and constants of https://tools.ietf.org/html/rfc3507[RFC 3507] and https://tools.ietf.org/html/rfc2616[RFC 2616].
+
+== Routing Functionality
+
+Routing functionality is not performed.
+
+== Modified and Non-Implemented Protocol Elements
+
+=== Relaxed Conditions
+
+There is no constraint between received and sent messages.
+
+== Ericsson-Specific Changes
+
+There is no Ericsson specific change in this product.
+
+== Backward Incompatibilities
+
+None.
+
+== System Requirements
+
+Protocol modules are a set of TTCN-3 source code files that can be used as part of TTCN-3 test suites only. Hence, protocol modules alone do not put specific requirements on the system used. However, in order to compile and execute a TTCN-3 test suite using the set of protocol modules the following system requirements must be satisfied:
+
+* TITAN TTCN-3 Test Executor version R7A (1.7.pl0) or higher installed. For installation guide see <<6-references.adoc#_4, [4]>>.
+
+NOTE: This version of the protocol module is not compatible with TITAN releases earlier than R7A.

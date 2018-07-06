@@ -1,0 +1,16 @@
+= Terminology
+
+*Pseudo terminal:* +
+In http://en.wikipedia.org/wiki/Unix[Unix], a pseudo terminal is a http://en.wikipedia.org/wiki/Kernel_%28computer_science%29[kernel] device pair that simulates an ordinary http://en.wikipedia.org/wiki/Computer_terminal[terminal] but without the associated terminal hardware. Instead, a http://en.wikipedia.org/wiki/Computer_process[process] replaces the role of the underlying hardware for the pseudo terminal session.
+
+= Abbreviations
+
+IUT:: Implementation Under Test
+
+OpenSSH:: Open Secure Shell
+
+SSH:: Secure Shell
+
+SUT:: System Under Test
+
+TTCN-3:: Testing and Test Control Notation version 3

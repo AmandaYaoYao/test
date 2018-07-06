@@ -1,0 +1,45 @@
+= Description of the PTC Deploying Feature
+
+In case you are simulating many users for your test, and have a non-homogenous computer park that is used for running many PTCs, you may want to specify how many PTCs you want to run on a selected computer.
+
+With the PTCD component you can give a weight to every host, thus the hosts with bigger weights will be chosen more often for deploying a PTC. The weights must be positive integers.
+
+To use the functionality in your component, you need to extend `EPTF_PTCD_CT` first. You also need to call `f_EPTF_PTCD_init_CT` when you are initializing your component.
+
+== Host-Related Operations
+
+=== Adding Hosts
+
+With the function `f_EPTF_PTCD_AddHosts`, the database can be filled up with hosts and their weights. It requires a role, and a list of hosts with weights. If the role is already exists, the host will be appended to the existing hosts. Returns no value.
+
+Example:
+
+[source]
+f_EPTF_PTCD_AddHosts("roleA",\{\{"hostA",35},\{"192.168.1.2",11}});
+
+=== Removing Hosts
+
+The function `f_EPTF_PTCD_RemoveHosts` deletes the given hosts from the database. It requires a role, and a list of hosts. Returns no value.
+
+Example:
+
+[source]
+f_EPTF_PTCD_RemoveHosts(`"roleB'",\{`"192.168.2.1'","hostC"});
+
+=== Query Hosts
+
+The function `f_EPTF_PTCD_GetHost` requires a role and a method indicating integer value what is optional and chooses a host from that role according to the way described in the Functional Description of EPTF PTCD <<4-references.adoc#_3, [3]>>. The default method is a random over against the deterministic way.
+
+NOTE: When using the deterministic algorithm, you must query for a host at least sum of the weights to get all the hosts surely chosen, and than you can be sure that the distribution of the hosts are following the weights that was specified.
+
+Returns the name of the host.
+
+Example:
+[source]
+----
+var charstring host := f_EPTF_PTCD_GetHost("roleA");
+
+var charstring host := f_EPTF_PTCD_GetHost("roleA", 1);
+----
+
+If you would like to generate the host in a deterministic way.

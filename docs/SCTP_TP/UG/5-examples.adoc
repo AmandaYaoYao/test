@@ -1,0 +1,126 @@
+= Examples
+
+== Configuration file
+
+An example RTE configuration file is shown below:
+
+[source]
+----
+#ModuleName.SampleParameter := SampleValue
+[TESTPORT_PARAMETERS]
+system.SCTP_SimpleClientPort.simple_mode := "yes"
+system.SCTP_SimpleClientPort.reconnect := "no"
+system.SCTP_SimpleClientPort.reconnect_max_attempts := "10"
+system.SCTP_SimpleClientPort.server_mode := "no"
+system.SCTP_SimpleClientPort.debug := "yes"
+system.SCTP_SimpleClientPort.server_backlog := "1"
+system.SCTP_SimpleClientPort.peer_IP_address := "127.0.0.1"
+system.SCTP_SimpleClientPort.peer_port := "6017"
+system.SCTP_SimpleClientPort.sinit_num_ostreams := "64"
+system.SCTP_SimpleClientPort.sinit_max_instreams := "64"
+system.SCTP_SimpleClientPort.sinit_max_attempts := "0"
+system.SCTP_SimpleClientPort.sinit_max_init_timeo := "0"
+system.SCTP_SimpleClientPort.sctp_association_event := "enabled"
+system.SCTP_SimpleClientPort.sctp_address_event := "enabled"
+system.SCTP_SimpleClientPort.sctp_send_failure_event := "enabled"
+system.SCTP_SimpleClientPort.sctp_peer_error_event := "enabled"
+system.SCTP_SimpleClientPort.sctp_shutdown_event := "enabled"
+system.SCTP_SimpleClientPort.sctp_partial_delivery_event := "enabled"
+system.SCTP_SimpleClientPort.sctp_adaption_layer_event := "enabled"
+
+system.SCTP_SimpleServerPort.simple_mode := "yes"
+system.SCTP_SimpleServerPort.reconnect := "no"
+system.SCTP_SimpleServerPort.reconnect_max_attempts := "10"
+system.SCTP_SimpleServerPort.server_mode := "yes"
+system.SCTP_SimpleServerPort.debug := "yes"
+system.SCTP_SimpleServerPort.server_backlog := "1"
+system.SCTP_SimpleServerPort.local_IP_address := "0.0.0.0"
+system.SCTP_SimpleServerPort.local_port := "6017"
+system.SCTP_SimpleServerPort.peer_IP_address := "127.0.0.1"
+system.SCTP_SimpleServerPort.sinit_num_ostreams := "64"
+system.SCTP_SimpleServerPort.sinit_max_instreams := "64"
+system.SCTP_SimpleServerPort.sinit_max_attempts := "0"
+system.SCTP_SimpleServerPort.sinit_max_init_timeo := "0"
+system.SCTP_SimpleServerPort.sctp_association_event := "enabled"
+system.SCTP_SimpleServerPort.sctp_address_event := "enabled"
+system.SCTP_SimpleServerPort.sctp_send_failure_event := "enabled"
+system.SCTP_SimpleServerPort.sctp_peer_error_event := "enabled"
+system.SCTP_SimpleServerPort.sctp_shutdown_event := "enabled"
+system.SCTP_SimpleServerPort.sctp_partial_delivery_event := "enabled"
+system.SCTP_SimpleServerPort.sctp_adaption_layer_event := "enabled"
+
+
+system.SCTP_ClientPort.simple_mode := "no"
+system.SCTP_ClientPort.reconnect := "no"
+system.SCTP_ClientPort.reconnect_max_attempts := "10"
+system.SCTP_ClientPort.server_mode := "no"
+system.SCTP_ClientPort.debug := "yes"
+system.SCTP_ClientPort.server_backlog := "1"
+system.SCTP_ClientPort.peer_IP_address := "127.0.0.1"
+system.SCTP_ClientPort.peer_port := "6017"
+system.SCTP_ClientPort.sinit_num_ostreams := "64"
+system.SCTP_ClientPort.sinit_max_instreams := "64"
+system.SCTP_ClientPort.sinit_max_attempts := "0"
+system.SCTP_ClientPort.sinit_max_init_timeo := "0"
+system.SCTP_ClientPort.sctp_association_event := "enabled"
+system.SCTP_ClientPort.sctp_address_event := "enabled"
+system.SCTP_ClientPort.sctp_send_failure_event := "enabled"
+system.SCTP_ClientPort.sctp_peer_error_event := "enabled"
+system.SCTP_ClientPort.sctp_shutdown_event := "enabled"
+system.SCTP_ClientPort.sctp_partial_delivery_event := "enabled"
+system.SCTP_ClientPort.sctp_adaption_layer_event := "enabled"
+
+system.SCTP_ServerPort.simple_mode := "no"
+system.SCTP_ServerPort.reconnect := "no"
+system.SCTP_ServerPort.reconnect_max_attempts := "10"
+system.SCTP_ServerPort.server_mode := "yes"
+system.SCTP_ServerPort.debug := "yes"
+system.SCTP_ServerPort.server_backlog := "1"
+system.SCTP_ServerPort.local_IP_address := "0.0.0.0"
+system.SCTP_ServerPort.local_port := "6017"
+system.SCTP_ServerPort.peer_IP_address := "127.0.0.1"
+system.SCTP_ServerPort.sinit_num_ostreams := "64"
+system.SCTP_ServerPort.sinit_max_instreams := "64"
+system.SCTP_ServerPort.sinit_max_attempts := "0"
+system.SCTP_ServerPort.sinit_max_init_timeo := "0"
+system.SCTP_ServerPort.sctp_association_event := "enabled"
+system.SCTP_ServerPort.sctp_address_event := "enabled"
+system.SCTP_ServerPort.sctp_send_failure_event := "enabled"
+system.SCTP_ServerPort.sctp_peer_error_event := "enabled"
+system.SCTP_ServerPort.sctp_shutdown_event := "enabled"
+system.SCTP_ServerPort.sctp_partial_delivery_event := "enabled"
+system.SCTP_ServerPort.sctp_adaption_layer_event := "enabled"
+
+#ComponentID.PortName.ParameterName := "ParameterValue"
+[EXTERNAL_COMMANDS]
+
+#BeginControlPart := "begin_control_part_command"
+#EndControlPart := "end_control_part_command"
+#BeginTestCase := "begin_testcase_command"
+#EndTestCase := "end_testcase_command"
+[LOGGING]
+FileMask := LOG_ALL | TTCN_MATCHING | TTCN_DEBUG
+ConsoleMask := TTCN_ERROR | TTCN_WARNING | TTCN_ACTION | TTCN_TESTCASE | TTCN_STATISTICS | TTCN_DEBUG
+SourceInfoFormat := Single
+
+#FileMask := LOG_ALL | TTCN_MATCHING | TTCN_DEBUG
+#ConsoleMask := LOG_ALL | TTCN_MATCHING | TTCN_DEBUG
+#TimeStampFormat := DateTime
+#LogEventTypes := Yes
+#LogSourceInfo := Yes
+[GROUPS]
+
+#Group := host1, host2, host3
+[COMPONENTS]
+
+#ComponentName := Group
+[MAIN_CONTROLLER]
+TCPPort := 9999
+NumHCs := 1
+
+[EXECUTE]
+SCTPasp_regressiontest_Testcases.control
+
+//saved by GUI
+
+----

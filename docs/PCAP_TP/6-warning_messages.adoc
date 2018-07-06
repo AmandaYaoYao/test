@@ -1,0 +1,35 @@
+= Warning Messages
+
+Besides the warnings messages listed below, warnings shown in `*Error! Reference source not found.Error! Reference source not found.Error! Reference source not found.*` may also appear.
+
+`*You must be root to be able to use the test port in capturing mode*`
+
+In order to use the test port in capturing mode the user must have root privileges for being able to access the network interface via the pcap library.
+
+`*Error reading the packets: <cause>*`
+
+In reading mode, if the test port could not read packets, this message is generated with the corresponding reason.
+
+`*Unable to compile the filter, check the syntax: <filter expression>*`
+
+The test port could not compile the filter expression that was given in the configuration file, probably because it has a wrong syntax.
+
+`*Error setting the filter*`
+
+Although the filter expression given in the configuration file could be compiled, the test port could not apply it to the network interface.
+
+`*Received truncated IP datagram*`
+
+The capture file contains a truncated IP packet, that size is shorter then the expected IP header length. These packets are thrown away and this warning message is generated.
+
+`*Captured only <no> of bytes of <length>-byte IP datagram*`
+
+The capture file contains an IP packet that was not captured entirely. These packets are thrown away and this warning message is generated.
+
+`*Unknown IP version: <version>*`
+
+The test port currently supports only IPv4, thus packets containing other IP version are dropped with this warning message. Please note that this message may appear if the link layer protocol is not Ethernet II.
+
+`*Lost TCP segment detected!: Current sequence number: <seq_num>, size: <size>, acknowledgement number: <ack_num>*`
+
+This warning message indicates that the test port detected a lost segment. That is, it detected an acknowledgement number that acknowledges a segment that has not appeared in the capture file. If this happens, the test port jumps over the missing gap and assembles the remaining part of the stream.

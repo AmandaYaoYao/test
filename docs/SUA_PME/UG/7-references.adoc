@@ -1,0 +1,24 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 V2.2.1 +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] User Guide for TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] Programmer´s Technical Reference for TITAN TTCN-3 Test Executor
+
+[[_4]]
+[4] Installation Guide for TITAN TTCN-3 Test Executor
+
+[[_5]]
+[5] TTCNv3 Requirement Specification for MSC R13
+
+[[_6]]
+[6] SUA Protocol Emulation for TTCN-3 Toolset, Function Specification
+
+[[_7]]
+[7] http://www.ietf.org/rfc/rfc3868.txt?number=3868[RFC 3868] +
+Signaling Connection Control Part User Adaptation Layer (SUA)

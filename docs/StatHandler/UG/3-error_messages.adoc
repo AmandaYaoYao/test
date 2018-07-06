@@ -1,0 +1,27 @@
+= Error Messages
+
+NOTE: Besides the below described error messages, error messages shown in <<7-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+`*f_EPTF_StatHandler_setMethodForStat: stat method <statMethod> for integer stat <statName> is not supported.*`
+
+The method `<statMethod>` that was set for statistics `<statName>` is not supported for integer statistics.
+
+`*f_EPTF_StatHandler_setMethodForStat: Cannot set <statMethod> stat method for stat <statName> := <statResetValue>*`
+
+The method `<statMethod>` cannot be set for statistics <statName> as the type of the reset value `<statResetValue>` is not supported by `statHandler`.
+
+`*f_EPTF_StatHandler_createAuxData_Percentile95: Could not create aux stat <auxStatName> for Percentile95.*`
+
+The auxiliary statistics with name `<auxStatName>` could not be declared.
+
+`*f_EPTF_StatHandler_createAuxData_PercentileP: Could not create aux stat <auxStatName> for PercentileP.*`
+
+The auxiliary statistics with name `<auxStatName>` could not be declared.
+
+`*as_EPTF_StatHandlerClient_msgHandler: unexpected message received from <sender>*`
+
+The `<sender>` component sent an unexpected message to the `StatHandlerClient`.
+
+`*f_EPTF_StatHandlerUI_initGUI: cannot add element to gui (<returnValue>): <xul>*`
+
+The element described by the `<xul>` data structure could not be added to the GUI. The result of the operation is `<returnValue>`.

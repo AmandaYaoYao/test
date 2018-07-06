@@ -1,0 +1,38 @@
+= Functional Specification
+
+== Protocol Version Implemented
+
+This set of protocol modules implements protocol messages and constants of the SNDCP protocol - 3GPP TS 44.065 V7.0.0 (see <<5-references.adoc#_1, [1]>>).
+
+[[modifications-deviations-related-to-the-protocol-specification]]
+== Modifications/Deviations Related to the Protocol Specification
+
+=== Unimplemented Messages, Information Elements and Constants
+
+None.
+
+[[protocol-modifications-deviations]]
+=== Protocol Modifications/Deviations
+
+None.
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product also contains encoding/decoding functions which assure correct RAW encoding of messages when sent from Titan and correct RAW decoding of messages when received by Titan. Implemented encoding/decoding functions:
+
+[cols=3*,options=header]
+|===
+
+|Name
+|Type of formal parameters
+|Type of return value
+
+|enc_PDU_SN
+|PDU_SN
+|octetstring
+
+|dec_PDU_SN
+|octetstring
+|PDU_SN
+|===

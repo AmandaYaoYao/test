@@ -1,0 +1,15 @@
+= References
+
+[[_1]]
+[1] 3GPP TS 48.008 V11.2.0 (2012-05) +
+3rd Generation Partnership Project; +
+Technical Specification Group GSM/EDGE Radio Access Network; +
+Mobile Switching Centre - Base Station System(MSC-BSS) interface; +
+Layer 3 specification(Release 11)
+
+[[_2]]
+[2] ETSI ES 201 873-1 v4.4.1 (2012-04) +
+The Testing and Test Control Notation version 3; Part 1: Core Language
+
+[[_3]]
+[3] TITAN User Guide

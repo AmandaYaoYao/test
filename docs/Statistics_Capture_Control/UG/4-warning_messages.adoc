@@ -1,0 +1,27 @@
+= Warning Messages
+
+NOTE: Besides the below described warning messages shown in <<7-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+`*Group to be deleted does not exist.*`
+
+This warning message states that the input parameter of the group deletion function refers to a non-existent capture group.
+
+`*Group is not found for name <groupname>*`
+
+This warning message states that the input parameter (`groupname`) is not valid.
+
+`*No capture data defined for this capture group*`
+
+This warning message occurs, when the capture of an empty capture group should be started.
+
+`*Group does not exist.*`
+
+This warning message states that the input parameter of a function refers to a non-existent capture group. In this case, it is only a warning, as it does not have any harmful effect (for example when deleting a non-existent capture group).
+
+`*File size too low. Logstring cannot be dumped.*`
+
+This warning message states that the config file parameters regarding maximum file size and maximum number of files are set too low.
+
+`*The last file <file descriptor> is full, capture finished. Data is not logged to file.*`
+
+This warning message occurs, when dumping a capture stream has filled the maximum number of files (defined in the config file). From this timepoint, no more capture is possible for that stream.

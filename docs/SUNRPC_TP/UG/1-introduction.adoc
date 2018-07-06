@@ -1,0 +1,28 @@
+= Introduction
+
+== About This Document
+
+=== How to Read This Document
+
+This is the User’s Guide for the SUNRPCasp_CNL113439 (called SunRPC from now on) test port. The SunRPC test port is developed for the TTCN-3 Toolset with TITAN according to the Functional Specification <<7-references.adoc#_3, [3]>>.
+
+=== Prerequisite Knowledge
+
+The knowledge of the TITAN TTCN-3 Test Executor <<7-references.adoc#_2, [2]>> and the TTCN-3 language <<7-references.adoc#_1, [1]>> is essential. Basic knowledge of the Sun RPC protocol is valuable when reading this document.
+
+== System Requirements
+
+In order to operate the SunRPC test port the following system requirements must be satisfied:
+
+* Platform: any platform supported by TITAN RTE, optional OpenSSL.
+* TITAN TTCN-3 Test Executor version R8A (1.8.pl0) or higher installed. For installation guide see <<7-references.adoc#_2, [2]>>.
+
+NOTE: This version of the protocol module is not compatible with TITAN releases earlier than R8A.
+
+* The C compiler gcc version 2.95 or above is installed.
+* The OpenSSL 0.9.7 or above is installed. See <<7-references.adoc#_5, [5]>>.
+* The Abstract_Socket CNL 113 384, rev. R6A or later product has to be installed
+
+== Fundamental Concepts
+
+The test port establishes connection between the TTCN-3 test executor and the Sun RPC server or client implementation through a TCP/IP socket connection. The test port transmits and receives Sun RPC messages; see <<7-references.adoc#_3, [3]>> and <<7-references.adoc#_4, [4]>>.

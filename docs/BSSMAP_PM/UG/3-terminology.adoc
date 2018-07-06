@@ -1,0 +1,21 @@
+= Terminology
+
+No specific terminology is used.
+
+= Abbreviations
+
+3GPP:: 3rd Generation Partnership project
+
+BSSAP:: Base Station Subsystem Application Part
+
+BSSMAP:: Base Station Subsystem Management Application Part
+
+DTAP:: Direct Transfer Application Part
+
+ES:: ETSI Standard
+
+ETSI:: European Telecommunications Standards Institute
+
+PDU:: Protocol Data Unit
+
+TTCN-3:: Testing and Test Control Notation version 3

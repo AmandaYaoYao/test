@@ -1,0 +1,11 @@
+= General Description
+
+This document specifies the Statistics Replay Control feature of the TitanSim CLL.
+
+The EPTF Statistics Replay Control feature makes it possible to
+
+* Visualize the created capture files on the Runtime GUI
+
+The aim of the EPTF Statistics Replay feature is to display a given variable from a given capture group on the chart in a slider window. On the chart we can take steps forward and backward too.
+
+To be able to use EPTF Statistics Replay, the user component should extend the `EPTF_CLL_StatReplay_CT` component.

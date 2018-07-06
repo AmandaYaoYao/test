@@ -1,0 +1,11 @@
+= Terminology
+
+ASN.1:: Abstract Syntax Notation One
+
+ASP:: Abstract Service Primitive
+
+BER:: Basic Encoding Rules
+
+SNMP:: Simple Network Management Protocol
+
+TTCN-3:: Testing and Test Control Notation version 3

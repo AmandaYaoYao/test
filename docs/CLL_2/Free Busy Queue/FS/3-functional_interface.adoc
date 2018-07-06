@@ -1,0 +1,142 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading <<5-references.adoc#_4, ‎[4]>>.
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_FBQ`.
+
+== Public Functions
+
+=== Initialization of the Free Busy Queue Feature
+
+Before using the EPTF Free Busy Queue feature the
+
+`f_EPTF_FBQ_initFreeBusyQueue(pl_selfName)`
+
+function should be called with the name of the component as the parameter. This initializes the Free Busy queue feature so that other API functions can be used.
+
+=== Initialization of a Free Busy Queue Instance
+
+To initialize a EPTF Free Busy Queue the
+
+`f_EPTF_FBQ_initFreeBusyQueue(pl_queue)`
+
+function should be called with the queue as the parameter. This initializes the queue to empty. Other Free Busy Queue functions operate on the queue instance created by this function.
+
+The Free Busy Queue feature is capable of creating as many Free Busy queues as needed.
+
+=== Removing a Free Busy Queue Instance
+
+To delete a Free Busy Queue that is no longer needed can be done by the function
+
+`f_EPTF_FBQ_deleteFreeBusyQueue(pl_queue)`
+
+This function deletes the queue and the associated data as well.
+
+[[setting-getting-data-indices]]
+=== Setting/Getting Data Indices
+
+The functions `f_EPTF_FBQ_setQueueDidx(pl_i, pl_j, pl_queue)` and `f_EPTF_FBQ_getQueueDidx(pl_idx, pl_queue, pl_didx)` can be used to set and get data indices of an element in the queue.
+
+=== Getting or Creating Free Slots
+
+The function `f_EPTF_FBQ_getOrCreateFreeSlot(pl_queue)` can be used to get a free slot from a queue. The function resizes the queue if there are no free slots available.
+
+Function `f_EPTF_FBQ_createFreeSlots(pl_number, pl_queue)` can be used to create several new slot items at once in the free chain of a queue.
+
+Function `f_EPTF_FBQ_getFreeSlot(pl_queue)` can be used to get the head of the free chain. This function cannot resize the queue, and returns with a negative index if there are no free slots.
+
+=== Moving a Free Slot to the Busy Chain
+
+The following functions can be used to move a slot from the free to the busy chain:
+
+* `f_EPTF_FBQ_moveFromFreeHeadToBusy(pl_idx, pl_location, pl_afteridx, pl_beforeidx, pl_queue)` +
+It can be used to move the head of the free chain to somewhere into the busy chain.
+
+* `f_EPTF_FBQ_moveFromFreeHeadToBusyTail(pl_queue)` +
+It can be used to move the head of the free chain to the tail of the busy chain.
+
+* `f_EPTF_FBQ_moveFromFreeToBusyTail(pl_idx, pl_queue)` +
+It can be used to move an arbitrary slot from the free chain to the tail of the busy chain.
+
+=== Moving a Busy Slot to the Free Chain
+
+The following functions can be used to move a slot from the busy to the free chain:
+
+* `f_EPTF_FBQ_moveFromBusyToFreeHead(pl_idx, pl_queue)` +
+It moves an item from the busy chain to the head of the free chain.
+
+* `f_EPTF_FBQ_moveFromBusyToFreeTail(pl_idx, pl_queue)` +
+It moves an item from the busy chain to the tail of the free chain.
+
+=== Invalid Elements
+
+Items in the Free Busy Queue have a third state, called 'invalid'. Invalid items are not linked into any of the free or busy chains. They are linked into the invalid chain.
+
+The function `f_EPTF_FBQ_moveFromBusyToInvaild(pl_idx, pl_queue)` can be used to move an item from the busy chain to invalid state, i.e. to unchain it. It is the responsibility of the user to keep track of such items; and link them eventually back to one of the free or busy chains.
+
+Function `f_EPTF_FBQ_moveFromInvalidToFreeHead(pl_idx, pl_queue)` can be used to move an invalid item to the head of the free chain.
+
+=== Getting the Head Index of the Busy Chain
+
+The function `f_EPTF_FBQ_getBusyHeadIdx(pl_idx, pl_queue)` can be used to get the head element of the busy chain.
+
+=== Iterating Through the Busy Chain
+
+The function `f_EPTF_FBQ_getFwdBusyItemIdx(pl_idx, pl_queue)` can be used to iterate forward, `f_EPTF_FBQ_getBwdBusyItemIdx(pl_idx, pl_queue)` can be used to iterate backward through the busy chain from a given index.
+
+=== Checking the State of an Item
+
+The following functions can be used to check if an item is in a given state:
+
+* `f_EPTF_FBQ_itemIsBusy(pl_idx, pl_queue)` +
+It returns true if the item is in the busy chain,
+
+* `f_EPTF_FBQ_itemIsFree(pl_idx, pl_queue)` +
+It returns true if the item is in the free chain,
+
+* `f_EPTF_FBQ_itemIsInvalid(pl_idx, pl_queue)` +
+It returns true if the item is invalid.
+
+=== Getting the Length of a Chain
+
+The functions `f_EPTF_FBQ_getLengthOfBusyChain(pl_queue)` and `f_EPTF_FBQ_getLengthOfFreeChain(pl_queue)` can be used to get the length of the busy and the free chain respectively. The number of all items (including the invalid ones) can be determined by the function `f_EPTF_FBQ_getLengthOfQueue(pl_queue)`.
+
+=== Logging a Chain
+
+The function `f_EPTF_FBQ_logChain(pl_chain, pl_queue)` can be used to log one of the chains (for debugging).
+
+== Summary Table of All Public Functions for EPTF Free Busy Queue
+
+See summary of Free Busy Queue functions in the table below:
+
+[width="100%",cols="35%,65%",options="header",]
+|=====================================================================================================
+|Function name |Description
+|`f_EPTF_FBQ_init_CT` |Initializes the FBQ feature
+|`f_EPTF_FBQ_initFreeBusyQueue` |Initializes a queue to empty
+|`f_EPTF_FBQ_deleteFreeBusyQueue` |Deletes the queue and the associated data
+|`f_EPTF_FBQ_setQueueDidx` |Sets the data indices of an item
+|`f_EPTF_FBQ_getQueueDidx` |Gets the data indices of an item
+|`f_EPTF_FBQ_getOrCreateFreeSlot` |Returns an index to an existing or a newly created free item
+|`f_EPTF_FBQ_createFreeSlots` |Creates free slots
+|`f_EPTF_FBQ_getFreeSlot` |Returns the head of the free chain
+|`f_EPTF_FBQ_moveFromFreeHeadToBusy` |Moves the head of the free chain to somewhere in the busy chain
+|`f_EPTF_FBQ_moveFromFreeHeadToBusyTail` |Moves the head of the free chain to the tail of the bust chain
+|`f_EPTF_FBQ_moveFromFreeToBusyTail` |Moves an element from the free chain to the tail of the busy chain
+|`f_EPTF_FBQ_moveFromBusyToFreeHead` |Moves an item from the busy chain to the head of the free chain
+|`f_EPTF_FBQ_moveFromBusyToFreeTail` |Moves a busy slot to the tail of the free chain
+|`f_EPTF_FBQ_moveFromBusyToInvalid` |Unchains a busy slot
+|`f_EPTF_FBQ_moveFromInvalidToFreeHead` |Moves an invalid slot to the head of the free chain
+|`f_EPTF_FBQ_getBusyHeadIdx` |Returns the head of the busy chain
+|`f_EPTF_FBQ_getFwdBusyItemIdx` |Gets the next item in the busy chain from a given index
+|`f_EPTF_FBQ_getBwdBusyItemIdx` |Gets the previous item in the busy chain from a given index
+|`f_EPTF_FBQ_itemIsBusy` |Returns true if the item is in the busy chain
+|`f_EPTF_FBQ_itemIsFree` |Returns true if the item is in the free chain
+|`f_EPTF_FBQ_itemIsInvalid` |Returns true if the item is in none of the chains
+|`f_EPTF_FBQ_getLengthOfBusyChain` |Returns the length of the busy chain
+|`f_EPTF_FBQ_getLengthOfFreeChain` |Returns the length of the free chain
+|`f_EPTF_FBQ_getLengthOfQueue` |Returns the number of all items in the queue
+|`f_EPTF_FBQ_logChain` |Logs a chain for debugging
+|=====================================================================================================

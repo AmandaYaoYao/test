@@ -1,0 +1,19 @@
+= References
+
+[[_1]]
+[1] https://tools.ietf.org/html/rfc5389[RFC 5389] +
+STUN - Session Traversal Utilities for NAT
+
+[[_2]]
+[2] ETSI ES 201 873-1 v4.5.1 (2013-02) +
+The Testing and Test Control Notation version 3; Part 1: Core Language
+
+[[_3]]
+[3] Programmer’s Technical Reference for the TITAN TTCN-3 Test Executor
+
+[[_4]]
+[4] User Guide for the TITAN TTCN-3 Test Executor
+
+[[_5]]
+[5] https://tools.ietf.org/html/rfc5245[RFC 5245] +
+Interactive Connectivity Establishment (ICE): A Protocol for Network Address Translator (NAT)Traversal for Offer/Answer Protocols

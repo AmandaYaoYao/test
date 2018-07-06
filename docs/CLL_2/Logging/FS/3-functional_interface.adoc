@@ -1,0 +1,359 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading <<5-references.adoc#_4, [4]>>.
+
+== Naming Conventions
+
+All functions of the Logging, LoggingUI and LoggingUIClient sub-features have the prefix `f_EPTF_Logging_`, `f_EPTF_LoggingUI_` and `f_EPTF_LoggingUIClient` respectively.
+
+== Format of the Logged Events
+
+In general, EPTF Logging logs the component type, the log class and the log message. A typical example:
+
+[source]
+"MyComponent":"Debug": "Initialization finished."
+
+== Managing Logging
+
+=== Initialization of Logging
+
+Before using the EPTF Logging functions the `f_EPTF_Logging _init_CT()` function should be called. This initializes the EPTF Logging feature.
+
+If the logging functions are called before initialization of the Logging feature, the message parameter will be logged verbatim, i.e. the Feature will not log the component type and logging class of the log, the log will have typically the following format:
+
+`"Initialization started."`
+
+Without initialization, the logging is always performed without checking any log masks.
+
+=== Register a Log Selection Type
+
+The logging classes are grouped by several categories. The topmost category is the selection type.
+
+There are two predefined selection types, the `EPTF_CLL`, and `EPTF_User` types. The features of the Core Load Library register their logging classes obviously under the `EPTF_CLL` type. Other features, such as application libraries register their logging classes under the `EPTF_User` type. But users can register new selection types if they want to separate their logging classes. The `f_EPTF_Logging_registerSelection` returns the index of the new selection. This index must be used in the following type and mask registration functions.
+
+=== Register a New Logging Mask for a New Component Type
+
+[source]
+f_EPTF_Logging_registerComponentMasks (pl_componentTypeName, pl_eventClassNames, pl_selection)
+
+Call this function to register the logging classes and component mask of your component type. The name of the component type (`pl_componentTypeName`) and the new logging Mask (`pl_eventClassNames`) should be specified. The latter can be an empty list \{ } if the component has no logging classes; in this case only the component local/global logging can be enabled or disabled and the log will not contain the logging class string, e.g.:
+
+"MyComponent": "Connecting to peer."
+
+The parameter `pl_selection` is optional with default value `_EPTF_Logging_user_`. _This parameter must not be specified from user code._ EPTF features specify this parameter as `EPTF_Logging_CLL` to distinguish Core log from user log.
+
+The integer returned by the function should be stored in a component variable and passed to the logging functions as a parameter.
+
+The component logging mask and all logging class masks are created with enabled state.
+
+=== Logging an Event
+
+EPTF Logging has multiple log functions that can be used to log an event, as described in subsections. All of these functions have the following format:
+
+[source]
+----
+function f_EPTF_Logging_...V2(
+    in charstring pl_message,
+    in integer pl_EPTF_Logging_maskId,
+    in EPTF_IntegerList pl_event_classIdxList)
+runs on EPTF_Logging_CT
+----
+
+The parameters have the following meaning:
+
+* `pl_message` - the string to log
+* `pl_EPTF_Logging_maskId` - the component mask ID, as returned by `f_EPTF_Logging_registerComponentMask`. The event will not be logged if logging was disabled for the component globally or locally.
+* `pl_event_classIdxList` - a list of integer indexes. The indexes index elements in the list of strings that were passed to `f_EPTF_Logging_registerComponentMask` as parameter `pl_eventClassNames`. The event will be logged if logging for the component is enabled and at least one of the log classes referred to the class index list is enabled.
+
+==== Logging an Error
+
+The function `f_EPTF_Logging_errorV2` can be used to log an event with TITAN event type `ERROR_UNQUALIFIED`.
+
+NOTE: This function does not stop the execution. If the execution cannot continue because of the error, the user should call `f_EPTF_Base_stop` (see <<5-references.adoc#_5, [5]>>) after logging the error.
+
+If the execution can still continue after logging, it should be considered to log the event as a warning instead <<logging_a_warning, Logging a Warning>>.
+
+[[logging_a_warning]]
+==== Logging a Warning
+
+The function `f_EPTF_Logging_warningV2` can be used to log an event with TITAN event type `WARNING_UNQUALIFIED`.
+
+[[logging_a_debug_message]]
+==== Logging a Debug Message
+
+The function `f_EPTF_Logging_debugV2` can be used to log an event with TITAN event type `USER_UNQUALIFIED`. This function is not complied into the final executable if the flag `–DNEDEBUG` is added to `CPPFLAGS_TTCN3` and `–O2` to `CXXFLAGS` in the _Makefile_.
+
+Take care that if creating the log string `pl_message` is in performance critical sections of the code, it should be guarded with the following statements:
+
+[source]
+----
+if(c_EPTF_Common_debugSwitch) {
+...
+}
+----
+
+Any functions called within the above `if` statement (or when creating the log string inline) must not have any side-effects.
+
+==== Logging an Operational Event
+
+The function `f_EPTF_Logging_operationalLogV2` can be used to log an event with TITAN event type `USER_UNQUALIFIED`. Unlike the debug log described in <<logging_a_debug_message, Logging a Debug Message>>, this log can not be optimized out from the compiled executable, but can still be disabled via the log classes or the component mask.
+
+[[enable-disable-eptf-logging-of-all-features-on-the-current-component]]
+=== Enable/disable EPTF Logging of All Features on the Current Component
+
+The functions
+
+`f_EPTF_Logging_enableAllLocal()` and
+
+`f_EPTF_Logging_disableAllLocal()`
+
+enables and disables EPTF Logging of all features on the current component.
+
+[[enable-disable-eptf-logging-of-the-given-feature-on-the-current-component]]
+=== Enable/disable EPTF Logging of the Given Feature on the Current Component
+
+The functions
+
+`f_EPTF_Logging_enableLocal(pl_compTypeId)` and
+
+`f_EPTF_Logging_disableLocal(pl_compTypeId)`
+
+enables and disables EPTF Logging of the given feature (`pl_compTypeId`) on the current component.
+
+[[enable-disable-an-eptf-logging-event-class-of-the-given-feature-on-the-current-component]]
+=== Enable/disable an EPTF Logging Event Class of the Given Feature on the Current Component
+
+The functions
+
+`f_EPTF_Logging_enableLocalMask(pl_compTypeId, pl_eventClass)` and
+
+`f_EPTF_Logging_disableLocalMask(pl_compTypeId, pl_eventClass)`
+
+will enable and disable the given EPTF logging event class on this component. The parameter `pl_eventClass` is the index of the event class defined by `<tsp_EPTF_UserEventClassPrefixList>` For example.: Error, Warning…
+
+=== Check if User Log Is Enabled for One of the Given Event Classes
+
+The function
+
+`f_EPTF_Logging_isEnabledList(pl_EPTF_Logging_maskId, pl_event_classIdxList)`
+
+will check if user log is enabled for one of the given event classes. The parameter `pl_event_classIdxList` specifies a list of event classes.
+
+=== Check if User Log Is Enabled for the Given Event Class
+
+The function
+
+`f_EPTF_Logging_isEnabled(pl_EPTF_Logging_maskId, pl_event_classIdx)`
+
+will check if user log is enabled for the given event class specified by the parameter `pl_event_classIdx`.
+
+=== Check if Component Log Mask Is Enabled for the Given Event Class
+
+The function
+
+`f_EPTF_Logging_maskIsEnabled(pl_EPTF_Logging_maskId, pl_event_classIdx)`
+
+will check if the given component user-log mask is enabled for the given user event class.
+
+=== Set An Error Message Pattern to Expect as the First Error Occurred
+
+The function
+
+`f_EPTF_Logging_setExpectedErrorMsg(pl_expectedError)`
+
+can be used to set an error pattern that will be check during cleanup automatically. If the first error message was the one that matches to this pattern, the verdict of the test case is set to pass automatically. If it does not match, then the verdict of the test case is set to fail.
+
+An example for the expected error pattern that checks the end of the error message can be:
+
+`"Some error occurred"`
+
+This function can be used in negative testing.
+
+=== Determine the Number of Errors
+
+The number of errors occurred is returned by the function
+
+`f_EPTF_Logging_nofErrorMsgs()`
+
+=== To Retrieve a Certain Error Message
+
+A given error message text can be retrieved by the function
+
+`f_EPTF_Logging_getErrorMsg(pl_errorNum)`
+
+where `pl_errorNum` gives the id of the error message. The id if the error message starts from zero, i.e. it is zero for the first error, one for the second an so on.
+
+=== To Check if An Error Message Matches with a Given Pattern
+
+To check if an error message matches with a given pattern, the function
+
+`f_EPTF_Logging_checkExpectedError(pl_expectedError, pl_errorNum)`
+
+can be used. The `pl_expectedError` is the error pattern that is matched with the occurred error with id `pl_errorNum`. The id of the errors starts from zero. The function returns true if the pattern matches and false if it does not.
+
+[[client-server-functionality]]
+== Client/Server Functionality
+
+In order to manage centrally the logging on the distributed components, Logging provides client/server functionality with the `EPTF_LoggingServer_CT` and `EPTF_LoggingClient_CT` component types.
+
+Since the supported use-case to manage runtime the logging is the use of GUI, both component types use the DataSource feature as their interface.
+
+=== Initialization of LoggingServer
+
+First `f_EPTF_LoggingServer_init_CT` must be called.
+
+The parameter `pl_selfName` is the EPTF self name of the component instance.
+
+The parameter `pl_sourceCompRef` is the DataSource server component instance. If the parameter is not set, LoggingServer will not publish its data as DataSource client.
+
+=== Initialization of LoggingClient
+
+Before calling any LoggingClient function, `f_EPTF_LoggingClient_init_CT` must be called.
+
+The parameter `pl_selfName` is the EPTF self name of the component instance.
+
+The parameter `pl_loggingServer` is a previously initialized LoggingServer component instance.
+
+The parameter `pl_sourceCompRef` is the DataSource server component instance. If the parameter is not set, LoggingClient will not publish its data as DataSource client.
+
+In the `f_EPTF_LoggingClient_init_CT` the client component automatically connects to the server component.
+
+=== DataSource Iterators and Elements
+
+For detailed list of iterators and external data elements see the ApiDoc of the Core Load Library.
+
+[[obsolete-client-server-functionality-using-loggingui]]
+== Obsolete Client/Server Functionality Using LoggingUI
+
+=== Initialization of LoggingUI
+
+For using the EPTF LoggingUI functions the
+
+`f_EPTF_LoggingUI_init_CT(pl_selfName, pl_subscriber,pl_tabboxName)`
+
+function should be called. This function initializes the main LoggingUI component. There always should be one main LoggingUI component. This component manages the global logging masks, and creates the user interface for Logging. LoggingUI automatically handles LoggingUIClient requests after initialization.
+
+The parameter `pl_selfName` is the EPTF self name of the component instance.
+
+The UIHandler master component (see <<5-references.adoc#_6, [6]>>) reference shall be passed to this function via parameter `pl_subscriber` (this can be *self* in case the UIHander is on the same PTC as the LoggingUI or *mtc* if both of these component types are extended by the MTC).
+
+A tabbox should be defined (`pl_tabboxName`), where the LoggingUI layout will be created.
+
+=== Initialization of LoggingUIClient
+
+For using the EPTF LoggingUIClient functions the
+
+`f_EPTF_LoggingUIClient_init_CT(pl_selfName, pl_loggingUI_main, pl_subscriber)`
+
+function should be called. This function initializes the LoggingUIClient component. Components using the graphical visualization of logging should extend LoggingUIClient.
+
+Parameter `pl_selfName` is the EPTF self name of the component instance. The component reference to the main LoggingUI component should be passed to this function via `pl_loggingUI`, and the reference to the main UIHandler component (see <<5-references.adoc#_6, [6]>>) via `pl_subscriber`.
+
+=== Enabling Global Logging
+
+For enabling global logging of all components
+
+`f_EPTF_LoggingUI_enableAllGlobal()`
+
+function should be called. This function enables the logging on all components.
+
+=== Disabling Global Logging
+
+For disabling global logging of all components
+
+`f_EPTF_LoggingUI_disableAllGlobal()`
+
+function should be called. This function disables the logging on all components.
+
+=== Enabling Component Type Logging
+
+For enabling logging of a component type
+
+`f_EPTF_LoggingUI_enableGlobal(pl_compTypeId)`
+
+function should be called. This function enables the logging of a component type specified by its ID (`pl_compTypeId`).
+
+=== Disabling Component Type Logging
+
+For disabling logging of a component type
+
+`f_EPTF_LoggingUI_disableGlobal(pl_compTypeId)`
+
+function should be called. This function disables the logging of a component type specified by its ID (`pl_compTypeId`).
+
+=== Enabling Component Type Mask Logging
+
+For enabling logging of a component type’s mask
+
+`f_EPTF_LoggingUI_enableGlobalMask(pl_compTypeId, pl_eventClass)`
+
+function should be called. This function enables the logging of a component type mask. The component type is specified by its ID (`pl_compTypeId`), the logged mask is specified by its maskID (`pl_eventClass`).
+
+=== Disabling Component Type Mask Logging
+
+For disabling logging of a component type’s mask
+
+`f_EPTF_LoggingUI_disableGlobalMask(pl_compTypeId, pl_eventClass)`
+
+function should be called. This function disables the logging of a component type mask. The component type is specified by its ID (`pl_compTypeId`), the logged mask is specified by its maskID (`pl_eventClass`).
+
+== Summary Table of All Public Functions for EPTF Logging
+
+See summary of public EPTF Logging functions in the table below:
+
+[width="100%",cols="55%,45%",options="header",]
+|===================================================================================================================
+|Function name |Description
+|`f_EPTF_Logging_init_CT` |Initializes the EPTF Logging feature
+|`f_EPTF_Logging_registerComponentMasks` |Registers a new logging Mask for a new component type
+|`f_EPTF_Logging_errorV2` |Log an event with event type ERROR_UNQUALIFIED.
+|`f_EPTF_Logging_warningV2` |Log an event with event type WARNING_UNQUALIFIED.
+|`f_EPTF_Logging_debugV2` |Log an event with event type USER_UNQUALIFIED. Can be optimized out.
+|`f_EPTF_Logging_operationalLogV2` |Log an event with event type ERROR_UNQUALIFIED.
+|`f_EPTF_Logging_enableAllLocal` |Enables EPTF Logging of all features on the current component
+|`f_EPTF_Logging_disableAllLocal` |Disables EPTF Logging of all features on the current component
+|`f_EPTF_Logging_enableLocal` |Enables EPTF Logging of the given feature on the current component
+|`f_EPTF_Logging_disableLocal` |Disables EPTF Logging of the given feature on the current component
+|`f_EPTF_Logging_enableLocalMask` |Enables the given EPTF logging event class on this component
+|`f_EPTF_Logging_disableLocalMask` |Disables the given EPTF logging event class on this component
+|`f_EPTF_Logging_isEnabledList` |Checks if user log is enabled for one of the given event classes
+|`f_EPTF_Logging_isEnabled` |Checks if user log is enabled for the given event class
+|`f_EPTF_Logging_maskIsEnabled` |Checks if the given component user-log mask is enabled for the given user event class
+|===================================================================================================================
+
+== Summary Table of All Public Functions for EPTF LoggingUI
+
+See summary of LoggingUI functions in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|====================================================================================================================
+|Function name |Description
+|`f_EPTF_LoggingUI_init_CT` |Function to initialize main LoggingUI component
+|`f_EPTF_LoggingUIClient_init_CT` |Function to initialize LoggingUI Client component
+|`f_EPTF_LoggingUI_enableAllGlobal` |Function to enable EPTF Logging of all features on all components.
+|`f_EPTF_LoggingUI_disableAllGlobal` |Function to disable EPTF Logging of all features on all components.
+|`f_EPTF_LoggingUI_enableGlobal` |Function to enable EPTF Logging on the current component type
+|`f_EPTF_LoggingUI_disableGlobal` |Function to disable EPTF Logging on the current component type
+|`f_EPTF_LoggingUI_enableGlobalMask` |Function to enable an EPTF Logging an event class on the current component type
+|`f_EPTF_LoggingUI_disableGlobalMask` |Function to disable an EPTF Logging an event class on the current component type
+|====================================================================================================================
+
+== Table of obsolete functions for EPTF Logging
+
+The following functions are kept for backward compatibility. Do not use these functions when developing new functionality.
+
+See summary of obsolete EPTF Logging functions in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|========================================================================================================================
+|Function name |Description
+|`f_EPTF_Logging_log` |Logs one charstring argument if one of the classes is enabled for the given feature
+|`f_EPTF_log` |Logs one charstring argument if one of the classes is enabled for the given feature by default logging class
+|`f_EPTF_Logging_error` |Logging the default logging class called "Error"
+|`f_EPTF_Logging_warning` |Logging the default logging class called "Warning"
+|`f_EPTF_Logging_debug` |Logging the default logging class called "Debug"
+|`f_EPTF_Logging_debugM` |Logging the default logging class called "DebugM"
+|`f_EPTF_Logging_debugV` |Logging the default logging class called "DebugV"
+|`f_EPTF_Logging_debugLevelM` |Logging default logging classes "Debug" and "DebugM" simultaneously
+|`f_EPTF_Logging_debugLevelV` |Logging default logging classes "Debug", "DebugM" and "DebugV" simultaneously
+|========================================================================================================================

@@ -1,0 +1,11 @@
+= Warning Messages
+
+NOTE: Besides the below described warning messages, warning messages shown in ‎<<8-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+`*Variable for the value of stat <statIdx> (<statContent>) already exists: <varIdx>:*`
+
+Create variable from statistics function has been called to a statistic from which a variable has already been created.
+
+`*It is not allowed to create stand-alone content statistics!*`
+
+Content statistic can not be created as stand alone statistic.

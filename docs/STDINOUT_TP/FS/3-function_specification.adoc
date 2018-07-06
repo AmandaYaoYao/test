@@ -1,0 +1,3 @@
+= Function Specification
+
+The STDINOUT Test Port has no ASPs. The Test Port can be used for sending and receiving TTCN-3 charstrings. The TTCN-3 `send` command followed by the necessary charstring in the TTCN-3 code will cause the text to be displayed at stdout (i.e.the terminal).The operator entered text at stdin (i.e. the terminal) is converted to TTCN-3 charstring by the test port when pressing "Enter". The `receive` command in the TTCN-3 code has to be used for the TTCN-3 test suite to receive this charstring.

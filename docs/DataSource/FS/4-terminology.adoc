@@ -1,0 +1,23 @@
+= Terminology
+
+*EPTF Core Library (CLL):* +
+It is that part of the TitanSim software that is totally project independent. (i.e., which is not protocol-, or application-dependent). The Core Library is to be supplied and supported by the TCC organization. Any Core Library development is to be funded centrally by Ericsson.
+
+*EPTF Variable:* +
+It is a variable of `EPTF_Var_CT` component.
+
+= Abbreviations
+
+CLI:: Command Line Interface
+
+CLL:: Core Library
+
+EPTF:: Ericsson Performance Test Framework
+
+GUI:: Graphical User Interface
+
+PTC:: Parallel Test Component
+
+TitanSim:: New synonym for the EPTF Framework
+
+TTCN-3:: Testing and Test Control Notation version 3 <<5-references.adoc#_1, [1]>>.

@@ -1,0 +1,498 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the EPTF CLL Functions can be reached for on-line reading <<5-references.adoc#_4, [4]>>.
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_Var_`.
+
+== Public Functions
+
+=== Initialization
+
+Before using the EPTF Variable functions the
+
+`f_EPTF_Var_init_CT(…)`
+
+function should be called. This initializes the EPTF Variable feature.
+
+=== Variable Creation
+
+Only explained for the integer type. It is the same for the other types respectively.
+
+==== Creating a Direct-Content Variable
+
+To create an integer type Variable, call the function
+
+`f_EPTF_Var_newInt(name, initial value, index)`
+
+The given initial value will be used to initialize the Variable. Its index is returned in the _index_ argument. This index can be used later to access this Variable. Any EPTF Variables are uniquely defined by the component reference where they are created and this index.
+
+All EPTF Variables should have a unique name on the component they are created. The name cannot be an empty string. The uniqueness is checked before creation. If the name is not unique an error is generated and the execution is stopped.
+
+To create an EPTF Variable for all value types using the same function
+
+`f_EPTF_Var_newVar(name, initial value) return index`
+
+The type of the initial value in this case contains the type information of the variable. The index of the variable id returned in the return value.
+
+These functions create EPTF Variables with direct content.
+
+==== Creating a Referenced-Content Variable
+
+To create an EPTF Variable as a reference to an existing integer type component variable call the function:
+
+`f_EPTF_Var_newIntRef(name,intCompVar,index)`
+
+The `intCompVar` argument is the component variable to which the new EPTF Variable is assigned, and the index returns the index of the Variable which can be used to access this Variable later.
+
+[[get-set-functions]]
+=== Get/Set Functions
+
+[[get-set-value]]
+==== Get/Set Value
+
+To get the value of an EPTF Variable the functions
+
+[source]
+----
+f_EPTF_Var_getIntValue(index) return integer
+
+f_EPTF_Var_getContent(index, currentContent)
+----
+
+can be used. The first returns the integer value, the second returns it as a direct-content. These functions work for direct- and referenced EPTF Variables.
+
+To modify the content of the EPTF Variable with the given index call:
+
+`f_EPTF_Var_setContent(index, directContent)`
+
+The `directContent` argument specifies the new value as a direct content. For referenced EPTF Variable the value of the referred component Variable is modified.
+
+This function is equivalent with the assignment operator of component variables:
+
+[source]
+----
+v_pi := 3.14;
+v_2pi := 2.0*v_pi;
+----
+
+or just the value of the component variables (=get).
+
+The above example can be rewritten with the get/set functions as:
+
+[source]
+----
+f_EPTF_Var_setContent(v_pi_index,{floatVal:=3.14});
+
+f_EPTF_Var_setContent(v_2pi_index,{ floatVal:=2.0*f_EPTF_Var_getFloatValue(v_pi_index)});
+----
+
+The set function checks the type of the argument and the type of the EPTF Variable. In case of type mismatch it will stop with an error.
+
+NOTE: The set function modifies the content of the EPTF Variable without invoking the refresh mechanism. After the last set-function is called it is the user’s responsibility to activate the refresh mechanism by another function call to `f_EPTF_Var_refreshContent`, see Section <<refresh_content, Refresh Content>>.
+
+For example instead of invoking the update mechanism for all argument change of the sum function, it is possible to update all arguments and then invoke the refresh at the end.
+
+To change the value of an EPTF Variable and activating the refresh mechanism automatically the adjust functions should be used (see later).
+
+==== Remote Get Value
+
+To get the value of an EPTF Variable in a remote component without subscription:
+
+`f_EPTF_Var_getRemoteContent(remoteCompRef, remoteVarName, directContent)`
+
+This function returns `_true_` if the content of the given Variable in the remote component is available, `_false_` otherwise. The function blocks the execution until the response arrives.
+
+==== Get the Reference of a Component Variable
+
+In some cases the reference to a component variable might be needed. For example to be able to subscribe to a remote Variable when the local EPTF Variable should be a referenced Variable.
+
+To get the reference to an integer component variable call the function:
+
+`f_EPTF_Var_getIntRef (intCompVar) return octetstring`
+
+This function will return a reference as octetstring for the given component variable.
+
+To dereference a reference as an integer:
+
+`f_EPTF_Var_derefInt(compVarRef) return integer`
+
+This function returns the value as an integer that is referred by the given reference.
+
+To modify the integer value at a reference call:
+
+`f_EPTF_Var_modifyIntRefValue(compVarRef, newIntValue)`
+
+==== Get the Timeline of a Variable
+
+The following function can be used the get the timeline of values of a variable:
+
+`f_EPTF_Var_getTimeLine(varIdx,timeline)`
+
+The timeline of the EPTF Variable with `varIdx` is returned in the timeline argument of the function.
+
+==== Set the Maximum Waiting Time for `ByeAck` Messages
+
+The following function sets the waiting time for `ByeAck` messages during the cleanup process:
+
+`f_EPTF_Var_setMaxWaitTimeForByeAck(waitTime)`
+
+This function has to be called before the cleanup process started.
+
+=== Subscribing
+
+There are two types of subscription: local and remote.
+
+==== Local Subscription
+
+Local subscription is like defining a Variable that is calculated from other EPTF Variables. To define this type of ETPF Variable, the calculating function (`calcFn`) together with its arguments (list of indexes of other EPTF variables) has to be specified.
+
+The calcFn function has the signature:
+
+[source]
+----
+EPTF_Var_fcb_CalcFn(in integer index, in EPTF_IntegerList args, inout EPTF_Var_DirectContent returnValue)
+----
+
+When the `calcFn` function is activated, the `returnValue` is set to the actual value of the EPTF Variable. The `calcFn` function should modify that value.
+
+To define the provider for an EPTF variable, call the function:
+
+f_EPTF_Var_subscribeLocal(index, provider)
+
+where provider has the type `EPTF_Var_LocalProvider`, and specifies the: \{funcRef, arglist} pair. Here `funcref` is a function pointer to the function type above, and its `arglist` is given by the integer list at `arglist`.
+
+Now the EPTF Variable with index is calculated by calling the `calcFn` given by the provider argument.
+
+==== Remote Subscription
+
+Subscribing for an EPTF Variable in a remote component makes it possible to view or adjust the value of the subscribed variable from the current component. Subscribed variables can be understood as a link to the original variable. It is not possible to subscribe more than once to the same remote EPTF Variable.
+
+There are four different ways to subscribe to a remote EPTF Variable:
+
+* *realtime*: the subscriber variable is notified about the refresh of the provider value instantly
+
+For the other subscription modes the subscriber is notified about the refresh periodically. The length of the period can be set by the module parameter `tsp_EPTF_Var_SyncInterval`, which is set to `_10_` secs as default.
+
+The periodic (buffered) subscription modes are:
+
+* *timeLine*: all refreshed values are buffered during the synchronization interval. At the end of the interval they are sent in one message to the remote components containing the timelines of the values
+* *sampled*: only the last refreshed value (the value that was set by the refresh mechanism) is sent to the subscriber
+* *sampledAtSync*: the value of the Variable is sampled at the synchronization event, and this value is sent to the subscriber. In this case, the values set by the refresh mechanism are not used, refreshing the provider variable is not necessary.
+* *pull*: the value of the variable is only sent to the subscriber if it is requested. When the value of the pull mode subscriber variable is needed, a request is sent to the provider and the value is returned to the subscriber. The value of the subscriber variable is updated with the received value. When the value of the subscriber is adjusted, a request is sent to the provider.
+
+It is possible to set the timeline of the EPTF Variable manually using the function
+
+`f_EPTF_Var_updateTimeLine(index, contentNew, timeStamp)`
+
+The timeline of the variable can be determined by the function
+
+`f_EPTF_Var_getTimeLine(index, timeLine, refreshRateId)`
+
+The `refreshRateId` determines the refresh rate for which the timeline should be returned. If `_-1_` is given (or not specified), the timeline for the refresh rate of the provider variable is returned. The 0 value corresponds to the default refresh interval.
+
+Also the timeline of the Variable can be send to all of its buffered remote subscribers independently of the synchronization interval:
+
+`f_EPTF_Var_sendTimeLine(index)`
+
+This function resets the timeline of the given EPTF Variable before exit.
+
+To subscribe for a remote EPTF Variable, call the function:
+
+[source]
+----
+f_EPTF_Var_subscribeRemote(compRef,remoteProviderName, subscriptionMode,index,localName, refreshRate)
+----
+
+The `remoteProviderName` argument specifies the name of the EPTF Variable to subscribe for on the component `compRef`. This function call will create a local EPTF Variable with direct-content automatically. The index of the new Variable is returned in the index argument. The `localName` argument can be used to specify the name of the new Variable. If not specified the name is auto-generated as:
+
+`"remoteCompName.remoteProviderName"`
+
+The `refreshRate` parameter specifies the rate of refresh for this subscription. The refresh period is calculated as the `refreshRate` multiplied by the `minSyncInterval`. If this argument is not specified (or `_<=0_` value is given) the default refresh rate is used with period defined by the `syncInterval` parameter. The `minSyncInterval` and `syncInterval` parameters can be set by the functions:
+
+`f_EPTF_Var_setSyncInterval and f_EPTF_Var_setMinSyncInterval`
+
+To subscribe for a remote EPTF Variable, but create a referenced EPTF Variable call:
+
+[source]
+----
+f_EPTF_Var_subscribeRemoteRef(varReference,remoteCompRef, remoteProviderName, subscriptionMode,index,localName, refreshRate)
+----
+
+This function works as the previous, but it needs an additional argument for the reference to the local component variable. To get this kind of reference call the function `f_EPTF_Var_getIntRef` (see above) for an integer component variable and use the `intType` to select the type of the reference. In this way the value of the remote EPTF Variable will be written into the local component variable.
+
+The alternative way to subscribe as a reference is to use the component variable itself. For integer type component variable:
+
+[source]
+----
+f_EPTF_Var_subscribeRemoteIntRef(intCompVar, remoteCompRef, remoteProviderName, subscriptionMode,index,localName, refreshRate)
+----
+
+To re-subscribe an EPTF Variable with a given index after it was unsubscribed from its remote provider call the function:
+
+[source]
+----
+f_EPTF_Var_resubscribeRemote(compRef,providerName,subscrMode, index,localName, refreshRate)
+----
+
+If no `localName` is specified the previous name is used. To generate new name automatically for the `resubscriber` variable set its name to empty string before `resubscribing` and do not specify the `localName`.
+
+=== Unsubscribing
+
+To unsubscribe from the provider(s) of the EPTF Variable call:
+
+`f_EPTF_Var_unsubscribe (index)`
+
+The index argument is the index of the local EPTF Variable that will be unsubscribed from its provider(s). The local variable becomes an EPTF Variable with empty provider (i.e. a parameter).
+
+This function removes the given EPTF Variable from the subscriber list of its providers and removes its provider (i.e. the `calcFn` function in case of local provider).
+
+The function does nothing for an EPTF Variable with empty provider.
+
+=== The `calc` Function
+
+As stated above, an EPTF Variable that has a local provider has a user given `calc` function. This `calc` function is used by the library to calculate its new `value`, when needed from the values of other EPTF Variables. This calc function can also be called by the user anytime by calling the function:
+
+f_EPTF_Var_callCalcFn(index,retVal)
+
+The index identifies the EPTF Variable of which `calc` function is called. The return value of the `calc` function is set into the direct-content type argument `retVal`. Calling this function has not got any effect on the EPTF Variables themselves (i.e. no refresh mechanism activated, value is not written into the content).
+
+This function can be applied to any EPTF Variables, but if they not have a `calc` function it will return the current content as direct-content.
+
+=== The Guard Functions
+
+The user defined guard functions can be used to check whether a new value which is to be set into the EPTF Variable (with empty provider) is acceptable or not. If acceptable by all the guard functions the new value is written into the content.
+
+The guard function are called automatically by the library, but can be called by the user anytime with the function:
+
+f_EPTF_Var_callGuardFns(index,newContent) return true
+
+The index argument determines the EPTF Variable, `newContent` is the new value of the EPTF Variable in direct-content format which is to be tested by the guards. If all guard functions accept the new value this function returns true, otherwise false.
+
+The function before calling the guards, performs a type-checking. If the type of the new value does not match with the previous type of the EPTF Variable the function returns false without calling the guards.
+
+This function can be applied to any EPTF Variables, but if they not have a guard function it will return true.
+
+New guard function can be added to an EPTF Variable by:
+
+`f_EPTF_Var_addGuardFn(index, guardFn)`
+
+An existing guard function can be removed by the function:
+
+`f_EPTF_Var_removeGuardFn(index, guardFn)`
+
+=== The `postProc` Functions
+
+The user defined `postProc` functions can be used to perform some task after the content of an EPTF Variable is updated. These functions are called automatically by the library, but can be called by the user anytime with the function:
+
+`f_EPTF_Var_callPostProcFns(index)`
+
+The index argument selects the EPTF Variable.
+
+[[refresh_content]]
+=== Refresh Content
+
+When the value of an EPTF Variable was modified with a set function or an assignment, the EPTF library should be notified about this change in order to the subscribers of that variable could be updated by the library.
+
+To initiate the refresh mechanism of the library for a given EPTF Variable call the function:
+
+`f_EPTF_Var_refreshContent(index)`
+
+This function will call the `calc` function if present (i.e. for EPTF Variables with local providers) and initiate the refresh mechanism, which in turn will notify all subscribers of the EPTF Variable.
+
+=== Adjust Content
+
+To set a new value into the EPTF Variable and initiate the refresh mechanism, call the function:
+
+`f_EPTF_Var_adjustContent(index, newValue, handlerFn)`
+
+The index argument specifies the EPTF Variable and the `newValue` argument its new value to be set, as a direct-content. This function is non-blocking. When the adjust response arrives the call-back function `handlerFn` is called with the results of the adjustment.
+
+This function will stop with an error for EPTF Variables that have a local provider. For those variables the `f_EPTF_Var_refreshContent` function should be used.
+
+For EPTF Variables that have an empty provider it calls the guard functions. If all guards accept the new value it initiates the refresh mechanism.
+
+If the Variable is a subscriber of a remote EPTF Variable (it has a remote provider) it sends an adjust request message to it. After its guards were called, a response is sent to the sender of the adjust request. If the adjust is accepted all subscribers of the owner will be refreshed.
+
+The blocking version of the above function is:
+
+`f_EPTF_Var_adjustContent_Blocking(index, newValue)`
+
+This blocks the execution until adjust response is available. It returns true upon successful adjust.
+
+To adjust the value of an EPTF Variable on a remote component without subscription, use the function:
+
+`f_EPTF_Var_adjustRemoteContent(remoteCompRef, remoteVarName, newValue, handlerFn)`
+
+The blocking version of this function is:
+
+`f_EPTF_Var_adjustRemoteContent_Blocking(remoteCompRef, remoteVarName, newContent)`
+
+Returns true if adjust is successful.
+
+[[disabling-enabling-adjustcontent-on-subscribers]]
+=== Disabling/Enabling `adjustContent` on Subscribers
+
+Adjusting the content of a Variable can be disabled or enabled on subscribers with the following function:
+
+`f_EPTF_Var_setSubsCanAdjust(in integer pl_idx, in boolean pl_subsCanAdjust)`
+
+If the `pl_subsCanAdjust` parameter is set to `_false_`, the content of the Variable cannot be changed on all subscribers (and their subscribers) of the original variable with index `pl_idx`. This function can be called for Variables that have no providers. If `f_EPTF_Var_adjustContent` is called for a subscriber, it will call the `handlerFn` function (if specified) with a `_false_` result.
+
+To enable the adjust in all subscibers the `pl_subsCanAdjust` parameter should be set to true.
+
+The current state of the 'adjustable' flag can be retrieved by the function:
+
+`f_EPTF_Var_getSubsCanAdjust(in integer pl_idx)`
+
+This can be called for every Variable.
+
+If the state of the adjustable’ flag of a Variable changes, functions registered by
+
+[source]
+----
+f_EPTF_Var_addSubsCanAdjustNotifyFn(in integer pl_idx, in EPTF_Var_GenericFn pl_subsCanAdjustNotifyFn)
+----
+
+for that Variable will be called. Any call-back function can be removed by
+
+[source]
+----
+f_EPTF_Var_removeSubsCanAdjustNotifyFn(in integer pl_idx, in EPTF_Var_GenericFn pl_subsCanAdjustNotifyFn)
+----
+
+[[saving-loading-from-configuration-data]]
+=== Saving/Loading from Configuration Data
+
+An EPTF Variable can be registered to be saved with the function:
+
+`f_EPTF_Var_registerVarToSave(in charstring pl_name)`
+
+The variable with the name specified in the `pl_name` parameter will be saved by the save functions.
+
+The opposite of this function (i.e. to remove a variable from the list of saved variables) is the function:
+
+`f_EPTF_Var_deregisterVarFromSave(in charstring pl_name)`
+
+To save all registered variables to a charstring in a module parameter format:
+
+[source]
+----
+f_EPTF_Var_saveVars2tsp(
+  in charstring pl_moduleParName := "tsp_EPTF_Var_cfg",
+  in boolean pl_removeSelfNameFromParamName := true
+)  runs on EPTF_Var_CT return charstring
+----
+
+The parameter `pl_moduleParName` specifies the name of the module parameter that will be assigned to the saved list of EPTF Variable values. The `removeSelfNameFromParamName` parameter can be used to set the name of the variables in the configuration file. The value false means that the name in the output will be the same as the name of the variables. Whereas the value true means that they will be prefixed by the `selfName` of the component.
+
+The same string without the module parameter header is generated by the function
+
+`f_EPTF_Var_saveVars(in boolean pl_removeSelfNameFromParamName := true)`
+
+To save the module parameter to a file, the following function can be used:
+
+[source]
+----
+function f_EPTF_Var_save(
+  in charstring pl_fileName := tsp_EPTF_Var_snapshotFilename,
+  in charstring pl_timeStampFormat := tsp_EPTF_Var_snapshotTimestamp,
+  in charstring pl_moduleparName := "",
+  in boolean pl_removeSelfNameFromParamName := false
+)  runs on EPTF_Var_CT return charstring
+----
+
+It saves the string generated by the function f_EPTF_Var_saveVars2tsp to the file named `pl_fileName+pl_timeStampFormat`. The extension of the file shall be set in the `pl_timeStampFormat` parameter. If the `pl_moduleparName` is not specified the module parameter name will be set to `"tsp_EPTF_Var_<selfName>_cfg"`.
+
+To load an EPTF Variable from configuration data call the function
+
+`f_EPTF_Var_loadVarFromCfg(name, cfg data, remove selfName)`
+
+This function searches the given Variable name in the config data and adjusts the value of the existing variable to that in the config.
+
+The name of the Variable in the config data should be the same as:
+
+* The name of the existing Variable – if the remove `selfName` parameter `_false_`
+* selfName + "." + name of the existing Variable – if remove `selfName` is `_true_` (default), i.e. the `selfName` (the name of the component) is removed from the name in the _cfg_.
+
+The index of the loaded Variable is returned in its return value.
+
+To automatically create the Variable with initial value read from the _cfg_:
+
+`f_EPTF_Var_createVarFromCfg(name, cfg data, remove selfName)`
+
+This function creates a new EPTF Variable with the given name if it is found in _cfg_, and also sets its initial value. The index of the new Variable is returned in the return value.
+
+=== String Conversion
+
+The content of any `EPTF_Variable` can be converted to charstring, and their content can be set using a value given as a charstring.
+
+The following function converts the current value of an `EPTF_Variable` to charstring and returns it in its return value:
+
+`f_EPTF_Var_content2str(in integer pl_idx) return charstring`
+
+The inverse of the function above sets (adjusts) the value of the `EPTF_Variable` from a value in charstring format. If the conversion is successful, it returns 0, otherwise a nonzero error code is returned:
+
+`f_EPTF_Var_str2content(in integer pl_idx, in charstring pl_valueStr) return integer`
+
+=== Cleanup
+
+Before exiting the component that extends `EPTF_Var_CT` the function
+
+`f_EPTF_Var_cleanup_CT()`
+
+should be called to properly exit the `EPTF_Var_CT` component. This function unsubscribes all `EPTF_Variables` that are subscribers of EPTF Variables in the exiting component and closes all connections related to the EPTF Variable feature.
+
+This function should never be called explicitly, because it is registered as a clean-up function in the function `f_EPTF_Var_init_CT()` and will be called automatically at exit.
+
+== The Refresh Mechanism
+
+The refresh mechanism implemented for the EPTF Variables makes it possible to update the value of all subscribers of an EPTF Variable if its value was changed.
+
+The refresh mechanism is initiated automatically if the value of the EPTF Variable was changed via the function `f_EPTF_Var_adjustContent`, or can be initiated explicitly by calling the function `f_EPTF_Var_refreshContent`. If the `f_EPTF_Var_adjustContent` function is called, the new value is first tested with the `guardFns`. If all of them accept the new value only then initiated the refresh mechanism.
+
+The following steps are executed during the refresh mechanism for the EPTF Variables:
+
+1.  The new value is written into the content of the EPTF Variable
+2.  The timeline is updated (if needed)
+3.  The `postProc` functions are called
+4.  All subscribers are notified
+
+== Summary Table of All Public Functions for EPTF Variables
+
+See Summary of EPTF Variable functions in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|===================================================================================================================================================================================================
+|Function name |Description for different provider types
+| |Empty
+|`f_EPTF_Var_newInt`, `f_EPTF_Var_newIntRef` |Creates this type of Variable
+|`f_EPTF_Var_subscribeLocal` |Sets the provider to local provider
+|`f_EPTF_Var_subscribeRemote`, |-
+|`f_EPTF_Var_unsubscribe` |Does nothing
+|`f_EPTF_Var_getContent` |Returns the content
+|`f_EPTF_Var_setContent` |Overwrites the previous content with the new value
+|`calcFn` |-
+|`guardFns` |Called when adjust is needed
+|`postProcFns` |Called after new value was set (by refresh or adjust)
+|`f_EPTF_Var_refreshContent` |Initiates the refresh mechanism: notifies all subscribers
+|`f_EPTF_Var_adjustContent` |Sets new value to the content, but before that the guards are called. The refresh mechanism is initiated: `PostProcFns` are called at the end
+|`f_EPTF_Var_setSubsCanAdjust` |Sets if adjust is allowed in subscribers of this Variable
+|`f_EPTF_Var_getSubsCanAdjust` |Returns the value of the 'adjustable' flag
+|`f_EPTF_Var_addSubsCanAdjustNotifyFn` |Add, remove and call functions that are called when the value of the `adjustable' flag changes.
+|`f_EPTF_Var_loadVarFromCfg` |Sets new value from _cfg_ to the content, but before that the guards are called. The refresh mechanism is initiated: `PostProcFns` are called at the end
+|f_EPTF_Var_createVarFromCfg |Creates a new Variable and sets its value from cfg to the content
+|`f_EPTF_Var_registerVarToSave`, `f_EPTF_Var_deregisterVarFromSave` f_EPTF_Var_saveVars2tsp, `f_EPTF_Var_saveVars`, `f_EPTF_Var_save` |The variables specified are registered to save,
+|`f_EPTF_Var_content2str` |Returns the value of the variable as a charsting
+|`f_EPTF_Var_str2content` |Sets the value of the variable from a string value and notifies all subscibers
+|`f_EPTF_Var_getTimeLine` |Returns the timeline of a variable
+|`f_EPTF_Var_updateTimeLine` |Update the timeline of a variable
+|`f_EPTF_Var_sendTimeLine` |Send the timeline of a variable to all of its subscribers
+|`f_EPTF_Var_setSyncInterval` |Sets the period of the default synchronization method
+|`f_EPTF_Var_setMinSyncInterval` |Sets the minimal period (elementary time step) for the custom synchronization refresh rates. Its default is the Scheduler’s `_tsp_EPTF_ELEMENTARY_TIMESTEP_PARAM_` value
+|`f_EPTF_Var_getRefreshPeriod` |Returns the refresh period for a given refresh rate id
+|`f_EPTF_Var_getRefreshRate` |Returns the refresh rate for a given refresh rate id
+|`f_EPTF_Var_getRefreshRateId` |Returns the refresh rate id for a given refresh rate
+|`f_EPTF_Var_setMaxWaitTimeForByeAck` |To set the maximal waiting time for `ByeAck` messages during cleanup
+|===================================================================================================================================================================================================

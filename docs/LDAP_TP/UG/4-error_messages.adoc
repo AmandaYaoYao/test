@@ -1,0 +1,15 @@
+= Error Messages
+
+Since the LDAPasp_RFC4511 Test Port uses the Abstract Socket, it can produce the same error messages. For this messages see <<8-references.adoc#_7, [7]>>.
+
+`*Parameter value <value> not recognized for parameter <name>*`
+
+The specified <value> in the runtime configuration file is not recognized for the parameter <name>.
+
+`*inet_ntop() function call failed*`
+
+An error occurred while trying to determine the address of the connected client.
+
+`*Unknown state while parsing TLV.*`
+
+Internal error, occurs if the `decode_incoming_message` Test Port parameter is set to the value `_"yes"_`.

@@ -1,0 +1,40 @@
+= Protocol Modules
+
+== Overview
+
+Protocol modules implement the message structures of the related protocol in a formalized way, using the standard specification language TTCN-3 . This allows defining of test data (templates) in the TTCN-3 language <<6-references.adoc#_6, [6]>> and correctly encoding/decoding messages when executing test suites using the Titan TTCN-3 test environment <<6-references.adoc#_4, [4]>>.
+
+Protocol modules are using Titan’s RAW encoding attributes <<6-references.adoc#_4, [4]>> and hence is usable with the Titan test toolset only.
+
+== Installation
+
+The set of protocol modules can be used in developing TTCN-3 test suites using any text editor. However to make the work more efficient a TTCN-3-enabled text editor is recommended (e.g.`nedit`, `xemacs`). Since the SDP protocol is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<6-references.adoc#_4, [4]>>.
+
+Release of the protocol module contains a demo directory. The demo directory contains 3 files:
+
+* _SDP.prj_ - Titan GUI project file
+
+* __SDP_Templates.ttcn__ - Test SDP messages
+
+* __SDP_test.ttcn__ - Encoding/decoding test case to encode/decode messages listed in __SDP_Templates.ttcn__.
+
+== Configuration
+
+None.
+
+== Parser Generation Rules
+
+In order to generate the _.c_ and _.h_ files from _.y_ and _.l_ the following _Makefile_ rules must be used:
+
+[source]
+----
+SDP_parse_.tab.c SDP_parse_.tab.h: SDP_parser.y
+
+bison -dv -p SDP_parse_ -b SDP_parse_ $<
+
+lex.SDP_parse_.c: SDP_parser.l
+
+flex -Cfr -8 -Bvpp -PSDP_parse_ SDP_parser.l
+----
+
+The _.h_ and _.c_ parser files should be generated during the protocol module development. Only the pregenerated files are needed for test case development and test execution.

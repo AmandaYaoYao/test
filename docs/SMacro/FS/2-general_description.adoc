@@ -1,0 +1,48 @@
+= General Description
+
+This document specifies the `SMacro` feature of the EPTF CLL.
+
+The `SMacro` feature is developed to replace the former external template handling mechanism in CLL LGenBase.
+
+String Macros are necessary when someone needs to replace certain patterns in a text. These patterns are called String Macros and the string itself is termed as String Template.
+
+Example:
+
+[cols=",",options="header",]
+|=================================================
+|String Template |`"Username is: $SIGNUM"`
+|String Macro |`SIGNUM`
+|Value of String Macro |`_"ethjgi"_`
+|Resolved String Template |`"Username is: ethjgi"`
+|=================================================
+
+== Functionality
+
+The `SMacro` feature provides the following functionalities:
+
+* the values of the String Macros can be defined, undefined, or redefined through API functions
+* replaces the String Macros in the content of the String Template with the corresponding values of the String Macros
+* it is possible to set or unset a custom function to calculate the value of the String Macro
+* built-in macro (`EVAL`) calculates mathematical expressions
+
+== String Templates
+
+String Templates are generic strings that may contain the so called String Macros. When a String Template is processed, all defined String Macros in it are replaced by their corresponding values.
+
+String Templates must follow the following rules:
+
+1.  They should have the TTCN-3 type of charstring
+2.  They can contain any characters allowed for the charstring TTCN-3 type
+3.  String Template may contain any number of String Macros
+
+Undefined String Macros remain unchanged in the processed value of the String Template.
+
+String Templates may contain mathematical expressions that can be evaluated automatically or with the help of the built-in EVAL macro.
+
+== String Macros
+
+String Macros are generic patterns in the String Templates that will be substituted with their defined values.
+
+The value of the String Macros can also be calculated with a user given custom function that is registered for the given String Macro.
+
+The value of String Macros can be redefined during runtime.

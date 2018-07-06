@@ -1,0 +1,107 @@
+= Warning Messages
+
+The following list shows the possible warning messages produced by the test port:
+
+`*HTTPmsg__PT::set_parameter(): Unsupported Test Port parameter: <name>*`
+
+The specified parameter is not recognized by the test port. Check <<2_the_test_port.adoc#HTTP_test_port_parameters_in_the_RTE_configuration_file, HTTP Test Port Parameters in the RTE Configuration File>> for parameter names. The parameter names have to be given case sensitive.
+
+`*<port name>: to switch on HTTP test port debugging, set the .<port name>.http_debugging := ``yes'' in the port's parameters.*`
+
+HTTP test port produces detailed logs if you specify `thehttp_debugging := "yes"` in the configuration file.
+
+`*Error when reading the received TCP PDU.*`
+
+There was an error while reading incoming data from the connection. The connection gets disconnected immediately, the test is informed about the disconnect by a Close ASP with the relevant `client_id`.
+
+`*Cannot open socket when trying to open the listen port: <reason>*`
+
+The Listen operation failed because of <reason>.
+
+`*Setsockopt failed when trying to open the listen port: <reason>*`
+
+There was an error while allocating a socket because of <reason>. The test is informed about the failure by receiving a `Listen_result` ASP with portnumber = `_"-1"_`.
+
+`*Cannot bind to port when trying to open the listen port: <reason>*`
+
+There was an error while binding to the requested port because of <reason>. The test is informed about the failure by receiving a `Listen_result` ASP with portnumber = `_"-1"_`.
+
+`*Cannot listen at port when trying to open the listen port: <reason>*`
+
+There was an error while trying to listen for incoming connections because of <reason>. The test is informed about the failure by receiving a `Listen_result` ASP with portnumber = `_"-1"_`.
+
+`*getsockname() system call failed on the server socket when trying to open the listen port: <reason>*`
+
+There was an error while trying to listen on the specified port because of <reason>. The test is informed about the failure by receiving a `Listen_result` ASP with portnumber = `_"-1"_`.
+
+`*Cannot open socket when trying to open client connection: <reason>*`
+
+There was an error while allocating a socket for a connection because of <reason>. The test is informed about the failure by receiving a `Connect_result` ASP with client_id = `_"-1"_`.
+
+`*Setsockopt failed when trying to open client connection: <reason>*`
+
+There was an error while allocating a socket for a connection because of <reason>. The test is informed about the failure by receiving a `Connect_result` ASP with client_id = `_"-1"_`.
+
+`*Cannot bind to port when trying to open client connection: <reason>*`
+
+There was an error while binding to the requested port to the socket because of <reason>. The test is informed about the failure by receiving a `Connect_result` ASP with client_id = `_"-1"_`.
+
+`*connect() returned error code EADDRINUSE. Perhaps this is a kernel bug. Trying to connect again.*`
+
+If the connect system call fails because of the `address is already in use' error, the test port automatically does 16 retry. Meanwhile this warning is logged.
+
+`*Cannot connect to server when trying to open client connection: <reason>*`
+
+The Connect operation failed; look for the reason above this message in the log. A `Connect_result` with `client_id = -1` will be returned to the test.
+
+`*Abstract_Socket::remove_client: <client_id> is the server listening port, can not be removed!*`
+
+The specified `client_id` in the Close ASP belongs to the server listening port. Wrong `client_id` is specified.
+
+`*Client <client_id> has not been removed, programming error*`
+
+Please send a bug report including log files produced with all debugging possibilities turned on.
+
+`*Warning: race condition while setting current client object pointer*``
+
+There are multiple instances of the port running trying to access a common resource concurrently. This may cause problem.
+
+`*Connection from client <client_id> is refused*`
+
+The connection from a client is refused in the server.
+
+`*Connection to server is refused*`
+
+The connection from the client is refused by the server.
+
+`*Server did not send a session ID*`
+
+The connection from the client is refused by the server.
+
+`*Verification failed*`
+
+The verification of the other side is failed. The connection will be shut down.
+
+`*SSL object not found for client <client_id>*`
+
+Please send a bug report including log files produced with all debugging possibilities turned on.
+
+`*SSL_Socket::receive_message_on_fd: SSL connection was interrupted by the other side*`
+
+The TLS/SSL connection has been closed. If the protocol version is SSL 3.0 or TLS 1.0, this warning appears only if a closure alert has occurred in the protocol, i.e. if the connection has been closed cleanly. Note that in this case it does not necessarily indicate that the underlying transport has been closed.
+
+`*SSL_Socket::send_message_on_fd: SSL connection was interrupted by the other side*`
+
+See above.
+
+`*Other side does not have certificate.*`
+
+The other side of the SSL connection does not have a certificate.
+
+`*Solaris patches to provide random generation devices are not installed. See http://www.openssl.org/support/faq.html ``Why do I get a''PRNG not seeded" error message?" A workaround will be used.*`
+
+Solaris patches to provide random generation devices are not installed. A workaround will be used to seed the PRNG.
+
+`*Private key does not match the certificate public key*``
+
+The private key specified for the test port does not match with the public key.

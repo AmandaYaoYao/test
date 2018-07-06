@@ -1,0 +1,450 @@
+= Interface Description
+
+[[prototuples]]
+== ProtoTuples
+
+For each protocol IPL4 testport handles different _Connection tuples_ defined in a union called `ProtoTuple`. The following _Connection tuples_ are in use:
+
+* `UdpTuple` \{}
+
+This tuple is used in sending and receiving UDP type messages.
+
+* `TcpTuple` \{}
+
+This tuple is used in sending and receiving TCP type messages.
+
+* `SslTuple` \{}
+
+This tuple is used in sending and receiving SSL type messages.
+
+[source]
+----
+* SctpTuple \{
+    integer sinfo_stream optional,
+    integer sinfo_ppid optional,
+    SocketList remSocks optional,
+    AssociationId assocId optional
+  }
+----
+
+This tuple is used in sending and receiving SCTP type messages. The parameters defined in this tuple can be used to send SCTP specific information.
+
+* `sinfo_stream` specifies the stream number of the message
+* `sinfo_ppid` specifies the information that is passed by the upper layer in the peer application
+* `remSocks` it is used to give multiple remote addresses in case of multihomed connections
+* `assocId` specifies the association ID to identify one specific connection in case of one-to-many connections
+
+[source]
+----
+DtlsTuple \{
+  UdpTuple udp,
+  SctpTuple sctp
+}
+----
+
+This tuple is used for sending and receiving DTLS type messages.
+
+* `udp` specifies that underlying layer is UDP
+* `sctp` specifies that underlying layer is SCTP
+
+== Send and Receive Functions
+
+The message based IPL4asp provider test port has the following declaration:
+
+[source]
+----
+type port IPL4asp_PT message \{
+  out ASP_SendTo
+  out ASP_Send
+  in ASP_RecvFrom
+  in ASP_Event
+} with \{extension ``provider''}
+----
+
+The provider port sends and receives octetstring in each ASP, which may be overridden with a port extension.
+
+`ASP_Send` or `ASP_SendTo` can be used to send messages over the network depending on whether the socket is connected or not connected, respectively.
+
+[source]
+----
+type record ASP_Send \{
+  ConnectionId connId,
+  ProtoTuple proto optional,
+  octetstring msg
+}
+
+type record ASP_SendTo \{
+  ConnectionId connId,
+  HostName remName,
+  PortNumber remPort,
+  ProtoTuple proto optional,
+  octetstring msg
+}
+----
+
+* `connId`: Connection ID – The id returned by `f_IPL4_listen` or `f_IPL4_connect`
+
+* `proto`: Should be given as omitted or be the transport protocol given in `f_IPL4_listen` or `f_IPL4_connect`
+
+* `remName`: Remote host name or IP address
+
+* `remPort`: Remote port number
+
+* `msg`: Message to be sent in octetstring format
+
+Messages received from the network are sent to the test port user in `ASP_RecvFrom` messages.
+
+[source]
+----
+type record ASP_RecvFrom \{
+  ConnectionId connId,
+  HostName remName,
+  PortNumber remPort,
+  HostName locName,
+  PortNumber locPort,
+  ProtoTuple proto,
+  UserData userData,
+  octetstring msg
+}
+----
+
+* `connId`: Connection ID
+
+* `proto`: Transport protocol identifier
+
+* `remName`: Remote host name or IP address
+
+* `remPort`: Remote port number
+
+* `locName`: Local IP address (it is never converted to name)
+
+* `locPort`: Local port number
+
+* `userData`: User defined data (currently an integer – opaque for the test port)
+
+* `msg`: Received message in octetstring format
+
+Other asynchronous events, such as: connection opened, closed and errors (except error discovered by the synchronous interface) are received in `ASP_Event` (see <<3-test_port_usage.adoc#events, Events>>).
+
+NOTE: Errors also include notifications about unavailability and availability of a connection for writing.
+
+== IPv6 Link Local Address Handling
+
+Every IPv6 address, except the unspecified address (::), has a "scope" which specifies in which part of the network it is valid.
+
+In the unicast addressing class, link-local addresses and the loopback address have link-local scope, which means they are to be used in the directly attached network (link). All other addresses, including unique local addresses, have global (or universal) scope, which means they are globally routable, and can be used to connect to addresses with global scope anywhere, or addresses with link-local scope on the directly attached network.
+
+The scope can be specified with prefixes which determine the interface. For example:
+
+[source]
+fe80::219:b9ff:fef2:fd09%eth3
+
+[[test_port_control_functions]]
+== Test Port Control Functions
+
+Connection control operations are implemented as functions; and are used to open and close connections, modifying test port behavior and connection properties.
+
+These functions give back the result of the operation immediately (if there is any) as function return value.
+
+NOTE: In case of connect (in pure non-blocking mode) the operation possibly cannot be completed immediately and a short delay is needed before the first network message sending can be successful. The timing of the first send is supported with an asynchronous event.
+
+Common arguments of the control functions are:
+
+`portRef`: Test Port reference. This is needed to access some public members of the test port. For the description of other common parameters, see section <<prototuples, ProtoTuples>>.
+
+[[creating_listener]]
+=== Creating Listener
+
+The `f_IPL4_listen` function can be used to create a listening socket. The connection ID is returned in the Result record.
+
+In case of UDP, the returned connection ID may be used to send messages with `ASP_SendTo`. Additionally this connection ID may be used to connect to a specific destination (see section <<creating_connection, Creating Connection>>.
+
+[source]
+----
+external function f_IPL4_listen(
+  inout IPL4asp_PT portRef,
+  in HostName locName,
+  in PortNumber locPort,
+  in ProtoTuple proto,
+  in OptionList options := \{}
+) return Result;
+----
+
+If `locName` is `_""_`, the default local host name (by default the IPv4 any address) is used that may be changed via run-time configuration (see section <<3-test_port_usage.adoc#configuration, Configuration>>.
+
+If `portNum` is `_"-1"_`, the default port number (by default 9999) is used may be changed via run-time configuration (see section <<3-test_port_usage.adoc#configuration, Configuration>>).
+
+If options is specified, then the test port level defaults can be overridden. This parameter can be omitted for backward compatibility and simplicity. See section <<sctp_multihoming, SCTP Multihoming>>.
+
+[[creating_connection]]
+=== Creating Connection
+
+The `f_IPL4_connect` function can be used to create a connection. The connection ID is returned in the Result record.
+
+The function may be used also to connect an existing UDP socket created with the `f_IPL4_listen` function (see section <<creating_listener, Creating Listener>>. In any other case, the `connId` argument is ignored and should be `_"-1"_`.
+
+[source]
+----
+external function f_IPL4_connect(
+  inout IPL4asp_PT portRef,
+  in HostName remName,
+  in PortNumber remPort,
+  in HostName locName,
+  in PortNumber locPort,
+  in ConnectionId connId,
+  in ProtoTuple proto,
+  in OptionList options := \{}
+) return Result;
+----
+
+The default values of `locName` and `locPort` are the same as of section <<creating_listener, Creating Listener>>.
+
+If `portNum` is `_"0"_` (zero) the system chooses a random available local port number.
+
+NOTE: In pure no-blocking mode the function returns immediately, possibly without waiting for the connection being successfully established. If the result code is `*IPL4_ERROR_TEMPORARILY_UNAVAILABLE*`, an asynchronous Result event carries the result of the operation and the indication that the connection can be used for sending network messages.
+
+If options is specified, then the test port level defaults can be overridden. This parameter can be omitted for backward compatibility and simplicity. See section <<sctp_multihoming, SCTP Multihoming>>.
+
+[[sctp_multihoming]]
+=== SCTP Multihoming
+
+The IPL4 test port supports local multihoming configuration with the EIN SS7 SCTP stack.
+
+The additional local addresses can be configured via the `"HostList"` option. The test port supports only IPv4 or IPv6 literal addresses with the SS7 SCTP stack. Both IP literals and host names can be used with kernel SCTP stack.
+
+[[setting_connection_options]]
+=== Setting Connection Options
+
+A list of options can be specified when the connection is created in `f_IPL4_listen` or `f_IPL4_connect` and in the `f_IPL4_setOpt` function.
+
+[source]
+----
+external function f_IPL4_setOpt(
+  inout IPL4asp_PT portRef,
+  in OptionList options,
+  in ConnectionId connId := -1,
+  in ProtoTuple proto := \{ unspecified := \{} }
+) return Result;
+----
+
+The `f_IPL4_setOpt` function can be used to modify test port component level defaults. In this case `connId` should be omitted. If protocol is specified, then default options for that protocol are modified, otherwise defaults for all applicable protocols are modified.
+
+The `f_IPL4_setOpt` function can also be used to modify options for an opened connection. In this case `connId` should be specified and `proto` be omitted.
+
+The default values are selected so that backward compatibility is maintained when options are not set at all. See section <<3-test_port_usage.adoc#Parameters_for_IP_Auto-Configuration, Parameters for IP Auto_Configuration>>.
+
+The currently supported options are `ReuseAddress`, `TcpKeepAlive`, `SslKeepAlive`, `sctpAdditionalLocalAddresses`, `sctpEINConfigGroup`, `solinger`, `ssl_support`, and `no_delay`, `udp_encap`, `dscp`, `mtu_discover`.
+
+`ReuseAddress` should be specified in connection creation. The optional enable field need only be specified if it is to turn off the option. `SslKeepAlive` and `TcpKeepAlive` has four fields. (For description see section <<3-test_port_usage.adoc#Parameters_for_IP_Auto-Configuration, Parameters for IP Auto_Configuration>>). Each can be given independently. For non-defined fields (including enable) defaults are used.
+
+`dtlsSrtpProfiles` needs to be specified to extend the DTLS handshake with SRTP selection profile negotiation. For details see section <<2-feature_list.adoc#DTLS_SRTP_limitations, DTLS SRTP Limitations>>.
+
+For IPsec tunnel mode the `UDP_ENCAP` option of the UDP socket should be called. The `setsockopt` should be called with `IPPROTO_UDP`, `UDP_ENCAP` and the provided value for the option (`UDP_ENCAP_ESPINUDP_NON_IKE`, `UDP_ENCAP_ESPINUDP` or `UDP_ENCAP_L2TPINUDP`).
+
+The dscp option can be specified for an opened connection to set the DSCP field of the IP header.
+
+=== Getting Connection Options
+
+It is also possible to read the value of a given socket option. You can specify an Option, and the current value will be returned in an `Extended_Result`, at the `msg` field.
+
+[source]
+----
+external function f_IPL4_getOpt(
+  inout IPL4asp_PT portRef,
+  in Option option,
+  in ConnectionId connId := -1,
+  in ProtoTuple proto := \{ unspecified := \{} }
+) return Extended_Result;
+----
+
+[[the-f-ipl4-getopt-function-only-supports-mtu-discover-for-now]]
+The `f_IPL4_getOpt` function only supports `mtu_discover` for now.
+
+=== Closing Connection
+
+Connections are closed with the `f_IPL4_close` function.
+
+NOTE: A connection may be disconnected by the remote peer, in which case a notification shall be received as described in section <<3-test_port_usage.adoc#events, Events>>.
+
+[source]
+----
+external function f_IPL4_close(
+  inout IPL4asp_PT portRef,
+  in ConnectionId id,
+  in ProtoTuple proto := \{ unspecified := \{} }
+) return Result;
+----
+
+=== Abnormal Close
+
+In order to force the abnormal closure of TCP or SCTP connection the `SO_LINGER` option should be enabled and set to `_"0"_` by calling `f_IPL4_setOpt` function.
+
+Example:
+
+[source]
+----
+f_IPL4setOpt(IPL4port,\{\{solinger:=\{l_onoff:=1,l_linger:=0}}},connID,\{ sctp:=\{ omit,omit,omit,omit}})
+
+f_IPL4_close(IPL4port, connID)
+----
+
+=== Setting User Data
+
+Each connection may be associated with some user specified data that may help the user to handle connection mappings.
+
+The user data (currently and integer) is opaque for the test port.
+
+[source]
+----
+external function f_IPL4_setUserData(
+  inout IPL4asp_PT portRef,
+  in ConnectionId id,
+  in UserData userData
+) return Result;
+----
+
+=== Getting User Data
+
+If the user associated data with a connection, then it can be retrieved with the following function:
+
+[source]
+----
+external function f_IPL4_setUserData(
+  inout IPL4asp_PT portRef,
+  in ConnectionId id,
+  in UserData userData
+) return Result;
+----
+
+[[getting_user_details]]
+=== Getting User Details
+
+If the user needs various connection details, then it can be retrieved with the following function:
+
+[source]
+----
+external function f_IPL4_getConnectionDetails (
+  inout IPL4asp_PT portRef,
+  in ConnectionId id,
+  in IPL4_Param IPL4param,
+  out IPL4_ParamResult IPL4paramResult
+) return Result;
+----
+
+With this function user can get local address and local port, the remote address and remote port, the used protocol, user data or the parent connection ID. Supported connection details:
+
+* `IPL4_LOCALADDRESS`
+* `IPL4_REMOTEADDRESS`
+* `IPL4_PROTO`
+* `IPL4_USERDATA`
+* `IPL4_PARENTIDX`
+
+=== Message Dissection
+
+In stream-based protocols (e.g. TCP, SSL), only the upper protocol may know how to find message boundaries in the stream of bytes. In order to perform this task in the test port independently from any session protocols, a callback function may be registered for each connection in the test port. This way the user will receive complete messages, even in case of stream-based protocols.
+
+[source]
+----
+external function f_IPL4_setGetMsgLen(
+  inout IPL4asp_PT portRef,
+  in ConnectionId id := -1,
+  inout f_IPL4_getMsgLen f,
+  in ro_integer msgLenArgs
+);
+----
+
+If is the reference of a callback function of the following type:
+
+[source]
+----
+type function f_IPL4_getMsgLen(
+  in octetstring stream,
+  inout ro_integer args
+) return integer;
+----
+
+The callback function takes an octetstring as one of its arguments. It contains the bytes of the message received so far. The callback function has to return the length of the message if completely received. It has to return `_"-1"_` if the length cannot be determined. If the message is incomplete, but the length can be determined, then the function should return the length. In this case the callback function will not be called again for the given message – possibly increasing the performance. Alternatively the function may always return `_"-1"_` when the message is incomplete.
+
+`msgLenArgs` is record of integer stored for each connection. It is not modified by the test port and opaque for that. Its purpose is to support efficient implementation of the callback function. (In SIP, for example, it could store the length value from the *_CONTENT-LENGTH_* header.)
+
+The default operation is to return all bytes which were momentarily received.
+
+If id in the function is omitted (or given as `_"-1"_`), the default function is changed, which will be used for new connections and newly opened listening sockets.
+
+The forked sockets of a listening socket will by default inherit the message dissection function and the `msgLenArgs` record of the parent.
+
+NOTE: If id in the function is omitted (or given as `_"-1"_`), function change will *not* take effect in already existing connections and listening sockets. New connections opened by an already existing listening socket will use the message dissection function inherited from its parent listening socket (so they will use the old message dissection function).
+
+=== Message Dissection Function for Binary Protocols
+
+A predefined message dissection function is provided by the IPL4 test port for binary protocols with fixed placed and constant sized length fields, such as DIAMETER, ICR.
+
+[source]
+external function f_IPL4_fixedMsgLen(in octetstring stream, inout ro_integer args) return integer;
+
+The args should be a list of 5 integer values:
+
+`__`args[0]:`__` The offset of the length field from the beginning of the message in octets
+
+`__`args[1]:`__` The size of the length field in octets
+
+`__`args[2]:`__` The offset of the value of the length fields
+
+`__`args[3]:`__` The multiplier of the length field value. The actual length is the multiplication of the multiplier and the length field value in octets
+
+`__`args[4]:`__` The endianess of length field. 1-Little endian, 0-Big endian
+
+=== Send Messages
+
+Besides the `ASP_Send` or `ASP_SendTo` the `f_IPL4_send` and `f_IPL4_sento` can be used to send messages over the network depending on whether the socket is connected or not connected, respectively.
+
+Using the functions instead of ASPs to send messages provides a reliable control of the send operation in a non-blocking mode.
+
+The function returns the result of the send operation and the number of the sent octets. In case of the congestion the application is able to resend the unsent octets after the socket become writeable.
+
+[source]
+----
+external function f_IPL4_send(
+  inout IPL4asp_PT portRef,
+  in ASP_Send asp,
+  out integer sent_octets
+) return Result;
+
+external function f_IPL4_sendto(
+  inout IPL4asp_PT portRef,
+  in ASP_SendTo asp,
+  out integer sent_octets
+) return Result;
+----
+
+[[start-tls-over-existing-tcp-udp-connection]]
+=== Start TLS Over Existing TCP/UDP Connection
+
+The test port is able to initiate the TLS negotiation over the existing TCP/UDP connection.
+
+The `f_IPL4_StartTLS` function can be used to initiate the TLS negotiation. The `connId` refers to the existing TCP/UDP connection on which the TLS negotiation should be started. The `server_side` parameter controls whether the test port initiates or accepts the TLS negotiation.
+
+[source]
+----
+external function f_IPL4_StartTLS(
+  inout IPL4asp_PT portRef,
+  in ConnectionId connId,
+  in boolean server_side:=false
+) return Result;
+----
+
+[[getting_path_MTU]]
+=== Getting Path MTU
+
+You can read the Path MTU value of a connected socket using `f_IPL4_getConnectedPathMTU`. It returns an `Extended_Result`.
+
+[source]
+----
+external function f_IPL4_getConnectedPathMTU(
+  inout IPL4asp_PT portRef,
+  in ConnectionId connId := -1,
+  in ProtoTuple proto := \{ unspecified := \{} }
+) return Extended_Result;
+----
+
+The `f_IPL4_getOpt` function only supports `mtu_discover` for now.

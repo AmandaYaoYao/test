@@ -1,0 +1,33 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 v.2.2.1 (02/2003) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] User Guide for TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] Programmer’s Technical Reference for TITAN TTCN-3 Test Executor
+
+[[_4]]
+[4] Installation Guide for the TITAN TTCN-3 Test Executor
+
+[[_5]]
+[5] H.248 V2 Protocol Modules for TTCN-3 Toolset with TITAN, Function Specification
+
+[[_6]]
+[6] H.248.1 (05/2002) +
+Gateway control protocol: Version 2
+
+[[_7]]
+[7] H.248.1 v2 Corrigendum 1 (03/2004) +
+Gateway control protocol: Version 2 Corrigendum 1
+
+[[_8]]
+[8] https://tools.ietf.org/html/rfc2327[RFC 2327] +
+SDP: Session Description Protocol
+
+[[_9]]
+[9] H248.1 (08/2005) +
+Gateway control protocol: Version 3 Draft

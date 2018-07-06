@@ -1,0 +1,7 @@
+= Limitations
+
+Supported platforms: Solaris 10, SUSE Linux 9.1 and above.
+
+Multihoming is not supported. If you use the SCTPasp Test Port on a machine with multiple interfaces then by default an arbitrary IP address will be chosen for the SCTP socket. So in this case it is recommended to specify the bind address in the TITAN RTE configuration file. In normal mode both the client and server type ports can choose a bind address by `ASP_SCTP_ConnectFrom` and `ASP_SCTP_Listen`.
+
+IPv6 is not supported.

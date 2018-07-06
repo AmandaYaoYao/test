@@ -1,0 +1,20 @@
+= General Description
+
+This document specifies the Semaphore feature of the TitanSim CLL.
+
+The EPTF Semaphore feature makes it possible to implement blocking functions without using test port receive statements.
+
+There are some situations when a function shall block its execution until some event arrives. This event can be a message received on a test port or a scheduled timer event etc. The drawback of using a simple test port receive statement for waiting for a certain message is that, if some other message arrives on the same test port that cannot be extracted from the queue at the moment, then the message we are waiting for will never got extracted, because it is after the previous message in the event queue. The EPTF Semaphore feature provides a general solution for this problem by using timer events only.
+
+Also, by using EPTF Semaphores it is possible to synchronize events on the component.
+
+The Semaphores can be created on demand. They are identified by an integer ID. Using this ID the created semaphore can be unlocked later somewhere in the code. The function which blocks the execution until the semaphore is unlocked can be used to wait for the required event. When that event arrives, its handler function unlocks the semaphore and the waiting function will continue its operation.
+
+The states of the semaphore can be:
+
+* Locked (lock levels 1 and above)
+* Unlocked (lock level 0)
+
+The function that waits for the semaphore to be unlocked blocks its execution until the semaphore is unlocked. After creation the semaphore is in locked state (with lock level 1).
+
+The lock level of the semaphore can be increased and decreased one-by-one. This can be used for example to block execution until all answers for pending requests arrive.

@@ -1,0 +1,7 @@
+= Abbreviations
+
+CLL:: Core Load Library
+
+EPTF:: Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+TitanSim:: Ericsson Load Test Framework, formerly TITAN Load Test Framework

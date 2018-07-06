@@ -1,0 +1,70 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 V3.2.1 (2007-02) +
+Methods for Testing and Specification (MTS); The Testing and Test Control Notation version 3. Part 1: TTCN-3 Core Language
+
+[[_2]]
+[2] Installation Guide for the TITAN TTCN 3 Test Executor
+
+[[_3]]
+[3] User Guide for the TITAN TTCN 3 Test Executor
+
+[[_4]]
+[4] EED/Z/P-03:015 Rev B +
+PDU CNES – TTCNV3 Requirement Specification
+
+[[_5]]
+[5] User Documentation for the TITAN TTCN-3 Test Executor
+
+[[_6]]
+[6] ITU-T Recommendation Q.711 (07/96) +
+Specifications of Signaling System No. 7 Signaling connection control part +
+Functional Description of the Signaling Connection Control Part
+
+[[_7]]
+[7] ITU-T Recommendation Q.712 (07/96) +
+Specifications of Signaling System No. 7- Signaling connection control part (SCCP) +
+Definition and function of signaling connection control part messages
+
+[[_8]]
+[8] ITU-T Recommendation Q.713 (07/96) +
+Specifications of Signaling System No. 7- Signaling connection control part (SCCP) +
+Signaling Connection Control Part formats and codes
+
+[[_9]]
+[9] ITU-T Recommendation Q.714 (07/96) +
+Specifications of Signaling System No. 7 - Signaling connection control part +
+Signaling connection control part procedures
+
+[[_10]]
+[10] ANSI T1.112-2001 +
+Signaling System Number 7 (SS7) –Signaling Connection Control Part (SCCP)
+
+[[_11]]
+[11] JT-Q711 (23/04/97) +
+Functional Description of the Signaling Connection Control Part (SCCP)
+
+[[_12]]
+[12] JT-Q712 (23/04/97) +
+Definition and Function of SCCP Messages
+
+[[_13]]
+[13] JT-Q713 (20/04/2000) +
+SCCP Formats and Codes
+
+[[_14]]
+[14] JT-Q714 (23/04/97) +
+Signaling Connection Control Part Procedures
+
+[[_15]]
+[15] SCCP, Introduction (ITU-T, MPT, TTC)
+
+[[_16]]
+[16] SCCP, Connection-oriented Signaling Procedures (ITU, MPT, TTC)
+
+[[_17]]
+[17] SCCP, Formats and Codes
+
+[[_18]]
+[18] SCCP, Connectionless Signaling Procedures (ITU, MPT, TTC)

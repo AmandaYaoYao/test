@@ -1,0 +1,30 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* __EPTF_LoadRegulator_demo.cfg__
+* __EPTF_LoadRegulator_demo.prj__
+* __EPTF_LoadRegulator_demo.ttcn__
+
+== Configuration File
+
+The used configuration file (_EPTF_LoadRegulator_demo.cfg_) for the Load Regulator example is placed in the demo directory.
+
+Module parameters of the demo (additional to the ones described in <<2-load_regulator.adoc#config, Configuration>>):
+
+* `tsp_demoInterval`: interval of testing. Type: float, default: `_300.0_`.
+* `tsp_demoLoadGenerationPeriod`: load generation period, defined the time interval with which the load is generated as bursts. Type: float, default: `_0.1_`.
+* `tsp_demoLoadToReach`: processor load to reach in percents. Type: float, default: `_25.0_`.
+* `tsp_demoCpsToReach`: initial CPS value. Type: float, default: `_10.0_`
+* `tsp_NetInterfaceName`: network interface name. Type: charstring, default: `_"eth0"_`.
+* `tsp_bandwidthToReach`: bandwidth to reach in kB/s. Type: float, default: `_150.0_`.
+
+== Demo Module
+
+The demo module (__EPTF_LoadRegulator_demo.ttcn__) illustrates a typical usage of the Load Regulator feature.
+
+The testcase `tc_LoadRegulator_demo` demo implements a simple (and not accurate) load generator and a repeater component. The Load Regulator feature is used in the simple load generator to regulate the number of messages that is to be sent per seconds to the repeater component, based on the average processor load measurement taken by the Host Admin Base feature <<5-references.adoc#_7, [7]>>.
+
+The testcase `tc_LoadRegulator_weightedCPC_demo` uses a post-CPS-calculation function for distributing the calculated CPS to a weighted CPS list.
+
+The testcase `tc_BandwidthLimitedTrafficControl_demo` regulates the load based on the measured network bandwidth according to the module parameter `tsp_bandwidthToReach`.

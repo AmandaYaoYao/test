@@ -1,0 +1,33 @@
+= Warning Messages
+
+NOTE: Besides the below described warning messages, warning messages shown in <<7-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+The `ILog`, `ILogBase` and `ILogString` feature may log one or more of the following warning messages:
+
+`*f_EPTF_ILog_newChains: There is unprocessed chain data! Please log or delete it previously!*`
+
+`*f_EPTF_ILog_addToChains: No valid chain was given in the list, which is currently in use!*`
+
+`*f_EPTF_ILog_step_logSuccess: No valid chain was given in the list, which is currently in use!*`
+
+`*f_EPTF_ILog_step_logFailed: No valid chain was given in the list, which is currently in use!*`
+
+`*f_EPTF_ILog_step_deleteLog: No valid chain was given in the list, which is currently in use!*`
+
+`*f_EPTF_ILogBase_newChain: Chain id inconsistency!*`
+
+`*f_EPTF_ILogBase_addToChains: Invalid database id: "<pl_dbId>"*`
+
+`*f_EPTF_ILogBase_addToChains: No valid chain was given in the list, which is currently in use!*`
+
+`*f_EPTF_ILogBase_addToChains: There is no detailed chain in use!*`
+
+`*f_EPTF_ILogBase_getName: Invalid chain, id: "<pl_chainId>"*`
+
+`*f_EPTF_ILogBase_deleteChain: Invalid chain, id: "<pl_chainId>"*`
+
+`*f_EPTF_ILogBase_logChain: Invalid chain, id: "<pl_chainId>"*`
+
+`*f_EPTF_ILogBase_logAll: No chain to log!*`
+
+`*f_EPTF_ILogString_addToChains: Could not add the log item to any of the chains in the chain list! Save of the log item is failed!*`

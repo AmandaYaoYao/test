@@ -1,0 +1,36 @@
+= Functionality
+
+== Product Contents, Structure
+
+The major parts of PBPMG are:
+
+a. _PBPMG.awk_ and _PBPMG.sh_ scripts: +
+This is the most important part of the product. The scripts parse the _.proto_ files and produces the TTCN-3 representation of them and the encoder/decoder functions
+
+b. Encoder/decoder functions for base types.
+
+== Protocol Version Implemented
+
+The PBPMG based on the 2.5.0 and 3.0.0 version of the Google protocol Buffer
+
+== Modified and Non-Implemented Protocol Elements
+
+None.
+
+== Ericsson-Specific Changes
+
+There is no Ericsson specific change in this product.
+
+== Backward Incompatibilities
+
+None.
+
+== System Requirements
+
+Protocol modules are a set of TTCN-3 source code files that can be used as part of TTCN-3 test suites only. Hence, protocol modules alone do not put specific requirements on the system used. However, in order to compile and execute a TTCN-3 test suite using the set of protocol modules the following system requirements must be satisfied:
+
+* TITAN TTCN-3 Test Executor version CRL 113 200/6 R3A (6.3.pl0) or higher installed. For installation guide see <<5-references.adoc#_2, [2]>>.
+
+NOTE: This version of the protocol module is not compatible with TITAN releases earlier than CRL 113 200/6 R3A.
+
+* GNU AWK 3.1.8 or later

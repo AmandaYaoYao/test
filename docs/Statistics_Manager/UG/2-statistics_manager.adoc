@@ -1,0 +1,45 @@
+= Statistics Manager
+
+== Overview
+
+The EPTF CLL Statistics Manager component provides a way to declare statistics based on published data elements and to publish these statistics so that they can be used to visualize congestion.
+
+[[descripton_of_files_in_this_feature]]
+== Description of Files in This Feature
+
+The EPTF CLL Statistics Manager API includes the following files:
+*	StatManager
+** __EPTF_CLL_StatManager_Definitions.ttcn__ - This TTCN-3 module contains common type definitions that should be used in all Statistics Manager Components.
+** __EPTF_CLL_StatManager_Functions.ttcn__ - This TTCN-3 module contains the implementation of Statistics Manager functions.
+
+[[description_of_required_files_from_other_features]]
+== Description of Required Files From Other Features
+
+The Statistics Manager feature is part of the TitanSim EPTF Core Load Library (CLL). It relies on several features of the CLL. The user has to obtain the products/files to be found under the respective feature names:
+•	`Base`
+•	`Common`
+•	`DataSource`
+•	`HashMap`
+•	`Logging`
+•	`StatMeasure`
+•	`Variable`
+
+== Installation
+
+Since EPTF CLL Statistics Manager is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor see the relevant section of ‎<<7-references.adoc#_2, [2]>>.
+
+If not otherwise noted in the respective sections, the following are needed to use `EPTF_CLL_StatManager`:
+
+*	Copy the files listed in section <<descripton_of_files_in_this_feature, Description of Files in This Feature>> and <<description_of_required_files_from_other_features, Description of Required Files From Other Features>> to the directory of the test suite or create symbolic links to them.
+*	Import the Statistics Manager demo or write your own application using `StatManager`.
+*	Create _Makefile_ or modify the existing one. For more details see the relevant section of ‎‎<<7-references.adoc#_2, [2]>>.
+*	Edit the config file according to your needs, see following section <<configuration, Configuration>>.
+
+[[configuration]]
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual suffix of configuration files is _.cfg._ For further information on the configuration file see <<7-references.adoc#_2, ‎[2]>>.
+
+The Statistics Manager feature defines TTCN-3 module parameters as defined in <<7-references.adoc#_2, ‎[2]>>, clause 4. Actual values of these parameters – when there is no default value or a different from the default actual value to be used – shall be given in the `[MODULE_PARAMETERS]` section of the configuration file.
+
+This feature does not contain any Statistics Manager–specific module parameters.

@@ -1,0 +1,11 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 (2002) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] User Guide for the TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] Unix Domain Socket Test Port for TTCN-3 Toolset with TITAN, Function Specification

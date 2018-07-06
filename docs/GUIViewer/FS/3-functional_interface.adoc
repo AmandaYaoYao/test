@@ -1,0 +1,13 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading <<5-references.adoc#_5, ‎[5]>>.
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_GUIViewer_`
+
+== General Public Functions
+
+=== Initialization
+
+The `f_EPTF_GUIViewer_behaviour` function doing the initialization.

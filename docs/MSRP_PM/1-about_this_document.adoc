@@ -1,0 +1,9 @@
+= About This Document
+
+=== How to Read This Document
+
+This is the User Guide for the Message Session Relay Protocol (MSRP) protocol module. The Message Session Relay Protocol (MSRP) protocol module is developed for the TTCN-3 Toolset with TITAN.
+
+== Presumed Knowledge
+
+To use this protocol module the knowledge of the TTCN-3 language <<8-references.adoc#_1, ‎[1]>> is essential.

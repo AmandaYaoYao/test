@@ -1,0 +1,116 @@
+= Using the Test Port in TTCN3
+
+[[abstract_service_primitives]]
+== Abstract Service Primitives
+
+[[incoming-outgoing-asps]]
+=== Incoming/Outgoing ASPs
+
+[[asp-ssh]]
+==== `ASP_SSH`
+
+This ASP is used to send and receive user data.
+
+=== Incoming ASPs
+
+[[asp-ssh-close]]
+==== `ASP_SSH_Close`
+
+This ASP is used to indicate that the remote host has closed the SSH connection.
+
+[[asp-ssh-pseudoprompt]]
+==== `ASP_SSH_PseudoPrompt`
+
+This ASP is used to indicate that a prompt has arrived from the SUT.
+
+[[asp-ssh-status]]
+==== `ASP_SSH_Status`
+
+This ASP is used to indicate status information about operations that affects remote hosts. `ASP_SSH_Status` can be received after `ASP_SSH` or `ASP_SSH_Connect` has been sent. By default, it is received when the operation is failed but can be set to return information on success if the test port parameter `statusOnSuccess` is set to `_"yes"_`.
+
+It has two fields:
+
+* `status_code`
+* `status_message`.
+
+The following table contains the available values:
+
+[width="100%",cols="20%,80%",options="header",]
+|=====================================================================================
+|*Status code* |*Status message*
+|0 |OK!
+|1 |ASP_SSH send error! No session!
+|2 |ASP_SSH send error! Socket error!
+|3 |ASP_SSH_Connect send error! This ASP can only be used if the connection is closed!
+|=====================================================================================
+
+=== Outgoing ASPs
+
+[[asp-ssh-setprompt]]
+==== `ASP_SSH_SetPrompt`
+
+This ASP is used to add a new prompt string to the test port configuration.
+
+It has two fields:
+
+* `prompt_name`
+* `prompt_value`
+
+Prompt name has the same form as the name of the TITAN RTE configuration parameter `prompt<prompt_id>` which is described in section <<1-introduction.adoc#SSHCLIENTasp_Test_Port_Parameters_in_the_RTE_Configuration_File, SSHCLIENTasp Test Port Parameters in the RTE Configuration File>>. Prompt value is a charstring.
+
+[[asp-ssh-setregexprompt]]
+==== `ASP_SSH_SetRegexPrompt`
+
+This ASP is used to add a new `regex_prompt` string to the test port configuration.
+
+It has two fields:
+
+* `prompt_name`
+* `prompt_value`.
+
+Prompt name has the same form as the name of the TITAN RTE configuration parameter `prompt<prompt_id>` which is described in section <<1-introduction.adoc#SSHCLIENTasp_Test_Port_Parameters_in_the_RTE_Configuration_File, SSHCLIENTasp Test Port Parameters in the RTE Configuration File>>. Prompt value is a charstring.
+
+[[asp-ssh-clearprompt]]
+==== `ASP_SSH_ClearPrompt`
+
+This ASP is used to delete all of the previously defined prompt strings.
+
+[[asp-ssh-setmode]]
+==== `ASP_SSH_SetMode`
+
+This ASP is used to set the read mode. It has one field with type of ReadMode which has three possible values: `_"BUFFERED"_`, `_"UNBUFFERED"_`, `_"RAW"_`.
+
+[[asp-ssh-connect]]
+==== `ASP_SSH_Connect`
+
+This ASP is used to initiate an SSH connection. If it is sent on an active connection an `ASP_SSH_Status` will return with status code 3. It can be set to receive status information after successful connection establishments by setting test port parameter `statusOnSuccess` to `_"yes"_`.
+
+[[asp-ssh-setuserid]]
+==== `ASP_SSH_SetUserID`
+
+This ASP is used to set the user id for the SSH connection to be established. It has one field with type of charstring.
+
+[[asp-ssh-setremotehost]]
+==== `ASP_SSH_SetRemoteHost`
+
+This ASP is used to set the address of the remote host to connect to. It has one field with type of charstring.
+
+[[asp-ssh-setremoteport]]
+==== `ASP_SSH_SetRemotePort`
+
+This ASP is used to set the port of the remote host to connect to. It has one field with type of charstring.
+
+[[asp-ssh-setadditionalparameters]]
+==== `ASP_SSH_SetAdditionalParameters`
+
+This ASP is used to set one additional parameter to be applied to the SSH connection to be established. It has one field with type of charstring. For more information see section <<1-introduction.adoc#SSHCLIENTasp_Test_Port_Parameters_in_the_RTE_Configuration_File, SSHCLIENTasp Test Port Parameters in the RTE Configuration File>>.
+
+== Using the Test Port
+
+The first step is the configuration of the test port. Most of the parameters have a default value. The exceptions here are the `prompt` and `regex_prompt` parameters. It is mandatory to have at least one prompt string defined in the TITAN RTE configuration file. Configuration can also be done during runtime by ASPs.
+
+After the configuration connection shall be established. If the connection is up, the remote host sends a message containing the string "Password:". Password shall be sent with an `ASP_SSH` message. Be aware that passwords will be written to the TITAN RTE log files!
+
+After the test is finished the connection shall be closed with messages containing, for example, "logout", "exit". If `detectServerDisconnected` is set to `_"yes"_`, an `ASP_SSH_Close` will be returned.
+
+NOTE: The answer time of the underlying OpenSSH client may be long for example in cases when a wrong host name or IP address is given to the test port and `ASP_SSH_Connect` is sent. Therefore, this time shall be taken into account in the test cases not to try to reconnect on an active connection. If you do an `ASP_SSH_Status` will return with status code 3.

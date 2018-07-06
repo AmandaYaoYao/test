@@ -1,0 +1,32 @@
+= Assertion Functions
+
+== Overview
+
+Assertion functions enable you to apply assertion from TTCN-3.
+
+These Assertion Functions were tested under Linux/Solaris/Cygwin platforms.
+
+Assertion Functions are implemented in the following files:
+
+* __TCCAssertion_Functions.ttcn__
+* _TCCAssertion.cc_
+
+== Function Definitions
+
+The following Assertion Functions are defined. For the exact API check the generated NaturalDocs documentation.
+
+`external function f_assert(const CHARSTRING& pl_assertMessage, boolean pl_predicate);`
+
+If assertion is activated, `f_assert` assures that the `pl_predicate` parameter is true at call of the function. Else it fails with dynamic test case error and displays assertion message (`pl_assertMessage`) as well. To use assertion, optimized build has to be turned on with the –O2 switch and NDEBUG shall not be defined. By defining `NDEBUG`, the main block of `f_assert` will be empty, therefore in case of enabled optimized build (-O2) the function is not compiled with the generated code. This results higher debug capability with higher performance.
+
+== Error Messages
+
+None.
+
+== Warning Messages
+
+None.
+
+== Examples
+
+None.

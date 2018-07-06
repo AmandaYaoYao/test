@@ -1,0 +1,53 @@
+= Functional Specification
+
+== Protocol Version Implemented
+
+This set of protocol modules implements protocol messages and constants of the STUN protocol. The module is based on https://tools.ietf.org/html/rfc5389[RFC 5389]. The following messages are implemented:
+
+* Binding Request
+* Binding Indication
+* Binding Success Response
+* Binding Error Response
+
+=== Unimplemented Messages, Information Elements and Constants
+
+None.
+
+[[protocol-modifications-deviations]]
+=== Protocol Modifications/Deviations
+
+In addition to attributes in https://tools.ietf.org/html/rfc5389[RFC 5389] the attributes described in https://tools.ietf.org/html/rfc5245[RFC 5245] are also implemented. These additional attributes are:
+
+* `PRIORITY`
+* `USE_CANDIDATE`
+* `ICE_CONTROLLED`
+* `ICE_CONTROLLING`
+
+The error code `ROLE_CONFLICT` is also implemented from https://tools.ietf.org/html/rfc5245[RFC 5245].
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product also contains encoding/decoding functions, which assure correct RAW encoding of messages when sent from TITAN and correct RAW decoding of messages when received by TITAN. Implemented encoding/decoding functions:
+
+[width="100%",cols="34%,33%,33%",options="header",]
+|===
+|Name |Type of formal parameters |Return
+|`ef_STUN_enc` |in PDU_STUN pl_pdu,in OCT16 pl_key,in STUN_Attribute_Typepl_last_attribute_type, out octetstring pl_resultin Boolean pl_calculate_HMAC_CRC |-
+|`ef_STUN_dec` |in octetstring pl_stream out  PDU_STUN pl_result |-
+|`ef_STUN_Check_Message_Integrity` |in octetstring pl_stream, in OCT16 pl_key,in STUN_Attribute_Type pl_last_attribute_type |Boolean
+|`ef_STUN_Generate_Transaction_Id` |- |OCT12
+|`ef_STUN_get_Message_Length` |in octetstring pl_stream |Integer
+|===
+
+The `message_integrity` and the fingerprint field will be calculated while encode (when `pl_calculate_HMAC_CRC` encode parameter equals `_true_`) so dummy values are allowed.
+
+== _Makefile_
+
+The _Makefile_ has to link crypto and z libraries.
+
+[source]
+----
+-lttcn3-parallel *-lcrypto* *-lz* +
+-lxml2 +
+----

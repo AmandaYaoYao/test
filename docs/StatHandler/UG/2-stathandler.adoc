@@ -1,0 +1,77 @@
+= StatHandler
+
+== Overview
+
+The EPTF `StatHandler` feature makes it possible to collect global, aggregated statistics via the existing EPTF Variable (see <<7-references.adoc#_6, [6]>>) interface.
+
+The `StatHandler` feature consists of master and client components. Users of the `StatHandler` feature can declare aggregated statistics with a certain statistics method (for example,` Sum`), and register local or third party data sources (EPTF Variables).
+
+[[description_of_files_in_this_feature]]
+== Description of Files in This Feature
+
+The EPTF CLL `StatHandler` API includes the following files:
+
+* __EPTF_CLL_StatHandlerClient_Definitions.ttcn__ - This TTCN-3 module contains common type definitions that should be used in all `StatHandlerClient` Components.
+* __EPTF_CLL_StatHandlerClient_Functions.ttcn__ - This TTCN-3 module contains the implementation of the `StatHandlerClient` functions.
+* __EPTF_CLL_StatHandlerLogging_Definitions.ttcn__ - This TTCN-3 module contains common type definitions used for logging in the `StatHandler` feature.
+* __EPTF_CLL_StatHandlerLogging_Functions.ttcn__ - This TTCN-3 module contains the implementation of the common logging functions used in the `StatHandler` feature.
+* __EPTF_CLL_StatHandlerUI_Definitions.ttcn__ - This TTCN-3 module contains common type definitions used by the UI handling part of the `StatHandler` feature.
+* __EPTF_CLL_StatHandlerUI_Functions.ttcn__ - This TTCN-3 module contains the implementation of the UI handling part of the `StatHandler` feature.
+* __EPTF_CLL_StatHandler_Definitions.ttcn__ - This TTCN-3 module contains common type definitions that should be used in all `StatHandler` master components.
+* __EPTF_CLL_StatHandler_Functions.ttcn__ - This TTCN-3 module contains the implementation of the `StatHandler` functions.
+* __EPTF_CLL_StatHandler_DSFunctions.ttcn__ - This TTCN-3 module contains the implementation of the `StatHandler` DataSource functionality.
+
+[[description_of_required_files_from_other_features]]
+== Description of Required Files From Other Features
+
+The `StatHandler` feature is part of the TitanSim EPTF Core Load Library (CLL). It relies on several features of the CLL. To use the `StatHandler`, the user has to obtain the respective files from the following features:
+
+* `Base`
+* `Common`
+* `FreeBusyQueue`
+* `HashMap`
+* `Logging`
+* `Semaphore`
+* `StatMeasure`
+* `UIHandler`
+* `Variable`
+* `DataSource`
+
+== Installation
+
+Since `EPTF_CLL_StatHandler` is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<7-references.adoc#_2, [2]>>.
+
+If not otherwise noted in the respective sections, the following are needed to use `EPTF_CLL_StatHandler`:
+
+* Copy the files listed in section <<description_of_files_in_this_feature, Description of Files in This Feature>> and <<description_of_required_files_from_other_features, Description of Required Files From Other Features>> to the directory of the test suite or create symbolic links to them.
+* Import the StatHandler demo or write your own application using StatHandler.
+* Create Makefile or modify the existing one. For more details see the relevant section of <<7-references.adoc#_2, [2]>>.
+* Edit the config file according to your needs, see following section <<configuration, Configuration>>.
+
+[[configuration]]
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual suffix of configuration files is _.cfg_. For further information on the configuration file see <<<<7-references.adoc#_2, [2]>>.
+
+This `StatHandler` feature defines TTCN-3 module parameters as defined in <<7-references.adoc#_2, [2]>>, clause 4. Actual values of these parameters – when no default value or a different from the default actual value wished to be used – shall be given in the `[MODULE_PARAMETERS]` section of the configuration file.
+
+=== Module Parameters of the StatHandler Feature
+`*tsp_EPTF_StatHandler_nameSeparator`
+
+This charstring type module parameter is defined in module `EPTF_CLL_StatHandler_Definitions`. It is used to define the separator string used for name creation in the feature.
+
+Its default value is `_"."_`.
+
+`tsp_debug_EPTF_StatHandler`
+
+This boolean type module parameter is defined in module `EPTF_CLL_StatHandler_Functions`. It can be used for debugging purposes.
+
+Its default value is `_false_`.
+
+`tsp_debug_StatHandlerClient_autoDisconnectTimeout`
+
+This float type module parameter is defined in module `EPTF_CLL_StatHandlerClient_Definitions`. It defines the inactivity time after which the `StatHandlerClient` will disconnect from all connected `StatHandler` master components to free port resources after `StatHandler` has been set up. Its default value is `_5.0_` for 5 seconds. The disconnect operation is only performed on the `StatHandler` management port, the collection of statistics will continue and the reset button will be handled via the EPTF Variable interface. The client re-connects to the server if it needs to send a new management message to it. It is recommended to set this value to the same as `tsp_EPTF_maxRunningTime` (which has a default value of `_2147483.0_`) if an automatic disconnection is not preferred.
+
+`tsp_debug_EPTF_StatHandlerClient`
+
+This boolean type module parameter is defined in module `EPTF_CLL_StatHandlerClient_Functions`. It can be used for debugging purposes. Its default value is `_false_`.

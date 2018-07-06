@@ -1,0 +1,22 @@
+= General Description
+
+The EPTF PTCDeployment implements the functionality that allows components to choose a host where new PTCs can be deployed according to specified tasks called roles in the PTCD component.
+
+The PTCD component has the following functionalities:
+
+* Add hosts, roles to the database
+* Remove hosts from the database
+* Query a host from the database according to a role
+
+The query happens in a probabilistic way. Every host in the database has a positive integer index called weight that specifies a probability of choosing that host.
+
+There are two ways implemented of choosing the host also. The default is using the TTCN `rnd()` random generator function, and there is a deterministic algorithm too.
+
+Example:
+
+The database contains the following hosts  for a role:
+
+* Host A with weight 1
+* Host B with weigth 9
+
+That means, that there is a 10% chance of choosing "Host A" and 90% of choosing "Host B".

@@ -1,0 +1,58 @@
+= Terminology
+
+*Protocol Emulation:* +
+An instance which implements messages and dynamic behavior of a given protocol layer.
+
+*SCCP Protocol Emulation:* +
+Implementation of SCCP as specified in <<9_references.adoc#_6, [6]>>.
+
+*SCCP User:* +
+Protocol, which uses services of SCCP.
+
+== Abbreviations
+
+ANSI:: American National Standards Institute
+
+ASP:: Abstract Service Primitive
+
+DPC:: Destination Point Code
+
+ES:: ETSI Standard
+
+ETSI:: European Telecommunications Standards Institute
+
+IETF:: Internet Engineering Task Force
+
+ITU:: International Telecommunication Union
+
+ITU-T:: Telecommunication Standardization Sector of ITU
+
+IUT:: Implementation Under Test
+
+MPT:: Ministry of Post and Telecommunication (China)
+
+MTP3:: Message Transfer Part Level 3
+
+M3UA:: MTP3 User Adaptation Layer
+
+NI:: Network Indicator
+
+OPC:: Originating Point Code
+
+PC:: Point Code
+
+PDU:: Protocol Data Unit
+
+PE:: Protocol Emulation
+
+SAP:: Service Access Point
+
+SCCP:: Signalling Connection Control Part
+
+SCCP PE:: SCCP Protocol Emulation
+
+SS7:: Signalling System No 7
+
+TTCN-3:: Testing and Test Control Notation version 3.
+
+TTC:: Telecommunications Technology Committee (Standardization body of Japan)

@@ -1,0 +1,13 @@
+= Terminology
+
+TITAN TTCN-3 Test Executor.
+
+= Abbreviations
+
+IETF:: Internet Engineering Task Force
+
+RFC ::Request for Comments
+
+TCP:: Transmission Control Protocol
+
+TTCN-3:: Testing and Test Control Notation version 3

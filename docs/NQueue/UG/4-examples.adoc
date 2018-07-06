@@ -1,0 +1,7 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* __EPTF_NQueue_Demo.cfg__
+* __EPTF_NQueue_Demo.prj__
+* __EPTF_NQueue_Demo.ttcn__

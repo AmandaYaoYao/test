@@ -1,0 +1,225 @@
+= Feature List
+
+== Implementation
+
+=== Environment
+
+The LDAP test port makes use of the services provided by the UNIX socket interface. When connecting to an SSL enabled IUT, the connection is secured with the OpenSSL toolkit based on configuration data. The test port can work as a client (maintaining only one connection at a time) or as a server (maintaining several connections at the same time).
+
+== Start Procedure
+
+=== Server Mode
+
+When the test port is mapped by TITAN RTE to the IUT system’s interface port, the server creates a TCP socket and starts listening on it. Depending on the transport channel specified in the runtime configuration file, it will accept either TCP or SSL connections.
+
+=== Client Mode
+
+When the test port is mapped by TITAN RTE to the IUT system’s interface port, the client creates a TCP socket and tries to connect to the server. If the transport channel is SSL, the client starts an SSL handshake once the TCP connection is established to the server. If the SSL handshake is successful, the SSL connection is setup and the map operation is finished.
+
+[[sending-receiving-ldap-messages]]
+== Sending/Receiving LDAP Messages
+
+[[deviation-from-the-standard-ldap-asn-1-type-definition-module]]
+=== Deviation from the standard LDAP ASN.1 type definition module
+
+==== `LDAPString`, `LDAPOID`
+
+Definition in <<9-references.adoc#_6, [6]>>:
+
+[source]
+----
+LDAPString ::= OCTET STRING
+
+LDAPOID ::= OCTET STRING
+----
+
+Definition in LDAP test port type definition module:
+
+[source]
+----
+LDAPString ::= [UNIVERSAL 4] UTF8String
+
+LDAPOID ::= [UNIVERSAL 4] UTF8String
+----
+
+Reason for deviation: the variables of type LDAPString and LDAPOID shall contain UTF-8 encoded character string. With this deviation the user gets rid of the need for UTF-8 encoding character strings. By applying a [UNIVERSAL 4] tag the ASN.1 tag of these types is the same as of OCTET STRING.
+
+==== `AttributeValue`, `AssertionValue`
+
+Definition in <<9-references.adoc#_4, [4]>>:
+
+[source]
+----
+AttributeValue ::= OCTET STRING
+
+AssertionValue ::= OCTET STRING
+----
+
+Definition in LDAP test port type definition module:
+
+[source]
+----
+AttributeValue ::= CHOICE \{
+string UTF8String,
+binary OCTET STRING
+}
+AssertionValue ::= CHOICE \{
+string UTF8String,
+binary OCTET STRING
+}
+----
+
+Reason for deviation:
+
+According to <<9-references.adoc#_4, [4]>>, the value of a variable of type AttributeValue and AssertionValue can be interpreted as a UTF-8 encoded character string and arbitrary binary data, depending on the corresponding AttributeDescription. If the option `_binary_` is present in the AttributeDescription, then the value shall be interpreted as raw binary data, otherwise as a UTF-8 encoded character string.
+
+On sending, this deviation enables the user to specify the value as character string. If `string` field is selected, the test port encodes the character string value according to UTF-8 and sends a standard LDAP message towards the SUT. However, if `_binary_` option is present, the test port issues a warning message.
+
+On message reception the test port checks whether a `_binary_` option is present in the AttributeDescription accompanying each AttributeValue and AssertionValue. If `_binary_` option is not detected, the test port interprets the value as a UTF-8 encoded character string, otherwise as raw binary data. If `_binary_` option is not detected but the value is not a valid UTF-8 encoded string then dynamic test case error occurs.
+
+==== Resolving TTCN-3 Name Clashes
+
+Some names in <<9-references.adoc#_4, [4]>> are reserved words in TTCN-3. The following names were changed in order to allow usage in TTCN-3:
+
+[cols=2*,options=header]
+|===
+|Standard name
+|Changed name
+
+|and
+|andField
+
+|or
+|orField
+
+|not
+|notField
+
+|any
+|anyField
+
+|type
+|typeField
+
+|replace
+|replaceValue
+
+|delete
+|deleteValue
+
+|add
+|addValue
+
+|===
+
+=== LDAP Messages Sent by the Test Port to the TTCN-3 Test Suite
+
+The LDAP test port is able to send _LDAPMessage_ and __ASP_LDAP_server__ structures.
+
+* _LDAPMessage_ +
+The _LDAPMessage_ structure contains an LDAP message. Test ports acting as a client, will always send this structure to the TTCN-3 test suite.
+* __ASP_LDAP_server__ +
+The __ASP_LDAP_server__ structure contains an optional client identifier and an LDAP message. The client identifier (which is an integer) is used to distinguish the clients. Test ports acting as a server, will always send this structure to the TTCN-3 test suite.
+* __ASP_LDAP_closed__ +
+The test port reports the closure of the connection. Sent only if the test port parameter `use_connection_ASPs` is set to `_"yes"_`.
+* __ASP_LDAP_connect_result__ +
+Contains the result of the connection attempt. The connection is failed if the `client_id` is `_-1_`. Sent only if the test port parameter `use_connection_ASPs` is set to `_"yes"_`.
+
+NOTE: In case of TLS connection `ASP_LDAP_closed` message can come instead of `ASP_LDAP_connect_result` if connection was broken during the SSL handshake.
+
+=== LDAP Messages Received by the Test Port from the TTCN-3 Test Suite
+
+The LDAP test port is able to receive _LDAPMessage_ and _ASP_LDAP_server_ structures.
+
+* _LDAPMessage_ +
+The _LDAPMessage_ structure contains an LDAP message. Test ports acting as a client, will always accept this structure from the TTCN-3 test suite. Test ports acting as a server will not accept this structure.
+* __ASP_LDAP_server__ +
+The __ASP_LDAP_server__ structure contains an optional client identifier and an LDAP message. The client identifier (which is an integer) is used to distinguish the clients. Test ports acting as a server, will always accept this structure from the TTCN-3 test suite. Test ports acting as a client will not accept this structure.
+* __ASP_LDAP_connect__ +
+Open a TCP/TLS connection to the remote server. In client mode the test port closes the existing connection first. If the remote address/port is not specified, the settings from the configuration file will be used.
+
+== Logging
+
+The type of information that will be logged can be categorized into two groups. The first one consists of information that shows the flow of the internal execution of the test port, e.g. important events, which function that is currently executing etc. The second group deals with presenting valuable data, e.g. presenting the content of a PDU. The logging printouts will be directed to the RTE log file. The user is able to decide whether logging is to take place or not by setting appropriate configuration data, see *Error! Reference source not found.*.
+
+== Error Handling
+
+Erroneous behavior detected during runtime is directed into the RTE log file. The following two types of messages are taken care of:
+
+* Errors: +
+Information about errors detected is provided. If an error occurs the execution of the test case will stop immediately. The test ports will be unmapped.
+* Warnings: +
+Information about warnings detected is provided. The execution continues after the warning is shown.
+
+== Closing Down
+
+The connection can be shut down performing the `unmap`() operation on the port.
+
+NOTE: Port message queue is not cleared by `unmap`() or `map`() operations. So if port was unmapped and mapped again, but connection was broken from remote side, message queue will still contain `ASP_LDAP_closed` message. This situation frequently occurs when `Unbind` request was sent before port unmapping. To clear port message queue manually, _clear_ function from <<9-references.adoc#_1, [1]>> can be used.
+
+== SSL Functionality
+
+The test port can use SSL or TCP as the transport channel. The SSL implementation is based on the same OpenSSL as TITAN (OpenSSL 0.9.7d).
+
+The protocols SSLv2, SSLv3 and TLSv1 are supported.
+
+=== Authentication
+
+The test port provides both server side and client side authentication. When authenticating the other side, a certificate is requested and the own trusted certificate authorities’ list is sent. The received certificate is verified whether it is a valid certificate or not (the public and private keys are matching). No further authentication is performed (e.g. whether hostname is present in the certificate). The verification can be enabled/disabled in the runtime configuration file.
+
+In server mode the test port will always send its certificate and trusted certificate authorities’ list to its clients. If verification is enabled in the runtime configuration file, the server will request for a client’s certificate. If the client does not send a valid certificate, the connection will be refused. If verification is disabled, then the connection will be accepted even if the client does not send or send an invalid certificate.
+
+In client mode the test port will send its certificate to the server on the server’s request. If verification is enabled in the runtime configuration file, the client will send its own trusted certificate authorities’ list to the server and will verify the server’s certificate as well. If the server’s certificate is not valid, the SSL connection will not be established. If verification is disabled, then the connection will be accepted even if the server does not send or send an invalid certificate.
+
+The own certificate(s), the own private key file, the optional password protecting the own private key file and the trusted certificate authorities’ list file can be specified in the runtime configuration file.
+
+The test port will check the consistency between the own private key and the public key (based on the own certificate) automatically. If the check fails, a warning is issued and execution continues.
+
+=== Other Features
+
+Both client and server support SSLv2, SSLv3 and TLSv1, however no restriction is possible to use only a subset of these. The used protocol will be selected during the SSL handshake automatically.
+
+The usage of SSL session resumption can be enabled/disabled in the runtime configuration file.
+
+The allowed ciphering suites can be restricted in the runtime configuration file.
+
+The SSL `rehandshaking` requests are accepted and processed, however `rehandshaking` cannot be initiated from the test port.
+
+=== Limitations
+
+* No restriction is possible on the used protocols (e.g. use only SSLv2), it is determined during SSL handshake between the peers.
+* SSL `rehandshaking` cannot be initiated from the test port.
+* The own certificate file(s), the own private key file and the trusted certificate authorities’ list file must be in PEM format. Other formats are not supported.
+
+== LDIF Support
+
+The support contains 5 functions.
+
+* __f_ImportLDIF__ +
+
+* __f_ExportLDIF__ +
+Exports data to an LDIF file.
+
+* __f_PopulateLDAPServer__ and __f_DepopulateLDAPServer__
+They are for populating and depopulating LDAP servers. Depopulation performs LDAP Delete only for each entry found in the LDIFData structure, but does nothing for changerecords.
+
+* __f_PopulateLDAPServer_2__ and __f_DepopulateLDAPServer_2__
+They are also for populating and depopulating LDAP servers. Depopulation works for every type of entries and restore the original state of the LDAP Server.
+
+[[encoder-decoder-functions]]
+== Encoder/Decoder Functions
+
+This product also contains encoding/decoding functions that assure correct encoding of messages when sent from Titan and correct decoding of messages when received by Titan.
+
+Implemented encoding/decoding functions:
+
+[cols=3*,options=header]
+|===
+|Name
+|Type of formal parameters
+|Type of return value
+
+|f_decode_LDAPMessage|in octetstring data +
+out LDAPMessage pdu)|return integer;
+
+|f_encode_LDAPMessage|in LDAPMessage pdu|return octetstring;

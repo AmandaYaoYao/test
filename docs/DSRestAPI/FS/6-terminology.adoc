@@ -1,0 +1,28 @@
+= Terminology
+
+*Core Library (CLL):* +
+It is that part of the TitanSim software that is totally project independent. (i.e., which is not protocol-, or application-dependent). The Core Library is to be supplied and supported by the TCC organization. Any Core Library development is to be funded centrally by Ericsson.
+
+= Abbreviations
+
+CLL:: Core Library
+
+EPTF:: Ericsson Performance Test Framework
+
+MTC:: Main Test Component
+
+PTC:: Parallel Test Component
+
+TitanSim:: New synonym for the EPTF Framework
+
+TTCN-3:: Testing and Test Control Notation version 3 <<7-references.adoc#_1, [1]>>
+
+GUI:: Graphical user interface
+
+UI:: User interface
+
+API:: Application programming interface
+
+JSON:: JavaScript Object Notation
+
+REST:: Representational State Transfer

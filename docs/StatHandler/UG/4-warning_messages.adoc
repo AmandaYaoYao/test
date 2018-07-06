@@ -1,0 +1,151 @@
+= Warning Messages
+
+NOTE: Besides the below described warning messages, warning messages shown in <<7-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+`*f_EPTF_StatHandler_declareStat: redeclaration of <statName> with different properties.*`
+
+The statistics with name `<statName>` was re-declared with a different statistics method or reset value.
+
+`*f_EPTF_StatHandler_registerStat: called while reset is in progress*`
+
+A data source was attempted to be registered during reset progress.
+
+`*f_EPTF_StatHandler_registerStat: provider variable list is empty*`
+
+No provider variables were specified for data source registration.
+
+`*f_EPTF_StatHandler_registerStat: no such statistics: <statName>*`
+
+The statistics with name `<statName>` does not exist.
+
+`*f_EPTF_StatHandler_registerStat_Single: provider variable list for `"statMethod>" statistics "<statName>" has multiple elements, expected single numerical variable.*`
+
+The data source registered should consist of a single element.
+
+`*f_EPTF_StatHandler_registerStat_Single: invalid source type for stat <statName>*`
+
+The type of the data source variable differs from the type of the statistics.
+
+`*f_EPTF_StatHandler_registerStat_Mean: provider variable list for "<statMethod>" statistics "<statName>" needs two elements: local mean and number of samples.*`
+
+The data source registered should consist of a local mean and a number of samples variable.
+
+`*f_EPTF_StatHandler_registerStat_Mean: invalid source types for stat <statName>*`
+
+Provider variable "local mean" should be float, "number of samples" should be integer type.
+
+`*f_EPTF_StatHandler_registerStat_StandardDev: provider variable list for "<statMethod>" statistics "<statName>" needs three elements: local mean, number of samples and S.*`
+
+The data source registered should consist of a local mean, a number of samples and a "S" variable.
+
+`*f_EPTF_StatHandler_registerStat_StandardDev: invalid source type for stat <statName>*`
+
+Provider variable "local mean" should be float, "number of samples" should be integer and "S" should be float type.
+
+`*f_EPTF_StatHandler_registerStat_GlobalAverage: provider variable list for <statMethod> statistics <statName> needs two elements: sum and element number.*`
+
+The data source registered should consist of a sum and a element number variable.
+
+`*f_EPTF_StatHandler_registerStat_GlobalAverage: invalid source type for stat <statName>*`
+
+Provider variable sum should be float, "number of samples" should be integer type.
+
+`*f_EPTF_StatHandler_registerStat_Density: provider variable list for "<statMethod>" statistics "<statName>" needs two elements: density and boundaries.*`
+
+The data source registered should consist of a density and a boundaries variable.
+
+`*f_EPTF_StatHandler_registerStat_Density: invalid source type for stat <statName>*`
+
+Provider variable "density" should be integer list, "boundaries" should be float list type.
+
+`*f_EPTF_StatHandler_registerStat_Density: boundaries <sourceBoundaries> of source differs from boundaries <statBoundaries> stored for the stat <statName>*`
+
+The boundaries part of the data source is not the same as the boundaries of the statistics. The latter is assigned the value of the first registered data source.
+
+`*f_EPTF_StatHandler_registerStat_Percentile95: provider variable list for "<statMethod>" statistics "<statName>" needs three elements: density, boundaries and max.*`
+
+The data source registered should consist of a density, a boundaries and a max variable.
+
+`*f_EPTF_StatHandler_registerStat_Percentile95: could not register source for aux stat <auxStatName>*`
+
+The source could not be registered for the auxiliary statistics.
+
+`*f_EPTF_StatHandler_registerStat_PercentileP: provider variable list for "<statMethod>" statistics "<statName>" needs four elements: density, boundaries, max and pValue.*`
+
+The data source registered should consist of a density, a boundaries, a max and a `pValue` variable.
+
+`*f_EPTF_StatHandler_registerStat_PercentileP: could not register source for aux stat <auxStatName>*`
+
+The source could not be registered for the auxiliary statistics.
+
+`*f_EPTF_StatHandler_registerStat_PercentileP: pValue <pValue> of source differs from pValue <pValue>* *stored for the stat*`
+
+The `pValue` of the data source variable differs from the `pValue` of the statistics.
+
+`*f_EPTF_StatHandler_boundariesPostproc: ``boundaries'' part of source <sourceIndex> changed for stat <statName>*`
+
+The boundaries part of the data source was changed by the providing component.
+
+`*f_EPTF_StatHandler_boundariesPostproc: source providing Variable with index <index> not found in stat <statName>*`
+
+The source which boundaries was changed is not in the source list of statistics `<statName>`.
+
+`*as_EPTF_StatHandler_behavior: unexpected message received from <client>*`
+
+Client sent an unexpected message to the `StatHandler`.
+
+`*f_EPTF_StatHandler_setMethodForStat: Stat method "<method>" for integer stat "<statName>" is unsupported or not yet supported.*`
+
+Stat method passed to `declareStat` is undefined.
+
+`*f_EPTF_StatHandler_setMethodForStat: Stat method "<method>" for float stat "<statName>" is unsupported or not yet supported.*`
+
+Stat method passed to `declareStat` is undefined.
+
+`*f_EPTF_StatHandler_setMethodForStat: Stat method "<method>" for float-list stat "<statName>" is unsupported or not yet supported.*`
+
+Stat method passed to `declareStat` is undefined.
+
+`*f_EPTF_StatHandlerClient_registerResetFunction: cannot register null function reference.*`
+
+The function reference specified is `_null_`.
+
+`*f_EPTF_StatHandlerClient_registerResetFunction: re-registration of reset function <function>*`
+
+The function reference is already registered.
+
+`*f_EPTF_StatHandlerClient_registerResetFunction: cannot deregister null function reference.*`
+
+The function reference specified is `_null_`.
+
+`*as_EPTF_StatHandlerClient_autoDisconnect: restarting auto disconnect timer, pending messages: <n>*`
+
+The automatic disconnect timer is restarted because there are <n> pending messages.
+
+`*f_EPTF_StatHandlerUI_addLocalResetButton: cannot add element to gui: <xul>*`
+
+The element with data structure `<xul>` could not be added to the GUI.
+
+`*as_EPTF_StatHandlerUI_behavior: statistics not found: <statName>*`
+
+The statistics `<statName>` referred by a bind-to-widget operation was not declared.
+
+`*f_EPTF_StatHandler_DSProcessData: Unhandled element:*`
+
+This warning message is reported when the DataSource functionality is used and the current data element is unknown for the feature.
+
+`*f_EPTF_StatHandler_DSProcessData: Invalid iterator or externalData or parameter:*`
+
+This warning message is reported when the DataSource functionality is used and the something with the request was wrong.
+
+`*f_EPTF_StatHandler_getParams: Parameters are not correct:*`
+
+This warning message is reported when the DataSource functionality is used and the parameters of the current data element are not correct.
+
+`*f_EPTF_StatHandler_getParams: Too few parameter is given:*`
+
+This warning message is reported when the DataSource functionality is used and the parameters of the current data element are less than required.
+
+`*f_EPTF_StatHandler_getParams: Too many parameters are given:*`
+
+This warning message is reported when the DataSource functionality is used and the parameters of the current data element are more than required.

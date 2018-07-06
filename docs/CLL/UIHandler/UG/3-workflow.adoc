@@ -1,0 +1,173 @@
+= Workflow
+
+== Installation
+
+Since `EPTF_CLL_UIHandler` is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<8-references.adoc#_2, [2]>>.
+
+If not otherwise noted in the respective sections, the following are needed to use `EPTF_CLL_UIHandler`:
+
+* Copy the files listed in Section <<2-uihandler.adoc#usage_dependencies, Usage Dependencies>> to the directory of the test suite or create symbolic links to them.
+* Import the UIHandler demo or write your own application using UIHandler
+* Create _Makefile_ or modify the existing one. For more details see the relevant section of <<8-references.adoc#_2, [2]>>.
+* Edit the configuration file according to your needs, see section <<configuration, Configuration>>].
+
+[[configuration]]
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual suffix of configuration files is _.cfg_. For further information on the configuration file see <<8-references.adoc#_2, [2]>>.
+
+This UIHandler feature defines TTCN-3 module parameters as defined in <<8-references.adoc#_2, [2]>>, clause 4. Actual values of these parameters – when no default value or a different from the default actual value wished to be used – shall be given in the `[MODULE_PARAMETERS]` section of the configuration file.
+
+This UIHandler feature defines the following module parameters:
+
+* `tsp_EPTF_GUI_Main_Window_WidgetId`
+* `tsp_EPTF_GUI_Main_Window_Width`
+* `tsp_EPTF_GUI_Main_Window_Height`
+* `tsp_EPTF_GUI_Main_Window_Title`
+* `tsp_EPTF_GUI_Main_Toolbar_WidgetId`
+* `tsp_EPTF_GUI_Main_Tabbox_WidgetId`
+
+These are the main Window and Tabbox parameters and the default toolbar’s ID, all optional.
+
+* `tsp_xtdp_listen_addr:="127.0.0.1"`
+* `tsp_xtdp_listen_port := 11420;`
+
+The component will connect to the runtime GUI listening on `tsp_xtdp_listen_addr` address and `tsp_xtdp_listen_port` port.
+
+* `tsp_EPTF_savedGUIPrefix := "GUI"```
+
+The `f_EPTF_UIHandler_saveLayout` function saves the layout to a configuration file with the given prefix. The name of the file consists of the value of this module parameter, plus the date, month, year, hours and minute.
+
+* `tsp_EPTF_GUI_DefaultWindow :=""`
+
+See <<module_parameter, Module Parameter>>.
+
+* `tsp_EPTF_UIHandler_headlessmode := true`
+
+Switch it to `_true_` if you want the UIHandler to be able to operate in headless mode.
+
+* `tsp_EPTF_UIHandler_udp_port := 3333;`
+
+When UIHandler is in client mode, and headless mode is on, it tries to reconnect to the server GUI. In order to do this, it first pings the GUI at the specified port. Only after receiving proper answers to these pings it attempts to reopen the lost XTDP connection.
+
+* `tsp_EPTF_UIHandler_servermode := false;`
+
+Starts the UIHandler in XTDP-server mode if `_true_`, so it waits for a GUI to connect.
+
+* `tsp_EPTF_UIHandler_Authmsg := "Enter password";`
+* `tsp_EPTF_UIHandler_Authresp := "";`
+
+When these parameters are specified as non-empty strings, the GUI needs to authenticate itself. UIHandler will send the first message to GUI that waits for an input from the user. In case the "password" from the user is the same as the second module parameter’s value, then the connection is established. Otherwise the UIHandler closes the communication connection.
+
+* `tsp_EPTF_UIHandler_authMaxTimer := 1.0;`
+
+This module parameter defines the maximal time of the authentication. If the password is not received during this time, the XTDP session is closed by the UIHandler.
+
+* `tsp_EPTF_UIHandler_handshakeMaxTimer := 1.0`
+* `tsp_EPTF_UIHandler_byeMaxTimer := 1.0`
+
+Timers used for the XTDP protocol.
+
+* `tsp_EPTF_UIHandler_maxWaitTimer := 5.0`
+
+Max wait time for responses.
+
+* `tsp_EPTF_UIHandler_maxGUIWaitTime := 30.0`
+
+The max wait time in the init function of the UIhandler to wait until Runtime GUI is connected.
+
+* `tsp_EPTF_UIHandler_bufferedXTDP := 0.5;`
+
+By default, UIHandler sends XTDP Request messages in a buffered way, with 0.5 second timeouts. This timeout can be configured with this module parameter. The value `_0.0_` disables this feature.
+
+* `ts_CLI_refreshRate := 5.0;`
+
+The refreshing time of the CLI.
+
+`tsp_EPTF_UIHandler_CLIPrefix := ""`
+
+Common prefix for the UIHandler Command-Line Interface commands
+
+* `tsp_EPTF_UIHandlerClient_maxKillTime:= 30.0;`
+
+This tsp defines in seconds how long shall wait the `UIHandler_Client` component for every pending message to arrive during the cleanup. After this timeout the component exists even if not all pending messages arrived.
+
+NOTE: The XTDP test port must be configured to use connection ASPs in the test-port parameters section in order to be able to use the UIHandler functionality.
+
+* `tsp_debug_EPTF_UIHandlerClient_Functions := false`
+* `tsp_debug_EPTF_UIHandler_VariableUI := false`
+* `tsp_debug_EPTF_UIHandler_CLI_Functions := false`
+* `tsp_debug_EPTF_UIHandler_Functions := false`
+
+Enables debug printouts in UIHandlerClient,VariableUI,CLI,UIHandler.
+
+* `tsp_schemaLocation := "XTDP-Message.xsd"`
+
+Location of the schema.
+
+* `tsp_EPTF_runtimeGuiExitButtonWidgetId := "EPTF_exit_ttcn_button"`
+
+The widget ID of the exit button.
+
+* `tsp_EPTF_UIHandler_enableBrowserGUI := true`
+
+Enables the BrowserGUI feature.
+
+* `tsp_EPTF_UIHandler_Browser_RemoteAddress := ``127.0.0.1''`
+
+The BrowserGUI feature will listen on this adress.
+
+* `tsp_EPTF_UIHandler_Browser_RemotePort := 4000`
+
+The BrowserGUI feature will listen on this port.
+
+* `tsp_EPTF_UIHandler_Browser_xsl2send := "EPTF_LoadMain.xsl"`
+
+This xsl file will be used for the main page.
+
+* `tsp_EPTF_UIHandler_Browser_xsl4Tabpage := "EPTF_LoadTabpage.xsl"`
+
+This xsl file will be used for the pages when changing between different tabpages.
+
+* `tsp_EPTF_UIHandler_Browser_favicon2send := "favicon.ico"`
+
+This file will be used as favicon icon.
+
+* `tsp_EPTF_UIHandler_Browser_welcomeScreen := "welcome.html"`
+
+This file will be used as welcome screen, displayed when nothing is on screen.
+
+* `tsp_EPTF_UIHandler_Browser_directory := "../BrowserGUI/"`
+
+Location of the BrowserGUI files : _.png_, _.js_, _.jpg_, _.xsl_
+
+== Screen Layout Design
+
+=== Static Design
+
+==== XUL File
+
+The runtime GUI can be initialized with a static XUL file. The initialization XUL files can be set by a command line parameter when the runtime GUI starts.
+
+The XUL files can be edited by text editors.
+
+[[module_parameter]]
+==== Module Parameter
+
+The `tsp_EPTF_GUI_DefaultWindow` module parameter can describe an initial GUI layout. If this module parameter was set, the UIHandler component clears the actual runtime GUI layout and creates a new one within the `f_EPTF_UIHandler_init_CT` function described by the module parameter.
+
+The structure of this module parameter is the same as the structure of a XUL file except that the XML header is missing, and the quotation marks (""), the escape characters (\) and the new line characters must be preceded by an escape character.
+
+The `f_EPTF_UIHandler_snapshot` function returns the content of the current runtime GUI, and the `f_EPTF_UIHandler_saveLayout`(`f_EPTF_UIHandler_snapshot`()) creates a configuration file containing the runtime GUI layout.
+
+==== Initialization Parameter
+
+If the `pl_windowLayout` parameter of the `f_EPTF_UIHandler_init_CT` function is present, then it can describe an initial runtime GUI layout. The syntax is the same as the syntax of the `tsp_EPTF_GUI_DefaultWindow` module parameter.
+
+=== Dynamic Design
+
+The UIHandler component provides functions to add widgets to the runtime GUI, remove widgets, or clear the GUI. UIHandlerClient component provides functions to add widgets to the runtime GUI, remove widgets too.
+
+== Runtime Test Configuration Design (deployment)
+
+Any component in the runtime configuration can extend the `EPTF_UIHandler_CT`, the `EPTF_UIHandlerClient_CT` or the `EPTF_UIHandler_CLI_CT` components. Even a single component can extend all the three component types at the same time.

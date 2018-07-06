@@ -1,0 +1,301 @@
+= Maths Functions
+
+== Overview
+
+Maths functions enable you to use mathematical functions straightforward from TTCN-3.
+
+These Maths Functions were tested under Linux/Solaris/Cygwin platforms.
+
+Maths Functions are implemented in the following files:
+
+* __TCCMaths_Functions.ttcn__
+* __TCCMaths_GenericTypes.ttcn__
+* _TCCMaths.cc_
+
+== Function Definitions
+
+The following Maths Functions are defined:
+
+`external function f_maxIL(in IntegerList ilist) return IntegerList;`
+
+Return an `IntegerList` with the highest number found at index `_0_` and the index of `ilist` where it's found at index `_1_`.
+
+`external function f_maxFL(in FloatList flist) return FloatList;`
+
+Return a `FloatList` with the highest number found at index `_0_` and the index of `flist` where it's found at index `_1_`.
+
+`external function f_minIL(in IntegerList ilist) return IntegerList;`
+
+Return an `IntegerList` with the lowest number found at index `_0_` and the index of `ilist` where it's found at index `_1_`.
+
+`external function f_minFL(in FloatList flist) return FloatList;`
+
+Return a `FloatList` with the lowest number found at index `_0_` and the index of `flist` where it's found at index `_1_`.
+
+`external function f_averageFL(in FloatList flist) return float;`
+
+Return the average of `flist`.
+
+`external function f_averageIL(in IntegerList ilist) return float;`
+
+Return the average of `ilist`.
+
+`external function f_updateFL(inout FloatList head, in FloatList tail);`
+
+Append tail to the end of head (head return as inout).
+
+`external function f_updateIL(inout IntegerList head, in IntegerList tail);`
+
+Append tail to the end of head (head return as inout).
+
+`external function f_stdFL(in FloatList flist) return float;`
+
+Return the normalized standard deviation of `flist` (so the average square distance from the centre of points).
+
+For example, let there be a list of `list = \{2.0, 4.0}` and thereafter the average of elements is `u = (2.0 + 4.0) / 2.0`. The result of the function is afterwards the square root of the average square distance, so `( (2.0 - u)^2 + (4.0 - u)^2 ) / len`, where len means the length of the list.
+
+`external function f_stdFLL(in FloatList flist, in float u) return float;`
+
+Return the normalized standard deviation of `flist` from a user defined center value (so the average square distance from a user defined centre value). For example, let there be a list of `list = \{2.0, 4.0}` and thereafter the user specifies a value. This value is named as `_u_`. The result of the function is afterwards the square root of the average square distance from `_u_`, so `( (2.0 - u)^2 + (4.0 - u)^2 ) / len`, where len means the length of the list.
+
+`external function f_stdIL(in IntegerList ilist) return float;`
+
+Return the normalized standard deviation of `ilist` (so the average square distance from the centre of points). For example, let there be a list of `list = \{2, 4}` and thereafter the average of elements is `u = (2 + 4) / 2`. The result of the function is afterwards the square root of the average square distance, so `( (2 - u)^2 + (4 - u)^2 ) / len`, where len means the length of the list.
+
+`external function f_stdILL(in IntegerList ilist, in float u) return float;`
+
+Return the normalized standard deviation of `ilist` (so the average square distance from the center of points).
+
+NOTE: `_u_` is the average value of `flist` and has to be calculated before a call to this function.
+
+For example let there be a list of `list = \{2, 4}` and thereafter the user specifies a value. This value is named as `_u_`. The result of the function is afterwards the square root of the average square distance from `_u_`, so `( (2 - u)^2 + (4 - u)^2 ) / len`, where len means the length of the list.
+
+[source]
+----
+external function f_sinVL(
+  in float freq,
+  in float altitude,
+  in float start_val,
+  in integer len,
+  in float step) return FloatList;
+----
+
+Return the values of the sine function. The computation is the following: `altitude * sin(2__π__freq*start_val)` then start value is increased by step in every iteration till a number of len sine values are achieved.
+
+[source]
+----
+external function f_cosVL(
+  in float freq,
+  in float altitude,
+  in float start_val,
+  in integer len,
+  in float step) return FloatList;
+----
+
+Return the values of the cosine function. The computation is the following: `altitude * cos(2__π__freq*start_val)` then start value is increased by step in every iteration till a number of len cosine values are achieved.
+
+`external function f_sin(in float angle) return float;`
+
+Return the sine of angle radians.
+
+`external function f_cos(in float angle) return float;`
+
+Return the cosine of angle radians.
+
+`external function f_asin(in float val) return float;`
+
+Return the arc sine of value in `_[-π/2, + π/2]_`.
+
+`external function f_acos(in float val) return float;`
+
+Return the arc cosine of value in `_[0, π]_`.
+
+`external function f_powFF(in float base, in float expo) return float;`
+
+Raise to power (float to float power).
+
+`external function f_powII(in integer base, in integer expo) return integer;`
+
+Raise to power (integer to integer power).
+
+`external function f_powIF(in integer base, in float expo) return float;`
+
+Raise to power (integer to float power).
+
+`external function f_powFI(in float base, in integer expo) return float;`
+
+Raise to power (float to integer power).
+
+`external function f_sqrF(in float base) return float;`
+
+Raise a float value to square.
+
+`external function f_sqrI(in integer base) return integer;`
+
+Raise an integer value to square.
+
+`external function f_sqrtF(in float base) return float;`
+
+Square root of a float value.
+
+`external function f_sqrtI(in integer base) return float;`
+
+Square root of an integer value.
+
+`external function f_ceil(in float val) return integer;`
+
+Return the smallest integer value that is not less then value.
+
+`external function f_floor(in float val) return integer;`
+
+Return the largest integer value that is not greater then value.
+
+`external function f_exp(in float val) return float;`
+
+Return the exponential value of the argument.
+
+`external function f_log(in float val) return float;`
+
+Return the natural logarithm of the argument.
+
+`function f_generate_poissonTable(in float p_lambda, out t_Poisson_Table p_pTable) return boolean`;
+
+Generate the Poisson cumulative probability distribution list for a given lambda and returns `_true_` if the generation was success. If the lambda is below `_0_`, the function returns `_false_` and the Poisson table will contain false values. With the implemented method we can only generate correct values for lambda-s smaller than about `_100-110_`. It is because the elements above about `_300_` in the table will be `_1.0_` due to rounding errors. The table will contain `lambda * 2` elements.
+
+`function f_getNext_poissonValue(in float p_lambda, inout t_Poisson_Table p_pTable, out boolean p_sucess) return integer`
+
+Return a random Poisson value by the given Poisson table and lambda. Regenerate the table if it is necessary.
+
+`function f_gen_Exponential_Distribution(in float p_lambda) return float`
+
+Return the exponential random variable for a given lambda.
+
+== Error Messages
+
+None.
+
+== Warning Messages
+
+None.
+
+== Examples
+
+The first example shows usage of `f_sinVL` function. Let the following definitions be valid:
+
+[source]
+----
+var float freq := 10.0; // frequency
+
+var float alti := 5.0; // altitude
+
+var float startval := 0.0; // start value
+
+var float step := 0.37; // steplength
+
+var integer len := 5; // length of returned value list
+----
+
+The function computes sine values as `altitude * sin(2 * pi * freq * start_val)` and then start value is increased with step parameter. The returned value list will consist of the values computed this way and a number of len values will be stored in that list.
+
+The awaited result in this case is:
+
+[source]
+----
+\{0.0, -4.755283, 2.938926, 2.938926, -4.755283}
+
+testcase f_test_sinVL() runs on Maths_CT
+
+\{
+
+log(" ———– f_sinVL ———– “);
+
+log(``SINUS (Frequency:'', freq,
+
+``, altitude:'', alti,
+
+``, startval:'', startval,
+
+``, step:'', step,
+
+``, return length:'', len, ``):'');
+
+fres := f_sinVL(freq, alti, startval, len, step);
+
+log(``Sinus values returned:'', fres);
+
+// check
+
+sum := 0.0;
+
+for (var integer i := 0; i < len; i := i + 1)
+
+\{
+
+tmpFloat := fres[i] - sin1[i];
+
+sum := sum + tmpFloat * tmpFloat;
+
+}
+
+if (sum < LIMIT) \{ setverdict(pass); }
+
+else \{ setverdict(fail); }
+
+}
+----
+
+The second test case computes the normalized standard deviation from a user defined value of a float list. This case the user defined value is the average of values in the input list, so the awaited result is the same as `f_stdFL`().
+
+[source]
+----
+testcase f_test_stdFLL() runs on Maths_CT
+
+\{
+
+log(" ———– f_stdFLL ———– “);
+
+log(``Original float list:'', flist1);
+
+tmpFloat := f_stdFLL(flist1, f_averageFL(flist1));
+
+log(``Normalized, standard derivation (FLL):'', tmpFloat);
+
+if ((tmpFloat - stdFLL1) * (tmpFloat - stdFLL1) < LIMIT) \{
+
+setverdict(pass);
+
+}
+
+else \{
+
+setverdict(fail);
+
+}
+
+}
+----
+
+The third test case returns the value and the position of the maximal element in an integer list.
+
+Return value for `ilist1 = \{1, 2, 3, 4, 5} is maxIL1 = \{5, 4}`` as the maximal element is `_5_` and its index in the list is `_4_`.
+
+[source]
+----
+testcase f_test_maxIL() runs on Maths_CT
+
+\{
+
+log(" ———– f_maxIL ———– “);
+
+log(``Original integer list:'', ilist1);
+
+ires := f_maxIL(ilist1);
+
+log(``MaxIL (maxVal, maxIdx):'', ires);
+
+if (ires == maxIL1) \{ setverdict(pass); }
+
+else \{ setverdict(fail); }
+
+}
+----

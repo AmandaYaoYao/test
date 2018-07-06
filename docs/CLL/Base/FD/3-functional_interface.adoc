@@ -1,0 +1,269 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the Core Library Functions can be reached for on-line reading <<5-references.adoc#_4, [4]>>.
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_Base_`.
+
+== Public Functions
+
+=== Initialization
+
+Before using the EPTF Base functions the `f_EPTF_Base_init_CT(pl_selfName)` function should be called. This initializes the EPTF Base feature. The EPTF self name of the component shall be passed as parameter (`pl_selfName`).
+
+=== Registering the Cleanup Function
+
+In a component that extends EPTF_Base_CT (explicitly or implicitly) the function `f_EPTF_Base_RegisterCleanup` (cleanup function reference) should be called with the cleanup function of the given component as its argument. This function adds the given cleanup function to the list of cleanup functions. The registered cleanup function will be called in a reversed order before terminating the component.
+
+=== Cleanup Function
+
+Before terminating a component execution that extends `EPTF_Base_CT` (explicitly or implicitly) the function `f_EPTF_Base_cleanup_CT ()` has to be called.
+
+This function calls the cleanup function of the given component and all its parents (if they were registered). After the function returns, the component can be terminated.
+
+(This function is registered automatically in `f_EPTF_Base_init_CT()` as the cleanup function of the `EPTF_Base_CT`.)
+
+=== Forcing Stop
+
+To force to stop a component execution because of an error, the function `f_EPTF_Base_stop()` has to be called.
+
+It calls the `f_EPTF_Base_cleanup_CT` function and stops the execution automatically. It is possible to set the verdict of the test case with this function. By default the verdict is set to `_fail_`. Setting the verdict to `_none_`, the verdict of the test case will not change.
+
+=== Stopping a Remote Component
+
+The function `f_EPTF_Base_stopRemote` (component reference) can be used to stop a remote component as if its cleanup function was called.
+
+=== Stopping All Components
+
+The function `f_EPTF_Base_stopAll()` can be used to stop all components. This function sets the verdict to `_fail_` by default and stops the MTC.
+
+=== Getting the EPTF Self Name
+
+The function `f_EPTF_Base_selfName()` can be used to retrieve the EPTF self name of the component.
+
+=== Main Event Loop
+
+The function `f_EPTF_Base_wait4Shutdown()` can be used to wait until the test stops. This function shall be the main event loop of each component instance using EPTF Base. It consists of an alt statement that allows all EPTF default altsteps to run.
+
+=== Waiting for a Condition
+
+The function `f_EPTF_Base_waitForCondition(pl_checkCondFn, pl_maxWaitTime)` can be used to wait until the given callback function returns true. A maximal waiting time can be specified if needed, after which the function exits even if the callback function returns `_false_`. This can be used to prevent blocking forever. If the `waitForCondition` function returns `_false_`, the condition was not fulfilled.
+
+By default the maximal waiting time is set to `_infinity_`. In this case the execution is blocked until the specified call-back function returns `_true_`.
+
+If the callback function is not given, the function blocks execution until the maximal waiting time expires.
+
+=== Getting the Relative Time
+
+The function `f_EPTF_Base_getRelTimeInSecs()` can be used to retrieve the relative time elapsed since the component was initialized.
+
+=== Getting Relative Time Offset
+
+The function `f_EPTF_Base_getRelTimeOffsetInSecs()` can be used to get the time-of-day at component initialization as a float value.
+
+=== Getting the Absolute Time
+
+The function `f_EPTF_Base_getAbsTimeInSecs()` can be used to get the absolute time, similar to the C function `gettimeofday` as a float value. The value returned is the relative time plus the relative time offset, which is supposed to be faster than a `gettimeofday` function call (i.e. getting the system time since 00:00 UCT, Jan 1, 1970).
+
+=== Assert
+
+The function `f_EPTF_Base_assert(pl_assertMessage, pl_predicate)` can be used to put assertions in code. The function itself is implemented as an external C++ function, which makes it possible to exclude it from the final executable if the preprocessor flag `–DEPTF_DEBUG` is not added to `CPPFLAGS` and `–O2` to `CXXFLAGS` in the _Makefile_.
+
+The function logs `pl_assertMessage` as `ERROR_UNQUALIFIED` and stops the component by calling `f_EPTF_Base_stop()` if compiled into the code and if `pl_predicate` evaluates to `_false_`.
+
+=== Set an Assert Message Pattern to Expect as the First Error Occurred
+
+The function `f_EPTF_Base_setExpectedAssertMsg(pl_expectedAssert)` can be used to set an assert pattern that will be check during cleanup automatically. If the first assert message was the one that matches to this pattern, the verdict of the test case is set to pass automatically. If it does not match, then the verdict of the test case is set to `_fail_`.
+
+An example for the expected assert pattern that checks the end of the assert message can be:
+
+`"Some assert occurred"`
+
+This function can be used in negative testing.
+
+=== Determine the Number of Asserts
+
+The number of asserts occurred is returned by the function `f_EPTF_ Base_nofAssertMsgs()`.
+
+=== To Retrieve a Certain Assert Message
+
+A given assert message text can be retrieved by the function `f_EPTF_ Base_getAssertMsg(pl_assertNum)` where `pl_assertNum` gives the id of the assert message. The id if the assert message starts from `_zero_`, i.e. it is `_zero_` for the first assert, `_one_` for the second an so on.
+
+=== To Check if an Assert Message Matches with a Given Pattern
+
+To check if an assert message matches with a given pattern, the function `f_EPTF_Base_checkExpectedAssert(pl_expectedAssert, pl_assertNum)` can be used. The `pl_expectedAssert` is the assert pattern that is matched with the occurred assert with id `pl_assertNum`. The id of the asserts starts from zero. The function returns true if the pattern matches and false if it does not.
+
+=== Negative Test Mode
+
+Negative test mode can be set by the function `f_EPTF_Base_setNegativeTestMode()`.
+
+This function disables the setverdict in the functions: `f_EPTF_Base_stop`, `f_EPTF_Base_stopAll` and `f_EPTF_Base_assert`, so that the verdict can be set to pass if an error or assert happened.
+
+=== Getting the Process ID of the Current PTC
+
+The process ID of the current PTC can be retrieved by the function `f_EPTF_Base_getPid()`.
+
+This function returns the process ID of the current PTC that can also be shown e.g. by the 'top' unix command.
+
+=== Getting the Hostname of the Current PTC
+
+The hostname of the current PTC can be retrieved by the function `f_EPTF_Base_getHostName()`.
+
+This function returns the name of the host where the current PTC is running. This name is what the 'hostname' unix command returns.
+
+=== To Retrieve the Process ID of Other Components
+
+The process ID of any test component (PTC) that executes a function that runs on a component that extends the Base component can be retrieved by the following function on all components:
+
+`f_EPTF_Base_getPidByName (pl_name)`
+
+The `pl_name` parameter is the name passed to the init function of the Base feature on some PTC. The returned integer is the process ID of the PTC that called the Base init function with the specified name. This is the name that the `f_EPTF_Base_selfName` function returns on that PTC.
+
+If more than one PTC exists with the given name, the PID for the one that is found first is returned.
+
+=== To Get Detailed Host Information of a PTC by `selfName`
+
+The host information, that includes the name of the PTC, the TTCN-3 component reference, the hostname and the PID of the process on that host, can be retrieved of any PTC that called the Base init function. The following function can be used for that purpose:
+
+`f_EPTF_Base_getComponentInfoByName(pl_name, pl_compInfo)`
+
+The function returns the component information in its `pl_compInfo` argument for the component that initialized the Base feature with the specified `pl_name` argument. If the component information is not available, the function returns a nonzero integer, otherwise the function returns `_zero_`. If more than one PTC exists with the given name, the component info for the one that is found first is returned.
+
+=== To Get the Component Information for all PTCs
+
+The list of component information for all PTCs can be retrieved by the function `f_EPTF_Base_getComponentInfoAll()`.
+
+It returns a list of component information (`selfName`, component reference, hostname, process ID) for all PTCs that run on a component that extend the Base component and called its init function.
+
+[[enabling-disabling-dte-handling-in-cll]]
+=== Enabling/Disabling DTE Handling in CLL
+
+It is possible to enable/disable the DTE handling functionality in the whole CLL by calling the function:
+
+`f_EPTF_Base_setDTEHandling(pl_dteHandling)`
+
+When DTE handling is enabled, other CLL features that support DTE handling (e.g.` LGenBase`, `Scheduler`, `Transport`) will not stop when DTE occurs in user-callback functions.
+
+Instead, they will print the error message as a warning, call a user-given handler function and continue the execution.
+
+By default DTE handling is switched on.
+
+NOTE: Titan versions before TITAN/4/R2A, including this version, will not print the call stack of the actual place of the error. Newer Titan version will support this.
+
+=== Get the Current Status of DTE Handling
+
+If DTE handling is enabled or not, can be determined by calling the function:
+
+`f_EPTF_Base_isEnabledDTEHandling()`
+
+This function returns `_true_` if DTE handling is enabled in the CLL, false if `_not_`.
+
+By default DTE handling is `_disabled_`.
+
+=== Executing Shell Commands
+
+It is possible to execute shell commands with the following function:
+
+[source]
+----
+f_EPTF_Base_executeShell(
+  in charstring pl_command,
+  out charstring pl_stdOut,
+  out charstring pl_stdErr,
+  in boolean pl_enableAlts := true)
+----
+
+This function returns the error code of the execution and stores the standard output / error of the execution in `pl_stdOut` / `pl_stdErr` .
+
+When the argument `pl_enableAlts` is `_true_`, the shell command execution does not block the default altsteps. If it is `_false_`, the default altsteps are not running, so they are blocked until the function returns. By default this argument is `_true_`.
+
+If the `stdout`/`stderr` is not relevant the following function can be used:
+
+[source]
+public external function f_EPTF_Base_system(in charstring pl_command) return integer;
+
+This function calls the system c-function. It returns the error code.
+
+=== Getting the Start Command of the Application
+
+It is possible to get the start command of the current application with the following function:
+
+[source]
+----
+f_EPTF_Base_getStartCommand(
+  out charstring pl_executable,
+  out charstring pl_configFile,
+  out EPTF_CharstringList pl_testCases ()
+----
+
+This function returns the start command.
+
+Example:
+
+[source]
+----
+"/app/TITAN/5_R3A/LMWP3.1/bin/ttcn3_start EPTF_Base_Test ../EPTF_Base_Test.cfg EPTF_Base_Test_Testcases.tc_EPTF_Base_Test_getStartCommand"
+----
+
+As you can see, this string consists of the following values separated by spaces: start script of TTCN-3 parallel mode, name of the executable, name of the configuration file and the test case. In addition, the last three values are returned as outgoing parameters as well.
+
+=== Restart the Application
+
+It is possible to restart the current application with the following function:
+
+[source]
+----
+f_EPTF_Base_restart(in charstring pl_executable := "-", in charstring pl_configFile := "-",in EPTF_CharstringList pl_testCase := \{``-''})
+----
+
+It will stop the application (all PTCs) and then restart the application in a separate xterm. The following parts of the start command can be manipulated by the arguments.
+
+Example:
+
+[source]
+"/app/TITAN/5_R3A/LMWP3.1/bin/ttcn3_start <pl_executable> <pl_configFile> <pl_testCase>"
+
+All of the arguments have hyphen string ("-") as default value. It means that the application will be restarted with the original parameters as it was originally in the start command.
+
+== Summary Table of All Public Functions for EPTF Base
+
+See summary of Base functions in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|==================================================================================================================================
+|Function name |Description
+|`f_EPTF_Base_init_CT` |Initializes the Base Component
+|`f_EPTF_Base_registerCleanup` |Registers the cleanup function
+|`f_EPTF_Base_cleanup_CT` |Calls the registered cleanup functions
+|`f_EPTF_Base_stop` |Sets verdict to `fail', calls the cleanup functions and terminates the component
+|`f_EPTF_Base_stopRemote` |Stop a remote component
+|`f_EPTF_Base_stopAll` |Set verdict to `fail' and stop all components
+|`f_EPTF_Base_selfName` |Retrieve the EPTF self name
+|`f_EPTF_Base_wait4Shutdown` |Main event loop
+|`f_EPTF_Base_waitForCondition` |Block execution until a given condition is fulfilled
+|`f_EPTF_Base_cleanupIsInProgress` |Returns true if cleanup process is started
+|`f_EPTF_Base_upcast` |To convert EPTF_Base_CT to/from integer
+|`f_EPTF_Base_getRelTimeInSecs` |Get time elapsed since component initialization
+|`f_EPTF_Base_getRelTimeOffsetInSecs` |Get relative time offset
+|`f_EPTF_Base_getAbsTimeInSecs` |Get the absolute system time
+|`f_EPTF_Base_getTimeOfDay` |Returns the system time since 00:00 UCT, Jan 1, 1970
+|`f_EPTF_Base_setNegativeTestMode` |Set the negative-test mode
+|`f_EPTF_Base_getNegativeTestMode` |Returns true of negative-test mode is enabled
+|`f_EPTF_Base_assert` |Print out message in debugging mode if a condition evaluates false. Also stops the component execution.
+|`f_EPTF_Base_nofAssertMsgs` |Returns the number of assert messages generated by previous f_EPTF_Base_assert function calls
+|`f_EPTF_Base_getAssertMsg` |Returns an assert message from the previous assert messages
+|`f_EPTF_Base_setExpectedAssertMsg` |Sets the assert/error message that is expected as the first assert message in negative-test mode
+|`f_EPTF_Base_checkExpectedAssert` |Checks if the given assert/error message arrived at correct time
+|`f_EPTF_Base_getPid` |Returns the PID of the current process
+|`f_EPTF_Base_getHostName` |Returns the hostname of the current process
+|`f_EPTF_Base_getComponentInfoByName` |Returns the component information for a component with a given selfName
+|`f_EPTF_Base_getPidByName` |Returns the PID for a component with a given selfName
+|`f_EPTF_Base_getComponentInfoAll` |Returns the component info for all components that run on Base
+|`f_EPTF_Base_setDTEHandling` |Enables/disables DTE handling in CLL
+|`f_EPTF_Base_isEnabledDTEHandling` |Returns true if DTE handling is enabled
+|`f_EPTF_Base_system` |Executes system command from TTCN
+|`f_EPTF_Base_executeShell` |Executes shell command from TTCN
+|`f_EPTF_Base_getStartCommand` |Returns the command the application was started with
+|`f_EPTF_Base_restart` |Restarts the application
+|==================================================================================================================================

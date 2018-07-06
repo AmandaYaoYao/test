@@ -1,0 +1,45 @@
+= Error Messages
+
+NOTE: Besides the below described error messages, error messages shown in <<7-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+EPTF CLL Scheduler defines the following error messages:
+
+`*Error: f_EPTF_SchedulerComp_CancelEvent: clearing invalid_chain or non-empty event at qidx: <index>*`
+
+`*Error: f_EPTF_SchedulerComp_performActions has failed to freeze event: <event>*`
+
+`*Error: f_EPTF_SchedulerComp_performActions has failed with event: <event>*`
+
+`*Error: cannot remove current event from queue*`
+
+`*ERROR: f_EPTF_SchedulerComp_performActions() has been failed*`
+
+`*[f_EPTF_Scheduler_schedulerIsNotLate] Error: Cannot get smallest element, maybe tree is empty*`
+
+`*[f_EPTF_Scheduler_eventIsValid] Error: checking non-existent event at pl_qidx: <index>*`
+
+`*[f_EPTF_Scheduler_removeValidEvent] Error: clearing invalid, or non-empty event at pl_qidx: <index>*`
+
+`*[f_EPTF_Scheduler_freezeBusyEventHead] Error: Cannot get smalledst element index. Tree might be empty.*`
+
+`*[f_EPTF_Scheduler_freezeBustEventHead] Error: freezing non-existent event.*`
+
+`*Error: f_EPTF_Scheduler_removeInvalidEvent: clearing non-invalid, or non-existent event at qidx: <index>*`
+
+`*Error: getNewTimerVal: list is empty*`
+
+`*Error: f_EPTF_Scheduler_schedulerIsNotLate: list is empty*`
+
+`*Error: f_EPTF_Scheduler_eventIsValid: checking non-existent event at pl_qidx: <index>, pl_NextEventQueue.order.itemList[pl_qidx]: <value>*`
+
+`*Error: f_EPTF_Scheduler_eventIsInvalid: checking non-existent event at pl_qidx: <index>, pl_NextEventQueue.order.itemList[pl_qidx]: <value>*`
+
+`*Error: f_SetSchedulerActionRoundable: invalid not-busy event during appending to!: <value>*`
+
+`*Error: f_EPTF_Scheduler_removeValidEvent: clearing invalid, or non-empty event at pl_qidx: <index>, pl_nextEventQueue.order.itemList[pl_qidx]: <value>*`
+
+`*Error: f_EPTF_Scheduler_freezeBusyEventHead: freezing non-existent event: <event>, pl_NextEventQueue.order.itemList[pl_NextEventQueue.order.status.busyStatus.head]: <value>*`
+
+`*Error: f_EPTF_Scheduler_removeInvalidEvent: clearing not-invalid, or non-existent event at qidx: <index>, pl_NextEventQueue.order.itemList[qidx]: <value>*`
+
+`*Error: f_EPTF_Scheduler_rescheduleEvent: invalid not-busy event during appending to!: <value>*`

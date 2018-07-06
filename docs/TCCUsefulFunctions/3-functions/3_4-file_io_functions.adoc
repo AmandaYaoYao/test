@@ -1,0 +1,241 @@
+[[file-i-o-functions]]
+= File I/O Functions
+
+== Overview
+
+This bunch of external functions enables you to handle files from TTCN-3. These functions use the POSIX file I/O functions underneath, and they behave similarly. For examples see __TCCFileIO_Example.ttcn__.
+
+These File I/O Functions were tested under Linux/Solaris/Cygwin platforms.
+
+File I/O Functions are implemented in the following files:
+
+* __TCCFileIO_Functions.ttcn__
+* _TCCFileIO.cc_
+
+== Function Definitions
+
+The following File I/O Functions are defined. For the exact API check the generated NaturalDocs documentation.
+
+`external function f_FIO_get_error_code ();`
+
+The last error code. It simply returns the value of `errno`. `Errno` is a global variable defined by the ISO C standard. Its value is set by the system calls. It always holds the error code for the last error.
+
+`external function f_FIO_get_error_string ();`
+
+The last error message in textual format. It simply returns the string associated with the `_errno_` value returned by `f_FIO_get_error_code`.
+
+`external function f_FIO_open_ (in charstring name);`
+
+These functions open the files in different ways using the open system call. Files can be opened in appending or truncating mode for reading only/writing only/reading and writing. These functions always return an integer, the file descriptor for the file name that is now opened or -1 if an error occurred. The error string/code will be available through `f_FIO_get_error_string`/`f_FIO_get_error_code`. The returned integer can be stored in TTCN-3 and can be used to do I/O operations on a specific file. It is possible to open files in exclusive mode (using the `f_FIO_open_*_excl` functions), but it works differently on Linux/Unix and Cygwin platforms. If a file is opened in exclusive mode in Cygwin, it cannot be reopened from any other process or from the current one in any mode until the file is closed by the lock-holder. Closing the file implicitly releases the lock. Linux/Unix platforms are not that restrictive. It is possible to have a process, which opened the file in exclusive mode and another opened it with e.g.`f_FIO_open_append_wronly`. In this case the result is unpredictable. On these platforms it’s advisable to always use the functions for exclusive opening to prevent these situations.
+
+`external function f_FIO_close (in integer fd);`
+
+With this function a file associated with a given file descriptor can be closed.
+
+`external function f_FIO_seek_ (in integer fd);*`
+
+These functions can seek in files. They can seek to the beginning or end of the file or they can move the file pointer with given bytes forward or backward from its actual position. They simply return what the POSIX function `lseek` returns.
+
+`external function f_FIO_write_ (in integer fd, in octetstring/charstring data/text);`
+
+With this function you're able to write binary or textual data to a file. The output buffer is a CHARSTRING in text mode or an OCTETSTRING in binary mode. The buffer is written out from the actual position of the file pointer. To make sure that all data is written out to the disk, call `f_flush` after each write or use the appropriate write functions with flush support (with `*_flush` suffix).
+
+`external function f_FIO_read_ (in integer fd, inout octetstring/charstring data/text, in integer bytes);`
+
+With these functions you can read a given number of bytes into a TTCN-3 CHARSTRING/OCTETSTRING buffer. CHARSTRING is used for text mode OCTETSTRING is used for binary mode. The given number of bytes are read from the actual position of the file pointer.
+
+`external function f_FIO_read_*_until (in integer fd, inout octetstring/charstring data/text, in octetstring/charstring separator);`
+
+With these functions you can read textual or binary data from a given file token by token. Each token must be separated with the same characters (CHARSTRING) or octets (OCTETSTRING). If the given separator is first matched the appropriate CHARSTRING/OCTETSTRING is returned. Calling these functions next time, they will find the next token. If EOF is reached before the separator pattern is matched `_"-1"_` is returned.
+
+`external function f_FIO_read_data_TLV (in integer pl_fd, inout octetstring pl_data) return integer;`
+
+With this function you can read binary data -containing a full ASN.1 TLV structure- from a given file. If the full ASN.1 TLV structure is matched the appropriate OCTETSTRING stored in `pl_data`. Calling these functions next time, they will find the next ASN.1 TLV structure. This function works only files containing nothing else but full TLV structures. If no full TLV structure is found `_"-1"_` is returned, in case of success the length of the TLV structure is returned
+
+`external function f_FIO_set_filedescriptor_previousline (in integer fd) return integer;`
+
+With this function you can set the given file descriptor to the previous line. Calling this function next time, the functions will find the previous previous line. If there was no problem, then the return value will be `_"1"_`.
+
+`external function f_FIO_chdir (in charstring pl_name) return boolean;`
+
+With this function you can change the current directory. If directory change is successful, the `_true_` is returned, otherwise `_false_` is returned.
+
+`external function f_FIO_mkdir (in charstring p_dir_name) return boolean;`
+
+With this function you can create a directory. If directory creation is successful, the `_true_` is returned, otherwise `_false_` is returned.
+
+`external function f_FIO_rmdir (in charstring p_dir_name) return boolean;`
+
+With this function you can delete a directory. If directory is successfully deleted, the `_true_` is returned, otherwise `_false_` is returned.
+
+`external function f_FIO_fileOrDirExists (in charstring p_ _name) return boolean;`
+
+With this function you can rename an existing file or directory. If the file or directory not exists, then the `_return_` value is false. The target path has to exist as well, otherwise it returns false.
+
+`external function f_FIO_rename (in charstring p_old_name, in charstring p_new_name) return boolean;`
+
+With this function you can check the existence of a directory or a file. If the directory or file exists, the `_true_` is returned, otherwise `_false_` is returned.
+
+`external function f_FIO_stat (in charstring p_name, out FIO_permissions p_permissions) return boolean;`
+
+With this function you can query the permission of a directory or a file. If the operation is successful, the `_true_` is returned and the `p_permissions` contains the permissions, otherwise `_false_` is returned.
+
+`external function f_FIO_chmod (in charstring p_name, in FIO_permissions p_permissions) return boolean;`
+
+With this function you can set the permissions of the file or directory according to the `p_permissions`. If the value of the field is:
+
+* `_true_`: sets the permission
+* `_false_`: clears the permission
+* `_omit_`: doesn't change the permission
+
+If the operation is successful, the `_true_` is returned, otherwise `_false_` is returned.
+
+`external function f_FIO_remove (in charstring pl_file_name) return boolean;`
+
+With this function you can delete a directory or file. If directory or file is successfully deleted, the `_true_` is returned, otherwise `_false_` is returned.
+
+`external function f_FIO_getFileInfo (in charstring p_name) return FIO_FileInfo;`
+
+This function returns a `FIO_FileInfo`, which contains several information about the given file, such as:
+
+* *fileType* - the type of the file
+* *nodeNumber* - inode number
+* *mode* - file type and mode
+* *linkCount* - number of hard links
+* *ownership* - user ID of owner
+* *groupId* - group ID of owner
+* *blockSize* - block size for file system I/O
+* *fileSize* - total size, in bytes
+* *blocksAllocated* - number of 512B blocks allocated
+* *lastStatusChange* - time of last access in seconds since 1970
+* *lastFileAccess* - time of last modification in seconds since 1970
+* *lastFileModification* - time of last status change in seconds since 1970
+
+== Error Messages
+
+These functions always return `_"-1"_` if an error occurs during the execution. The return values must be checked to detect these situations. The corresponding error message/code is available through calling `f_FIO_get_error_string`/`f_FIO_get_error_code`. By default the functions do not write anything to the standard output/error. If you want to get error reports on the screen, the functions must be compiled with `-DVERBOSE_DEBUG` or define a macro `VERBOSE_DEBUG`.
+
+`*Cannot open file*`
+
+The file cannot be opened.
+
+`*The file is already opened*`
+
+The file is already opened.
+
+`*The file is not opened*`
+
+The file is not yet opened.
+
+`*Cannot lock file*`
+
+The file cannot be opened in exclusive mode.
+
+`*Cannot allocate memory*`
+
+There’s not enough memory to increase the size of the input buffer.
+
+`*Cannot close file*`
+
+`*Read error*`
+
+`*Cannot write to file*`
+
+`*End of file*`
+
+EOF is reached unexpectedly.
+
+== Warning Messages
+
+None.
+
+== Examples
+
+[source]
+----
+module TCCFileIO_Example
+
+\{
+
+import from TCCFileIO_Functions all;
+
+type component empty_CT \{ };
+
+testcase TC_test () runs on empty_CT
+
+\{
+
+var integer vl_fd;
+
+var charstring vl_text_out := ``First lineabcdefSecond lineabcdefThird lineabcdefFourth lineabcdef'';
+
+var charstring vl_text_tmp := ``abcdef'';
+
+var charstring vl_text_in;
+
+vl_fd := f_FIO_open_trunc_rdwr_excl (``test1.txt'');
+
+if (vl_fd < 0)
+
+\{
+
+log (f_FIO_get_error_string ());
+
+setverdict (fail);
+
+}
+
+f_FIO_write_text (vl_fd, vl_text_out);
+
+f_FIO_flush (vl_fd);
+
+f_FIO_seek_home (vl_fd);
+
+for (var integer vl_i := 0; vl_i < 4; vl_i := vl_i + 1)
+
+\{
+
+var integer n := f_FIO_read_text_until (vl_fd, vl_text_in, vl_text_tmp);
+
+if (n < 0)
+
+\{
+
+log (f_FIO_get_error_string ());
+
+setverdict (fail);
+
+}
+
+log (vl_text_in);
+
+}
+
+f_FIO_seek_end (vl_fd);
+
+f_FIO_write_text (vl_fd, vl_text_out);
+
+f_FIO_close (vl_fd);
+
+/* Try to close it again. */
+
+if (f_FIO_close (vl_fd) < 0)
+
+\{
+
+setverdict (pass);
+
+}
+
+}
+
+control
+
+\{
+
+execute (TC_test ());
+
+}
+
+}
+----

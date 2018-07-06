@@ -1,0 +1,25 @@
+= Warning Messages
+
+`*Dropping partial message.*`
+
+This message is printed in case of `unmap` operation if the receive buffer is not empty.
+
+`*Duplicated prompt string `<prompt_value>'*`
+
+`*Using prompt `<prompt_value1>' that is a substring of prompt `<prompt_value2>' might cause problems.*`
+
+`*Server refused window size negotiation.*`
+
+`*Unable to decode Terminal Type sub-negotiation.*`
+
+`*Send operation failed: the port is disconnected.*`
+
+`*Send operation failed: the client has not logged in.*`
+
+`*user_map() was called to a mapped port*`
+
+`*Mode is not defined. Test Port will operate in client mode operation.*`
+
+`*TCP send failed. (<reason>)*`
+
+Send operation failed due to a disconnected client.

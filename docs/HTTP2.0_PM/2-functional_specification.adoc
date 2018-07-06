@@ -1,0 +1,44 @@
+= Functional Specification
+
+== Protocol Version Implemented
+
+This set of protocol modules implements protocol messages and encode, decode functions of the HTTP protocol. The module is based on https://tools.ietf.org/html/rfc7230[RFC 7230], https://tools.ietf.org/html/rfc7231[RFC 7231], https://tools.ietf.org/html/rfc7232[RFC 7232], https://tools.ietf.org/html/rfc7233[RFC 7233], https://tools.ietf.org/html/rfc7234[RFC 7234], https://tools.ietf.org/html/rfc7235[RFC 7235]). The following messages are implemented:
+
+`HTTP_Message`
+
+Header fields that are not named can be listed in the header field called `undefined_header_list` as a name-value pair.
+
+Header values can be given in the form of a list if the value is a list according to the standard. In an incoming message multiple header fields with the same name will be decoded as a list of lists.
+
+[[implemented-encoding-decoding-and-other-related-functions]]
+=== Implemented Encoding/Decoding and Other Related Functions:
+
+[cols=3*,options=header]
+|===
+
+|Name |Type of formal parameters
+|`ef_HTTP_Encode` |in HTTP_Message pl_pdu, +
+return octetstring
+|`ef_HTTP_Decode` |in octetstring pl_stream, +
+return HTTP_Message
+|`ef_HTTPMessage_len` |in octetstring stream +
+return integer
+|===
+
+=== Message Length Function
+
+The `f_HTTPMessage_len` function returns the length of the HTTP message from an octetstring. If the length cannot be determined it returns the value `_-1_`.
+
+== Parser Generation Rules
+
+In order to generate the _.c_ and _.h_ files from _.y_ and _.l_ the following _Makefile_ rules should be used:
+
+[source]
+----
+HTTP_parse_.tab.c HTTP_parse_.tab.h: HTTP_parse.y
+          bison -t -dv -p HTTP_parse_ -b HTTP_parse_ $<
+lex.HTTP_parse_.c: HTTP_parse.l
+          flex -Cr -8 -Bvpp -P HTTP_parse_ $<
+----
+
+The _.h_ and _.c_ parser files should be generated during the protocol module development. Only the pregenerated files are needed for test case development and test execution.

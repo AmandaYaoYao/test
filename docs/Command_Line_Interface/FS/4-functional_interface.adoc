@@ -1,0 +1,94 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading ‎<<6-references.adoc#_4, [4]>>.
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_CLI_` that belongs to the `EPTF_CLI_CT` component, and `f_EPTF_CLI_Client_` that belongs to the `EPTF_CLI_Client_CT` component.
+
+== Public Functions in the CLI
+
+The detailed description of functions and there arguments are available in the source code, or in the reference guide <<6-references.adoc#_4, [4]>>. Only a basic description is given here.
+
+=== Initialization
+
+Before using any of the EPTF CLI functions the
+
+`f_EPTF_CLI_init_CT`
+
+function should be called. This initializes the EPTF CLI feature.
+
+=== Get Formatted Help of a Command
+
+The function
+
+`f_EPTF_CLI_getHelpTxt`
+
+can be used to get a formatted and detailed help message of a given command. The same message is printed to the terminal when the help is requested for a specific command using the built-in help command: `help <commandName>`
+
+=== Executing a Command
+
+To execute a command and get its result the function
+
+`f_EPTF_CLI_executeCommand`
+
+has to be called.
+
+It executes the given command and returns the result. The command is executed as if it was started on the terminal.
+
+=== Closing the Terminals
+
+To close the terminal from TTCN3, call the function
+
+`f_EPTF_CLI_closeTerminal`
+
+Similar function to close the display terminal is:
+
+`f_EPTF_CLI_closeDisplayTerminal`
+
+== Public Functions in the CLI Client
+
+=== Initialization
+
+Before using any of the EPTF CLI Client functions the
+
+`f_EPTF_CLI_Client_init_CT`
+
+function should be called. This initializes the EPTF CLI Client feature.
+
+=== Registering New Command to the Terminal
+
+The function
+
+`f_EPTF_CLI_Client_registerCommand`
+
+can be used to register a new command to a given terminal. The command name, a short description of it and the handler function has to be specified in its arguments. Optionally the CLI component and the case sensitivity can also be set. By default the CLI given in the init function will be used as CLI, and the command name will be case insensitivity if these parameters are omitted. The case sensitivity refers to the command name only, not to its arguments! On one PTC commands with unique name can be registered only. Spaces are not allowed in command names.
+This `registerCommand` function will return the status of the registration (success or failed).
+
+=== Sending Messages to the Display Terminal
+
+The function
+
+`f_EPTF_CLI_Client_sendCommandDisplay`
+
+can be used send messages to the display terminal that belongs to a given command. These messages will not appear on the normal terminal.
+
+=== Setting the Tag That Signs Aliases in Commands
+
+The function
+
+`f_EPTF_CLI_setAliasTag`
+
+can be used to set the tag that signs aliases in a command.
+
+== General Functions
+
+There are some function in the CLI that can be useful.
+
+=== Splitting a String
+
+The
+
+`f_EPTF_CLI_splitString`
+
+function can be used to split a string at given separator characters. It is possible to split so, that  multiple separator characters are treated as one separator character, or separate separators.

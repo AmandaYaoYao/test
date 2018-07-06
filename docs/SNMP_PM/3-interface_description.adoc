@@ -1,0 +1,56 @@
+= Interface Description
+
+== Top Level PDU
+
+The top level PDUs are SNMPv1_Message, SNMPv2_Message and SNMPv3_Message.
+
+== Encoder/Decoder Functions
+
+This product also contains encoding/decoding functions, which assure correct BER <<5-references.adoc#_8, [8]>> encoding of messages when sent from Titan and correct BER <<5-references.adoc#_8, [8]>> decoding of messages when received by Titan.
+
+[[implemented-encoding-decoding-functions]]
+=== Implemented Encoding/Decoding Functions:
+
+The following functions can be used for encoding and decoding of SNMP v1, v2 or v3 messages :
+
+[width="100%",cols="45%,35%,20%",options="header",]
+|==========================================================================================================
+|*Name* |*Type of formal parameters* |*Type of return value*
+|`enc_SNMPv1_Message` |in SNMPv1_Message |octetstring
+|`dec_SNMPv1_Message` |in octetstring |SNMPv1_Message
+|`dec_SNMPv1_Message_backtrack` |in octetstring, out SNMPv1_Message |integer (0: success, 1: decoding failed)
+|`enc_SNMPv2_Message` |in SNMPv2_Message |octetstring
+|`dec_SNMPv2_Message` |in octetstring |SNMPv2_Message
+|`dec_SNMPv2_Message_backtrack` |in octetstring, out SNMPv2_Message |integer (0: success, 1: decoding failed)
+|`enc_SNMPv3_Message` |in SNMPv3_Message |octetstring
+|`dec_SNMPv3_Message` |in octetstring |SNMPv3_Message
+|`dec_SNMPv3_Message_backtrack` |in octetstring, out SNMPv3_Message |integer (0: success, 1: decoding failed)
+|==========================================================================================================
+
+The following functions can be used for object identifier operations:
+
+[width="100%",cols="15%,25%,20%,40%",options="header",]
+|========================================================================================================================================================
+|*Name* |*Type of formal parameters* |*Type of return value* |*Functionality*
+|`oi_concat` |in objid, in objid |objid |return concatenation of inputs
+|`oi_size` |in objid |integer |return number of elements of input
+|`oi_eq` |in objid, in objid |boolean |return true if two inputs are equal
+|`oi_sub` |in integer, in integer , in objid |objid |return sub-objid where first input is begin and second input is size
+|`oi_gt` |in objid, in objid |boolean |return true if first input > second input lexicographically
+|`oi_addObjId` |in objid, in SetOfInteger |Objid |return concatenation of first input with integers of second input
+|`oi_setvalue` |in objid, in integer, in integer |objid |insert into first input at position specified by the second input a value given by the third input
+|`oi_getvalue` |in objid input, in integer position |integer |return element selected by second input
+|========================================================================================================================================================
+
+The following functions can be used for authentication and encryption of SNMP v1, v2 or v3 messages :
+
+[width="100%",cols="40%,40%,20%",options="header",]
+|===================================================================================================================================================
+|*Name* |*Type of formal parameters* |*Type of return value*
+|`calculate_MD5_MAC` |in octetstring (authentication key),in SNMPv3_Message (message) |octetstring
+|`encryptData` |in octetstring (encryption key),in ScopedPDU (data to encrypt,out octetstring (encrypted data), in octetstring (privacy parameters) |-
+|`decryptData` |in octetstring (decryption key),in octetstring (privacy parameters),in octetstring (encrypted data), out ScopedPDU (decrypted data) |-
+|`password_to_key_md5` |in octetstring (password),in octetstring (engine ID),out octetstring (key) |-
+|`enc_UsmSecurityParameters` |in UsmSecurityParameters |octetstring
+|`dec_UsmSecurityParameters` |in octetstring |UsmSecurityParameters
+|===================================================================================================================================================

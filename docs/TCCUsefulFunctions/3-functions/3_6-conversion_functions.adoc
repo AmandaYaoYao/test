@@ -1,0 +1,179 @@
+= Conversion Functions
+
+== Overview
+
+This set of functions enables you to apply conversions from TTCN-3 that have been not supported by TTCN-3 before, for example,  universal charstring conversions.
+
+These Assertion Functions were tested under Linux/Solaris/Cygwin platforms.
+
+Conversion Functions are implemented in the following files:
+
+* __TCCConversion_Functions.ttcn__
+* _TCCConversion.cc_
+
+== Function Definitions
+
+The following Conversion Functions are defined. For the exact API check the generated NaturalDocs documentation.
+
+`external function f_putInLowercase(charstring pl_string) return charstring;`
+
+Convert a charstring value to lowercase.
+
+`external function f_putInUppercase(charstring pl_string) return charstring;`
+
+Convert a charstring value to uppercase.
+
+`function f_unichar2charstr (in universal charstring p_unichar) return charstring`
+
+Convert a universal charstring to charstring.
+
+`function f_charstr2unichar (in universal charstring p_unichar) return charstring`
+
+Convert a charstring to universal charstring.
+
+[source]
+----
+function f_replaceFirstOccurenceOfSubstring(
+  in charstring parInStr,
+  in charstring parSubStrA,
+  in charstring parSubStrB) return charstring
+----
+
+Replace the first occurance of `parSubStrA` with `parSubStrB` in `parInStr`.
+
+[source]
+----
+function f_replaceEveryOccurenceOfSubstring(
+  in charstring parInStr,
+  in charstring parSubStrA,
+  in charstring parSubStrB) return charstring
+----
+
+Replace every occurance of `parSubStrA` with `parSubStrB` in `parInStr`.
+
+[source]
+----
+`function f_replaceFirstOccurenceOfPattern(
+  in charstring parInStr,
+  in charstring parSubStrA,
+  in charstring parSubStrB) return charstring`
+----
+
+Replace the first occurrence of pattern `parSubStrA` with `parSubStrB` in `parInStr`.
+
+[source]
+----
+`function f_replaceEveryOccurenceOfPattern(
+  in charstring parInStr,
+  in charstring parSubStrA,
+  in charstring parSubStrB) return charstring`
+----
+
+Replace every occurrence of pattern `parSubStrA` with `parSubStrB` in `parInStr`.
+
+`external function f_addOctetstring(in octetstring par1, in octetstring par2) return octetstring;`
+
+Add two integer values represented in OCTETSTRING. The function can be used in case when an integer representation is needed with larger range then it is available in TTCN-3. Note that negative values are not handled.
+
+`external function f_subOctetstring(in octetstring par1, in octetstring par2) return octetstring;`
+
+Subtract two integer values represented in OCTETSTRING. The function can be used in case when an integer representation is needed with larger range then it is available in TTCN-3.
+
+NOTE: Negative values are not handled.
+
+`external function f_compOctetstring(in octetstring par1, in octetstring par2) return integer;`
+
+Compares two integer values represented in OCTETSTRING. The function can be used in case when an integer representation is needed with larger range then it is available in TTCN-3.
+
+NOTE: Negative values are not handled.
+
+`_Return 0_` in case of identical input arguments.
+
+`_Return 1_` if the first argument is larger.
+
+`_Return 2_` if the second argument is larger.
+
+`external function f_substr_token(in charstring str,in charstring begin_token, in charstring end_token)return charstring;`
+
+`external function f_substr_token_oct(in octetstring str,in octetstring begin_token, in octetstring end_token)return octetstring;`
+
+The function returns a substring from a value. The starting and the ending points are defined by the begin and end tokens. If one of the tokens is not found it returns an empty string. If `end_token` is an empty string, the function returns the part of the value after the `begin_token`. If `begin_token` is an empty string, the function returns the part of the value until the `end_token`. If both of them empty string, the function returns the part whole value.
+
+`function f_substr_all_tokens(in charstring str, in charstring begin_token, in charstring end_token) return TCC_Conversion_ch_list`
+
+`function f_substr_all_tokens_oct(in octetstring str, in octetstring begin_token, in octetstring end_token) return TCC_Conversion_ch_list`
+
+The function returns a list of substring from a value. The starting and the ending points are defined by the begin and end tokens. If one of the tokens is not found it returns an empty string. If `end_token` is an empty string, the function returns the part of the value after the `begin_token`. If `begin_token` is an empty string, the function returns the part of the value until the `end_token`. If both of them empty string, the function returns the part whole value.
+
+`external function f_strstr(in charstring s1,in charstring s2, in integer offset:=0) return integer;`
+
+`external function f_strstr_oct(in octetstring s1,in octetstring s2, in integer offset:=0) return integer;`
+
+The `f_strstr` function locates the first occurrence of the string s2 in string s1 and returns an index of starting point of the located string, or `_-1_` if the string is not found. If s2 is an empty, the function returns `_0_`. The offset determines the starting point of the search. Any occurrence of the s2 before the offset is ignored. The offset is optional.
+
+`function f_OctetIpv4(in charstring pl_ip) return octetstring;`
+
+Converts a IPv4 dot noted address to its octetstring representation. On error, `_"O"_` is returned.
+
+`function f_oct2str_safe(in octetstring par1, out charstring par2) return boolean;`
+
+Works as the built-in function oct2str of Titan, but in a fault tolerant way. In case of any fault, `_false_` is returned, otherwise `_true_`. The second parameter will contain the decoded string as long as it could be decoded.
+
+`function f_IPv6CreateLiteral(in charstring pl_ip) return charstring`
+
+Encloses parameter `pl_ip` in square brackets. (Used to generate IPv6 literal address.)
+
+`external function f_isNumber(charstring pl_string, integer pl_number) return charstring;`
+
+Checks if the input string starts with digits. If yes, then it returns the integer value in `pl_number` and the remaining string as return value. If the string does not start with a conversable number, it will return `_0_` in `pl_number`.
+
+`function f_isWhiteSpace(in charstring pl_str) return boolean`
+
+Checks if the input string consists of only white space characters. If the string only contains white space characters then it returns `_true_`, else it returns `_false_`. For an empty string it returns `_false_`.
+
+`function f_prePadString(charstring pl_string, charstring pl_pad, integer pl_length, inout charstring pl_result) return Boolean`
+
+Pads a string to fit in a specified length (`pl_length`). The `pl_string` will be prepended by the first character of `pl_pad` to reach the length specified by `pl_length`.
+
+== Error Messages
+
+None.
+
+== Warning Messages
+
+None.
+
+== Examples
+
+The following code part shows an example for using replace pattern functions. The input string (replacestr) is "AaACCCAaABbB" and the pattern that every occurrence shall be replaced is `"([Aa]#(3,3)"`. The substitution string is `"<3A>"`. So the aim of this short test is to change three-character long A or a sequences to `"<3A>"`. Notice that pattern shall match to the whole string and pattern to swap shall be grouped with opening and closing brackets (). Awaited response (rStr4) is `<3A>CCC<3A>BbB`.
+
+[source]
+----
+testcase f_test_replaceEveryOccuranceOfPattern() runs on Conversion_CT
+
+\{
+
+log(" ——– f_replaceEveryOccurenceOfPattern ——- “);
+
+log(``Original string:'', replacestr);
+
+tmpStr :=
+
+f_replaceEveryOccurenceOfPattern(
+
+replacestr, ``__([Aa]#(3,3))__'', ``<3A>'');
+
+log(``Replace every occurence of _([Aa]#(3,3))_ to <3A>:'',
+
+tmpStr);
+
+if (tmpStr == rStr4) \{ setverdict(pass); }
+
+else \{ setverdict(fail); }
+
+}
+----
+
+== Makefile
+
+External functions, `f_substr_token_oct` and `f_strstr_oct` use memmem, so `D_GNU_SOURCE` flag should be added to the `CPPFLAGS` in case of Cygwin environment.

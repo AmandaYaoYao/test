@@ -1,0 +1,51 @@
+= Warning Messages
+
+NOTE: Besides the below described warning messages, warning messages shown in ‎<<7-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+`*Already subscribed for <remoteCompRef>:<remoteProviderVarName> by v_EPTF_Vars[<idx>]: <variable data>*`
+
+The subscription already exists.
+
+`*No response received for subscribe data: <idx> <remoteCompRef> <remoteProviderVarName> <subscriptionMode> <blockingFlagIdx>*`
+
+The provider component does not respond for subscribe. The subscribe function timeouts, and the created variable is not properly subscribed. This may cause errors later.
+
+`*The guard function #<i> (<guardFn>]) of EPTF_Var[<idx>] does not accept the new value: <newContent>*`
+
+There was a failed attempt to modify the value of the EPTF Variable
+
+`*Unexpected message received from <senderComp> during cleanup. Message dropped: <msg data>*`
+
+Cleanup is in progress. Most of the messages are dropped (e.g. no more subscriptions allowed, etc.).
+
+`*–VAR CLEANUP TIMEOUT– Not all responses received for bye messages.*`
+
+The cleanup is not properly performed. One ore more connected Variable components did not respond in time. The execution of the current component is forced to terminate. This may result in errors in other components afterwards. The maximum waiting time can be adjusted via the module parameter `tsp_EPTF_Var_maxWaitTimeForByeAck` or by calling the function `f_EPTF_Var_setMaxWaitTimeForByeAck`.
+
+`*Cannot forward adjustcontentNack to variable <variable>. Not a subscriber of EPTF_Var[<idx>].*`
+
+The subscriber variable that was adjusted unsubscribed from its provider before the response to the adjust request is received. The response is dropped.
+
+`*EPTF_Var_Msg_GetRemoteContent is received for a nonexistent EPTF Variable: <name>*`
+
+The component which sent the `getRemote` message exited before it was answered.
+
+`*EPTF_Var_Msg_AdjustRemoteContent is received for a nonexistent EPTF Variable: <name>*`
+
+The component which sent the `adjustRemote` message exited before it was answered.
+
+`*EPTF_Var_Msg_AdjustRemoteContent received for an EPTF Variable with local top-provider: <idx>*`
+
+There was a failed attempt to adjust the variable without subscription.
+
+`*Cannot load Variable <name> from config: Variable does not exist.*`
+
+The variable that should be loaded from the configuration data does not exist.
+
+`*f_EPTF_Var_save: cannot open file <filename>: <reason>*`
+
+The specified file could not be opened.
+
+`*f_EPTF_Var_save: cannot save EPTF_Variable data to file <filename>: <reason>*`
+
+A write error encountered. Saving data to the specified file failed.

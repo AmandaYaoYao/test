@@ -1,0 +1,15 @@
+= Abbreviations
+
+ASP:: Abstract Service Primitive
+
+AVP:: Attribute Value Pair
+
+DPMG:: Diameter Protocol Module Generator
+
+GNU:: Gnu’s Not Unix
+
+GUI:: Graphical User Interface
+
+PDU:: Protocol Data Unit
+
+TTCN-3:: Testing and Test Control Notation version 3

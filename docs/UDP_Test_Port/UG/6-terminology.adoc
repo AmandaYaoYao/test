@@ -1,0 +1,15 @@
+= Terminology
+
+None.
+
+= Abbreviations
+
+ASP:: Abstract Service Primitive
+
+RTE:: Run-Time Environment
+
+SUT:: System Under Test
+
+TTCN-3:: Testing and Test Control Notation version 3
+
+UDP:: User Datagram Protocol

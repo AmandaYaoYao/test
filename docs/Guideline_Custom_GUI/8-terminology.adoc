@@ -1,0 +1,13 @@
+== Abbreviations
+
+WoW:: Way of Working
+
+CT:: TTCN-3 Component Type
+
+CLL:: Core Load Library
+
+EPTF:: Ericsson Performance Test Framework, formerly TITAN Load Test Framework
+
+CPS:: Call per Second
+
+PTC:: Parallel Test Component

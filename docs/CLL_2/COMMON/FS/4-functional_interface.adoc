@@ -1,0 +1,157 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading ‎<<‎6-references.adoc#_4, [4]>>.
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_Common_`.
+
+== Public Functions
+
+=== Initializing
+
+To initialize the Common feature call the function
+
+`f_EPTF_Common_init()`
+
+=== Reset Range Parameter
+
+`f_EPTF_Common_resetParamRanges(pl_rangeList)`
+
+This function can be used to reset range iterators to the base offset of the ranges.
+
+=== Incrementing Range Iterators
+
+`f_EPTF_Common_incParamRanges(pl_rangeList)`
+
+This function can be used to increment the least significant range iterator. It handles carry if necessary.
+
+=== Increasing the Least Significant Range
+
+`f_EPTF_Common_fillWeightedBuckets(pl_weightList, pl_nrOfElements, pl_result)`
+
+This function can be used to increment the least significant range iterator. It handles carry if necessary.
+
+=== Initialize the RndValues Component
+
+`f_EPTF_Common_RndValues_init_CT()`
+
+This function can be used to initialize the RndValues component.
+
+=== Get the Next Generated Random Number
+
+`f_EPTF_Common_RndValues_getNextRndValue_CT()`
+
+This function can be used to get the next pre generated random number. The component has to be initialized with the `f_EPTF_Common_RndValues_init_CT` function before to use of this function.
+
+=== IndexArray Functions
+
+==== Obtaining a Free Index
+
+`f_EPTF_Common_IndexArray_getOrCreateFreeSlot()`
+
+This function can be used to get a free index (an index which content is -1) from the IndexArray record. If there is no free index, the function creates a new free index and returns it.
+
+==== Get the Content of an Index
+
+`f_EPTF_Common_IndexArray_getElement()`
+
+This function can be used to retrieve the content of the specified index from the IndexArray record. If the index is not found, the returned value will be `_-1_`.
+
+==== Set the Content of an Index
+
+`f_EPTF_Common_IndexArray_setElement()`
+
+This function can be used to set the content of the specified index in the IndexArray record. If any other free indexes are created their content will be `_-1_`.
+
+==== Obtaining a Free Index and Set its Content
+
+`f_EPTF_Common_IndexArray_setNewElement()`
+
+This function can be used to get a free index (an index which value is `_-1_`) from the IndexArray record. If there is no free index, the function creates a new free index. The content of the index will be the data value given in the function. If no data is given the content will be `_-1_`.
+
+==== Free the Content of an Index
+
+`f_EPTF_Common_IndexArray_freeElement`
+
+This function can be used to free the given index. The content of the given index will be `_-1_`.
+
+==== Checking the Emptiness of IndexArray Record
+
+`f_EPTF_Common_IndexArray_arrayIsEmpty()`
+
+This function can be used to check whether the IndexArray record is empty (containing only `_-1_` values).
+
+==== Get the First Busy Index
+
+`f_EPTF_Common_IndexArray_getFirstBusyIdx()`
+
+This function can be used to get the first index in the record which is busy (containing non-negative value).
+
+==== Get the Next Busy Index
+
+`f_EPTF_Common_IndexArray_getNextBusyIdx()`
+
+This function can be used to get the index of the first busy element which is bigger than the given index.
+
+=== Logging
+
+[[logging-an-error-warning-user-messages]]
+==== Logging Error/Warning/User Messages
+
+To log an error/warning or user message call the appropriate function:
+
+`f_EPTF_Common_error(pl_message)`
+
+`f_EPTF_Common_warning(pl_message)`
+
+`f_EPTF_Common_user(pl_message)`
+
+==== Determine the Number of Errors
+
+The number of errors occurred is returned by the function.
+
+`f_EPTF_Common_nofErrorMsgs()`
+
+==== To Retrieve a Certain Error Message
+
+A given error message text can be retrieved by the function.
+
+`f_EPTF_ Common_getErrorMsg(pl_errorNum)`
+
+where `pl_errorNum` gives the id of the error message. The id if the error message starts from `_zero_`, i.e. it is zero for the first error, `_one_` for the second an so on.
+
+==== To Check if an Error Message Matches with a Given Pattern
+
+To check if an error message matches with a given pattern, the function
+
+`f_EPTF_ Common_checkExpectedError(pl_expectedError, pl_errorNum)`
+
+can be used. The `pl_expectedError` is the error pattern that is matched with the occurred error with id `pl_errorNum`. The id of the errors starts from zero. The function returns true if the pattern matches and false if it does not.
+
+See summary table of all public functions for EPTF Common below:
+
+[width="100%",cols="50%,50%",options="header",]
+|=================================================================================
+|Function name |Description
+|`f_EPTF_Common_resetParamRanges` |reset range iterators
+|`f_EPTF_Common_incParamRanges` |increment range iterator
+|`f_EPTF_Common_fillWeightedBuckets` |increasing the least significant range
+|`f_EPTF_Common_RndValues_init_CT` |initialize the RndValues component
+|`f_EPTF_Common_RndValues_getNextRndValue` |get the next pre generated random number
+|=================================================================================
+
+See summary of Common IndexArray functions below:
+
+[width="100%",cols="50%,50%",options="header",]
+|==================================================================================
+|Function name |Description
+|`f_EPTF_Common_IndexArray_getOrCreateFreeSlot` |obtaining a free index
+|`f_EPTF_Common_IndexArray_getElement` |get the content of an index
+|`f_EPTF_Common_IndexArray_setElement` |set the content of an index
+|`f_EPTF_Common_IndexArray_setNewElement` |obtaining a free index and set its content
+|`f_EPTF_Common_IndexArray_freeElement` |free the content of an index
+|`f_EPTF_Common_IndexArray_arrayIsEmpty` |checking the emptiness of IndexArray record
+|`f_EPTF_Common_IndexArray_getFirstBusyIdx` |get the first busy index
+|`f_EPTF_Common_IndexArray_getNextBusyIdx` |get the next busy index
+|==================================================================================

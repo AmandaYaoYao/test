@@ -1,0 +1,17 @@
+= Introduction
+
+== How to Read This Document
+
+This is the Function Description for the RTP protocol module. The RTP protocol module is developed for the TTCN-3 Toolset with TITAN.
+
+== Scope
+
+The purpose of this document is to specify the content of the RTP protocol modules. Basic knowledge of TTCN-3 <<8-references.adoc#_1, [1]>> and TITAN TTCN-3 Test Executor <<8-references.adoc#_2, [2]>> is valuable when reading this document.
+
+== System Requirements
+
+Protocol modules are a set of TTCN-3 source code files that can be used as part of TTCN-3 test suites only. Hence, protocol modules alone do not put specific requirements on the system used. However, in order to compile and execute a TTCN-3 test suite using the set of protocol modules, the following system requirements must be satisfied:
+
+* TITAN TTCN-3 Test Executor Executor version R7A (1.7.pl0) or higher installed. For installation guide see <<8-references.adoc#_2, [2]>>
+
+NOTE: This version of the protocol module is not compatible with TITAN releases earlier than R7A.

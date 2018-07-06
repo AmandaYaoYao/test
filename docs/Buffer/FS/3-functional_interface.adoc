@@ -1,0 +1,163 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading ‎‎<<5-references.adoc#_4, [4]>>.
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_Buffer_`.
+
+== Public Functions
+
+=== Initialization
+
+Before using the EPTF Buffer component the
+
+`f_EPTF_Buffer_init_CT( pl_selfName )`
+
+function should be called. This initializes the EPTF Buffer feature. The EPTF self name of the component shall be passed as parameter (`pl_selfName`).
+
+=== Creating a New Buffer
+
+To create a new buffer the function
+
+`integer f_EPTF_Buffer_new()`
+
+has to be called. It returns an identifier to the buffer that has been created.
+
+=== Clearing the Buffer
+
+If the content of the buffer has to be erased, the function
+
+`f_EPTF_Buffer_clear( pl_bufferId )`
+
+has to be called. It clears the content, all the position pointers of the buffer identified by the `pl_bufferId`.
+
+=== Rewinding the Buffer
+
+The position of the buffer is set to the beginning of the buffer by the function
+
+`f_EPTF_Buffer_rewind( pl_bufferId ).`
+
+=== Get Current Position in the Buffer
+
+The function
+
+`integer f_EPTF_Buffer_get_pos( pl_bufferId )`
+
+gives back the current position of the buffer identified by the `pl_bufferId`.
+
+=== Set Position within Buffer
+
+To set the current position in the buffer, the function
+
+`f_EPTF_Buffer_set_pos( pl_bufferId, pl_pos )`
+
+has to be called.
+
+=== Retrieving Length of the Buffer
+
+The function
+
+`integer f_EPTF_Buffer_get_len( pl_bufferId )`
+
+returns the length of the buffer.
+
+=== Retrieving Data from the Buffer
+
+The data stored in the buffer can be retrieved by the
+
+`f_EPTF_Buffer_get_data( pl_bufferId, out pl_data )`
+
+function.
+
+=== Get Readable Length of the Buffer
+
+To get the max readable length of data in the buffer the function
+
+`integer f_EPTF_Buffer_get_read_len( pl_bufferId )`
+
+has to be called.
+
+=== Get Readable Data Out of Buffer
+
+The function
+
+`f_EPTF_Buffer_get_read_data( pl_bufferId, out pl_data )`
+
+gives back the readable part of data out of the buffer.
+
+=== Put An Octetstring into Buffer
+
+To store an octetstring in the buffer, the function
+
+`f_EPTF_Buffer_put_os( pl_bufferId, pl_data)`
+
+has to be called.
+
+=== Increase Buffer Length
+
+The function
+
+`f_EPTF_Buffer_increase_length( pl_bufferId, pl_count )`
+
+increases the length of the buffer by `pl_count` bytes.
+
+=== Erase the Beginning Part of the Buffer
+
+The function
+
+`f_EPTF_Buffer_cut( pl_bufferId )`
+
+erases the buffer from the beginning to the current position.
+
+=== Erase the End Part of the Buffer
+
+The function
+
+`f_EPTF_Buffer_cut_end( pl_bufferId )`
+
+erases the buffer from the current position to the end of the buffer.
+
+=== Check Whether Buffer Contains a Complete TLV
+
+`boolean f_EPTF_Buffer_contains_complete_TLV( pl_bufferId )`
+
+This function returns true if the buffer contains a complete tag, length, value.
+
+=== Get Readable Data from Buffer from Offset
+
+`f_EPTF_Buffer_getReadDataFromOffset(pl_bufferId, pl_pos, out pl_data)`
+
+This function returns the data from pos to the end of read buffer. The read position is not changed
+
+=== Get Data from Buffer from Offset
+
+`f_EPTF_Buffer_getDataFromOffset(pl_bufferId, pl_pos, pl_count, out pl_data)`
+
+This function returns `pl_count` bytes of data from position `pl_pos` to at most the end of read buffer. The read position is not changed.
+
+== Summary Table of All Public Functions for EPTF Base
+
+See summary of Base functions in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|=====================================================================================================================
+|Function name |Description
+|`f_EPTF_Buffer_init_CT` |Initializes the Buffer Component
+|`f_EPTF_Buffer_new` |Creates a new buffer
+|`f_EPTF_Buffer_clear` |Clears the buffer
+|`f_EPTF_Buffer_rewind` |Rewinds the buffer
+|`f_EPTF_Buffer_get_pos` |Gets the position of the buffer
+|`f_EPTF_Buffer_set_pos` |Sets the position of the buffer
+|`f_EPTF_Buffer_get_len` |Gets the length of the buffer
+|`f_EPTF_Buffer_get_data` |Gets the data of the buffer
+|`f_EPTF_Buffer_get_read_len` |Gets the length of readable data in the buffer
+|`f_EPTF_Buffer_get_read_data` |Gets the readable data in the buffer
+|`f_EPTF_Buffer_put_os` |Puts an octetstring into the buffer
+|`f_EPTF_Buffer_increase_length` |Increase the length of the buffer
+|`f_EPTF_Buffer_cut` |Erases the buffer from the beginning to the current position
+|`f_EPTF_Buffer_cut_end` |Erases the buffer from the current position to the end
+|`f_EPTF_Buffer_contains_complete_TLV` |Returns whether the buffer contains the complete TLV
+|`f_EPTF_Buffer_getReadDataFromOffset` |Returns the data from a given position to the end of the read buffer.
+|`f_EPTF_Buffer_getDataFromOffset` |Returns given bytes of data from a given position to at most the end of read buffer.
+|=====================================================================================================================

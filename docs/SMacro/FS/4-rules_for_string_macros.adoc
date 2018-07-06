@@ -1,0 +1,311 @@
+= Rules for String Macros
+
+This chapter describes how the String Macros should be specified in the String Templates.
+
+== String Macro Syntax
+
+String Macros should follow the following syntax in the String Template:
+
+1.  Simple String Macro: starts with $ character followed by the macro name.
+
+Example: `$MACRO_NAME`
+
+2.  Parenthesis can also be used. This notation is equivalent with the previous one if the String Macro does not have any parameters.
+
+Example: `$(MACRO_NAME)`
+
+3.  String Macro with parameters: String Macros can have parameters. The parameters should follow the macro name and they should be separated by comma character. The value of the parameter should be enclosed in quotation marks.
+
+Example: `$(MACRO_NAME, "par1", "par2", "par3" )`
+
+NOTE: If it is given as a charstring value, the quotation marks (and also other special characters) have to be escaped according to the TTCN-3 standard:
+`"$(MACRO_NAME, \"par1\", \"par2\", \" par3 \")"`
+or
+`"$(MACRO_NAME, ""par1"", ""par2"", "" par3 "")"`
+
+
+== String Macro Name
+
+Macro names must be TTCN-3 charstringtype, but only the following characters are allowed in the macro name:
+
+* lowercase: [a-z]
+* uppercase: [A-Z]
+* number [0-9]
+* underscore: _
+
+Example: `$USER01_NAME`
+
+== String Macro Parameters
+
+String Macros can have any number of TTCN-3 charstringtype parameters which must be separated by comma characters from the macro name and from each other. Each parameter is passed to the macro calculator function (if it is registered for the String Macro) when the macro value has to be determined during processing the String Template.
+
+Example:
+
+[cols=",",options="header",]
+|==================================================
+|String Template |`"How much is $(SUM, "31", "11")?"`
+|String Macro |`SUM(arg1,arg2)`
+|Value of String Macro |`_arg1&"+"&arg2_`
+|Resolved String Template |`"How much is 31+11?"`
+|==================================================
+
+In the example above the value of the SUM macro is calculated through a custom function which concatenates its two arguments and places a "+" sign between them.
+
+As you can see in the example above the parameters are enclosed in quotation marks which are escaped with "\" character. This has to be done according to the rules mentioned in section <<escape_rules_for_string_macro_parameters, Escape Rules for String Macro Parameters>>.
+
+=== String Template as a Parameter
+
+The parameters of the String Macros can be String Templates. It means that the parameters can contain String Macros.
+
+Example:
+
+[cols=",",options="header",]
+|========================================================================================
+|String Template |`"The sender address is: $(EMAIL,\"$(USER)"\,\ "$(HOST)"\)"`
+|String Macros |`EMAIL(name, host)`` +
+`USER` +
+`HOST`
+|Value of String Macros |`_name&"@"&host"ethjgi"ericsson.com"_`
+|Resolved String Template |`"The sender address is: ethjgi@ericsson.com"`
+|========================================================================================
+
+[[escape_rules_for_string_macro_parameters]]
+=== Escape Rules for String Macro Parameters
+
+As you can see in the rules above the parameters have to be enclosed in quotation marks in order to the parser of the `SMacro` feature can recognize them. Since the String Templates are TTCN-3 charstringtype these quotation mark needs to be escaped in the String Template when it is used in TTCN-3 code.
+
+==== Escaping in 1st Level
+
+The theoretical syntax of the String Macro with parameters looks like this (this is what you see when you open a file that contains this String Template):
+
+[source]
+----
+MACRO1 value: $(MACRO1, "parameter1", "parameter2")
+MACRO2 value: $(MACRO2, "parameter3")
+----
+
+However, when it is read into a TTCN-3 charstring, it looks like this (the whole string is enclosed in quotation marks and special characters are escaped):
+
+[source]
+----
+"MACRO1 value: $(MACRO1, \"parameter1\", \"parameter2\")
+MACRO2 value: $(MACRO2, \"parameter3\")"
+----
+
+In practice it is recommended to use the log2str built-in TITAN function which does this escaping task automatically. Example TTCN-3 code to create the String Template above:
+
+[source]
+----
+var charstring my_stringTemplate :=
+"MACRO1 value: $(MACRO1, "&log2str("parameter1")&", "&log2str("parameter2")&")
+MACRO2 value: $(MACRO2, "&log2str("parameter3")&")";
+----
+
+==== Higher Escape Levels
+
+The escape level depends on how deep the macro is embedded into the parameters. For example, when MACRO2 is given as the 2nd parameter of MACRO1 (theoretical syntax), the String Template reads:
+
+[source]
+----
+My string template:
+$(MACRO1,"parameter1","$(MACRO2, \"parameter3\")")
+----
+
+According to the escaping rules it follows, in TTCN3 `charstring` the already escaped quotation mark should be escaped again, so the String Template in TTCN3 looks like this:
+
+[source]
+----
+"My string template:
+$(MACRO1, \"parameter1\", \"$(MACRO2, \\\"parameter3\\\")\")"
+----
+
+Much more readable version with log2str built-in TITAN function:
+
+[source]
+----
+"My string template:
+$(MACRO1, "&log2str("parameter1")&", "
+&log2str("$(MACRO2, "&log2str("parameter3")&")")&")"
+----
+
+It can be simplified even more if the parameters are put into `charstring` variables:
+
+[source]
+----
+var charstring vl_par1 := "parameter1";
+var charstring vl_par3 := "parameter3";
+var charstring vl_par2 :=
+"$(MACRO2, "&log2str(vl_par3)&")";
+
+var charstring vl_stringTemplate :=
+"My string template:
+$(MACRO1, "&log2str(vl_par1)&", "
+&log2str(vl_par2)&")"
+----
+
+== String Macro Value
+
+The String Macro value is a constant value given at the definition of the String Macro. However, it can also be calculated by a custom function during runtime. The value of the String Macro can be any value accepted by TTCN-3 charstring type. It can also contain String Macros, which means that the value of the String Macro can be a String Template.
+
+=== String Template as a Value
+
+The value of the String Macro can be a String Template as well. In this case the resolved String Template is re-evaluated until the final string does not contain any String Macro.
+
+Example:
+
+[cols=","]
+|================================================
+|String Template |`"The sender address is: $(SENDER)"`
+|String Macro |`SENDER` +
+`USER`
+|Value of String Macro |`_"$USER@ericsson.com"_`
+`_"ethjgi"_`
+|Resolved String Template |`"The sender address is: ethjgi@ericsson.com"`
+|================================================
+
+=== Handling Undefined String Macros
+
+String Macro which cannot be resolved stays in the String Template without changes.
+
+Example:
+
+[cols=","]
+|================================================
+|String Template |`"Username is: $USER"`
+|String Macro |`UNKNOWN`
+|Value of String Macro |Not defined
+|Resolved String Template |`"Username is: $USER"`
+|================================================
+
+== Calculating String Macro Value with Custom Functions
+
+The value of the String Macros can be calculated by user defined callback functions.
+
+=== Callback Function Type
+
+Macro calculator functions must be type of:
+
+[source]
+----
+f_EPTF_CLL_SMacro_calc_FT(
+  in EPTF_CharstringList pl_args,
+  in EPTF_IntegerList pl_userArgs := {}
+) runs on self return charstring
+----
+
+The `pl_args` formal parameter gets its value from the parameters of the String Macro in the String Template.
+
+The return value must be TTCN-3 charstring type. Its return value is used as the value of the String Macro for which this function is registered.
+
+[source]
+----
+Example for the SUM macro:
+function f_calc_sum(
+  in EPTF_CharstringList pl_args,
+  in EPTF_IntegerList pl_userArgs := {}) {
+  return pl_args[0]&”+”&pl_args[1];
+}
+----
+
+[[register-deregister-callback-function]]
+=== Register/Deregister Callback Function
+
+Macro calculator functions should be registered by calling `f_EPTF_SMacro_registerCalcFn` function.
+
+Example:
+
+[source]
+----
+f_EPTF_SMacro_registerCalcFn(
+  pl_functionName := “f_calc_sum”,
+  pl_macro_function := refers(f_calc_sum)
+)
+----
+
+It is possible to register the same function with different names. If the register function is called more than once with the same function name, the last function reference is used for that name, therefore it is possible to reregister the callback function.
+
+Callback functions can be deregistered by calling `f_EPTF_SMacro_deregisterCalcFn` function.
+
+=== Define String Macros
+
+String Macros can be defined by calling `f_EPTF_SMacro_define` function. This function assigns a value to the given macro name.
+
+When the value of the String Macro should be calculated through custom function, the value given for the define function should be the same as the registered name of the callback function.
+
+Example: defining SUM macro where the macro value is an already registered function name
+
+`f_EPTF_SMacro_define("SUM", "f_calc_sum");`
+
+[cols=",",]
+|==================================================
+|String Template |`"How much is $(SUM, "31", "11")?”`
+|Registered function for SUM |`f_calc_sum`
+|Resolved String Template |`"How much is 31+11?"`
+|==================================================
+
+If the `f_calc_sum` is not registered or registered as a NULL macro calculation function, the macro has the constant defined value `f_calc_sum`.
+
+Example:
+
+[cols=","]
+|=====================================================
+|String Template |`"How much is $(SUM, "31", "11")?"`
+|Registered function for SUM |`NULL`
+|Resolved String Template |`"How much is f_calc_sum"?`
+|=====================================================
+
+== EVAL Built in Macro
+
+There is a built in macro called EVAL to evaluate mathematical expressions. It does not have to be defined by the user. However, it can be redefined or its function (`f_EPTF_SMacro_calcFn_EVAL`) can be re-registered or even undefined if necessary with the public API functions.
+
+Example:
+
+[width="100%",cols="50%,50%"]
+|======================================================================================================
+|String Template |`"The value of $(SUM, \"31\", \"11\") is: $(EVAL,\"$(SUM, \\\"31\\\",\\\"11\\\")\")."`
+|String Macro |`SUM(arg1,arg2)`
+|Value of String Macro |`_arg1&"+"&arg2_`
+|Resolved String Template |`"The value of 31+11 is: 42."`
+|======================================================================================================
+
+=== Supported Operators
+
+The following operators are supported:
+
+[width="100%",cols="20%,20%,20%,20%,20%",options="header",]
+|================================================================================================
+|*Operator* |*Precedence level* |*Type of 1^st^  argument* |*Type of 2^nd^ argument* |*Type of result*
+|parenthesis |0 |float |n.a. |float
+|Multiplication * |1 |float |float |float
+|Division / .2+|1 |float |float (ERROR in case of zero) |float
+|Division / (modulus) |integer |integer (ERROR in case of zero |integer
+|Remainder % |1 |integer |integer (ERROR in case of zero) |integer
+|Addition + |2 |float |float |float
+|Subtraction - |2 |float |float |float
+|================================================================================================
+
+If the divisor is `_zero_` in case of division or remainder, the macro value is resolved according to the following string:
+
+`(EVAL: Error: Division by zero.).`
+
+The evaluation of operators with the same precedence level is performed from left to right.
+
+=== Auto-EVAL
+
+It is possible to automatically call the built-in `EVAL` macro when the String Template is fully resolved. (That is when there is no more String Macro that needs to be resolved in the String Template). This functionality can be turned on by setting the `pl_autoEVAL` parameter of `f_EPTF_SMacro_resolve` function to `_true_`.
+
+Example: without `autoEVAL`
+
+[cols=","]
+|===============================================================================
+|String Template |`"Result of 2+4/2*3-1 is: $(EVAL, \"2+4/2*3-1\" )."`
+|Resolved String Template |`"Result of 2+4/2*3-1 is: 7."`
+|===============================================================================
+
+Example: with `autoEVAL` set to `_true_` (even if there is no `EVAL` macro in the String Template, the mathematical expression is calculated)
+
+[cols=",",options="header",]
+|===============================================================================
+|String Template |`"Result of 2+4/2*3-1 is: $(EVAL, \"2+4/2*3-1\" )."`
+|Resolved String Template |`"Result of 7 is: 7."`
+|===============================================================================

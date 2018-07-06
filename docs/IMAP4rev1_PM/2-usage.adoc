@@ -1,0 +1,26 @@
+= Usage
+
+== Installation
+
+The set of protocol modules can be used in developing TTCN-3 test suites using any text editor; however, to make the work more efficient a TTCN3enabled text editor is recommended (for example, nedit, xemacs). Since the IMAP 4rev1 protocol is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<5-references.adoc#_2, [2]>>.
+
+== Configuration
+
+None.
+
+== Message Dissection Function for IPL4 Test Port
+
+The protocol module provides base function for message dissection:
+
+[source]
+external function IMAP_get_msg_length(in octetstring stream, in boolean client_side:=true) return integer
+
+The function returns the length of the first complete message in the stream buffer or `_-1_` if the buffer contains only incomplete message.
+
+In client side, the function takes into account the literals, so the length of the whole message returned.
+
+In server side, the literals should not be taken into account, because the server should prepare a buffer to hold the literal. See section 7.5 of <<5-references.adoc#_5, [5]>>. The message boundary calculated by the position of the first CRLF, so the reception of the literals should be handled by the test case code.
+
+== Examples
+
+None.

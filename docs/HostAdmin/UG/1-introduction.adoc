@@ -1,0 +1,18 @@
+= Introduction
+
+== About This Document
+
+=== How to Read This Document
+
+This is the User Guide for the Host Admin of the Ericsson Performance Test Framework (TitanSim), Core Load Library (CLL). TitanSim CLL is developed for the TTCN-3 <<6-references.adoc#_1, [1]>> Toolset with TITAN <<6-references.adoc#_2, [2]>>. This document should be read together with the Function Description of the Host Admin feature <<6-references.adoc#_5, [5]>>. For more information on the TitanSim CLL, consult the Users Guide <<6-references.adoc#_4, [4]>> and the Function Specification <<6-references.adoc#_3, [3]>> of the TitanSim.
+
+== System Requirements
+
+In order to use the Host Admin feature the system requirements listed in TitanSim CLL User Guide [5] should be fulfilled.
+
+The Host Admin feature supports the following operating systems:
+
+* Solaris 5.6
+* Solaris 5.8
+* Linux
+* Win32 / Cygwin

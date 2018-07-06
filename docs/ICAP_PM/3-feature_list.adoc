@@ -1,0 +1,20 @@
+= Feature List
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product also contains encoding/decoding functions that assure correct encoding of messages when sent from TITAN and correct decoding of messages when received by TITAN. Implemented encoding/decoding functions:
+
+[cols=3*,options=header]
+|===
+
+|Name |Type of formal parameters |Type of return value
+
+|`f_ICAP_Enc_binary` |(in PDU_ICAP pl_msg) |octetstring;
+|`f_ICAP_Dec_binary` |(in octetstring pl_stream) |PDU_ICAP;
+|`f_ICAP_MessageLength` |(in octetstring pl_stream) |integer;
+|===
+
+=== Message Length Function
+
+The `f_ICAP_MessageLength` function returns the length of the ICAP message from an octetstring. If the length cannot be determined, then it returns the value `_-1_`.

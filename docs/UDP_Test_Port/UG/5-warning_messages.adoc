@@ -1,0 +1,7 @@
+= Warning Messages
+
+The following list shows the possible warning messages produced by the test port:
+
+``*UDPasp__PT::set_parameter() : Unsupported Test Port parameter <parameter>.*`
+
+The parameter set in the configuration file is unknown for the UDP test port.

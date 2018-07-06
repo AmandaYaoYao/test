@@ -1,0 +1,83 @@
+= Base
+
+== Overview
+
+The EPTF Base component is a fundamental component that handles common tasks that should be implemented in all EPTF components. All EPTF components should extend this component (i.e. explicitly) or a component that extends this component (i.e. implicitly).
+
+The Base component
+
+* stores the name of the component
+* manages the clean up so that the component could terminate gracefully. This solution is similar to the C++ "destructor" concept.
+* provides relative and absolute time querying functions
+* provides functions to convert the component type to/from integer
+* makes negative testing possible with error and assert functions
+* provides process information on every PTC running on components extending the EPTF Base component
+* enables/disables DTE handling functionality in the whole CLL
+
+To be able to use EPTF Base, the user component should extend the `EPTF_Base_CT` component and call its initializing function. When the component terminates it should call one of the `cleanup`/`stop`/`stopAll` functions of the Base component.
+
+[[description_of_files_in_this_feature]]
+== Description of Files in This Feature
+
+The EPTF CLL Base API includes the following files:
+
+* Base
+** __EPTF_CLL_Base_Definitions.ttcn__: +
+This TTCN-3 module contains common type definitions used by the Base Component.
+** __EPTF_CLL_Base_Functions.ttcn__: +
+This TTCN-3 module contains the implementation of Base functions.
+** __EPTF_CLL_Base_ExternalFunctions.cc__: +
+This TTCN-3 module contains external functions for EPTF Base.
+
+[[description_of_required_files_from_other_features]]
+== Description of Required Files from Other Features
+
+The EPTF Base feature depends on the following features of EPTF:
+
+* Common
+
+== Installation
+
+Since `EPTF_CLL_Base` is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor see the relevant section of ‎<<7-references.adoc#_2, ‎[2]>>.
+
+If not otherwise noted in the respective sections, the following are needed to use `EPTF_CLL_Base`:
+
+1. Copy the files listed in section <<description_of_files_in_this_feature, Description of Files in This Feature>> and <<description_of_required_files_from_other_features, Description of Required Files from Other Features>> to the directory of the test suite or create symbolic links to them.
+2. Import the Base demo or write your own application using EPTF Base.
+3. Create _Makefile_ or modify the existing one. For more details see the relevant section of ‎<<7-references.adoc#_2, [2]>>.
+4. Edit the config file according to your needs, see following section <<configuration, Configuration>>.
+
+[[configuration]]
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual suffix of configuration files is _.cfg_. For further information on the configuration file see <<7-references.adoc#_2, ‎[2]>>.
+
+This Base feature defines TTCN-3 module parameters as defined in ‎<<7-references.adoc#_2, [2]>>, clause 4. Actual values of these parameters – when no default value or a different from the default actual value wished to be used – shall be given in the `[MODULE_PARAMETERS]` section of the configuration file.
+
+The EPTF Base feature defines 2 module parameters:
+
+* `tsp_EPTF_Base_serialStopAllComponents`:
+** If `_true_`: components are stopped one after another,
+** Otherwise: in parallel (faster, but might lead to errors).
+
+Default: `_true_`
+
+* `tsp_EPTF_Base_debug`:
+** if `_true_`: the debug style messages are logged into the logfiles
+** Otherwise not.
+
+Default: `_false_`
+
+== Design Rules
+
+To be able to use the EPTF Base functionality in a proper way, the following design rules have to be followed in any component that uses EPTF Base features:
+
+1. Call all the init functions of those components that your component explicitly extends in your init function. For example,  the `f_EPTF_Base_init_CT` in case your component extends the `EPTF_Base_CT` component
+2.  Initialize your component variables
+3.  Activate your default altsteps
+4.  Register your cleanup function by `f_EPTF_Base_registerCleanup` at the end of your init function
+5.  Call `f_EPTF_Base_cleanup_CT` before your component terminates, or call `f_EPTF_Base_stop` if the execution should be stopped (For example, because of an error the execution is forced to stop immediately)
+6.  Do not call any cleanup function anywhere, especially inside your cleanup function. Only the cleanup function of the Base component should be called
+7.  Make sure that any event that comes after the cleanup function was called, is discarded (or does not cause problems) by for example, deactivating your default altsteps in your cleanup function
+8.  Make sure that if any of your functions is called if your feature is not initialized, it does not cause an error, similarly port operations (send function) do not cause error if the port is not connected
+9.  Make sure that your init and cleanup functions can be called several times (by doing nothing during the additional calls)

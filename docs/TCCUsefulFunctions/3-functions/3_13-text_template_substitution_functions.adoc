@@ -1,0 +1,47 @@
+= Text Template Substitution Functions
+
+== Overview
+
+This module enables to do string substitutions on a text template accord to a given dictionary. The dictionary tells what to substitute to a new string, but not only strings can be in the dictionary, but simple patterns too, and the may contain function references to calculate the new string.
+
+Message Handling Functions are implemented in the following files:
+
+* __TCCTemplate_Functions.ttcn__
+
+Patterns can be used as dictionary keys. Every character will match itself, but the "\w" meta string will match one or more characters in the text template. The substrings matched with "\w" will be passed to the function referenced in the dictionary as a list of charstrings.
+
+== Function Definitions
+
+The following Template Functions shall be defined:
+
+`function f_Template_substitutetemplate(in TCCSubstitutionList pl_dict, in charstring pl_string) return charstring`
+
+This function applies the dictionary to its parameter `pl_string`, and gives the result back.
+
+`function f_Template_subsfiletemplate(in TCCSubstitutionList pl_dict, in charstring pl_file) return charstring`
+
+The function reads in the given files content, applies the dictionary to it, and gives the result back.
+
+== Error Messages
+
+`*Error while closing file!*`
+
+May happen when `f_Template_subsfiletemplate` is used, and the file can not be closed. ``´´ returned in this case.
+
+== Warning Messages
+
+None.
+
+== Examples
+
+[source]
+----
+function nlist(in charstringList pl_params) return charstring\{
+  // log("params":",pl_params,"\n");
+  if (sizeof(pl_params)==3 and pl_params[2]==``R'')\{
+    return int2str(6453);
+  } else \{ return int2str(9);}
+}
+
+log(f_Template_subsfiletemplate(\{\{latexmath:[$(caiSs)&quot;,&quot;CAISS&quot;,omit},{&quot;$](caiSq)'',``CAISQ'', omit},\{``$(<\w..\w>[\w])'',``'', refers(nlist)}},``cai3g_delete_PoCGroupsXDMSUser.body''));
+----

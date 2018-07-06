@@ -1,0 +1,125 @@
+= Variable
+
+== Overview
+
+The EPTF CLL Variable component is a fundamental component providing an enhanced implementation for variables in a TTCN-3 test environment. It has been developed specifically for load test requirements, but can be used in other application areas, as well.
+
+[[description_of_files_in_this_feature]]
+== Description of Files In This Feature
+
+The EPTF CLL Variable API includes the following files:
+
+* Variable
+** __EPTF_CLL_Variable_Definitions.ttcn__ - This TTCN-3 module contains common type definitions that should be used in all Variable Components.
+** __EPTF_CLL_Variable_Functions.ttcn__ - This TTCN-3 module contains the implementation of Variable functions.
+** __EPTF_CLL_Variable_ExternalFunctions.cc__ - This TTCN-3 module contains the c++ implementation of external functions of Variable.
+
+[[description_of_required_files_from_other_features]]
+== Description of Required Files From Other Features
+
+The Variable feature is part of the TitanSim EPTF Core Load Library (CLL). It relies on several features of the CLL. The user has to obtain the products/files to be found under the respective feature names:
+
+* `Base`
+* `Common`
+* `Hashmap`
+* `FreeBusyQueue`
+* `TCCUsefulFunctions`
+
+== Installation
+
+Since EPTF CLL Variable is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions.
+
+If not otherwise noted in the respective sections, the following are needed to use `EPTF_CLL_Variable`:
+
+* Copy the files listed in section <<description_of_files_in_this_feature, Description of Files In This Feature>> and <<description_of_required_files_from_other_features, Description of Files In This Feature>> to the directory of the test suite or create symbolic links to them.
+* Import the Variable demo or write your own application using Variable.
+* Create _Makefile_ or modify the existing one.
+* Edit the config file according to your needs.
+
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual suffix of configuration files is _.cfg_.
+
+Actual values of these parameters – when there is no default value or a different from the default actual value to be used – shall be given in the `[MODULE_PARAMETERS]` section of the configuration file.
+
+The EPTF Variable feature defines the following module parameters:
+
+boolean `EPTF_CLL_Variable_Definitions. tsp_debugVerbose_PoolMgmt`
+
+This module parameter can be used to enable debugging of the pool of booleans used for handling blocking situations.
+
+Default: `_false_`.
+
+float `tsp_EPTF_Var_SyncInterval`
+
+This module parameter sets the period in seconds for refreshing the buffered subscribers (`timeLine`, `sampled`, `sampledAtSync` subscription modes).
+
+Default: `_10.0_`
+
+boolean `tsp_EPTF_Var_enableName2Id`
+
+Enables the `hashMap` used for finding variables by name.
+
+Default: `false`
+
+boolean `tsp_EPTF_Var_enableCompRef2Id`
+
+Enables the `hashMap` used for finding variables by component reference.
+
+Default: `false`
+
+boolean `tsp_EPTF_Var_enableEmptyTimeLine`
+
+By default the heartbeat message that is sent to all remote components where there are subscribers is disabled. This module parameter can be used to enable this heartbeat. It is not recommended to enable this module parameter because the heartbeat messages can generate a lot of internal messages.
+
+Default: `_false_`
+
+charstring `tsp_EPTF_Var_snapshotFilename`
+
+The default name of the snapshot file without the timestamp used by the function `f_EPTF_Var_save`.
+
+Its default value is `_"EPTF_Var_SnapshotFile"_`.
+
+charstring `tsp_EPTF_Var_snapshotTimestamp`
+
+The default timestamp of the snapshot file used by the function `f_EPTF_Var_save`.
+
+Its default value is `_"__%Y-%m-%d__%H.%M.%S.cfg"_`.
+
+float `tsp_EPTF_Var_maxWaitTimeForByeAck`
+
+The maximum waiting time for `ByeAck` messages during cleanup.
+
+Its default value is `_240.0_` sec.
+
+== Usage
+
+To use the EPTF Variable feature
+
+* extend your component with the `EPTF_Var_CT` component.
+* call the init function of the Variable to initialize the feature
+* use its public functions to create/adjust/subscribe for variables
+
+NOTE: The init function activates the main altstep of the Variable, so it is not necessary to call it explicitly in any of your altsteps.
+
+Do not access the component variables in `EPTF_Var_CT` directly! Use the API functions instead.
+
+To create EPTF Variables use the `f_EPTF_Var_new`* functions. To modify their values use `f_EPTF_Var_adjust__`. To set a new value without invoking the refresh mechanism (notifying the subscribers) call `f_EPTF_Var_set__`. For subscribing to variables in remote PTC-s use `f_EPTF_var_subscribe`*.
+
+NOTE: When you create referenced EPTF Variables do not modify the referred variables afterwards (do not add new elements to arrays, record of-s). This is especially true if you are assigning referenced EPTF Variables to elements of *record of* types. Adding new elements may result in memory reallocation and that will make the stored references in the EPTF Variables unusable.
+
+Guard functions can be used to validate new values before setting them into the EPTF Variables.
+
+`CalcFn` function can be used to automatically calculate the value of an EPTF Variable from other EPTF Variables.
+
+`PostProc` functions can be used to perform some tasks after the value of the EPTF Variable was set, but before the subscribers were notified.
+
+The unsubscribe notify functions are useful to get call-back if the variable was unsubscribed from its provider.
+
+The adjust handler (argument of the adjust function) can be used to perform some task after the adjust response is received, but without blocking the execution of the process calling the adjust function.
+
+It is possible to register callback functions for the sync-event for any refresh rate (the event when the update of `timelined`, `sampled` etc. subscribers takes place for a given refresh rate) by the `f_EPTF_Var_addSyncCallBackFn` function. All registered callbacks are called in order of registration before/after the updates are sent to the subscribers.
+
+It is also possible to snapshot the value of all EPTF Variables registered to save by the function `f_EPTF_Var_registerVarToSave` with the help of the function `f_EPTF_Var_save`. It saves the value of EPTF Variables in a module parameter format. To load the saved data call `f_EPTF_Var_loadVarsFromCfg`.
+
+NOTE: The saved file should be included into the runtime configuration file and the module parameter in it shall be defined in a TTCN-3 module.

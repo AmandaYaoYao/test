@@ -1,0 +1,5 @@
+= Warning Messages
+
+`*WARNING: “INIT__CODEC: File %s contains uncomplete blocks“, filenam*`
+
+`*WARNING: “Operation_Check: This is an uncomplete block. Size: %d byte/bytes.“, bytes_to_operation*`

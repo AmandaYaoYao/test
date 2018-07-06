@@ -1,0 +1,11 @@
+= Error messages
+
+The following list contains the error messages of the PIPE testport:
+
+`*select system call fails (<errno>): <reason>*`
+
+This is a critical error. The error number and the description are shown.
+
+`*Cannot redirect stdin/stdout/stderr*`
+
+The stdin, stdout or stderr cannot be redirected, because dup2 system call failed

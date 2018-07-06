@@ -1,0 +1,30 @@
+= Functionality
+
+The MQTT v3.1.1 protocol module implements the message structures of the related protocol in a formalized way, using the standard specification language TTCN-3. This allows defining of test data (templates) in the TTCN-3 language and correctly encoding/decoding messages when executing test suites using the Titan TTCN-3 test environment.
+
+== Implemented Protocols
+
+This protocol module implements the protocol messages and constants of the MQTT v3.1.1 protocol <<5-references.adoc#_4, [4]>>.
+
+[[modifications-deviations-related-to-the-protocol-specification]]
+== Modifications/Deviations Related to the Protocol Specification
+
+=== Unimplemented Messages, Information Elements and Constants
+
+None.
+
+=== Ericsson-Specific Changes
+
+None.
+
+== Backward Incompatibilities
+
+None.
+
+== System Requirements
+
+Protocol modules are a set of TTCN-3 source code files that can be used as part of TTCN-3 test suites only. Hence, protocol modules alone do not put specific requirements on the system used. However, in order to compile and execute a TTCN-3 test suite using the set of protocol modules the following system requirements must be satisfied:
+
+* Titan TTCN-3 Test Executor version CRL 113 200/5 R4A (5.4.pl0) or higher installed. For Installation Guide see <<5-references.adoc#_2, [2]>>.
+
+NOTE: This version of the test port is not compatible with Titan releases earlier than CRL 113 200/5 R4A.

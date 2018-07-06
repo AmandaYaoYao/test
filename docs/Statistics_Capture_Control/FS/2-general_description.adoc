@@ -1,0 +1,26 @@
+= General Description
+
+This document specifies the Statistics Capture Control feature of the EPTF Core Library.
+
+The EPTF Statistics Capture Control feature makes it possible to
+
+* Group Statistics into Capture Groups with a specified Sample Time
+* Define output log files per Capture Group
+* Print the value of Statistics in the Group to the log files periodically, at Sample Time intervals
+* Modify Capture Group parameters
+* Create/Delete Capture Group(s)
+* Start capturing per group, stop capturing a group, and restart it
+* Optionally: to automatically control the statistics capture according to the selected Capture Control Mode
+* Capture on remote component
+
+The statistics data is calculated by the EPTF Statistics Measure feature of the EPTF CLL based on EPTF Variable values. The EPTF CLL Statistics Measure feature <<9-references.adoc#_6, ‎[6]>> makes it possible to create several Statistics belonging to the same EPTF Variable. These Statistics can have different types (content, delta, min, max, etc.) and also several Statistics of the same type can be defined to each Variable (for example min, delta, deltaSum).
+
+In the EPTF Statistics Capture Control feature, for all Statistics, it can be defined, whether they should be reset periodically. The reset period is the same as the timer period of the capture group, in which the Statistics is inserted.
+
+The aim of the EPTF Statistics Capture Control feature is to group certain Statistics into Capture Groups and to print Capture Group contents regularly at sampling intervals to predefined capture files.
+
+Apart from controlling (starting/stopping/restarting) Statistics Capture with the functions of the API belonging to the `EPTF_StatCapture_CT` component, an optional component, the `EPTF_StatCaptureControl_CT` can be used to achieve automatic capture control. Note that this is an optional, extended functionality.
+
+If the user application includes the `EPTF_StatCaptureControl_CT` component as well, then the starting and stopping of the Statistics Capture can be done automatically according to the selected Capture Control Mode.
+
+To be able to use EPTF Statistics Capture, the user component should extend the `EPTF_StatCapture_CT` component. If the automatic Capture Control functionality is also needed, the user component should extend the `EPTF_StatCapture_Control_CT` component. In order to capture statistics on a remote component, the generating components should extend the `EPTF_StatCaptureClient_CT`, the statistic logger component should extend the `EPTF_StatCapture_CT`.

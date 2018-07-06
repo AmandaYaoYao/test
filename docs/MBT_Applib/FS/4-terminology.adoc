@@ -1,0 +1,25 @@
+= Terminology
+
+*TitanSim Core (Load) Library(CLL):* +
+It is that part of the TitanSim software that is totally project independent. (I.e., which is not protocol-, or application-dependent). The TitanSim CLL is to be supplied and supported by the TCC organization. Any TitanSim CLL development is to be funded centrally by Ericsson.
+
+*TitanSim Appliaction Library:* +
+It is the application-specific part of the TitanSim software. It provides load generation functionalities belonging to specific protocols or products.
+
+= Abbreviations
+
+Applib:: Application Library
+
+CLL:: Core Load Library
+
+EPTF:: Ericsson Performance Test Framework
+
+FSM:: Finite State Machine
+
+MBT:: Modell Based Testing
+
+TTCN-3:: Test and Test Control Notation version 3
+
+SUT:: System Under Test
+
+TitanSim:: New synonym for the EPTF framework

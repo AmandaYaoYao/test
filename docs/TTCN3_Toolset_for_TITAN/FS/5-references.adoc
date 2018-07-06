@@ -1,0 +1,104 @@
+= References
+
+See the introduction of Section ‎3 for the location of feature documentations in the delivery VOB.
+
+[[_1]]
+[1] ETSI ES 201 873-1 v3.2.1 (2007-02) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] User Guide for the TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] TitanSim CLL for TTCN-3 toolset with TITAN, User Guide
+
+[[_4]]
+[4] TitanSim CLL for TTCN-3 toolset with TITAN +
+http://ttcn.ericsson.se/products/libraries.shtml[Reference Guide]
+
+[[_5]]
+[5] Project Specification for TitanSim R2
+
+[[_6]]
+[6] Quick Study on TITANSim R2 development
+
+[[_7]]
+[7] EPTF CLL Base, Function Description
+
+[[_8]]
+[8] EPTF CLL Common, Function Description
+
+[[_9]]
+[9] EPTF CLL ExecCtrl, Function Description
+
+[[_10]]
+[10] EPTF CLL Free Busy Queue, Function Description
+
+[[_11]]
+[11] EPTF CLL HashMap, Function Description
+
+[[_12]]
+[12] EPTF HostAdmin, Function Description
+
+[[_13]]
+[13] EPTF CLL LGenBase, Function Description
+
+[[_14]]
+[14] EPTF CLL LoadRegulator, Function Description
+
+[[_15]]
+[15] EPTF CLL Logging, Function Description
+
+[[_16]]
+[16] EPTF CLL LoggingUI, Function Description
+
+[[_17]]
+[17] EPTF CLL NameService, Function Description
+
+[[_18]]
+[18] EPTF CLL PTCDeployment, Function Description
+
+[[_19]]
+[19] EPTF CLL RedBlackTree, Function Description
+
+[[_20]]
+[20] EPTF CLL RingBuffer, Function Description
+
+[[_21]]
+[21] EPTF CLL Scheduler, Function Description
+
+[[_22]]
+[22] EPTF CLL Semaphore, Function Description
+
+[[_23]]
+[23] EPTF CLL StatCapture, Function Description
+
+[[_24]]
+[24] EPTF CLL StatMeasure, Function Description
+
+[[_25]]
+[25] EPTF CLL StatReplay, Function Description
+
+[[_26]]
+[26] EPTF CLL UIHandler, Function Description
+
+[[_27]]
+[27] EPTF CLL Variable, Function Description
+
+[[_28]]
+[28] EPTF CLL Transport, Function Description
+
+[[_29]]
+[29] EPTF CLL Rendezvous, Function Description
+
+[[_30]]
+[30] EPTF CLL Central Scheduling, Function Description
+
+[[_31]]
+[31] EPTF CLL Time Profile Editor, Function Description
+
+[[_32]]
+[32] EPTF CLL Random N Array, Function Description
+
+[[_33]]
+[33] EPTF CLL Stat Handler, Function Description

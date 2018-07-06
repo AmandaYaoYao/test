@@ -1,0 +1,13 @@
+= Terminology
+
+TITAN TTCN-3 Test Executor (see <<5-references.adoc#_3, [3]>>).
+
+= Abbreviations
+
+3GPP:: 3rd Generation Partnership Project
+
+BSSAP:: Base Station Subsystem Application Part
+
+BSSMAP:: Base Station Subsystem Management Application Part
+
+TTCN-3:: Testing and Test Control Notation version 3

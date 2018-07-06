@@ -1,0 +1,142 @@
+= Summary Table of All Public Functions for UIHandler
+
+See summary of UIHandler functions in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|======================================================================================================================================================================================================================================================
+|Function name |Description
+|`f_EPTF_UIHandler_init_CT` |Initialises the `EPTF_UIHandler_CT`
+|`f_EPTF_UIHandlerClient_init_CT` |Initialises the `EPTF_UIHandlerClient_CT` component
+|`f_EPTF_UIHandler_CLI_init_CT` |The initialization function of the `EPTF_UIHandler_CLI_CT` component..
+|`f_EPTF_UIHandler_clearGUI` |Sends a message to user interface via XTDP port to remove all the elements.
+|`f_EPTF_UIHandler_addWindow` |Adds a new window widget to the RuntimeGUI
+|`f_EPTF_UIHandler_addMainTabbox` |Tries to add the main tabbox to the RuntimeGUI
+|`f_EPTF_UIHandler_addMainTabpages` |Tries to add the TabPages to the RuntimeGUI
+|`f_EPTF_UIHandler_XSD_addElementToGui` |if the element to add to the Runtime Gui proves to be valid (will not destroy consistency), function sends out singleAddElementToGUI XTDP addRequest to the Gui and also adds this new element to GUI item list.
+|`f_EPTF_UIHandler_XSD_encodeXUL` |Encodes XTDP widgets the string
+|`f_EPTF_UIHandler_XSD_decodeXUL` |Decodes XTDP widgets from string
+|`f_EPTF_UIHandler_removeElementFromGui` |Removes an element from the GUI.
+|`f_EPTF_UIHandler_snapshot` |Makes a snapshot of the GUI as a charstring.
+|`f_EPTF_UIHandler_snapshotWindow` |Makes a snapshot of the GUI's root widget (windowelem) as a charstring.
+|`f_EPTF_UIHandler_XSD_encodeWindowXUL` |Encodes a XUL Window record to its charstring representation
+|`f_EPTF_UIHandler_XSD_encodeXULEm` |Encodes an Embedded XUL record to its charstring representation
+|`f_EPTF_UIHandler_preprocessAliasXUL` |Preprocess alias items in XUL charstring
+|`f_EPTF_UIHandler_XSD_decodeXULEm` |Decodes a XUL record to its charstring representation
+|`f_EPTF_UIHandler_saveLayout` |Saves the parameter charstring as a window layout.
+|`f_EPTF_UIHandler_convertLayout` |Converts the charstring retreived by the `f_EPTF_UIHandler_snapshot` function to a storeable format.
+|`f_EPTF_UIHandler_revertLayout` |Restores the charstring converted by the `f_EPTF_UIHandler_convertLayout` to a charstring that can be given to
+|`f_EPTF_UIHandler_requestLayout` |Sends a layoutRequest message to the RuntimeGUI and builds the database of the widgets by the response
+|`f_EPTF_UIHandler_getGUIAddrPorts` |function to get address, port and reconnect port of the GUI to connect.
+|`f_EPTF_UIHandler_setGUIAddrPorts` |function to set address , port and reconnect port of the GUI to connect.
+|`f_EPTF_UIHandler_setGuiReconnectPort` |function to set the port of the GUI to reconnect.
+|`f_EPTF_UIHandler_setGuiHostPort` |function to set address of the GUI to connect.
+|`f_EPTF_UIHandler_logAll` |Logs all internal variables in `EPTF_UIHandler_CT`.
+|`f_EPTF_UIHandler_logWidgetDB` |Logs all widgets database in `EPTF_UIHandler_CT`.
+|`f_EPTF_UIHandler_log2strWidgetRec` |Logs Widget Record
+|`f_EPTF_UIHandler_GUIConnected` |Returns whether the GUI is connected (authenticated)
+|`f_EPTF_UIHandler_initialized` |Returns whether the GUI is initialized
+|`f_EPTF_UIHandler_exitButtonPressed` |Handles the pressing of the exit button. Only for TESTING purposes!
+|`f_EPTF_UIHandler_str2Integer` |Converts a string containing non-digit char separated numbers into a record of integer
+|`f_EPTF_UIHandler_str2IntegerList` |Converts a string containing non-digit char separated numbers into a record of integer
+|`f_EPTF_UIHandler_str2FloatList` |Converts a string containing non-digit char separated numbers into a record of floats
+|`f_EPTF_UIHandler_str2bool` |function to convert a string value to a boolean value
+|`f_UIHandler_setHandshakeMaxTime` |Sets the max time for the XTDP handshake
+|`f_UIHandler_setByeMaxTime` |Sets max time for XTDP bye
+|`f_UIHandler_setAuthMaxTime` |Sets max time for XTDP authentication
+|`f_EPTF_UIHandler_enableOwnProgress` |Enable/disable UIHandler’s own progress updates to the `"progressBar"` dataSource
+|`f_EPTF_UIHandler_updateOwnProgress` |Update the value of the dataSource containing the progress information with the UIHandler's own progress info
+|`f_EPTF_UIHandler_updateProgress` |Update the `"progressBar"` dataSource on the UIHandler component
+|`f_EPTF_UIHandlerClient_subscribeMe` |Orders the default UIHandler to subscribe to a specified variable and optionally connect to a widget
+|`f_EPTF_UIHandlerClient_subscribeMeTo` |Orders an UIHandler to subscribe to a specified variable and optionally connect to a widget
+|`f_EPTF_UIHandlerClient_subscribe` |Orders the default UIHandler to subscribe to a specified variable on an other component and optionally connect it to a widget
+|`f_EPTF_UIHandlerClient_subscribeTo` |Orders an UIHandler to subscribe to a specified variable on an other component and optionally connect it to a widget
+|`f_EPTF_UIHandlerClient_subscribeVariable` |Orders the default UIHandler to subscribe to a specified variable
+|`f_EPTF_UIHandlerClient_subscribeVariableTo` |Orders an UIHandler to subscribe to a specified variable
+|`f_EPTF_UIHandlerClient_removeElementFromGUI` |Orders the default UIHandler to remove a widget from the runtime GUI connected to the UIHandler
+|`f_EPTF_UIHandlerClient_removeElementFromGUITo` |Orders an UIHandler to remove a widget from the runtime GUI connected to the UIHandler
+|`f_EPTF_UIHandlerClient_enableGUIElement` |Orders the default UIHandler to enable a widget on the runtime GUI connected to the UIHandler
+|`f_EPTF_UIHandlerClient_enableGUIElementTo` |Orders an UIHandler to enable a widget on the runtime GUI connected to the UIHandler
+|`f_EPTF_UIHandlerClient_disableGUIElement` |Orders the defalut UIHandler to disable a widget on the runtime GUI connected to the UIHandler
+|`f_EPTF_UIHandlerClient_disableGUIElementTo` |Orders an UIHandler to disable a widget on the runtime GUI connected to the UIHandler
+|`f_EPTF_UIHandlerClient_setFocusToGUIElement` |Orders the defalut UIHandler to set a widget being focused on the runtime GUI connected to the UIHandler
+|`f_EPTF_UIHandlerClient_setFocusToGUIElementTo` |Orders an UIHandler to set a widget being focused on the runtime GUI connected to the UIHandler
+|`f_EPTF_UIHandlerClient_setFocusToTab` |Orders the defalut UIHandler to select a particular tab of a tabbox on the runtime GUI connected to the UIHandler
+|`f_EPTF_UIHandlerClient_setFocusToTabTo` |Orders an UIHandler to select a particular tab of a tabbox on the runtime GUI connected to the UIHandler
+|`f_EPTF_UIHandlerClient_widgetExists` |Checks whether the widget exists on the runtime GUI connected to the default UIHandler
+|`f_EPTF_UIHandlerClient_widgetExistsOn` |Checks whether the widget exists on the runtime GUI connected to the specified UIHandler
+|`f_EPTF_UIHandlerClient_defaultUIHandler` |Returns the default UIHandler component
+|`f_EPTF_UIHandlerClient_logAll` |Logs all internal variable in `EPTF_UIHandlerClient_CT`
+|`f_EPTF_CLI_Client_split` |Splits a string using a given separator
+|`f_EPTF_UIHandlerClient_XSD_addElementToGUI` |Orders the default UIHandler to add a widget to the runtime GUI connected to the UIHandler
+|`f_EPTF_UIHandlerClient_XSD_addElementToGUITo` |Orders an UIHandler to add a widget to the runtime GUI connected to the UIHandler
+|`f_EPTF_UIHandlerClient_XUL_addWidget` |Adds a widget to the GUI
+|`f_EPTF_UIHandlerClient_XUL_XSD_addEmptyTabbox` |Adds a new TabBox to the GUI
+|`f_EPTF_UIHandlerClient_XUL_XSD_addEmptyTabpages` |Adds a new TabPage to the GUI
+|`f_EPTF_UIHandlerClient_XUL_XSD_addWidget` |Adds a widget to the GUI
+|`f_EPTF_UIHandlerClient_XUL_addButton` |Puts a new button to the GUI
+|`f_EPTF_UIHandlerClient_XUL_addSpacer` |Adds a new spacer to a parent widget on the GUI
+|`f_EPTF_UIHandlerClient_XUL_addLabel` |Creates a new text label
+|`f_EPTF_UIHandlerClient_XUL_addEmptyHbox` |Creates a new horizontal box
+|`f_EPTF_UIHandlerClient_XUL_addEmptyTabbox` |Creates a new tabbed box
+|`f_EPTF_UIHandlerClient_XUL_addTabpanel` |Creates a new tab on a tabbed box
+|`f_EPTF_UIHandlerClient_XUL_addTab` |Creates a new tab on a tabbed box
+|`f_EPTF_UIHandlerClient_XUL_addEmptyChart` |Creates a new chart on the GUI
+|`f_EPTF_UIHandlerClient_XUL_addTrace2Chart` |Adds a new trace to a chart
+|`f_EPTF_UIHandler_VariableUI_init_CT` |Initializes the `VariableUI` component
+|`f_EPTF_UIHandler_VariableUI_putVarbyName` |Puts a variable to the GUI given by name
+|`f_EPTF_UIHandler_VariableUI_putconnections` |Puts all the variables to the GUI
+|`f_EPTF_UIHandler_VariableUI_putlastconnections` |Put the last given variables to the GUI.
+|`f_EPTF_UIHandler_VariableUI_addsimpleconnection` |Adds a simple connection(variable – widget pair)
+|`f_EPTF_UIHandler_VariableUI_addwidgetconnection` |Adds a connection with a widget
+|`f_EPTF_UIHandler_VariableUI_addholdingwidget` |Adds a holding widget to the database
+|`f_EPTF_UIHandler_VariableUI_assignholdingwidget` |Assigns a holding widget to a connection
+|`f_EPTF_UIHandler_VariableUI_assignholding` |Assigns a holding widget to a connection
+|`f_EPTF_UIHandler_VariableUI_removeconnection` |Removes a connection from the database
+|`f_EPTF_UIHandlerXUL_init_CT` |Initialises the `EPTF_UIHandler_CT`
+|`f_EPTF_UIHandler_Browser_init_CT` |Initialize the host information to browser GUI
+|`f_EPTF_UIHandler_Browser_enableWelcomeScreen` |Enable welcome screen, when the application starts by setting the v_EPTF_UIHandler_Browser_enableWelcomeScreen component variable to true.
+|`f_EPTF_UIHandler_Browser_disableWelcomeScreen` |Disable welcome screen, when the application starts by setting the v_EPTF_UIHandler_Browser_enableWelcomeScreen component variable to false.
+|`f_EPTF_UIHandler_Browser_getRemoteHosts` |This function returns the Host names and ports on which the BrowserGUI is activated.
+|`f_EPTF_UIHandler_Browser_addRemoteHosts` |This function adds the given Host name and port pairs to the list on which the BrowserGUI is activated and activates them as well.
+|`f_EPTF_UIHandler_Browser_setRemoteHosts` |This function sets and activates the given Host name and port pairs on which the BrowserGUI is listening.
+|`f_EPTF_UIHandler_Browser_clearRemoteHosts` |This function clears the host name and ports on which the BrowserGUI is listening.
+|`f_EPTF_UIHandler_Browser_removeRemoteHosts` |This function removes and deactivates the given Host name and port pairs on which the BrowserGUI is listening.
+|`f_EPTF_UIHandler_Browser_getCustomStyle` |This function returns the active custom CSS style of the BrowserGUI.
+|`f_EPTF_UIHandler_Browser_addCustomStyle` |This function adds the given CSS Style to the main.css from file.
+|`f_EPTF_UIHandler_Browser_setCustomStyle` |This function sets the custom style (CSS) from file.
+|`f_EPTF_UIHandler_Browser_clearCustomStyle` |This function clears the custom style CSS elements.
+|`f_EPTF_UIHandler_Browser_removeCustomStyle` |This function removes the custom style (CSS) based on filename.
+|`f_EPTF_UIHandler_Browser_addCustomStyleStr` |This function adds the given CSS Style to the main.css from string.
+|`f_EPTF_UIHandler_Browser_setCustomStyleStr` |This function sets the custom style (CSS) from string.
+|`f_EPTF_UIHandler_Browser_removeCustomStyleStr` |This function removes the custom style string (CSS) based in string.
+|`f_EPTF_UIHandler_Browser_setBrowserDirectory` |This function sets the BrowserGUI directory, where the _.png_, _.css_, _.js_ and several other files are, needed by the BrowserGUI feature.
+|`f_EPTF_UIHandler_Browser_getBrowserDirectory` |This function returns with the BrowserGUI directory string, where the _.png_, _.css_, _.js_ and several other files should be, needed by the BrowserGUI feature.
+|`f_EPTF_UIHandler_ChartDataType_RB_init` |Function to initialise an empty `<EPTF_BASE_TYPE##RingBuffer>`.
+|`f_EPTF_UIHandler_ChartDataType_RB_size` |Function to ask the size of the buffer.
+|`f_EPTF_UIHandler_ChartDataType_RB_capacity` |Function to ask the capacity of the buffer.
+|`f_EPTF_UIHandler_ChartDataType_RB_empty` |Checks whether the buffer is empty.
+|`f_EPTF_UIHandler_ChartDataType_RB_front` |Function to get the first (eldest) element from the buffer.
+|`f_EPTF_UIHandler_ChartDataType_RB_back` |Function to get the last (latest) element from the buffer.
+|`f_EPTF_UIHandler_ChartDataType_RB_push_back` |Function to store a new data item at end of buffer.
+|`f_EPTF_UIHandler_ChartDataType_RB_push_front` |Function to store a new data item at beginning of the buffer.
+|`f_EPTF_UIHandler_ChartDataType_RB_pop_front` |Function to drop the first data item.
+|`f_EPTF_UIHandler_ChartDataType_RB_pop_back` |Function to drop the last data item.
+|`f_EPTF_UIHandler_ChartDataType_RB_clear` |Function to remove all data from the buffer.
+|`f_EPTF_UIHandler_ChartDataType_RB_get` |Function to perform an unchecked random access to the buffer.
+|`f_EPTF_UIHandler_ChartDataType_RB_at` |Function to perform a secure access to the buffer.
+|`f_EPTF_UIHandler_ChartDataType_RB_dump` |Function to dump the content of the buffer into a list.
+|`f_EPTF_UIHandler_CLI_init_CT` |The initialization function.
+|`f_EPTF_UIHandler_CLI_sendUserMessage` |Send a custom message to be displayed to the user.
+|`f_EPTF_UIHandler_CLI_logAll` |Log all internal variables in `EPTF_UIHandler_CLI_CT` component.
+|`f_EPTF_UIHandler_simulation_createDBFromFile` |
+|`f_EPTF_UIHandler_simulation_encode_directContentDB` |Encodes a `EPTF_UIHandler_simulation_directContentDB` to its charstring representation
+|`f_EPTF_UIHandler_simulation_decode_directContentDB` |Decode a charstring to EPTF_UIHandler_simulation_directContentDB
+|`f_EPTF_UIHandler_XULWidgetId2charstr` |Converts a widget ID to a charstring
+|`f_EPTF_UIHandler_CLIClient_init_CT` |The initialization function.
+|`f_EPTF_UIHandler_CLIClient_logAll` |Log all internal variables in `EPTF_UIHandler_Private_CT` component.
+|`f_EPTF_UIHandler_CLIClient_sendUserMessage` |Sends a custom message to the display terminal
+|`f_EPTF_UIHandler_readFileToCharstring` |Loads a XUL describing a window layout and creates the described GUI.
+|`f_EPTF_HostAdminUI_behavior` |Puts out a statistic row to its table and starts measuring
+|`f_EPTF_LoadRegulatorUI_putUI` |Puts out the widgets of the LoadRegulatorUI
+|`f_EPTF_StatCaptureUI_putUI` |Puts out the widgets of the StatCaptureUI
+|======================================================================================================================================================================================================================================================

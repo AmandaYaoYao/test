@@ -1,0 +1,57 @@
+= Red Black Tree
+
+== Overview
+
+The EPTF CLL Red Black Tree component is a fundamental component providing an implementation for red-black tree in a load test environment.
+
+The EPTF Red Black Tree feature is a self-balancing binary search tree. Each node in the EPTF Red Black Tree is a linked list. This makes it possible to store more than one item with the same key, in the order of the insertion. Each item in the tree (or the lists) has a unique ID/index, which is allocated incrementally with each item-insertion into the tree. Removed items are reused in subsequent insert operations. This makes the Red Black Tree feature useful in book-keeping items in an associated array, similar to the Free Busy Queue. However, the Red Black Tree makes it also possible to search for an item by its key much quicker than with queues, and to sort these items (i.e. get a list of indices with the order of the items).
+
+[[desc_files_this_feat]]
+== Description of Files in This Feature
+
+The EPTF CLL Red Black Tree API includes the following files:
+
+* __EPTF_CLL_RBT_Definitions.ttcn__ - contains TTCN-3 type and component definitions for the feature
+* __EPTF_CLL_RBT_Functions.ttcn__ - contains TTCN-3 function declarations and the implementation of the `init`/`cleanup` functions
+* __EPTF_CLL_RBT_ExternalFunctions.cc__ - contains the C++ implementation of the external functions declared in the TTCN-3 module `EPTF_CLL_RBT_Functions`.
+
+Currently, the following *obsolete* implementation is also included. Please note that these files will be removed in a later release of the Core Load Library:
+
+* Red Black Tree
+** __EPTF_CLL_RBtree_Definitions.ttcn__ - This TTCN-3 module contains common type definitions for Red Black Tree
+** __EPTF_CLL_RBtree_Functions.ttcnpp__ - This TTCN-3 module contains common function definitions for Red Black Tree
+** __EPTF_CLL_RBtree_PrivateFunctions.ttcnpp__ - This module contains private functions used by the Red Black Tree
+* Integer Red Black Tree
+** __EPTF_CLL_IntegerRBtree_Functions.ttcnpp__ - This TTCN-3 module contains function definitions for the integer Red Black Tree
+** __EPTF_CLL_IntegerRBtree_PrivateFunctions.ttcnpp__ - Contains private functions used by the integer Red Black Tree
+* Float Red Black Tree
+** __EPTF_CLL_FloatRBtree_Functions.ttcnpp__ - Contains function definitions for the float Red Black Tree
+** __EPTF_CLL_FloatRBtree_PrivateFunctions.ttcnpp__ - Contains private function definitions used by the float Red Black Tree
+
+[[desc_req_files_other_feat]]
+== Description of Required Files From Other Features
+
+The Red Black Tree feature is part of the TitanSim EPTF Core Load Library (CLL). It relies on several features of the CLL. To use the Red Black Tree, the user has to obtain the respective files from the following features:
+
+* `Base`
+* `Common`
+
+== Installation
+
+Since EPTF CLL Red Black Tree is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor see the relevant section of ‎<<5-references.adoc#_2, [2]>>.
+
+If not otherwise noted in the respective sections, the following are needed to use EPTF CLL Red Black Tree:
+
+* Copy the files listed in sections <<desc_files_this_feat, Description of Files in This Feature>> and <<desc_req_files_other_feat, Description of Required Files From Other Features>> to the directory of the test suite or create symbolic links to them.
+* Import the Red Black Tree demo or write your own application using Red Black Tree.
+* Create _Makefile_ or modify the existing one. For more details see the relevant section of ‎<<5-references.adoc#_2, [2]>>.
+* Edit the config file according to your needs, see following section <<config, Configuration>>.
+
+[[config]]
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual suffix of configuration files is _.cfg_. For further information on the configuration file see ‎<<5-references.adoc#_2, [2]>>.
+
+This Red Black Tree feature defines TTCN-3 module parameters as defined in ‎<<5-references.adoc#_2, [2]>>, clause 4. Actual values of these parameters – when no default value or a different from the default actual value wished to be used – shall be given in the `[MODULE_PARAMETERS]` section of the configuration file.
+
+This Red Black Tree feature defines no module parameters.

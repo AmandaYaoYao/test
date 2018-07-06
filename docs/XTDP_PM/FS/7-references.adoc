@@ -1,0 +1,30 @@
+= References
+
+[[_1]]
+[1] World Wide Web Consortium W3C Recommendation: "Extensible Markup Language (XML) 1.1" +
+Available at http://www.w3.org/TR/xml11.
+
+[[_2]]
+[2] World Wide Web Consortium W3C Recommendation (2006): "Namespaces in XML 1.0" +
+Available at http://www.w3.org/TR/REC-xml-names/
+
+[[_3]]
+[3] World Wide Web Consortium W3C Recommendation (2004): "XML Schema Part 0: Primer" +
+Available at http://www.w3.org/TR/xmlschema-0.
+
+[[_4]]
+[4] World Wide Web Consortium W3C Recommendation (2004): "XML Schema Part 1: Structures" +
+Available at http://www.w3.org/TR/xmlschema-1.
+
+[[_5]]
+[5] World Wide Web Consortium W3C Recommendation (2004): "XML Schema Part 2: Datatypes" +
+Available at http://www.w3.org/TR/xmlschema-2.
+
+[[_6]]
+[6] User Documentation for the TITAN TTCN-3 Test Executor
+
+[[_7]]
+[7] ETSI ES 201 873-1The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_8]]
+[8] ETSI ES 201 873-9ETSI Standard, Methods for Testing and Specification (MTS);The Testing and Test Control Notation version 3; Part 9: Using XML schema with TTCN-3

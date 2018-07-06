@@ -1,0 +1,39 @@
+= Warning Messages
+
+NOTE: Besides the below described warning messages, warning messages shown in <<7-references.adoc#_2, ‎[2]>>  or those of other used features or product may also appear.
+
+`*"<string> is not a legal float number!"*`
+
+Limit value shall be specified as a legal float number.
+
+`*Setting 'defaultColor' was unsuccessful! Using default color: black"*`
+
+There were some errors in `defaultColor` parameter.
+
+`*"<string> is not a legal LED color!"*`
+
+Legal LED colors are: black, blue, red, yellow and green.
+
+`*"Setting 'enableValueInLEDText' was unsuccessful! Setting it to false"*`
+
+Legal parameter values are: `_yes_` or `_no_`.
+
+`*"<string> is not a legal parameter value for: 'enableValueInLEDText'"*`
+
+Legal parameter values are: `_yes_` or `_no_`.
+
+`*"Wrong VarId parameter was given! No limit statistic will be returned!"*`
+
+Incorrect `VarId` parameter was specified.
+
+`*"No VarId parameter was given! No limit statistic will be returned!"*`
+
+You must specify a source variable to retrieve the corresponding data.
+
+`*"Wrong refVarId parameter was given! Setting to -1!"*`
+
+The specified reference variable is incorrect. There will be no reference variables used.
+
+`*"unhandled element: <string>"*`
+
+Wrong data element name was given.

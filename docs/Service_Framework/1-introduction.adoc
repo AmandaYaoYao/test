@@ -1,0 +1,5 @@
+= Introduction
+
+== System Requirements
+
+EPTF Service Framework is written in python and can run on any device supporting python.

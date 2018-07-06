@@ -1,0 +1,128 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the EPTF CLL Functions can be reached for on-line reading <<6-references.adoc#_4, [4]>>.
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_Scheduler_`.
+
+Obsolete functions have the prefix `f_EPTF_SchedulerComp_`, for example `f_EPTF_SchedulerComp_refreshEventTimer`.
+
+== Public Functions
+
+=== Initialization
+
+Before using the EPTF Scheduler functions the
+
+`f_EPTF_Scheduler_init_CT ()`
+
+function should be called. This initializes the EPTF Scheduler feature.
+
+A function with an obsolete name for the same functionality:
+
+`f_EPTF_SchedulerComp_InitScheduler()`
+
+=== Scheduling an Action
+
+`f_EPTF_SchedulerComp_scheduleAction(pl_when, pl_actionHandler, pl_action, pl_eventIndex, pl_roundIt, pl_dteHandler)`
+
+This function can be used to register a new event to the event queue. The event is executed at the time when the component time reaches the value given in `pl_when`. The `pl_when` argument is rounded if `pl_roundIt` is true. At the execution time the hander given in `pl_actionHandler` is called with the parameters given in `pl_action`. The index of the event is returned in the parameter `pl_eventIndex`, and can be used, for example, to cancel the event later. Returns true on success, false on error.
+
+The argument `pl_dteHandler` defines the handler function that will be called when DTE happens during the execution of the action.
+
+Default: `_null_`, that is, no handler is called.
+
+=== Cancelling an Action
+
+`f_EPTF_SchedulerComp_CancelEvent(qidx)`
+
+This function can be used to remove the event from the event queue. The function fails and returns false if the event at the specified index is not valid.
+
+=== Action Handler
+
+The following private altstep is the main event handler of the Scheduler:
+
+`as_EPTF_SchedulerComp_ActionHandler()`
+
+The initialization function activates it as default, placing it in the main alt-loop of the component that extends the Scheduler.
+
+`f_EPTF_SchedulerComp_performActions()`
+
+This private function handles all actions that has a `when` parameter lower than or equal to the snapshot time taken from the component clock. It is called automatically by `as_EPTF_SchedulerComp_ActionHandler`
+
+=== Load Measurement
+
+`f_EPTF_Scheduler_enableLoadMeasurement(pl_enable)`
+
+This function can be used to enable/disable load measurement for overload detection. The load is measured as the cumulative sum of lag of events during the load measurement period.
+
+`f_EPTF_Scheduler_setLoadMeasurementPeriod(pl_loadMeasurementPeriod)`
+
+This function can be used to set the load measurement time period (seconds).
+
+`f_EPTF_Scheduler_setMaxLoadThreshold(pl_maxLoadThreshold)`
+
+This function can be used to set the maximal load threshold When the load exceeds this value, the Scheduler actively controls the overload situation by scheduling events in the future only. If `maxLoadThreshold` is greater than `_1.0_`, there is no overload control.
+
+`f_EPTF_Scheduler_getLoad()`
+
+This function can be used to get the last measured load value. Its return value is between `_0.0_` (no load) and `_1.0_` (full load).
+
+`f_EPTF_Scheduler_getLoadMeasurementInterval()`
+
+This function can be used to get the last load measurement interval. If load measurement is not enabled, its return value is `_-1.0_`.
+
+== Miscellaneous Functions
+
+`f_EPTF_SchedulerComp_refreshEventTimer()`
+
+This private function sets the event timer to the time of the next scheduled action. It restarts the timer if necessary. This function is automatically called in `as_EPTF_SchedulerComp_ActionHandler`, `f_EPTF_SchedulerComp_scheduleAction` and `f_EPTF_SchedulerComp_CancelEvent`.
+
+`f_EPTF_SchedulerComp_refreshSnapshotTime()`
+
+This function reads the component clock and stores the time in `v_EPTF_snapshotTime` component variable. Proposed usage is to call it in the beginning of any altstep where `v_EPTF_snapshotTime` is used for example to schedule a new event.
+
+`f_EPTF_SchedulerComp_refreshSnapshotTime()`
+
+Returns the snapshot time, that is, the value of the component clock at the time when `f_EPTF_SchedulerComp_refreshSnapshotTime()` was called.
+
+`f_EPTF_SchedlerComp_schedulerIsNotLate()`
+
+This private function returns `_true_` if the head event within the event queue is scheduled later than the actual value of the component clock, otherwise returns `_false_`.
+
+`f_EPTF_SchedulerComp_eventQueueIsNotEmpty()`
+
+A private function to check whether the event queue is not empty. Returns true if the event queue is not empty, `_false_` otherwise.
+
+`f_EPTF_SchedulerComp_eventQueueIsEmpty()`
+
+A private function to check whether the event queue is empty. Returns true if the event queue is empty, `false` otherwise.
+
+`f_EPTF_SchedulerComp_eventIsValid(pl_qidx)`
+
+Function to check whether an event is valid within the event queue. Returns true if the event is valid. An event is invalid during it is executed. After executing the event, the event is automatically cancelled (that is, deleted).
+
+`f_EPTF_SchedulerComp_eventIsInvalid(pl_qidx)`
+
+Function to check whether an event is invalid within the event queue. Returns `_true_` if the event is invalid.
+
+== Summary Table of All Public Functions for EPTF Scheduler
+
+See Summary of Scheduler functions in the table below:
+
+[width="100%",cols="60%,40%",options="header",]
+|=====================================================================================
+|Function name |Description
+|`f_EPTF_Scheduler_init_CT` |initialization
+|`f_EPTF_SchedulerComp_scheduleAction` |schedule an event
+|`f_EPTF_SchedulerComp_CancelEvent` |cancel an existing event
+|`f_EPTF_SchedulerComp_refreshSnapshotTime` |refresh the snapshot time
+|`f_EPTF_SchedulerComp_snapshotTime` |returns the snapshot time
+|`f_EPTF_SchedulerComp_eventIsValid` |check if an event is valid
+|`f_EPTF_SchedulerComp_eventIsInvalid` |check if an event is invalid
+|`f_EPTF_Scheduler_enableLoadMeasurement` |enables/disables load measurement
+|`f_EPTF_Scheduler_setLoadMeasurementPeriod` |set the load measurement period
+|`f_EPTF_Scheduler_setMaxLoadThreshold` |set the maximal load value
+|`f_EPTF_Scheduler_getLoad` |get the last measured load value.
+|`f_EPTF_Scheduler_getLoadMeasurementInterval` |get the last load measurement interval
+|=====================================================================================

@@ -1,0 +1,13 @@
+= Abbreviations
+
+ES:: ETSI Standard
+
+ETSI:: European Telecommunications Standards Institute
+
+IETF:: Internet Engineering Task Force
+
+RFC:: Request for Comments
+
+TLS:: Transport Layer Security
+
+TTCN-3:: Testing and Test Control Notation version 3

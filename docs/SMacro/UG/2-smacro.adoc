@@ -1,0 +1,315 @@
+= `SMacro`
+
+== Overview
+
+The `SMacro` feature is developed to replace the former external template handling mechanism in CLL LGenBase.
+
+String Macros are necessary when someone needs to replace certain patterns in a text. These patterns are called String Macros and the string itself is termed as String Template.
+
+Examples:
+
+[cols=","]
+|=================================================
+|String Template |`"Username is: $SIGNUM"`
+|String Macro |`SIGNUM`
+|Value of String Macro |`_ethjgi_`
+|Resolved string template |`"Username is: ethjgi"`
+|=================================================
+
+[[description_of_files_in_this_feature]]
+== Description of Files in this Feature
+
+The EPTF CLL SMacro feature includes the following files:
+
+* __EPTF_CLL_SMacro_Definitions.ttcn__ - this TTCN-3 module contains common type definitions used by the `SMacro` Component
+* __EPTF_CLL_SMacro_Functions.ttcn__ - this TTCN-3 module contains the implementation of `SMacro` functions
+* __EPTF_CLL_SMacro_ExternalFunctions.cc__ - this TTCN-3 module contains external functions for `SMacro`
+
+[[description_of_required_files_from_other_CLL_features]]
+== Description of Required Files from Other CLL Features
+
+The EPTF SMacro feature depends on the following CLL features:
+
+* `Base`
+* `Common`
+* `FreeBusyQueue`
+* `HashMap`
+* `Logging`
+
+== Description of Required External Features outside CLL
+
+* `TCCUsefulFunctions_CNL113472 (TCCConversion_Functions)`
+
+== Installation
+
+Since `EPTF_CLL_SMacro` is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor, see the relevant section of <<‎7-references.adoc#_2, [2]>>.
+
+If not noted otherwise in the respective sections, the following are needed to use `EPTF_CLL_SMacro`:
+
+* Copy the files which belong to the CLL features listed in section <<description_of_files_in_this_feature, Description of Files in this Feature>> and <<description_of_required_files_from_other_CLL_features, Description of Required Files from Other CLL Features>> to the directory of the test suite or create symbolic links to them.
+* Import the `SMacro` test or write your own application using EPTF `SMacro`.
+* Create _Makefile_ or modify the existing one. For more details, see the relevant section of <<‎7-references.adoc#_2, ‎[2]>>.
+* Edit the config file according to your needs, see following section <<configuration, Configuration>>.
+
+[[configuration]]
+== Configuration
+
+The executable test program behavior is determined through the run-time configuration file. This is a simple text file which contains various sections. The usual suffix of configuration files is _.cfg_. For further information on the configuration file, see ‎<<‎7-references.adoc#_2, [2]>>.
+
+The EPTF `SMacro` feature does not define any module parameters.
+
+== Usage
+
+To use the EPTF `SMacro` feature, do the following:
+
+* Extend your component with the `EPTF_SMacro_CT` component
+* Call the init function (`f_EPTF_SMacro_init_CT`) of the `SMacro` to initialize the feature
+* Use its public functions to handle String Macros or String Templates
+* Call `f_EPTF_Base_cleanup_CT` function before your component terminates, or call `f_EPTF_Base_stop` function if the execution should be stopped (for example, because of an error the execution is forced to stop immediately)
+
+== How to Define, Redefine, or Undefine a String Macro
+
+After the initialization you should define the needed String Macros by calling the `f_EPTF_SMacro_define` function.
+
+Example: defining the USER macro with value `__`"ethjgi"`__`
+
+[source]
+----
+f_EPTF_SMacro_define(“USER”, “ethjgi”);
+
+var charstring my_stringTemplate := “Username is: $USER”;
+----
+
+The value of the resolved String Template is: `_"Username is: ethjgi";_`
+
+It is possible to redefine macro value by calling the `f_EPTF_SMacro_define` function again.
+
+Example: re-defining the `USER` macro with value `_"ezolzsi"_`
+
+[source]
+----
+f_EPTF_SMacro_define(“USER”, “ezolzsi”);
+
+my_stringTemplate := “Username is: $USER”;
+----
+
+The value of the resolved String Template is: `_"Username is: ezolzsi";_`
+
+It is possible to undefine macro value by calling the `f_EPTF_SMacro_undefine` function.
+
+Example: Undefining the `USER` macro
+
+[source]
+----
+f_EPTF_SMacro_undefine(“USER”);
+
+my_stringTemplate := “Username is: $USER”;
+----
+
+The value of the resolved String Template is: `_"Username is: $USER";_`
+
+== How to Resolve a String Macro
+
+A String Template which contains any number of String Macro can be resolved by calling the `f_EPTF_SMacro_resolve` function.
+
+Example: resolving the previously re-defined `USER` macro which has the value `_"ezolzsi"_`
+
+[source]
+----
+var charstring my_stringTemaplate := “Username is: $USER”;
+
+var charstring my_resolvedStringTemplate :=
+f_EPTF_SMacro_resolve(my_stringTemplate);
+----
+
+The value of `my_resolvedStringTemplate` is: `_"Username is: ezolzsi";_`
+
+In the example above the `f_EPTF_SMacro_resolve` function was called without automatic evaluation since the default value of parameter `pl_autoEVAL` is `_false_`.
+
+== How to Calculate Macro Value with Custom Function
+
+It is possible to calculate the macro value with registered macro calculator function.
+
+Example: defining the `SUM` macro to calculate its value by concatenating its two arguments and inserts "+" sign between them. First we have to define the macro to have calculator function name as its value.
+
+`f_EPTF_SMacro_define("SUM", "f_calc_sum");`
+
+The function that calculates the value of SUM macro is:
+
+[source]
+----
+function f_calc_sum(
+  in EPTF_CharstringList pl_args,
+  in EPTF_IntegerList pl_userArgs := {}) {
+  return pl_args[0]&”+”&pl_args[1];
+}
+----
+
+This macro calculator function needs to be registered with the name given in the define function.
+
+Example: registering the macro calculator function with name `"f_calc_sum"`:
+
+[source]
+----
+f_EPTF_SMacro_registerCalcFn(
+  pl_functionName := “f_calc_sum”,
+  pl_macro_function := refers(f_calc_sum)
+)
+----
+
+In this way when the `f_EPTF_SMacro_resolve` function is called, the value of the SUM macro is calculated with `f_calc_sum` function which concatenates its two arguments and puts a "+" sign between them.
+
+Example: resolving the String Template when the macro calculator function is registered:
+
+[source]
+----
+var charstring my_stringTemplate :=
+”How much is $(SUM, \“31”\, \“11”\)?”
+
+var charstring my_resolvedStringTemplate :=
+f_EPTF_SMacro_resolve(my_stringTemplate);
+----
+
+The value of `my_resolvedStringTemplate` is: `__`"How much is 31+11?"`__`
+
+It is possible to deregister the macro calculator function by calling `f_EPTF_SMacro_deregisterCalcFn` function:
+
+`f_EPTF_SMacro_deregisterCalcFn(``f_calc_sum'');`
+
+Example: resolving the String Template when the macro calculator function is deregistered:
+
+[source]
+----
+my_resolvedStringTemplate :=
+f_EPTF_SMacro_resolve(my_stringTemplate);
+----
+
+The value of `my_resolvedStringTemplate` is: `_"How much is f_calc_sum?"_`
+
+== How to Escape Characters in TTCN-3 Code
+
+String Macro parameters are enclosed in quotation marks. Since String Template is a TTCN-3 charstring the quotation marks needs to be escaped in TTCN-3 code.
+
+Example:
+
+[source]
+----
+var charstring my_stringTemplate :=
+"MACRO1 value: $(MACRO1, \"parameter1\", \"parameter2\")
+MACRO2 value: $(MACRO2, \"parameter3\")"
+----
+
+As it can be seen in the example above each quotation mark which encloses the macro parameters are escaped with "\" character.
+
+=== How to Escape with `log2str` Function
+
+In order to create the same string template (see in the example above) without having unreadable code, the `log2str` built-in TITAN function has to be used.
+
+Example:
+
+[source]
+----
+var charstring my_stringTemplate :=
+"MACRO1 value: $(MACRO1, "&log2str("parameter1")&",
+"&log2str("parameter2")&")
+MACRO2 value: $(MACRO2, "&log2str("parameter3")&")";
+----
+
+The `log2str` function does the escaping automatically on its charstring parameter. Its return value is concatenated with other the parts of the String Template.
+
+=== How to Escape String Templates Which Contains Macros as Parameter
+
+It could happen that a macro which has parameters is a parameter of another macro. In that case the parameters need to be escaped in each level.
+
+Example: `MACRO2` will be the second parameter of `MACRO1`
+
+[source]
+----
+var charstring my_stringTemplate :=
+"My string template: $(MACRO1, \"parameter1\",
+\"$(MACRO2, \\\"parameter3\\\")\")"
+----
+
+As it can be seen in the example, each already escaped quotation mark is escaped two times again. Instead of doing this manually in TTCN-3 code, it is recommended to use the log2str built in TITAN function.
+
+Example: same string template with `log2str`
+
+[source]
+----
+var charstring my_stringTemplate :=
+"My string template: $(MACRO1,
+"&log2str("parameter1")&","&log2str("$(MACRO2,
+"&log2str("parameter3")&")")&")"
+----
+
+In the next escape level it looks like:
+
+Example: parameter3 of the previous example is MACRO2 again
+
+[source]
+----
+var charstring my_stringTemplate :=
+"My string template: $(MACRO1, \"parameter1\",
+\"$(MACRO2, \\\" $(MACRO2,\\\\\"parameter3\\\\\")
+\\\")\")"
+----
+
+As it can be seen, the parameter of `MACRO2`, which is the `MACRO2` itself, is escaped again.
+
+Example: previous string template with `log2str`
+
+[source]
+----
+var charstring my_stringTemplate :=
+"My string template with log2str: $(MACRO1,
+"&log2str("parameter1")&","&log2str("$(MACRO2,
+"&log2str("$(MACRO2, "&log2str("parameter3")&")")&")")&")"
+----
+
+It can be made more readable, if separate variables are defined for each String Macro parameter and those variables are used in the argument of the `log2str` function.
+
+== How to Calculate Mathematical Expressions
+
+If the String Template contains mathematical expressions which need to be evaluated you should use the built-in `EVAL` macro. Further details can be found in <<7-references.adoc#_5, [5]>>.
+
+=== How to Use Built-in EVAL Macro
+
+`EVAL` macro is defined by the init function (`f_EPTF_SMacro_init_CT`), therefore there is no need to register it.
+
+Example:
+
+[source]
+----
+var charstring my_stringTemplate := "Result of 2+4/2*3-
+1 is: $(EVAL, \"2+4/2*3-1\" )."
+
+var charstring my_resolvedStringTemplate :=
+f_EPTF_SMacro_resolve(my_stringTemplate);
+----
+
+The value of `my_resolvedStringTemplate` is: `_"Result of 2+4/2*3-1 is: 7."_`
+
+The mathematical expression which is the first parameter of the EVAL macro was passed to the registered `EVAL` calculator function which did the calculation.
+
+=== How to Use Automatic Evaluation (`autoEVAL`)
+
+After each String Macro is resolved in the String Template it is possible to call the built-in EVAL macro automatically. For this the `pl_autoEVAL` parameter of the `f_EPTF_SMacro_resolve` function should be set to true.
+
+Example:
+
+[source]
+----
+var charstring my_stringTemaplate := "Result of $(SUM, \“31”\, \“11”\) is: 31+11"
+
+var charstring my_resolvedStringTemplate := f_EPTF_SMacro_resolve(
+  pl_stringTemaplate := my_stringTemplate,
+  pl_autoEVAL := true);
+----
+
+In the first round (in the background) the `f_EPTF_SMacro_resolve` function only resolves the SUM macro, then the string template looks like the following:
+
+`"Result of 31+11 is: 31+11."`
+
+Then the `autoEVAL` feature calculates both expressions and finally the value of `my_resolvedStringTemplate` is:
+
+`"Result of 42 is: 42."`

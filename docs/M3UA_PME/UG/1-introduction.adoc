@@ -1,0 +1,18 @@
+= Introduction
+
+== About This Document
+
+=== How to Read This Document
+
+This is the User Guide for the M3UA Protocol Emulation (M3UA PE). The M3UA PE is developed for the TTCN-3 Toolset with TITAN according to the Requirement Specification <<5-references.adoc#_5, [5]>>. This document should be read together with Function Specification <<5-references.adoc#_6, [6]>>.
+
+=== Presumed Knowledge
+
+The knowledge of the TITAN TTCN-3 Test Executor <<5-references.adoc#_2, [2]>> and the TTCN-3 language <<5-references.adoc#_1, [1]>> is essential.
+
+== System Requirements
+
+In order to operate the M3UA PE the following system requirements must be satisfied:
+
+* Any kind of Linux distribution with SCTP enabled kernel (our test system was Gentoo (Base System version 1.12.1) with version 2.6.21 SMP kernel).
+* LKSCTP <<5-references.adoc#_9, [9]>> library installed (we used version 2.6.16-1.0.6) for the SCTP test port to operate.

@@ -1,0 +1,10 @@
+= Introduction
+
+== How to Read This Document
+This is the Function Description for the `ExecCtrl` of the Ericsson Performance Test Framework (TitanSim), Core Library (CLL). EPTF Core Library is developed for the TTCN-3 <<5-references.adoc#_1, [1]>>  Toolset with TITAN <<5-references.adoc#_2, [2]>>.
+
+== Scope
+This document is to specify the content and functionality of the `ExecCtrl` feature of the EPTF Core Library.
+
+== Recommended Way of Reading
+The readers are supposed to get familiar with the concept and functionalities of EPTF Core Library <<5-references.adoc#_3, [3]>>. They should get familiar with the list of acronyms and the glossary in the Terminology section.

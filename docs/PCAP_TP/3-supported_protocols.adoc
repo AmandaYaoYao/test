@@ -1,0 +1,95 @@
+= Supported Protocols
+
+== Ethernet
+
+The test port expects Ethernet II datagrams and in the Ethernet header it must be indicated, that the carried payload is either an IP datagram or a VLAN frame, else the packet is dropped by the test port and a warning message is generated: `*"Not an IP datagram"*`.
+
+== VLAN
+
+The test port is able to detect whether the Ethernet frame carries a VLAN frame and it can skip this header to advance to the IPv4 datagram.
+
+== Internet Protocol
+
+The test port supports only IPv4. IPv6 datagrams are dropped by the test port and the following warning message is generated: `*"Unknown IP version: 6"*`.
+
+== IPSec
+
+The test port is able to handle IPSec encapsulation. The test port uses user provided function for decrypting and integrity checking. The NULL encryption is supported only by default.
+
+NOTE: The IPSec support is experimental.
+
+== Transmission Control Protocol
+
+The test port is able to assemble TCP streams considering TCP segmentation and retransmission.
+
+If TCP segments are missing from the capture file – which is a common phenomenon – the TP is able to detect the missing segments based on the acknowledgement number of the TCP segments. In this case the test port jumps over the missing gap in the stream and assembles the remaining part of the stream. Please note, that with a small probability it is possible that the decoder wrongly synchronizes to the stream after a gap. In this case the decoding of the rest of the stream will not be successful.
+
+Whenever a lost TCP segment is detected the test port indicates a warning message to the user and an ASP called `ASP_PCAP_Error` is sent as well.
+
+== User Datagram Protocol
+
+The test port can handle UDP datagrams. Duplicates are not checked.
+
+== Stream Control Transmission Protocol
+
+The test port is able to assemble SCTP streams considering SCTP segmentation and retransmission.
+
+== Upper Layer Protocols
+
+The PCAP test port can separate the upper layer protocol messages in the reassembled streams. The separation is based on the user provided functions. If the upper layer protocol use UDP or SCTP as transport layer no message separation functions are needed, because the SCTP preserves the message boundaries and usually one UDP packet carries one protocol message.
+
+=== User Provided Functions
+
+The following functions can be provided by the user:
+
+==== Message Length Calculator Function
+
+That function calculates the length of the first message in the buffer.
+
+Signature of the function:
+
+[source]
+----
+type function tf_getMsgLen(in octetstring stream, in boolean conn_closed,
+in Transport stream_transport) return integer;
+----
+
+Parameters:
+
+* `stream` - contains the reassembled stream
+
+* `conn_closed` - true if the connection already closed
+
+* `stream_transport` - 1:TCP, 2:UDP, 3:SCTP
+
+Return values:
+
+* `_-1_` - The length of the message can not be determined.
+
+* `_>0_` - The length of the message in the buffer
+
+==== Message Start Position Function
+
+That function locates the position of the first octet of the protocol message in the buffer.
+
+Signature of the function:
+
+[source]
+----
+type function tf_getMsgStartPos (in octetstring stream, in boolean conn_closed,
+in Transport stream_transport) return integer;
+----
+
+Parameters:
+
+* `stream` - contains the reassembled stream
+
+* `conn_closed` - true if the connection already closed
+
+* `stream_transport` - 1:TCP, 2:UDP, 3:SCTP
+
+Return values:
+
+* `_-1_`: The position of the message can not be determined.
+
+* `_>=0_`: The position of the message in the buffer

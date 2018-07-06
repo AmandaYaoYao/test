@@ -1,0 +1,42 @@
+= Functional Specification
+
+== Protocol Version Implemented
+
+This protocol module contains the protocol messages and elements of the M2PA protocol <<5-references.adoc#_3, [3]>>.
+
+[[modifications-deviations-related-to-the-protocol-specifications]]
+== Modifications/Deviations Related to the Protocol Specifications
+
+=== Implemented Messages
+
+All message types listed in protocol description <<5-references.adoc#_3, [3]>> are implemented.
+
+[[protocol-modifications-deviations]]
+=== Protocol Modifications/Deviations
+
+None.
+
+== Encoding Decoding and Other Related Functions
+
+This product contains encoding/decoding functions that provide for the correct encoding of messages when sent from TITAN, and correct decoding of messages when received by TITAN. For encoding and decoding the message two functions are available.
+
+* Function `enc_PDU_M2PA` makes simple RAW encoding without any modification on the input M2PA message.
+* Function `dec_PDU_M2PA` makes simple RAW decoding without any modification on the input octetstring.
+
+Implemented encoding/decoding functions:
+
+[cols=3*,options=header]
+|===
+
+|Name
+|Type of formal parameters
+|Type of return values
+
+|enc_PDU_M2PA
+|PDU_M2PA
+|octetstring
+
+|dec_PDU_M2PA
+|octetstring
+|PDU_M2PA
+|===

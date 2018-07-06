@@ -1,0 +1,20 @@
+= General description
+
+This document specifies the Scheduler feature of the EPTF CLL.
+
+The EPTF Scheduler feature makes it possible to schedule events (actions) that should happen at a given time measured from the start of the component or relative to the schedule of the event. The Scheduler uses only two TTCN-3 timers to implement scheduling. These are the component clock – which is started at initialization – and the next event timer.
+
+To be able to use EPTF Scheduler, the user component should extend the `EPTF_Scheduler_CT` component.
+
+The EPTF Scheduler uses the EPTF Red Black Tree (see <<6-references.adoc#_5, [5]>>) to manage its database of events. To use the Scheduler, import the following modules:
+
+* `EPTF_CLL_Scheduler_Definitions`
+* `EPTF_CLL_RBTScheduler_Definitions`
+* `EPTF_CLL_RBTScheduler_Functions`
+
+The main altstep of the Scheduler is activated as default on initialization, and performs all necessary steps of handling actions automatically. A typical workflow using the functionality of the Scheduler is the following:
+
+* initializing the Scheduler
+* scheduling events, and specifying their handler callback function reference
+* handling events in their respective handler functions; handled events are automatically removed from the event queue
+* cancelling pending events by their event index if needed (for example during cleanup)

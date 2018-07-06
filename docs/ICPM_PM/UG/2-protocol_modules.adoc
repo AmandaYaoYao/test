@@ -1,0 +1,53 @@
+= Protocol Modules
+
+== Overview
+
+Protocol modules implement the message structures of the corresponding protocol in a formalized way, using the standard specification language TTCN-3. This allows defining of test data (templates) in the TTCN-3 language <<4-references.adoc#_1, [1]>> and correctly encoding/decoding messages when executing test suites using the TITAN TTCN-3 test environment.
+
+Protocol modules are using TITAN’s RAW encoding attributes <<4-references.adoc#_2, [2]>> and hence are usable with the TITAN test toolset only.
+
+The table below contains the implemented ICMP messages and the corresponding TTCN-3 type records. Using those type records, templates can be defined to send and receive a given message.
+
+[cols=",,",options="header",]
+|=======================================================================
+|Message name |Reference |Corresponding type record in __ICMP_Types.ttcn__
+|Echo Reply |<<4-references.adoc#_5, [5]>> p.13 |ICMP_EchoReply
+|Destination Unreachable |<<4-references.adoc#_5, [5]>> p.3 |ICMP_DestinationUnreachable
+|Source Quench |<<4-references.adoc#_5, [5]>> p.9 |ICMP_SourceQuench
+|Redirect |<<4-references.adoc#_5, [5]>> p.11 |ICMP_Redirect
+|Echo |<<4-references.adoc#_5, [5]>> p.13 |ICMP_Echo
+|Time Exceeded |<<4-references.adoc#_5, [5]>> p.5 |ICMP_TimeExceeded
+|Parameter Problem |<<4-references.adoc#_5, [5]>> p.7 |ICMP_ParameterProblem
+|Timestamp |<<4-references.adoc#_5, [5]>> p.15 |ICMP_Timestamp
+|Timestamp Reply |<<4-references.adoc#_5, [5]>> p.15 |ICMP_Timestamp Reply
+|Information Request |<<4-references.adoc#_5, [5]>> p.17 |ICMP_InformationRequest
+|Information Reply |<<4-references.adoc#_5, [5]>> p.17 |ICMP_InformationReply
+|Address Mask Request |<<4-references.adoc#_6, [6]>> App.I |ICMP_AddressMaskRequest
+|Address Mask Reply |<<4-references.adoc#_6, [6]>> App.I |ICMP_AddressMaskReply
+|Router Advertisement, |<<4-references.adoc#_7, [7]>> p. 4 |ICMP_RouterAdvertisement
+|Router Solicitation, |<<4-references.adoc#_7, [7]>> p.4 |ICMP_RouterSolicitation
+|Traceroute |<<4-references.adoc#_8, [8]>> 2.3 |ICMP_Traceroute
+|Conversion Failed |<<4-references.adoc#_9, [9]>> 6.2. |ICMP_ConversionFailed
+|Domain Name Request |<<4-references.adoc#_10, [10]>> 2. |ICMP_DomainNameRequest
+|Domain Name Reply |<<4-references.adoc#_10, [10]>> 3. |ICMP_DomainNameReply
+|Security Failure |<<4-references.adoc#_11, [11]>> 2. |ICMP_SecurityFailure
+|=======================================================================
+
+The table below contains the implemented MIP Agent Advertisement Extensions (`extensions` field in `ICMP_RouterAdvertisement`) and the corresponding TTCN-3 type records
+
+[width="100%",cols="34%,33%,33%",options="header",]
+|======================================================================================
+|Extension name |Reference |Corresponding type record in __ICMP_Types.ttcn__
+|Mobile Agent Advertisement |<<4-references.adoc#_12, [12]>> 2.1.1. |ICMP_MIP_MobilityAgentAdvertisement_Extension
+|Prefix Length |<<4-references.adoc#_12, [12]>> 2.1.2. |ICMP_MIP_PrefixLengths_Extension
+|One Byte Padding |<<4-references.adoc#_12, [12]>> 2.1.3. |ICMP_MIP_OneBytePadding_Extension
+|Challenge |<<4-references.adoc#_13, [13]>> 2. |ICMP_MIP_Challenge_Extension
+|======================================================================================
+
+== Installation
+
+The set of protocol modules can be used in developing TTCN-3 test suites using any text editor. However, to make the work more efficient a TTCN-3-enabled text editor is recommended (for example, `nedit`, `xemacs`). Since the TRH protocol module is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor and a C compiler be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant parts of <<4-references.adoc#_2, [2]>>.
+
+== Encoding Feature
+
+The encoder updates the checksum field with the correct value.

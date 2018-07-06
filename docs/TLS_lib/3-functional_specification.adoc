@@ -1,0 +1,175 @@
+= Functional Specification
+
+== Supported TLS Versions
+
+The TLS library uses the OpenSSL, hence the supported SSL/TLS/DTLS versions are depends on the used version of the OpenSSL. The TLS library provides interface for:
+
+* SSLv3
+* TLSv1, TLSv1.1, TLSv1.2
+* DTLSv1.0, DTLSv1.2
+
+== TLS Object Handling Function
+
+In order to establish TLS/DTLS connections a TLS object should be created.
+
+[source]
+----
+external function TLS_New_object(
+        in TLS_descriptor descr
+        out integer object_id,
+        in integer user_idx := -1
+) return TLS_op_result;
+----
+
+The function returns the result of the object creation. The object can be referenced later by the `object_id`.
+
+The optional `user_idx` is not used by the TLS library directly, just stored as is. It can be used a reference to another object or connection.
+
+After the TLS/DTLS connection is not used any more the object should be destroyed.
+
+[source]
+external function TLS_Delete_object(in integer object_id) return TLS_op_result;
+
+== TLS Descriptor
+
+The TLS descriptor has the following fields:
+
+* `tls_method`: +
+Type: TLS_method, mandatory +
+Default value: `_TLS_method_TLS_` +
+Allowed values: `_TLS_method_TLS_`, `_TLS_method_DTLS_` +
+It specifies which method to use: TLS/SSL or DTLS.
+* `min_supported_version`, `max_supported_version` +
+Type: TLS_Supported_proto_versions, optional +
+Default value: `_omit_` +
+Allowed values: `_TLS_SSL3_VERSION_`, `_TLS_TLS1_VERSION_`, `_TLS_TLS1_1_VERSION_`, `_TLS_TLS1_2_VERSION_`, `_TLS_DTLS1_VERSION_`, `_TLS_DTLS1_2_VERSION_` +
+The minimum and the maximum version of the supported protocol.
+* `ssl_key_file`: +
+Type: charstring, optional +
+Default value: `_omit_` +
+It specifies a PEM encoded file’s path on the file system containing the server’s RSA private key.
+* `ssl_certificate_file`: +
+Type: charstring, optional +
+Default value: `_omit_` +
+It specifies a PEM encoded file’s path on the file system containing the certificate chain.
+* `ssl_trustedCAlist_file`: +
+Type: charstring, optional +
+Default value: `_omit_` +
+It specifies a PEM encoded file’s path on the file system containing the certificates of the trusted CA authorities to use.
+* `ssl_cipher_list`: +
+Type: charstring, optional +
+Default value: `_omit_` +
+It can be used to specify the allowed cipher list.
+* `ssl_password`: +
+Type: charstring, optional +
+Default value: `_omit_` +
+It specifies the password protecting the private key file.
+* `ssl_verify_certificate`: +
+Type: boolean, optional +
+Default value: `_true_` +
+It can be used to specify whether to check the certificate of the other side.
+* `psk_hint`: +
+Type: charstring, optional +
+Default value: `_omit_` +
+The server can provide a "PSK identity hint" in the `ServerKeyExchange` message. In the case where PSK identity hint is omit, the server does not send the `ServerKeyExchange` message to the client.
+* `psk_identity`: +
+Type: charstring, optional +
+Default value: `_omit_` +
+The "PSK identity" is included in the `ClientKeyExchange` message and transmitted to the server. After the negotiation for "PSK identity" is done, the client and the server can generate their pre-master secrets with the pre-shared key.
+* `psk_key`: +
+Type: charstring, optional +
+Default value: `_omit_` +
+It is the psk key in hexadecimal representation form.
+* `psk_for_server`: +
+Type: boolean, optional +
+Default value: `_omit_` +
+It can be used to specify the used psk callback function, the psk server callback or the psk client callback function will be called.
+
+== Connection Establishment
+
+The function to use to establish connection:
+
+[source]
+----
+external function TLS_Handshake(in integer object_id,
+                in boolean is_server
+                in octetstring input_stream,
+                out octetstring output_stream
+) return TLS_op_result;
+----
+
+The function should be called repeatedly until the handshake is finished.
+
+The return values:
+
+* `_TLS_OK_`: handshake finished
+* `_TLS_NEED_MORE_DATA_`: send the output stream to the peer if len >0, call the function again with more data from peer
+* `_TLS_DATA_TO_SEND_`: send the output stream to the peer, and call the function again
+* `_TLS_ERROR_`: something went wrong.
+
+Parameters:
+
+* `object_id`: The TLS object, created by the TLS_New_object
+* `is_server`: true: server side, false: client side
+* `input_stream`: The data received from the peer, or empty string
+* `output_stream`: The function places the data should be sent to the peer.
+
+== Data Exchange Function
+
+=== Send Data to the Peer
+
+The following function can be used to send data to the peer:
+
+[source]
+----
+external function TLS_Write(in integer object_id,
+            in octetstring user_data
+            in octetstring input_stream,
+            out octetstring output_stream
+) return TLS_op_result;
+----
+
+Should be called repeatedly until returns `TLS_OK`.
+
+The return values:
+
+* `_TLS_OK_`: all data ready to be sent.
+* `_TLS_NEED_MORE_DATA_`: send the output stream to the peer if `len >0`, call the function again with more data from peer
+* `_TLS_DATA_TO_SEND_`: send the output stream to the peer, and call the function again
+* `_TLS_ERROR_`: something went wrong.
+
+Parameters:
+
+* `object_id`: The TLS object, created by the `TLS_New_object`
+* `user_data`: the data to be sent
+* `input_stream`: The data received from the peer, or empty string
+* `output_stream`: The function places the data should be sent to the peer.
+
+=== Receive Data from the Peer
+
+The following function can be used to decrypt the data received from the peer:
+
+[source]
+----
+external function TLS_Read(in integer object_id,
+          out octetstring user_data,
+          in octetstring input_stream,
+          out octetstring output_stream
+) return TLS_op_result;
+----
+
+Should be called repeatedly until returns `TLS_OK`.
+
+The return values:
+
+* `_TLS_OK_`: all data received.
+* `_TLS_NEED_MORE_DATA_`: send the output stream to the peer if `len >0`, call the function again with more data from peer
+* `_TLS_DATA_TO_SEND_`: send the output stream to the peer, and call the function again
+* `_TLS_ERROR_`: something went wrong.
+
+Parameters:
+
+* `object_id`: The TLS object, created by the `TLS_New_object`
+* `user_data`: the received data
+* `input_stream`: The data received from the peer, or empty string
+* `output_stream`: The function places the data should be sent to the peer.

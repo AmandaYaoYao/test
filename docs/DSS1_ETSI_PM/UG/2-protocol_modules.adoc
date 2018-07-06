@@ -1,0 +1,61 @@
+= Protocol Modules
+
+== Overview
+
+Protocol modules implement the messages structure of the related protocol in a formalized way, using the standard specification language TTCN-3. This allows defining of test data (templates) in the TTCN-3 language <<4-references.adoc#_1, [1]>> and correctly encoding/decoding messages when executing test suites using the Titan TTCN-3 test environment.
+
+Protocol modules are using Titan’s RAW encoding attributes <<4-references.adoc#_2, [2]>> and hence are usable with the Titan test toolset only.
+
+The implementation of the functional protocol is based on files contained in annex "E" of <<4-references.adoc#_6, [6]>> and in <<4-references.adoc#_7, [7]>>
+
+The table below contains the implemented layer 3 messages and the corresponding TTCN-3 type records.
+
+[width="100%",cols="35%,15%,50%",options="header",]
+|===============================================================================
+|Message name |Reference |Corresponding type record in __DSS1_Types.ttcn__
+|`ALERTING` |<<4-references.adoc#_4, [4]>> 3.1.1 |PDU_DSS1_Alerting
+|`CALL PROCEEDING` |<<4-references.adoc#_4, [4]>> 3.1.2 |PDU_DSS1_CallProceeding
+|`CONGESTION CONTROL` |<<4-references.adoc#_5, [5]>> 3.1.3 |PDU_DSS1_CongestionControl
+|`CONNECT` |<<4-references.adoc#_4, [4]>> 3.1.4 |PDU_DSS1_Connect
+|`CONNECT ACKNOWLEDGE` |<<4-references.adoc#_4, [4]>> 3.1.5 |PDU_DSS1_ConnectAcknowledge
+|`DISCONNECT` |<<4-references.adoc#_4, [4]>> 3.1.6 |PDU_DSS1_Disconnect
+|`FACILITY` |<<4-references.adoc#_4, [4]>> 3.1.7 |PDU_DSS1_Facility
+|`HOLD` |<<4-references.adoc#_4, [4]>> 3.1.8 |PDU_DSS1_Hold
+|`HOLD ACKNOWLEDGE` |<<4-references.adoc#_4, [4]>> 3.1.9 |PDU_DSS1_HoldAcknowledge
+|`HOLD REJECT` |<<4-references.adoc#_4, [4]>> 3.1.10 |PDU_DSS1_HoldReject
+|`INFORMATION` |<<4-references.adoc#_4, [4]>> 3.1.11 |PDU_DSS1_Information
+|`NATIONAL REGISTER` |<<4-references.adoc#_4, [4]>> 3.1.12 |PDU_DSS1_NationalRegister
+|`NATIONAL REGISTER ACKNOWLEDGE`|<<4-references.adoc#_4, [4]>> 3.1.13 |PDU_DSS1_NationalRegisterAcknowledge
+|`NOTIFY` |<<4-references.adoc#_4, [4]>> 3.1.14 |PDU_DSS1_Notify
+|`PROGRESS` |<<4-references.adoc#_4, [4]>> 3.1.15 |PDU_DSS1_Progress
+|`REGISTER` |<<4-references.adoc#_4, [4]>> 3.1.16 |PDU_DSS1_Register
+|`RELEASE` |<<4-references.adoc#_4, [4]>> 3.1.17 |PDU_DSS1_Release
+|`RELEASE COMPLETE` |<<4-references.adoc#_4, [4]>> 3.1.18 |PDU_DSS1_ReleaseComplete
+|`RESTART` |<<4-references.adoc#_4, [4]>> 3.1.19 |PDU_DSS1_Restart
+|`RESTART ACKNOWLEDGE` |<<4-references.adoc#_4, [4]>> 3.1.20 |PDU_DSS1_RestartAcknowledge
+|`RESUME` |<<4-references.adoc#_4, [4]>> 3.1.21 |PDU_DSS1_Resume
+|`RESUME ACKNOWLEDGE`|<<4-references.adoc#_4, [4]>> 3.1.22 |PDU_DSS1_ResumeAcknowledge
+|`RESUME REJECT`|<<4-references.adoc#_4, [4]>> 3.1.23 |PDU_DSS1_ResumeReject
+|`RETRIEVE` |<<4-references.adoc#_4, [4]>> 3.1.24 |PDU_DSS1_Retrieve
+|`RETRIEVE ACKNOWLEDGE` |<<4-references.adoc#_4, [4]>> 3.1.25 |PDU_DSS1_RetrieveAcknowledge
+|`RETRIEVE REJECT` |<<4-references.adoc#_4, [4]>> 3.1.26 |PDU_DSS1_RetrieveReject
+|`SEGMENT` |<<4-references.adoc#_4, [4]>> 3.1.27 |PDU_DSS1_Segment
+|`SETUP` |<<4-references.adoc#_4, [4]>> 3.1.28 |PDU_DSS1_Setup
+|`SETUP ACKNOWLEDGE` |<<4-references.adoc#_4, [4]>> 3.1.29 |PDU_DSS1_SetupAcknowledge
+|`STATUS` |<<4-references.adoc#_4, [4]>> 3.1.30 |PDU_DSS1_Status
+|`STATUS ENQUIRY` |<<4-references.adoc#_4, [4]>> 3.1.31 |PDU_DSS1_StatusEnquiry
+|`SUSPEND` |<<4-references.adoc#_4, [4]>> 3.1.32 |PDU_DSS1_Suspend
+|`SUSPEND ACKNOWLEDGE` |<<4-references.adoc#_4, [4]>> 3.1.33 |PDU_DSS1_SuspendAcknowledge
+|`SUSPEND REJECT` |<<4-references.adoc#_4, [4]>> 3.1.34 |PDU_DSS1_SuspendReject
+|`USER INFORMATION` |<<4-references.adoc#_4, [4]>> 3.1.35 |PDU_DSS1_UserInformation
+|===============================================================================
+
+== Installation
+
+The set of protocol modules can be used in developing TTCN-3 test suites using any text editor. However to make the work more efficient a TTCN-3-enabled text editor is recommended (e.g. `nedit`, `xemacs`). Since the DSS1 ETSI protocol is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<4-references.adoc#_2, [2]>>.
+
+The files with extension _.asn_, the files __Facility_EncDec.cc__ and __Remote_Operations_Information_Objects.asn__ (CNL 113 369) are not needed unless use of the functional protocol is required. It is required if DSS1 parameters `DSS1_ExtendedFacility` or `DSS1_Facility` are in use and the coding of 'component' element as octetstring is not detailed enough for the test.
+
+== Configuration
+
+None.

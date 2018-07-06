@@ -1,0 +1,109 @@
+= Publish your Data
+
+The following chapters demonstrate how easy you can publish your data using the data source. They contain code parts from the source code of the `ExecCtrl` feature.
+
+=== Initialization
+
+The `init` function of the CT has an `EPTF_DataSource_CT` parameter. This `pl_dataSource_compRef` parameter has a default null value to make possible the use of the CT without `DataSource` server.
+
+[source]
+----
+public function f_EPTF_ExecCtrl_init_CT(
+  in charstring pl_selfName,
+  ...
+  in EPTF_DataSource_CT pl_dataSource_compRef := null)
+runs on EPTF_ExecCtrl_CT {
+----
+
+The `init` function initializes the `DataSourceClient` feature and registers the data request and condition request handler functions.
+
+[source]
+----
+f_EPTF_DataSourceClient_init_CT(pl_selfName, pl_dataSource_compRef);
+if(pl_dataSource_compRef != null){
+  ...
+f_EPTF_DataSourceClient_registerData(
+  c_ExecCtrl_DataSource_sourceId, f_EPTF_Base_selfName(),
+  refers(f_EPTF_ExecCtrl_DSProcessData));
+  f_EPTF_DataSourceClient_registerCondition(c_ExecCtrl_DataSource_sourceId,
+    f_EPTF_Base_selfName(),
+    refers(f_EPTF_ExecCtrl_conditionHandler_isWeightedSc),
+    c_ExecCtrl_conditionIsWeightedSc);
+f_EPTF_DataSourceClient_registerCondition(
+  c_ExecCtrl_DataSource_sourceId, f_EPTF_Base_selfName(),
+  refers(f_EPTF_ExecCtrl_conditionHandler_isInScGroup),
+  c_ExecCtrl_conditionIsInScGroup);
+}
+----
+
+That is all you have to do during the initialization.
+
+=== Responding the Data Requests
+
+The data request handler function receives all attributes and parameters which are present in the request (as it's described in ‎link:3-design_your_gui.adoc#externaldataelements[External Data Elements], and the link:3-design_your_gui.adoc#iterators[Iterators] chapters).
+[source]
+----
+friend function f_EPTF_ExecCtrl_DSProcessData(
+  out charstring pl_dataVarName,
+  in charstring pl_source,
+  in charstring pl_ptcName,
+  in charstring pl_element,
+  in EPTF_DataSource_Params pl_params)
+runs on EPTF_ExecCtrl_CT return integer{
+----
+
+Usually the functions need only the `pl_element` attribute and the associated `pl_params`, because the function provides data of one PTC and one data source. But you can create a more complicated distribution if you wish.
+
+The function fills out the `pl_dataVarName` function parameter according to the `pl_element` and the `pl_params` with the name of the appropriate variable:
+
+[source]
+----
+select(pl_element){
+  case(c_ExecCtrl_iteratorEntityTypesForLGen){
+  ...
+  }
+  case(c_ExecCtrl_iteratorRegulatedItems){
+  ...
+    pl_dataVarName := c_ExecCtrl_DS_iteratorVar_prefix &
+    c_ExecCtrl_iteratorRegulatedItems_varName;
+  ...
+  }
+----
+
+If there was an error, returns a nonzero value.
+
+[source]
+----
+case else {  //error, no rule for that
+    pl_dataVarName := "";
+f_EPTF_ExecCtrl_warning(
+  %definitionId& ": unhandled element: "& pl_element);
+    return -1;
+  }
+}
+...
+----
+
+If there request was successful, returns zero.
+
+[source]
+----
+return 0;
+----
+
+=== Responding to Condition Requests
+
+The condition request handler functions are really similar to the data request handler functions. They receive all attributes and parameters which are present in the request too.
+
+[source]
+----
+friend function f_EPTF_ExecCtrl_conditionHandler_isWeightedSc(
+  out boolean pl_conditionValue,
+  in charstring pl_source,
+  in charstring pl_ptcName,
+  in charstring pl_method,
+  in EPTF_DataSource_Params pl_params
+) runs on EPTF_ExecCtrl_CT return integer {
+----
+
+And they fill out the `pl_dataVarName` function parameter according to the `pl_method` and the `pl_params`.

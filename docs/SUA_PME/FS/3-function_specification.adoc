@@ -1,0 +1,170 @@
+= Function Specification
+
+== Routing Functionality
+
+Routing functionality is not performed. SUA PE emulates a signaling endpoint.
+
+== Service Classes
+
+Service primitives are implemented as messages in the test ports.
+
+There are four service classes in SCCP (see 6/Q.711 and 2/T1.112.1-2001) as follows:
+
+* 0 - Basic connectionless class
+
+* 1 - In-sequence delivery connectionless class
+
+* 2 - Basic connection-oriented class
+
+* 3 - Flow control connection-oriented class.
+
+The SUA PE supports classes 0,1,2 but doesn’t support class 3.
+
+There is no difference between class 0 and 1 because only one test port is being used.
+
+== SCCP ASPs
+
+SUA service primitives are received and sent across service access points. See SCCP ASPs handled by SUA PE in the table below:
+
+"Not implemented" primitives are discarded by SUA PE.
+
+[cols=",",options="header",]
+|========================================
+|SCCP ASP |Implementation info
+|`N_CONNECT_res` |received from SUA user
+|`N_CONNECT_req` |received from SUA user
+|`N_DATA_req` |received from SUA user
+|`N_DISCONNECT_req` |received from SUA user
+|`N_UNITDATA_req` |received from SUA user
+|`N_RESET_req` |not implemented
+|`N_RESET_resp` |not implemented
+|`N_CONNECT_ind` |sent to SUA user
+|`N_CONNECT_cfm` |sent to SUA user
+|`N_DATA_ind` |sent to SUA user
+|`N_DISCONNECT_ind` |sent to SUA user
+|`N_UNITDATA_ind` |sent to SUA user
+|`N_NOTICE_ind` |sent to SUA user
+|`N_STATE_ind` |not implemented
+|`N_RESET_ind` |sent to SUA user
+|`N_RESET_cfm` |sent to SUA user
+|========================================
+
+== SUA Messages
+
+User data fields of SUA PDUs received by SUA PE are mapped to N-service primitives that will be sent to the SCCP User(s).
+
+An SUA message received may be mapped to an N-service primitive or may invoke an exception handling procedure based on the state of the SUA PE. The supported message types and the related mappings are summarized in the table below:
+
+[width="100%",cols="2%,50%,15%,15%",options="header",]
+|================================================================================================================================================
+|SUA message ID |Name of message |This message is not supported by SUA PE. |Message handled and relayed towards SCCP-User layer if needed
+|`SUA_ERR` |Error |*X* |
+|`SUA_NTFY` |Notify |*X* |
+|`SUA_DUNA` |Destination Unavailable |*X* |
+|`SUA_DAVA` |Destination Available |*X* |
+|`SUA_DAUD` |Destination State Audit |*X* |
+|`SUA_SCON` |Signalling Congestion |*X* |
+|`SUA_DUPU` |Destination User Part Unavailable |*X* |
+|`SUA_DRST` |Destination Restricted |*X* |
+|`SUA_ASPUP` |ASP up |*X* |
+|`SUA_ASPDN` |ASP down |*X* |
+|`SUA_BEAT` |Heartbeat |*X* |
+|`SUA_BEAT_Ack` |Heartbeat Ack |*X* |
+|`SUA_ASPUP_Ack` |ASP up ack |*X* |
+|`SUA_ASPDN_Ack` |ASP down ack |*X* |
+|`SUA_ASPAC` |ASP Active |*X* |
+|`SUA_ASPIA` |ASP Inactive |*X* |
+|`SUA_ASPAC_Ack` |ASP Active Ack |*X* |
+|`SUA_ASPIA_Ack` |ASP Inactive |*X* |
+|`SUA_CLDT` |Connectionless Data Transfer | |*X*
+|`SUA_CLDR` |Connectionless Data REsponse | |*X*
+|`SUA_CORE` |Connection Request | |*X*
+|`SUA_COAK` |Connection Acknowledge | |*X*
+|`SUA_COREF` |Connection Refused | |*X*
+|`SUA_RELRE` |Release Request | |*X*
+|`SUA_RELCO` |Release Confirm | |*X*
+|`SUA_RESCO` |Reset Confirm | |*X*
+|`SUA_RESRE` |Reset Request | |*X*
+|`SUA_CODT` |Connection Oriented Data Transfer | |*X*
+|`SUA_CODA` |Connection Oriented Data Transfer |*X* |
+|`SUA_COERR` |Connection Oriented Data Transfer | |*X*
+|`SUA_COIT` |Connection Oriented Data Transfer | |*X*
+|`SUA_REGREQ` |Registration Request |*X* |
+|`SUA_REGRSP` |Registration Response |*X* |
+|`SUA_DEREGREQ` |Deregistration Request |*X* |
+|`SUA_DEREGRSP` |Deregistration Response |*X* |
+|================================================================================================================================================
+
+This table describes the types of messages SUA PE accepts from the lower layer. Details of SUA message translation into SCCP N-ASPs can be found in ‎<<5-references.adoc#_6, [6]>>.
+
+== SCCP Primitives of the Connectionless Service
+
+SCCP can provide 2 classes of connectionless services (0 and 1) but there is no difference between them in this implementation (see 6/Q.711 and 2/T1.112.1-2001).
+
+The primitives to the upper layers and the corresponding parameters for connectionless service are implemented as follows:
+
+See primitives and their mappings for Connectionless Service below:
+
+[cols=",,",options="header",]
+|=============================================
+|Generic name |ASP name |Message mapping
+|N-UNITDATA |`N_UNITDATA_req` |send SUA CLDT
+|N-NOTICE |`N_NOTICE_ind` |SUA CLDR received
+|=============================================
+
+== SCCP Primitives for Connection-Oriented Services
+
+ See network service primitives and mapping for connection-oriented services below:
+
+[cols=",,",options="header",]
+|==============================================
+|Generic Name |ASP name |Message mapping
+|N-CONNECT |`N_CONNECT_req` |send SUA CORE
+|N-DATA |`N_DATA_req` |send SUA CODT
+|N-DISCONNECT |`N_DISCONNECT_req` |send SUA COREF
+|N-RESET |`N_RESET_ind` |SUA RESRE received
+|==============================================
+
+[[SUA_management_functionality]]
+== SUA Management Functionality
+
+SUA management functionality is implemented in the SUA Test Port. However, support for connection-oriented transfer is enabled by SUA PE by handling SUA CORE, COAK, COREF, RELRE, RELCO, RESCO, RESRE, COERR and COIT messages.
+
+== Message Sequence Control
+
+SUA PE maintains the order of messages between the upper and lower layer interfaces.
+
+== Flow Control
+
+Not supported by SUA PE.
+
+== Segmentation and Reassembly
+
+Segmentation is supported in as much as data received from the SCCP User layer can be transferred in SUA CODT messages using segmentation. Maximum allowed transfer message size can be altered using the module parameter `tsp_SUA_data_maxlen`, which is taken into account when transferring `N-DATA_req` messages. Also, incoming CODT messages are checked for segmentation and a receiving buffer is used if needed.
+
+== State Machine
+
+SUA PE maintains a state machine behavior for each connection-oriented services according to Figure 8/Q.711.
+
+== Global Title Translation
+
+Not supported.
+
+== Capacity and Limitation
+
+Few parameters are hardcoded in SUA PE implementation, here is the list of them:
+
+[width="100%",cols="34%,33%,33%",options="header",]
+|=====================================================================================================================================
+|*Feature* |*Restriction* |*Remark*
+|Fields `<translation type>`, `<numbering plan>` and `<nature of address>` |= 0 (unknown), if not specified otherwise |See 3.10.2.3. in <<5-references.adoc#_6, ‎[6]>>
+|Management |Partially implemented |See <<SUA_management_functionality, SUA Management Functionality>> in this document
+|Field `<encoding scheme>` in a N-SCCP ASP Global Title |`= 1 or 2` |`1 if (<number of digits> mod 2 == 1), 2 otherwise`
+|Service class 3 |NOT IMPLEMENTED |
+|Routing |NOT IMPLEMENTED |SUA PE is a signaling endpoint
+|Message sequence control |NOT IMPLEMENTED |Indifferent
+|Flow control |NOT IMPLEMENTED |Because class 3 not supported
+|Global title translation |NOT IMPLEMENTED |
+|=====================================================================================================================================
+
+There shall be exactly one SCCP User test component instance for each SUA PE instance. An SUA PE instance is able to handle up to 16 SUA connections and 16 segmented N-UNITDATA messages at the same time.

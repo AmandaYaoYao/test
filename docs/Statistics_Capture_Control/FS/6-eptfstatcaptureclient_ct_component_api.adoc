@@ -1,0 +1,70 @@
+[[eptf-statcaptureclient-ct-component-api]]
+= `EPTF_StatCaptureClient_CT` Component API
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_StatCaptureClient_`.
+
+== Public Functions
+
+=== Initializing the Client Component
+
+If the statistic generating and the logging should be on another component, the generating side should extend the `StatCaptureClient_CT` feature component. Before using the EPTF Statistics Capture Client functions the client should call the
+
+`f_EPTF_StatCaptureClient_init(componentname)`
+
+function. This initializes the EPTF Statistics Capture Client feature.
+
+=== Subscribe Statistics to a Group
+
+In order to access the statistics on the client component, the client should subscribe the statistics on the server grouped by a `groupName` with the function `f_EPTF_StatCaptureClient_addStatsToGroup`( `pl_groupName`, `pl_stats`, `pl_subscriptionMode`). The subscription mode is defined by the `pl_subscriptionMode`.
+
+=== Starting/Stopping Capture from Client
+
+Starting and stopping capture can be done anytime during runtime.
+
+==== Start Capturing a Capture Group
+
+`f_EPTF_StatCaptureClient_startGroup(pl_groupName)`
+
+This function starts capturing a capture group defined by `pl_groupName`.
+
+==== Start Capturing All Capture Groups
+
+`f_EPTF_StatCaptureClient_startGroupAll()`
+
+This function starts capturing all (not deleted) capture groups.
+
+==== Stop Capturing a Capture Group
+
+`f_EPTF_StatCaptureClient_stopGroup(pl_groupName)`
+
+This function stops capturing a capture group defined by `pl_groupName`. As an effect, the content of the capture group is not printed out to the `logfiles`.
+
+==== Stop Capturing All Capture Groups
+
+`f_EPTF_StatCaptureClient_stopGroupAll()`
+
+This function stops the capture of all capture groups on the server.
+
+==== Delete Capturing a Capture Group
+
+`f_EPTF_StatCaptureClient_deleteGroup(pl_groupName)`
+
+This function deletes a capture group defined by `pl_groupName`. As an effect, the content of the capture group is not printed out to the `logfiles` and cannot be started again until the `f_EPTF_StatCaptureClient_addStatsToGroup()` function is called to that group.
+
+== Summary Table of the Public Functions for EPTF Statistics Capture Client Feature
+
+See Summary of Statistics Capture Control functions belonging to the `EPTF_StatCaptureClient_CT` component in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|==========================================================================================
+|Function name |Description
+|`f_EPTF_StatCaptureClient_init_CT` |Initializes the StatCaptureClient component.
+|`f_EPTF_StatCaptureClient_addStatsToGroup` |Add statistics to a Capture Group on the server.
+|`f_EPTF_StatCaptureClient_startGroup` |Starts the Capture of a Capture Group on the server.
+|`f_EPTF_StatCaptureClient_startGroupAll` |Start Capturing all Capture Groups on the server.
+|`f_EPTF_StatCaptureClient_stopGroup` |Stops the Capture of a Capture Group on the server.
+|`f_EPTF_StatCaptureClient_stopGroupAll` |Stops Capturing all Capture Groups on the server.
+|`f_EPTF_StatCaptureClient_deleteGroup` |Deletes a Capture Group on the server.
+|==========================================================================================

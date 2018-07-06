@@ -1,0 +1,17 @@
+= Error Handling
+
+During the encoding and the decoding of a RADIUS message the following error scenarios can be identified:
+
+* If a RADIUS message arrives with a code not known by the RADIUS protocol module, an error message is generated, where the unknown code value appears at <value>:
+
+`*Warning: While RAW-decoding type `@RADIUS_Types.PDU_RADIUS': Invalid enum value <value> for `@RADIUS_Types.Code'*`
+
+* If the `Code` field of the RADIUS message to be sent is invalid, an error message is generated, where the code value appears at <value>:
+
+`*Warning : Will not send out Radius message with code <value> in Server/Client mode!*`
+
+* If a RADIUS message arrives with a wrong authentication value, an error message is generated, where the code value appears at <value>:
+
+`*Warning: Unexpected authentication value received in message with code <value>*`
+
+* In case of an unknown Attribute code, the Attribute is decoded into a special `attrib_UNKNOWN` field. The type of this field is `Attrib_UNKNOWN`. That is a record, which contains three fields (`attrib_type`, `attrib_length`, `attrib_value`) like a normal Attribute with octetstring-type `attrib_value`.

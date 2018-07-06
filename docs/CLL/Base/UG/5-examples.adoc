@@ -1,0 +1,9 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* __EPTF_Base_test.ttcn__
+
+== Demo Module
+
+The demo module (__EPTF_Base_test.ttcn__) illustrates a typical usage of the EPTF Base feature.

@@ -1,0 +1,11 @@
+= Introduction
+
+== About This Document
+
+=== How to Read This Document
+
+This is the User Guide for the MBT application library of the Ericsson Performance Test Framework (TitanSim). The application library is developed for the TTCN-3 <<6-references.adoc#_1, ‎[1]>> Toolset with TITAN ‎<<6-references.adoc#_2, [2]>>. This document should be read together with Function Specification <<6-references.adoc#_3, ‎[3]>>.
+
+=== Presumed Knowledge
+
+To use this applib the knowledge of the TTCN-3 language ‎<<6-references.adoc#_1, [1]>> is essential.

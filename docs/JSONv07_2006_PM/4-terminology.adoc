@@ -1,0 +1,9 @@
+= Terminology
+
+== Abbreviations
+
+PDU:: Protocol Data Unit
+
+JSON:: JavaScript Object Notation
+
+TTCN-3:: Testing and Test Control Notation version 3

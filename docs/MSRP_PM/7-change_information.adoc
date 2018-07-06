@@ -1,0 +1,5 @@
+= Change Information
+
+== R7B
+
+Changed the description of the binary decoder.

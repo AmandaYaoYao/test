@@ -1,0 +1,10 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* __EPTF_Scheduler_test.prj__
+* __EPTF_Scheduler_test.ttcn__
+
+== Demo Module
+
+The demo module (__EPTF_Scheduler_test.ttcn__) illustrates a typical usage of the Scheduler feature.

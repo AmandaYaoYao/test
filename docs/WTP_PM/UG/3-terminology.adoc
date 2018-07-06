@@ -1,0 +1,9 @@
+= Terminology
+
+No specific terminology is used.
+
+= Abbreviations
+
+WTP:: Wireless Transaction Protocol
+
+TTCN-3:: Testing and Test Control Notation version 3

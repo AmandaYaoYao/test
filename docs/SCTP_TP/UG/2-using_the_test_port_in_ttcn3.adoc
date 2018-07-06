@@ -1,0 +1,368 @@
+= Using the test port in TTCN3
+
+[[abstract_service_primitives]]
+== Abstract service primitives
+
+[[incoming-outgoing-asps]]
+=== Incoming/Outgoing ASPs
+
+[[asp-sctp]]
+==== `ASP_SCTP`
+
+This ASP is used to send and receive user data. It has four fields:
+
+* `client_id`: +
+It specifies the client the message is to be sent to. This field should be set to `_"OMIT"_` in client mode and it is mandatory in server mode and normal mode. Breaking these rules will cause a TTCN error. In received `ASP_SCTP` messages the field will contain the id of the peer endpoint.
+
+* `sinfo_stream`: +
+It specifies the stream number the message is to be sent to. Each association has at least one outbound stream. For further details about streams, see <<7-references.adoc#_7, [7]>>.
+
+* `sinfo_ppid`: +
+It specifies information about the upper protocol layer.
+
+NOTE: This information is passed opaquely by the SCTP stack from one end to the other.
+
+* `data`: +
+User data stored in unstructured octetstring.
+
+=== Incoming ASPs
+
+[[asp-sctp-assoc-change]]
+==== `ASP_SCTP_ASSOC_CHANGE`
+
+This ASP indicates an `sctp_assoc_change` notification. This notification is generated when the status of an association has changed: it has been opened or closed.
+
+It has two fields:
+
+* `client_id`: +
+It specifies the association identified by the participating client.
+
+* `sac_state`: +
+It indicates what kind of event has happened to the association. The most important ones are `SCTP_COMM_UP` and `SCTP_COMM_LOST`. The former indicates that a new association is now ready and data may be exchanged with this peer. The latter indicates that the association has failed. For more information, see <<7-references.adoc#_8, [8]>>.
+
+[[asp-sctp-peer-addr-change]]
+==== `ASP_SCTP_PEER_ADDR_CHANGE`
+
+This ASP indicates an `sctp_peer_addr_change` notification. This notification is generated when an address that is part of an existing association has experienced a change of state (for example, a failure or return to service of the reachability of an endpoint via a specific transport address).
+
+It has two fields:
+
+* `client_id`: +
+It specifies the association identified by the participating client.
+
+* `spc_state`: +
+It indicates what kind of event has happened to an address that is part of an existing association. The most important ones are `SCTP_ADDR_AVAILABLE` and `SCTP_ADDR_UNREACHABLE`. The former indicates that this address is now reachable. The latter indicates that the address specified can no longer be reached. Any data sent to this address is rerouted to an alternate until this address becomes reachable. For more information, see <<7-references.adoc#_7, [7]>>.
+
+NOTE: The test port currently does not support multihoming. This means that one address is available per association.
+
+[[asp-sctp-send-failed]]
+==== `ASP_SCTP_SEND_FAILED`
+
+This ASP indicates an `*sctp_send_failed*` notification. This notification is generated when a message could not be sent to the remote endpoint.
+
+It has one field:
+
+* `client_id`: +
+It specifies the association identified by the participating client.
+
+[[asp-sctp-remote-error]]
+==== `ASP_SCTP_REMOTE_ERROR`
+
+This ASP indicates an `*sctp_remote_error*` notification. This notification is generated when an operational error has been received from the remote peer.
+
+It has one field:
+
+* `client_id`: +
+It specifies the association identified by the participating client.
+
+[[asp-sctp-shutdown-event]]
+==== `ASP_SCTP_SHUTDOWN_EVENT`
+
+This ASP indicates an `sctp_shutdown_event` notification. This notification is generated when the peer endpoint has been shut down.
+
+It has one field:
+
+* `client_id`: +
+It specifies the association identified by the participating client.
+
+[[asp-sctp-partial-delivery-event]]
+==== `ASP_SCTP_PARTIAL_DELIVERY_EVENT`
+
+This ASP indicates an `sctp_partial_delivery_event` notification. It is used to tell a receiver that the partial delivery has been aborted. This may indicate the association is about to be aborted.
+
+It has one field:
+
+* `client_id`: +
+It specifies the association identified by the participating client.
+
+[[asp-sctp-adaption-indication]]
+==== `ASP_SCTP_ADAPTION_INDICATION`
+
+This ASP indicates an `sctp_adaption_indication` notification. It holds the peer’s indicated adaption layer.
+
+It has one field:
+
+* `client_id`: +
+It specifies the association identified by the participating client.
+
+[[asp-sctp-connected]]
+==== `ASP_SCTP_Connected`
+
+This ASP is used to indicate that a new client is connected to one of our server sockets in normal mode. It has five fields:
+
+* `client_id`: +
+It specifies the association identified by the participating client.
+
+* `local_hostname`: +
+It specifies the local host name the remote client connected to.
+
+* `local_portnumber`: +
+It specifies the local port the remote client connected to.
+
+* `peer_hostname`: +
+It specifies the host name of the remote client.
+
+* `peer_portnumber`: +
+It specifies the port number of the remote client.
+
+[[asp-sctp-sendmsg-error]]
+==== `ASP_SCTP_SENDMSG_ERROR`
+
+This ASP is used to indicate a send message error by echoing back the `ASP_SCTP` being failed to send. It has four fields:
+
+* `client_id`: +
+It specifies the client the message is to be sent to.
+
+* `sinfo_stream`: +
+It specifies the stream number the message is to be sent to.
+
+* `sinfo_ppid`: +
+It specifies information about the upper protocol layer.
+
+* `data`: +
+It user data stored in unstructured octetstring.
+
+[[asp-sctp-result]]
+==== `ASP_SCTP_RESULT`
+
+This ASP is used to indicate the status of action started by the user. It is generated after `ASP_SCTP_Connect`, `ASP_SCTP_ConnectFrom` and `ASP_SCTP_SetSocketOptions`. Reporting server listening socket opening result is optional, and can be activated with the `SCTP_REPORT_LISTEN_RESULT c++ pre-processor flag:CPPFLAGS = -Dlatexmath:[$(PLATFORM) -I$](TTCN3_DIR)/include -I$(SCTP_DIR)/include –DSCTP_REPORT_LISTEN_RESULT`
+
+The ASP has three fields:
+
+* `client_id`: +
+It specifies the association identified by the participating client.
+
+* `error_status`: +
+It specifies if there was an error during the execution. If the operation is successful it is set to `_"0"_`, otherwise it is set to `_"1"_`.
+
+* `error_message`: +
+It holds the textual information about the error caused by the user started operation. This field is optional. It will be omitted if the operation is successful.
+
+=== Outgoing ASPs
+
+[[asp-sctp-connect]]
+==== `ASP_SCTP_Connect`
+
+This ASP is used in client mode to initiate a new connection. You should not use it in server mode otherwise you will get a TTCN error. It has two fields:
+
+* `peer_hostname`: +
+It specifies the host name of the SCTP server. This field is optional. It may be omitted when the corresponding test port parameter has been already specified in the configuration file. If this field is omitted and the corresponding test port parameter is not specified in the configuration file, TTCN error will be generated.
+
+* `peer_portnumber`: +
+It specifies the port number of the SCTP server. This field is optional. It may be omitted when the corresponding test port parameter has been already specified in the configuration file. If this field is omitted and the corresponding test port parameter is not specified in the configuration file, TTCN error will be generated.
+
+NOTE: In normal mode `ASP_SCTP_Connect` returns immediately and `ASP_SCTP_RESULT` will indicate the result of the operation. This may take some time if the remote end does not answer. In simple mode `ASP_SCTP_Connect` blocks until the end of the connect operation.
+
+[[asp-sctp-connectfrom]]
+==== `ASP_SCTP_ConnectFrom`
+
+This ASP is used in normal mode to initiate a new connection when the local host name and port number should be defined. In simple mode it has no affect. It has four fields:
+
+* `local_hostname`: +
+It specifies the local IP address the SCTP socket binds to. This field is optional. If omitted it takes the value of the corresponding test port parameter. If there is no such parameter it will be assigned to the default value (`INADDR_ANY`).
+
+* `local_portnumber`: +
+It specifies the local port number the SCTP socket binds to.
+
+* `peer_hostname`: +
+It specifies the host name of the SCTP server. This field is optional. It may be omitted when the corresponding test port parameter has been already specified in the configuration file. If this field is omitted and the corresponding test port parameter is not specified in the configuration file, TTCN error will be generated.
+
+* `peer_portnumber`: +
+It specifies the port number of the SCTP server. This field is optional. It may be omitted when the corresponding test port parameter has been already specified in the configuration file. If this field is omitted and the corresponding test port parameter is not specified in the configuration file, TTCN error will be generated.
+
+NOTE: `ASP_SCTP_ConnectFrom` returns immediately and `ASP_SCTP_RESULT` will indicate the result of the operation. This may take some time if the remote end does not answer.
+
+[[asp-sctp-listen]]
+==== `ASP_SCTP_Listen`
+
+This ASP is used in normal mode to create a new server socket. In simple mode it has no affect. It has two fields:
+
+* `local_hostname`: +
+It specifies the local IP address the SCTP socket binds to. This field is optional. If omitted it takes the value of the corresponding test port parameter. If there is no such parameter it will be assigned to the default value (`INADDR_ANY`).
+
+* `local_portnumber`: +
+It specifies the local port number the SCTP socket binds to.
+
+NOTE: To activate reporting the result of the listen operation, see section <<asp-sctp-result, `ASP_SCTP_RESULT`>>
+
+[[asp-sctp-setsocketoptions]]
+==== `ASP_SCTP_SetSocketOptions`
+
+This ASP is defined as a union and can be applied to the setting of four different groups of socket options.
+
+* `SCTP_INIT`
+
+It has four fields:
+
+* `sinit_num_ostreams`
+* `sinit_max_instreams`
+* `sinit_max_attempts`,
+* `sinit_max_init_timeo`
+
+They have the same semantics as the corresponding test port parameters described in section <<1-introduction.adoc#SCTPasp_Test_Port_Parameters_in_the_RTE_Configuration_File, SCTPasp Test Port Parameters in the RTE Configuration File>>
+
+* `SCTP_EVENTS`
+
+It has eight fields:
+
+* `sctp_data_io_event`
+* `sctp_association_event`
+* `sctp_address_event`
+* `sctp_send_failure_event`
+* `sctp_peer_error_event`
+* `sctp_shutdown_event`
+* `sctp_partial_delivery_event`
+* `sctp_adaption_layer_event`
+
+They have the same semantics as the corresponding test port parameters described in section <<1-introduction.adoc#SCTPasp_Test_Port_Parameters_in_the_RTE_Configuration_File, SCTPasp Test Port Parameters in the RTE Configuration File>>.
+
+* `SO_LINGER`
+
+This option is used to perform the SCTP ABORT primitive. To enable the option set `l_onoff` to `_"1"_`. If the `l_linger` value is set to `_"0"_`, sending `ASP_SCTP_Close` is the same as the ABORT primitive. If the value is set to a negative value you will get a warning message. If the value is set to a positive value, the `close`() operation can be blocked for at most `l_linger` milliseconds. If the graceful shutdown phase does not finish during this period, `close`() will return but the graceful shutdown phase continues in the system.
+
+It has two fields:
+
+* `l_onoff`: +
+Setting option on or off.
+
+* `l_linger`: +
+Setting linger time.
+
+
+* `SCTP_RTOINFO`
+
+This option is used to set the retransmission timeout (RTO) parameters on a per-socket basis. It has four fields:
+
+* `client_id`: +
+It specifies the association identified by the participating client.
+
+* `srto_initial`: +
+It specifies the initial RTO value in milliseconds.
+
+* `srto_max`: +
+It specifies the maximum RTO value in milliseconds.
+
+* `srto_min`: +
+It specifies the minimum RTO value in milliseconds.
+
+NOTE: `SCTP_EVENTS` options apply to the test port globally (all client and server sockets). In normal mode `SCTP_INIT` and `SO_LINGER` socket options only apply to the latest socket created by `ASP_SCTP_Connect`, `ASP_SCTP_ConnectFrom` and `ASP_SCTP_Listen`.
+
+[[asp-sctp-close]]
+==== `ASP_SCTP_Close`
+
+This ASP is used to close SCTP connections. It has one field:
+
+* `client_id`: +
+It specifies the association identified by the participating client to be closed.
+
+[.underline]#Simple mode#:
+
+This field should be set to `_"OMIT"_` in client mode otherwise a TTCN error will be generated. If you omit it in server mode all client connections will be closed.
+
+[.underline]#Normal mode#:
+
+If you omit the `client_id` all client and server sockets will be closed.
+
+== Client Mode
+
+In client mode the ASPs should be used in the following sequence (optional steps are placed in brackets; "*" means `_0-many_`; "+" means `_1-many_`; "?" means `_0-1_`):
+
+* `ASP_SCTP_Connect`
+
+Example template:
+
+[source]
+----
+template ASP_SCTP_Connect t_ASP_SCTP_Connect :=
+\{
+peer_hostname := localhost,
+peer_portnumber := 6017
+}
+----
+
+* `ASP_SCTP_SetSocketOptions`
+
+Example template:
+
+[source]
+----
+template ASP_SCTP_SetSocketOptions t_ASP_SCTP_EVENTS :=
+\{
+Sctp_events :=
+\{
+sctp_data_io_event := true,
+sctp_association_event := true,
+sctp_address_event := false,
+sctp_send_failure_event := false,
+sctp_peer_error_event := false,
+sctp_shutdown_event := false,
+sctp_partial_delivery_event := false,
+sctp_adaption_layer_event := false
+}
+}
+----
+
+* `ASP_SCTP`
+
+Example template:
+
+[source]
+----
+template ASP_SCTP t_ASP_SCTP :=
+\{
+client_id := omit,
+sinfo_stream := 0,
+sinfo_ppid := 0,
+data := 'FFF000'O
+}
+----
+
+* `ASP_SCTP_Close`
+
+Example template:
+
+[source]
+----
+template ASP_SCTP_Close t_ASP_SCTP_Close :=
+\{
+client_id := omit
+}
+----
+
+In client mode `client_id` should be set to `_"OMIT"_`!
+
+NOTE: In client mode the connection should be initiated manually by sending out `ASP_SCTP_Connect`.
+
+== Server mode
+
+In server mode the following ASPs can be used in arbitrary sequences: `ASP_SCTP_SetSocketOptions`, `ASP_SCTP`, `ASP_SCTP_Close`. Using `ASP_SCTP_Connect` will result in a TTCN error.
+
+== Reconnect mode
+
+There is a special reconnect mode when the test port is used as a client. In reconnect mode the client automatically connect to an arbitrary server. If the connection fails a reconnection procedure will be initiated. This procedure will block the RTE, it is strongly recommended not to use the test port in reconnect mode.
+
+In reconnect mode only `ASP_SCTP` should be used.
+
+== Normal mode
+
+In normal mode the test port can handle many client and server socket at the same time. This can be achieved by consecutive usage of `ASP_SCTP_Connect`, `ASP_SCTP_ConnectFrom` and `ASP_SCTP_Listen`. The several SCTP associations can be differentiated by their `client_ids`. The first sources of the `client_id` are ASP_SCTP_RESULT, which returns after a client socket attempts to connect to a server socket, and `ASP_SCTP_Connected`, which is got when a server socket accepts a new client connection. `ASP_SCTP_Conneced` contains information about the remote host name and port of the client too.

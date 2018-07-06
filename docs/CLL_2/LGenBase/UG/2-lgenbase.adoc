@@ -1,0 +1,253 @@
+= LGenBase
+
+== Overview
+
+The EPTF CLL LGenBase component is a fundamental component providing an implementation for final state machine handling and traffic case management in a load test environment.
+
+Using Applibs based on LGenBase the users can easily configure and manage traffic tests.
+
+=== Burst Calculation
+
+Burst calculation functions are used to adjust the rate, the load level to be achieved. For reaching the adequate rate we have to calculate the number of traffic/event to be started in a call generation event and the next call generation time. There are number of predefined burst calculating functions, but user can specify his own function too. The predefined burst functions are `orig`, `imst`, `imst2`, `cs` and `poisson`. The burst calculation methods then can be referred by their names or their indices.
+
+Burst calculating functions can be assigned to a traffic case or a weighted scenario in three ways:
+
+* First it can set via the initialization of LGenBase component. In this case all of the traffic cases can be set with the same burst calculation method.
+
+* The second way for setting burst calculation is via the declaration of a traffic case or weighted scenario. The parameter `scheduler` can be used to assign a burst calculation method to a traffic case.
+
+* Users can use the function `f_EPTF_LGenBase_setBurstCalcAlgByIdx()` or `f_EPTF_LGenBase_setBurstCalcAlgByName()` to assign a burst calc method to a traffic case or a weighted scenario.
+
+The original EPTF burst calculating function (orig) uses the following algorithm:
+
+The trivial formula `idealBurstSize=cpsToReach*cpsUpdateInterval` specifies the number new calls/traffic to be generated at every `(cpsUpdateInterval)`^th^ second. Call generation has two main input parameters that affect the resulting CPS value: `cpsToReach` and `cpsUpdateInterval`. However, the `cpsUpdateInterval` is subject to rouding errors in the scheduler.
+
+Therefore, when these values are set, the load generator calculates the parameter `roundedCpsUpdateInterval` as the nearest multiple of the elementary timestep greater than (or equal to) parameter `cpsUpdateInterval`. It calculates a burst size based on this rounded value and parameter `cpsToReach`.
+
+However, when the call generation event is scheduled - relative to the snapshot of the actual component timer - the scheduler also rounds the scheduling time to the elementary timestep. Thus the scheduled interval is usually longer than needed (quantization error).
+
+To prevent this issue, the actual interval used to schedule a call generation event is calculated by decreasing the rounded update interval with the elementary timestep multiplied by a float value greater than 0.0 and lower than 1.0. This float value gives the probability of accurate scheduling. In case of a multiplication factor of 0.99, 99% of scheduling will be accurate and the remaining 1% is scheduled later than needed.
+
+The IMST type burst calculation function (`imst`) uses the following algorithm for calculating the number of traffic/event to be started and the next call generation time:
+
+It wakes up every 10 millisec, this will be the next call generation time. At the start it sets `masterCounter` variable to `_0_`. The variable `moduloOperand` equals `_100*1000/rate_` where `_100_` is `OUR_RESOLUTION`, `_1000_` is `TICS_PER_INTERVAL` and rate is the rate to be achieved. Then it increases `masterCounter` variable by one. If `masterCounter` modulo `moduloOperand` equals `_0_` then one plus traffic should be started. It repeats the increase of mastercounter `_1000_` (`TICS_PER_INTERVAL`) times.
+
+[source]
+----
+OUR_RESOLUTION=100;
+TICS_PER_INTERVAL=1000;
+masterCounter=0;
+moduloOperand=OUR_RESOLUTION*TICS_PER_INTERVAL/rate;
+For(i=masterCounter;i< masterCounter+ TICS_PER_INTERVAL;i++)
+{
+If((i mod moduloOperand)==0);
+  {
+  trafficToStart=trafficToStart+1;
+  }
+}
+masterCounter=masterCounter+TICS_PER_INTERVAL;
+----
+
+The IMST2 type burst calculation function (`imst2`) does the same as the IMST type algorithm a little bit simplified and faster way.
+
+The next call generation time is `_10_` millisec too. The variable `moduloOperand` is the same, it equals `OUR_RESOLUTION*TICS_PER_INTERVAL/rate`. The number of traffic should be started is the floor of (`masterCounter+TICS_PER_INTERVAL`) divided by `moduloOperand`. The new `masterCounter` equals (`masterCounter+TICS_PER_INTERVAL`) modulo `moduloOperand`.
+
+[source]
+----
+OUR_RESOLUTION=100;
+TICS_PER_INTERVAL=1000;
+masterCounter=0;
+moduloOperand=OUR_RESOLUTION*TICS_PER_INTERVAL/rate;
+trafficToStart=
+	int((masterCounter+TICS_PER_INTERVAL)/moduloOperand);
+moduloOperand=
+	(masterCounter+TICS_PER_INTERVAL)mod moduloOperand
+----
+
+=== External Templates
+
+LGenBase supports loading and caching of parameterised text modules called external templates. LGenBase allows effective parameter substitution into the templates during runtime. LGenBase provides specific set of templates belonging to each traffic case. There are three different template parameter substitution modes:
+
+* Dictionary-based substitution
+* Positional parameter based substitution
+* Fixed position based substitution
+
+[[description_of_files_in_this_feature]]
+== Description of Files in this Feature
+
+The EPTF CLL LGenBase API includes the following files:
+
+* LGenBase
+** __EPTF_CLL_LGenBase_Definitions.ttcn__: - This TTCN-3 module contains LGenBase type definitions that can be used in all components extending LGenBase.
+** __EPTF_CLL_LGenBase_ConfigDefinitions.ttcn__: - This TTCN-3 module contains common type definitions that can be used to describe or process test descriptions from configuration files without importing LGenBase-specific definitions.
+** __EPTF_CLL_LGenBase_PhaseDefinitions.ttcn__: - This TTCN-3 module contains phase related type definitions that can be used in all components extending LGenBase.
+** __EPTF_CLL_LGenBase_Functions.ttcn__: - This TTCN-3 module contains the implementation of LGenBase functions.
+** __EPTF_CLL_LGenBase_ConfigFunctions.ttcn__ - contains functions to manipulate the test configurations, such as traffic cases, scenarios, FSM-s, etc.
+** __EPTF_CLL_LGenBase_LoggingDefinitions.ttcn__ - This TTCN-3 module contains logging related type definitions that can be used in all components extending LGenBase.
+** __EPTF_CLL_LGenBase_LoggingFunctions.ttcn__ - This TTCN-3 module contains the implementation of logging functions.
+** __EPTF_CLL_LGenBase_PhaseFunctions.ttcn__ - contains functions to use phase related scenarios, manipulate phases, etc.
+** __EPTF_CLL_LGenBase_EventHandlingFunctions.ttcn__ - contains functions of event dispatching.
+** __EPTF_CLL_LGenBase_EventHandlingExternalFunctions.cc__ - contains external functions of event dispatching.
+** __EPTF_CLL_LGenBase_ExternalFunctions.ttcn__ - contains the headers of the external functions of event dispatching.
+** __EPTF_CLL_LGenBase_StepFunctions.ttcn__ - contains the functions in the test steps registered by the LGenBase.
+** __EPTF_CLL_LGenBase_TrafficFunctions.ttcn__ - contains functions to manage traffic, e.g. start, stop traffic cases, scenarios, handle entity
+** __EPTF_CLL_LGenBaseTrafficMixer_Definitions.ttcn__ - contains data types to describe traffic cases based on their weight factors.
+** __EPTF_CLL_LGenBaseTrafficMixer_Functions.ttcn__ - contains functions to generate traffic cases based on their weight factors.
+** __EPTF_CLL_LGenBase_TemplateDefinitions.ttcn__ - contains data types and constants need to handle external templates.
+** __EPTF_CLL_LGenBase_TemplateFunctions.ttcn__ - contains functions for handling external templates.
+* LGenBaseStats
+** __EPTF_CLL_LGenBaseStats_Definitions.ttcn__: - This TTCN-3 module contains common type definitions that should be used in all components extending LGenBaseStats.
+** __EPTF_CLL_LGenBaseStats_Functions.ttcn__: - This TTCN-3 module contains the implementation of LGenBaseStats functions.
+* LGenBaseStatsUI
+** __EPTF_CLL_LGenBaseStatsUI_Definitions.ttcn__: - This TTCN-3 module contains common type definitions that should be used in all components extending LGenBaseStatsUI.
+** __EPTF_CLL_LGenBaseStatsUI_Functions.ttcn__: - This TTCN-3 module contains the implementation of LGenBaseStatsUI functions.
+
+== Description of Required Features
+
+The LGenBase feature is part of the EPTF Core Load Library (CLL). It relies on some features of the CLL. To use the LGenBase, the user has to obtain the respective files from the following features:
+
+* `Base`
+* `Common`
+* `FreeBusyQueue`
+* `RandomNArray`
+* `HashMap`
+* `RedBlackTree`
+* `Scheduler`
+* `Variable`
+* `StatHandler`
+* `TCCUsefulFunctions`
+
+For the LGenBaseStats feature:
+
+* `Variable`
+
+For the LGenBaseStatsUI feature:
+
+* `UIHandler`
+
+== Installation
+
+Since `EPTF_CLL_LGenBase` is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<7-references.adoc#_2, [2]>>.
+
+If not otherwise noted in the respective sections, the following are needed to use `EPTF_CLL_LGenBase`:
+
+* Copy the files of the features listed in Section ‎<<description_of_files_in_this_feature, Description of Files in this Feature>> to the directory of the test suite or create symbolic links to them.
+* If you use TITAN plugin for Eclipse, the files of the features must lay in the "CLL dir"\src\"feature" structure. You have to create a path variable with the name of `CoreLibraryPath` pointing to the "CLL dir" directory.
+* Import the LGenBase demo or write your own application using LGenBase.
+* Create _Makefile_ or modify the existing one. For more details see the relevant section of <<7-references.adoc#_2, [2]>>.
+* Edit the config file according to your needs, see following section <<configuration, Configuration>>.
+
+[[configuration]]
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual suffix of configuration files is _.cfg_. For further information on the configuration file see <<7-references.adoc#_2, [2]>>.
+
+This LGenBase feature defines TTCN-3 module parameters as defined in <<7-references.adoc#_2, [2]>>, clause 4. Actual values of these parameters – when no default value or a different from the default actual value wished to be used – shall be given in the `[MODULE_PARAMETERS]` section of the configuration file.
+
+This LGenBase feature defines the following module parameters:
+
+`tsp_EPTF_LGenBaseDebug`
+
+This boolean type module parameter is defined in module `EPTF_CLL_LGenBase_Functions`. The feature will log the FSM event handling if the module parameter is true.
+
+`tsp_EPTF_LGenBaseDebugTraffic`
+
+This boolean type module parameter is defined in module `EPTF_CLL_LGenBase_Functions`. The feature will log the traffic management if the module parameter is true.
+
+`tsp_EPTF_LGenBase_roundedCpsUpdateInterval`
+
+This float type module parameter is defined in module `EPTF_CLL_LGenBase_Functions` ‎<<7-references.adoc#_6, [6]>>. The feature periodically generates traffic. This parameter defines this rate.
+
+`tsp_EPTF_LGenBase_abortStopProcess`
+
+This float type module parameter is defined in module `EPTF_CLL_LGenBase_Functions` <<7-references.adoc#_6, ‎[6]>>. If the entities didn’t reply to `c_EPTF_LGenBase_inputName_testMgmt_stopTC` or `c_EPTF_LGenBase_inputIdx_testMgmt_abortTC` messages in time described by this module parameter, LGenBase steps to stopped or aborted state.
+
+`tsp_LGenBase_nameSeparator`
+
+This charstring type module parameter is defined in module `EPTF_CLL_LGenBase_Functions` <<7-references.adoc#_6, ‎[6]>>. This is used to concatenate the name of the entity group, the scenario and the traffic case in unique name of the traffic cases.
+
+`tsp_LGenBase_extTemplLoadList`
+
+This module parameter specifies the list of external template, which is loaded by initializing of the component. It shall be given a list which contains the exteranal templates’ name, file path and a flag to enable/disable automatic `<LF> ─> <CR><LF>` conversion.
+
+[source]
+{ {"foo_templ", "/templates/foo.txt", false}, {"bar_templ", "/templates/bar.txt", true} }
+
+The default value of the module parameter is the `_empty list_`.
+
+`tsp_LGenBase_templParamOpenToken`
+
+This charstring type module parameter specifies the opening string of the template parameters. Empty string is not allowed to define. The default value of the module parameter is: `_‘$(‘_` .
+
+`tsp_LGenBase_templParamCloseToken`
+
+This charstring type module parameter specifies the closing string of the template parameters. Empty string is not allowed to define. The default value of the module parameter is: `_‘)‘_` .
+
+`tsp_LGenBase_enableDefaultArithmeticOperationsInExtTemplate`
+
+This module parameter enables the default arithmetic operations handling during external template parameter substitution. The addition, subtraction, multiplication and division is handled on parameters if the substitution value has a valid number.
+
+`tsp_LGenBase_extTemplRemoveLastNewLine`
+
+This boolean type module parameter can be used to strip the last new line from an external template. Its default value is `_false_`.
+
+`tsp_EPTF_LGenBaseDebugLightList`
+
+The LGenBase activates the DebugLight debugging feature (see also <<7-references.adoc#_6, [6]>>) on the FSM tables enlisted in this module parameter.
+
+`tsp_LGenBaseStatsUI_columnDescriptorList`
+
+This module parameter describes the contents of each traffic case row on the LGenBaseStatsUI GUI. The `colTitle` field describes the title of the specified column, the `tcColId` describes which data to be displayed in that column, and the `enableIfAvailable` describes whether the column should be writeable, if the data is writeable, or it should be read only in all cases.
+
+`tsp_LGenBaseStatsUI_scColumnDescriptorList`
+
+This module parameter describes the contents of the table in the row of the scenarios. Rather for future use.
+
+`tsp_EPTF_LGenBase_ILog_enableILog`
+
+This boolean type module parameter is defined in module `EPTF_CLL_LGenBase_ILog_Definitions`. It can be used to enable or disable the LGenBase’s ILog feature. Its default value is true, which means that the `ILog` feature is enabled by default.
+
+== Usage
+
+[[lgenbase-0]]
+=== LGenBase
+
+To use the functionalities of the LGenBase feature
+
+* extend the `EPTF_LGenBase_CT` with your component
+
+* call the `f_EPTF_LGenBase_init` function from the init function of your component
+
+* use the public functions of the LGenBase
+
+=== LGenBaseStats
+
+To use the functionalities of the LGenBaseStats feature
+
+* extend the `EPTF_LGenBaseStats_CT` with your component
+
+* call the `f_EPTF_LGenBaseStats_init` function from the init function of your component
+
+* use the variables provided by the LGenBaseStats to display and/or manage the properties of the LGenBase.
+
+=== LGenBaseStatsUI
+
+Extend the `EPTF_LGenBaseStatsUI_CT` with your component.
+
+The `f_EPTF_LGenBaseStatsUI_init` function must be called before using the functionalities of the component.
+
+Users should create the GUI which will contain the widgets created by the LGenBaseStatsUI.
+
+When all the scenarios are ready, the `f_EPTF_LGenBaseStatsUI_prepareGUI` function must be called. That’s all.
+
+== DTE handling in LGenBase
+
+DTE generated by test steps in FSM will be caught by LGenBase and the event `*"LGenBase: Dynamic_test_case_error_occured!"*` is reported for the entity. The FSM of the entity is deactivated, the entity is disabled. If the reported DTE event is not handled in the FSM, LGenBase reports a traffic error.
+
+The error string of the DTE can be retrieved by the function `f_EPTF_LGenBase_get_dte_str` (in integer `pl_eIdx`, in integer `pl_fCtxIdx`).
+
+If DTE occurs, then all events are cancelled for the entity in the FSM, test steps that follow the step that caused the DTE are not executed, and the state remains the same as it was when the failing step was started.
+
+LGenBase will not report the DTE event for failing test steps that are executed when the DTE event is processed in the FSM (that is the DTE handling part).
+
+By default DTE handling is disabled.

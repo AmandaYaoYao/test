@@ -1,0 +1,28 @@
+= Data Structure
+
+== XTDP
+
+XTDP messages shall be valid XML documents; the data structure and content are specified by using XSD (see <<7-references.adoc#_3, ‎[3]>>, ‎<<7-references.adoc#_4, [4]>>, ‎<<7-references.adoc#_5, [5]>>) and is available in TCC’s ClearCase in the file /vobs/ttcn/TCC_Releases/ProtocolModules/XTDP_CNL113663/src/_XTDP-Message.xsd_. The receiving entity shall validate the received messages against this XSD specification.
+
+== XTDL
+
+The data structure of XTDL information shall be valid XML element; the data structure and content are specified by using XSD (see <<7-references.adoc#_3, ‎[3]>>, ‎<<7-references.adoc#_4, [4]>>, <<7-references.adoc#_5, ‎[5]>>) and is available in TCC’s ClearCase, in the file /vobs/ttcn/TCC_Releases/ProtocolModules/XTDP_CNL113663/src/_XTDL.xsd_. The receiving entity shall validate the received information against this XSD specification.
+
+== Generating the TTCN-3 Modules from the XSD Documents
+
+The TTCN-3 modules, that can be imported to the user’s TTCN-3 code shall be generated from the above XSD files using the xsd2ttcn converter which is part of the TITAN TTCN-3 Test Executor toolset.
+
+== Encoding, Decoding and Length Calculation
+
+This product contains encoding/decoding functions. The functions for encoding TTCN-3 instances of XTDP messages to XML documents and decoding XML documents containing XTDP-Message to TTCN-3 values are provided by TITAN. The same is true for instances of the XTDP Window type. These functions can be used in TTCN-3 by invoking the external function declarations provided in the module `XTDP_EncDecFunctions` (see in the file __XTDP_EncDecFunctions.ttcn__). This module also contains the function `f_XTDP_getMsgLen` that may be useful, for example, in configuring the IPL4asp CNL 113 531 testport to assist in the message delineation of the function. See description of these functions in the table below.
+
+[width="100%",cols="25%,25%,15%,35%",options="header",]
+|=======================================================================================================================================================================================================
+|Name |Type of formal parameters |Type of return value |Description
+|`enc_XTDP_Message` |in XTDP_Message |octetstring |Encode a complete XTDP message; encoded message is returned in the
+|`dec_XTDP_Message` |in octetstring |integer |Decode a complete XTDP message; decoded message is returned in the out parameter; the return value is 0 if decoding was successful, 1 if it was unsuccessful
+|`enc_XTDL_Window` |in Window |octetstring |Encode the XTDL Window type
+|`dec_XTDL_Window` |in octetstring |integer |Decode an XTDL Window instance; decoded value is returned in the out parameter; the return value is 0 if decoding was successful, 1 if it was unsuccessful
+|`f_XTDP_getMsgLen` |in octetstring |integer |Returns the length of the encoded XTDP message or -1 if the input message was too short (less than 4 octets)
+|`f_XTDP_getRawMsg` |in octetstring |octetstring |Returns the encoded XTDP message extracted from the whole sent message (conteining also the length)
+|=======================================================================================================================================================================================================

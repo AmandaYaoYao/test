@@ -1,0 +1,31 @@
+= Functional Specification
+
+== Protocol Version Implemented
+
+This protocol module contains the protocol messages and elements of the DHCPv6 protocol (see <<5-references.adoc#_3, [3]>>, <<5-references.adoc#_4, [4]>>, <<5-references.adoc#_5, [5]>>, <<5-references.adoc#_6, [6]>>, <<5-references.adoc#_7, [7]>>),
+
+[[modifications-deviations-related-to-the-protocol-specification]]
+== Modifications/Deviations Related to the Protocol Specification
+
+=== Implemented Messages
+
+All message types listed in protocol descriptions are implemented.
+
+[[protocol-modifications-deviations]]
+=== Protocol Modifications/Deviations
+
+None.
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product also contains encoding/decoding functions that provide for the correct encoding of messages when sent from TITAN and correct decoding of messages when received by TITAN. The encoder updates the `checksum` field with the correct value. Implemented encoding/decoding functions:
+
+[cols=3*,options=header]
+|===
+
+|Name |Type of formal parameters |Type of return value
+|`ef_enc_PDU_DHCPv6` |PDU_DHCPv6 |octetstring
+|`ef_dec_PDU_DHCPv6` |octetstring |PDU_DHCPv6
+|`ef_dec_PDU_DHCPv6_backtrack` |octetstring, PDU_DHCPv6 |integer
+|===

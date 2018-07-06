@@ -1,0 +1,46 @@
+= Terminology
+
+*Core Library (CLL):* +
+It is that part of the TitanSim software that is totally project independent. (i.e., which is not protocol-, or application-dependent). The Core Library is to be supplied and supported by the TCC organization. Any Core Library development is to be funded centrally by Ericsson.
+
+*ExecCtrl:* +
+It is control logic for provisioning and executing test _scenarios_ with TitanSim based load generators.
+
+*ExecCtrl UI Handler:* +
+It extends the `ExecCtrl` functionality with user interface.
+
+*Scenario:* +
+It is a collection of traffic cases deployed on an _entity group_.
+
+*Entity group:* +
+A group of entities with homogenous _entity type_. The indices of the _entities_ of the group make a continuous interval that does not overlap with the indices range of any other entity group.
+
+*Entity type:* +
+The type of the entity. It defines what kind of behavior types the entity supports, what kind of functionality the entity is capable of. The entity type of the _entity group_ on which the _scenario_ is deployed, and the entity type of the traffic cases in the scenario, has to be the same.
+
+*LGen:* +
+Load Generator: a component providing an implementation for final state machine handling and traffic case management in a load test environment. ExecCtrl manages LGens via its ExecCtrlClient interface.
+
+*Entities:* +
+These are "things/objects" that are simulated by the _LGen_. Such "things" are usually the "users", "calls", "servers", "terminations", or anything whose external behavior is to be simulated by the _LGen_. Usually an _LGen_ simulates more than one entity.
+
+*FSM table:* +
+This is a formal specification of the communication rules of Finite State Machines. These indexable records are stored in v_LGenBase_fsmTables. FSM tables realizing _traffic cases_ must obey certain rules.
+
+*Traffic case type:* +
+This is a prototype used as an input for instantiating traffic case instances on a specific entity group. It defines what _FSM table_ to use, what _entity type_ must be used by the _entity group_ where the _traffic case_ is to be deployed
+
+*Traffic case:* +
+This is a behavior"efined by an FSM table, that is executed on a given entity group. All entities of the entity group participate in executing the traffic case. An entity group may have more than one concurrent traffic cases
+
+= Abbreviations
+
+CLL:: Core Library
+
+EPTF:: Ericsson Performance Test Framework
+
+TitanSim:: New synonym for the EPTF Framework
+
+TCC:: Test Competence Centre in ETH R&D.
+
+TTCN-3:: Testing and Test Control Notation version 3 ‎<<12-references.adoc#_1, [1]>>.

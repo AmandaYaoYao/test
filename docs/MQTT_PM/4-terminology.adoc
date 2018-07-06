@@ -1,0 +1,12 @@
+= Terminology
+
+*TITAN:* +
+TTCN-3 Test Executor (see <<5-references.adoc#_2, [2]>>).
+
+= Abbreviations
+
+PDU:: Protocol Data Unit
+
+TTCN-3:: Testing and Test Control Notation version 3
+
+MQTT:: v3.1.1 MQTT Version 3.1.1 Protocol

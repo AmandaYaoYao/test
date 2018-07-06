@@ -1,0 +1,17 @@
+= General
+
+This Test Port is developed for testing higher level protocols over the already tested `MTP3` and `M3UA` protocols.
+
+In `STC` mode it can be used for testing the `MTP3` and `M3UA` protocols themselves.
+
+The test port implements the `MTP3` protocol specified by `ITU-T` in <<8_references.adoc#_9, [9]>>-<<8_references.adoc#_16, [16]>>, by ANSI in <<8_references.adoc#_18, [18]>>, by TTC in <<8_references.adoc#_19, [19]>>, by MPT in <<8_references.adoc#_23, [23]>> and M3UA specified in <<8_references.adoc#_17, [17]>>.
+
+The `SUT` can be
+
+* Simulator Environment Architecture (`SEA`) and the software implementation loaded in it
+
+* Real target through M3UA Server or M3UA Daemon 
+
+The user of the test port ("MTP3-User") is any next higher level protocol.
+
+The test port communicates with its user by means of Abstract Service Primitives (ASPs), described below. The test port communicates with its peer protocol by means of messages i.e. protocol data units (PDUs).

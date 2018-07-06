@@ -1,0 +1,39 @@
+= Error Messages
+
+NOTE: Besides the below described error messages, error messages shown in <<7-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+`*f_EPTF_CS_Admin_declareTrafficCase: redeclaration of traffic case <traffic-case-name>*`
+
+The traffic case with <traffic-case-name> was declared more than once in the user defined initialization of the Central Scheduling Application Admin.
+
+`*f_EPTF_CS_Admin_declareTrafficCase: traffic cases should be declared in user defined init function.*`
+
+The function `f_EPTF_CS_Admin_declareTrafficCase` was called after initialization and creation of the internal traffic case type/selector lookup table.
+
+`*f_EPTF_CS_Admin_sanityCheck: missing initialization of mandatory function reference `<function-reference>'*`
+
+A mandatory function reference was not initialized in the user defined initialization function.
+
+`*f_EPTF_CS_Admin_initFSM: Error while declaring FSM events*`
+
+The admin could not initialize the FSM.
+
+`*f_EPTF_CS_handleLGenStatusMsg: problem reported by LGen during initialization*`
+
+The load generator sent disabled status after its creation and start.
+
+`*f_EPTF_CS_lookupBySenderAddress: component reference not found in LGen database*`
+
+Invalid component reference was passed to `f_EPTF_CS_lookupBySenderAddress`.
+
+`*f_EPTF_CS_Admin_buildTcTypeIdx2tcSelector: undefined traffic case <traffic-case-name> for entity type <entity-type>*`
+
+The configuration file contains a traffic case that was not declared in the user initialization function of the Central Scheduling Application Admin.
+
+`*f_EPTF_CS_Admin_scenarioCreated: No scenario should be started on LGen entities.*`
+
+The configuration file tried to assign a scenario to the load generator entities.
+
+`*f_EPTF_CS_Admin_createLGens: timeout when waiting for LGen status message*`
+
+The created load generator did not send a status message within the status guard time.

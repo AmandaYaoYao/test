@@ -1,0 +1,27 @@
+= Abbreviations
+
+API:: Application Programming Interface
+
+CLL:: Core Library
+
+EPTF:: Ericsson Performance Test Framework
+
+GUI:: Graphical User Interface
+
+JSON:: JavaScript Object Notation
+
+REST:: Representational State Transfer
+
+SUT:: System Under Test
+
+TCC:: Test Competence Center
+
+TitanSim:: New synonym for the EPTF Framework
+
+TTCN-3:: Testing and Test Control Notation version 3
+
+UI:: User Interface
+
+XML:: Extensible Markup Language
+
+XSD:: XML Schema Definition

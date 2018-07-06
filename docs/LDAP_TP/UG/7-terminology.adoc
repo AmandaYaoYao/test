@@ -1,0 +1,28 @@
+= Terminology
+
+*OpenSSL:* +
+The OpenSSL Project is a collaborative effort to develop a robust, commercial-grade, full-featured, and open source toolkit implementing the Secure Sockets Layer (SSL v2/v3) and Transport Layer Security (TLS v1) protocols as well as a full-strength general purpose cryptography library. For more information on the OpenSSL project see <<8-references.adoc#_5, [5]>>.
+
+= Abbreviations
+
+ASP:: Abstract Service Primitive
+
+ES:: ETSI Standard
+
+ETSI:: European Telecommunications Standards Institute
+
+IUT:: Implementation Under Test
+
+LDAP:: Lightweight Directory Access Protocol
+
+LDIF:: LDAP Data Interchange Format
+
+RTE:: RunTime Environment
+
+SSL:: Secure Socket Layer
+
+SUT:: System Under Test
+
+TCP:: Transmission Control Protocol
+
+TTCN-3:: Testing and Test Control Notation version 3

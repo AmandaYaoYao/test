@@ -1,0 +1,23 @@
+= Terminology
+
+*Core Library (CLL):* +
+It is that part of the TitanSim software that is totally project independent. (i.e., which is not protocol-, or application-dependent). The Core Library is to be supplied and supported by the TCC organization. Any Core Library development is to be funded centrally by Ericsson.
+
+*Stack:* +
+A specific transport type, including TTCN-3 code, testport code, and host OS code.
+
+= Abbreviations
+
+CLL:: Core Library
+
+EPTF:: Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+TitanSim:: Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+TTCN-3:: Testing and Test Control Notation version 3 ‎<<8-references.adoc#_1, [1]>>
+
+LGen:: See `LoadGen`
+
+LoadGen:: Load generator component type. See also ‎<<8-references.adoc#_7, [7]>>
+
+AppLib:: Application Library. See also <<8-references.adoc#_7, ‎[7]>>

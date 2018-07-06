@@ -1,0 +1,31 @@
+= Protocol Modules
+
+== Overview
+
+Protocol modules implement the message structures of the related protocol in a formalized way, using the standard specification language TTCN-3. This allows defining of test data (templates) in the TTCN-3 language <<5-references.adoc#_1, ‎[1]>> and correctly encoding/decoding messages when executing test suites using the Titan TTCN-3 test environment.
+
+Protocol modules are using Titan’s RAW encoding attributes ‎<<5-references.adoc#_3, [3]>> and hence are usable with the Titan TTCN-3 toolset only.
+
+The DHCP protocol module is defined in two TTCN-3 modules:
+
+* __DHCP_Types.ttcn__ - defines the data structures given in ‎<<5-references.adoc#_5, [5]>>
+* __DHCP_Options.ttcn__ - implements <<5-references.adoc#_6, ‎[6]>>, <<5-references.adoc#_7, ‎[7]>>, <<5-references.adoc#_8, ‎[8]>>, <<5-references.adoc#_10, [10]>>.
+
+The file __DHCP_EncDec.cc__ implements the TTCN-3 external functions that can be used to encode/decode DHCP messages. Decoding of Option 82 is possible in different formats (See Appendix in <<5-references.adoc#_9, ‎[9]>>), therefore extra decoding function `dec_PDU_DHCP_Opt82` is available, which decodes Option 82 according to its input parameter.
+
+NOTE: The `DHCP_Option_Overload_OPTION` is not supported by the Enc/Dec functions. The `sname` and `file` fields are decoded as charstrings with the null characters removed from their end.
+
+When erroneous PDU is received, the message is decoded as follows:
+
+* If the decoder cannot decode one of the DHCP options the erroneous option will be decoded as a `DHCP_General_OPTION`
+* If the data cannot be decoded it is put into the `erroneousPDU` field in PDU_DHCP as an octetstring.
+
+NOTE: The DHCP protocol module uses the types defined in the `General_Types` module (Available in Common Protocol Module CNL 113 368).
+
+== Installation
+
+The set of protocol modules can be used in developing TTCN-3 test suites using any text editor. However, to make the work more efficient a TTCN-3-enabled text editor is recommended (e.g.`nedit`, `xemacs`). Since the DHCP protocol is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<5-references.adoc#_2, ‎[2]>>.
+
+== Configuration
+
+None.

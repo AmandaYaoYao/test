@@ -1,0 +1,14 @@
+= General
+
+== How to Read This Document
+
+This is the Function Specification for the XTDP protocol module, which is developed for the TTCN-3 Toolset with TITAN.
+
+== Scope
+
+The purpose of this document is to specify the functionality of the XTDP protocol, especially the dynamic behavior of the protocol. XTDP is designed for two purposes:
+
+* to support a communication between a running TTCN-3 test case and an external XTDP/XTDL-enabled GUI to present information about test execution on the GUI and to convey commands and data to the running test case from the GUI. As an example, the Runtime GUI product of TCC (CNL 113 437) supports this feature;
+* can be used as a transport protocol for any user-specified textual or binary protocols between a running TTCN-3 test case and any external entity (no XTDP is required for the communication between running TTCN-3 test components as this capability is provided by Titan).
+
+To read this document (which is referring to the static data structure specification) requires basic knowledge of XSD. To use the protocol, basic knowledge of TTCN-3 <<7-references.adoc#_7, ‎[7]>>, the XML to TTCN-3 mapping <<7-references.adoc#_8, ‎[8]>> and the TITAN TTCN-3 Test Executor <<7-references.adoc#_6, ‎[6]>> is valuable.

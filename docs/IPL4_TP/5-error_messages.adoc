@@ -1,0 +1,43 @@
+= Error Messages
+
+The IPL4asp test port does not generate TTCN error at the point of either protocol or test port error. The immediate error generation behavior is replaced with passing the error to the user who can make decisions how to continue the test execution.
+
+The port control functions return the Result type that consists of an optional error code and an optional connection ID. If the result is suspected to be an error, remember to check the test port log (if possible with debug information) for details. The Result record has two additional optional fields: `os_error_code` and `os_error_text`. `os_error_code`, when filled, contains the value of `_"errno"_`; and `os_error_text` contains a textual description.
+
+The result of port control functions is successful if the optional error code is not present, otherwise some error occurred with one of the error codes specified in the following chapters:
+
+`*IPL4_ERROR_GENERAL*`
+
+General error, the exact reason is either unknown or deemed unworthy to specify.
+
+`*IPL4_ERROR_INSUFFICIENT_MEMORY*`
+
+Some memory allocation function, for example, malloc failed to reserve heap memory.
+
+`*IPL4_ERROR_INVALID_INPUT_PARAMETER*`
+
+One or more of the input parameters were improper.
+
+`*IPL4_ERROR_UNSUPPORTED_TRANSPORT*`
+
+The given transport is not yet implemented.
+
+`*IPL4_ERROR_SOCKET*`
+
+One of the socket handling functions failed. If the error occurs on an established TCP or SSL connection, it signs an unrecoverable problem. The corresponding socket will be closed automatically by the testport, and a `connClosed` event will be also dispatched.
+
+`*IPL4_ERROR_HOSTNAME*`
+
+The IP address is given in the wrong format or the hostname cannot be resolved.
+
+`*IPL4_ERROR_INVALID_CONNECTION*`
+
+No existing connection belongs to the given connection ID. Before using it, the connection must be established, which shall result in the connection ID.
+
+`*IPL4_ERROR_TEMPORARILY_UNAVAILABLE*`
+
+Occurs only in `pureNonBlocking` mode. If the socket is not writeable thus the message was not sent the test port sends this notification to the user. This error code is also used in `pureNonBlocking` mode when connect cannot establish the connection immediately. Result event with error code `IPL4_ERROR_AVAILABLE` is used when the user can send network messages on the connection.
+
+`*IPL4_ERROR_AVAILABLE*`
+
+Once a formerly `TEMPORARILY_UNAVAILABLE` (see above) socket becomes writeable again, this notification is sent to the TTCN-3 user. It’s the user’s responsibility to retransmit that message again which was not sent previously because the socket wasn’t available.

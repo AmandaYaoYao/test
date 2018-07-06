@@ -1,0 +1,90 @@
+[[pipeasp-cnl113334-1551]]
+= PIPEasp_CNL113334_1551
+
+[cols=",",]
+|====
+|====
+
+PIPE Test Port for TTCN-3 Toolset with TITAN, Description
+
+Abstract
+
+The PIPE test port is developed to execute shell commands from the TTCN-3 test suite. It provides abstract service primitives to communicate with the user. The stdin, stdout and stderr of the process are returned to the user.
+
+*Contents*
+
+Contents
+
+link:export/functionality.md[1Functionality 2]
+
+link:export/functionality.md#overview[1.1 Overview 2]
+
+1.2 System Requirements 2
+
+link:export/test_port_usage.md[2Test Port Usage 3]
+
+link:export/test_port_usage.md#installation[2.1 Installation 3]
+
+link:export/test_port_usage.md#configuration[2.2 Configuration 3]
+
+link:export/test_port_usage.md#general-test-port-parameters[2.2.1 General test port parameters 3]
+
+2.3 Description of the Predefined ASPs 3
+
+link:export/test_port_usage.md#asp-name-pexecute[2.3.1 ASP Name: PExecute 4]
+
+link:export/test_port_usage.md#asp-name-pexecutepty[2.3.2 ASP Name: PExecutePty 4]
+
+link:export/test_port_usage.md#asp-name-presult[2.3.3 ASP Name: PResult 4]
+
+link:export/test_port_usage.md#asp-name-pexecutebinary[2.3.4 ASP Name: PExecuteBinary 5]
+
+link:export/test_port_usage.md#asp-name-pexecutebinarypty[2.3.5 ASP Name: PExecuteBinaryPty 5]
+
+link:export/test_port_usage.md#asp-name-presultbinary[2.3.6 ASP Name: PResultBinary 5]
+
+link:export/test_port_usage.md#asp-name-pexecutebackground[2.3.7 ASP Name: PExecuteBackground 6]
+
+link:export/test_port_usage.md#asp-name-pexecutebackgroundpty[2.3.8 ASP Name: PExecuteBackgroundPty 6]
+
+link:export/test_port_usage.md#asp-name-pstdin[2.3.9 ASP Name: PStdin 6]
+
+link:export/test_port_usage.md#asp-name-pstdout[2.3.10 ASP Name: PStdout 6]
+
+link:export/test_port_usage.md#asp-name-pstderr[2.3.11 ASP Name: PStderr 7]
+
+link:export/test_port_usage.md#asp-name-pstdinbinary[2.3.12 ASP Name: PStdinBinary 7]
+
+link:export/test_port_usage.md#asp-name-pstdoutbinary[2.3.13 ASP Name: PStdoutBinary 7]
+
+link:export/test_port_usage.md#asp-name-pstderrbinary[2.3.14 ASP Name: PStderrBinary 7]
+
+link:export/test_port_usage.md#asp-name-pkill[2.3.15 ASP Name: PKill 8]
+
+link:export/test_port_usage.md#asp-name-pexit[2.3.16 ASP Name: PExit 8]
+
+link:export/test_port_usage.md#asp-name-plinemode[2.3.17 ASP Name: PLineMode 8]
+
+link:export/test_port_usage.md#asp-name-perror[2.3.18 ASP Name: PError 9]
+
+link:export/test_port_usage.md#asp-name-pendofinput[2.3.19 ASP Name: PEndOfInput 9]
+
+link:export/test_port_usage.md#asp-name-asp-parallel-command[2.3.20 ASP Name: ASP_Parallel_Command 9]
+
+link:export/test_port_usage.md#asp-name-asp-parallel-result[2.3.21 ASP Name: ASP_Parallel_Result 10]
+
+2.3.22 Function name: f_PIPE_request_p_id 10
+
+link:export/test_port_usage.md#function-name-f-pipe-release-p-id[2.3.23 Function name: f_PIPE_release_p_id 11]
+
+link:export/test_port_usage.md#exit-status-handling-functions[2.3.24 Exit status handling functions 11]
+
+link:export/test_port_usage.md#error-messages[2.4 Error messages 11]
+
+2.5 Warning messages 12
+
+2.6 Examples 12
+
+3Terminology 12
+
+link:export/references.md[4References 12]

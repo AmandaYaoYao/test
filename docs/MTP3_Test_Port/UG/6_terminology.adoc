@@ -1,0 +1,57 @@
+= Terminology
+
+CCS Common Channel Signaling System: A signaling system where the voice and signaling are performed in separated channels i.e. it is a not channel associated signaling system.
+
+MTP3 MTP level 3, the signaling network layer of SS7.
+
+MTP3-User Any protocol normally using the services of the SS7 MTP3 (e.g. `ISUP`, `SCCP`, `TUP`, etc).
+
+Test Port An adaptation between the TTCN-3 Test Executor and the SUT.
+
+SEA Simulator Environment Architecture: It provides the possibility to have simulated AXE nodes running on a Unix workstation.
+
+M3UA SS7 MTP3 User Adaptation Layer. M3UA is a protocol supporting the transport of any SS7 MTP3-User signaling over IP using the services of the SCTP protocol (See <<7_references.adoc#_18, [18]>>).
+
+= Abbreviations
+
+ANSI:: American National Standards Institute
+
+DPC:: Destination Point Code
+
+IETF:: Internet Engineering Task Force
+
+ITU:: International Telecommunication Union
+
+ITU-T:: Telecommunication Standardization Sector of ITU
+
+IUT:: Implementation Under Test
+
+MPH:: Message Protocol Handler
+
+MPT:: Ministry of Post and Telecommunications (People’s Republic of China)
+
+MTP3:: Message Transfer Part level 3
+
+MTP3b:: MTP3 adaptation for Q.2140
+
+M3UA:: SS7 MTP3 User Adaptation Layer
+
+NI:: Network Indicator
+
+OPC:: Originating Point Code
+
+PDU:: Protocol Data Unit
+
+SDK:: Software Development Kit
+
+SEA:: Simulator Environment Architecture
+
+SPC:: Signaling Point Code
+
+SS7:: Signaling System No 7
+
+SUT:: System Under Test
+
+TTCN-3:: Testing and Test Control Notation version 3
+
+TTC:: Telecommunications Technology Committee (Standardization body of Japan)

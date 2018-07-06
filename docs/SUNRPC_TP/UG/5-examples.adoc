@@ -1,0 +1,36 @@
+= Examples
+
+== Configuration file
+
+An example RTE configuration file is included in the 'demo' directory of the test port release.
+
+[[makefile]]
+== Makefile
+
+In this section the most important parameters are listed in the _Makefile_. The following gives some detail about them:
+
+* `OPENSSL_DIR =`
+
+Specifies the OpenSSL installation directory. It has to contain the _lib/libssl.a_ file and the include directory. It is not needed if OpenSSL is installed by root in the default location. It is recommended to change the already-present `OPENSSL_DIR` entry, which is included by the _Makefile_ generation process.
+
+* `CPPFLAGS = -Dlatexmath:[$(PLATFORM) -I$](TTCN3_DIR)/include -DAS_USE_SSL-I$(OPENSSL_DIR)/include`
+
+The `–DAS_USE_SSL` switch activates the SSL-specific code in the test port. If the switch is missing, SSL functionality will not be available.
+
+This `-I$(OPENSSL_DIR)/include` switch tells the C++ compiler where to look for the OpenSSL header files. It is not needed if OpenSSL is installed by root in the default location.
+
+* `TTCN3_MODULES =`
+
+The list of TTCN-3 modules needed.
+
+* `USER_SOURCES =`
+
+The list of other external C++ source files.
+
+* `$(TARGET): $(OBJECTS)`
+
+** `$(CXX) $(LDFLAGS) -o $@ latexmath:[$(OBJECTS) -L$](TTCN3_DIR)/lib -l$(TTCN3_LIB`) 
+
+** `-L$(OPENSSL_DIR)/lib –lssl -lcrypto latexmath:[$($](PLATFORM)_LIBS)`
+
+The `–L$(OPENSSL_DIR)/lib` and `–lssl` parameter tells the linker to use the _libssl.a_ compiled in the `$(OPENSSL_DIR)/lib` directory.

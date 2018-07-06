@@ -1,0 +1,186 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 v.3.1.1 (2005-06) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] User Guide for TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] https://tools.ietf.org/html/rfc3261[RFC 3261] +
+SIP: Session Initiation Protocol
+
+[[_4]]
+[4] https://tools.ietf.org/html/rfc2806[RFC 2806] +
+URLs for Telephone Calls
+
+[[_5]]
+[5] https://tools.ietf.org/html/rfc2976[RFC 2976] +
+The SIP INFO Method
+
+[[_6]]
+[6] https://tools.ietf.org/html/rfc3262[RFC 3262] +
+Reliability of Provisional Responses in the Session Initiation Protocol (SIP)
+
+[[_7]]
+[7] https://tools.ietf.org/html/rfc3311[RFC 3311] +
+The Session Initiation Protocol (SIP) UPDATE Method
+
+[[_8]]
+[8] https://tools.ietf.org/html/rfc3323[RFC 3323] +
+A Privacy Mechanism for the Session Initiation Protocol (SIP)
+
+[[_9]]
+[9] https://tools.ietf.org/html/rfc3325[RFC 3325] +
+Private Extensions to the Session Initiation Protocol (SIP) for Asserted Identity within Trusted Networks
+
+[[_11]]
+[11] https://tools.ietf.org/html/rfc3326[RFC 3326] +
+The Reason Header Field for the Session Initiation Protocol (SIP)
+
+[[_11]]
+[11] https://tools.ietf.org/html/rfc3265[RFC 3265] +
+Session Initiation Protocol (SIP)-Specific Event Notification
+
+[[_12]]
+[12] https://tools.ietf.org/html/rfc3455[RFC 3455] +
+Private Header (P-Header) Extensions to the Session Initiation Protocol (SIP) for the 3rd-Generation Partnership Project (3GPP)
+
+[[_13]]
+[13] https://tools.ietf.org/html/draft-ietf-sip-session-timer-15 +
+Session Timers in the Session Initiation Protocol (SIP)draft-ietf-sip-session-timer-15
+
+[[_14]]
+[14] https://tools.ietf.org/html/rfc3428[RFC 3428] +
+Session Initiation Protocol (SIP) Extension for Instant Messaging
+
+[[_15]]
+[15] https://tools.ietf.org/html/rfc3515[RFC 3515] +
+The Session Initiation Protocol (SIP) Refer Method
+
+[[_16]]
+[16] https://tools.ietf.org/html/rfc3841[RFC 3841] +
+Caller Preferences for the Session Initiation Protocol (SIP)
+
+[[_17]]
+[17] https://tools.ietf.org/html/rfc3313[RFC 3313] +
+Private Session Initiation Protocol (SIP) Extensions for Media Authorization
+
+[[_18]]
+[18] https://tools.ietf.org/html/rfc3327[RFC 3327] +
+Session Initiation Protocol (SIP) Extension Header Field for Registering Non-Adjacent Contacts
+
+[[_19]]
+[19] https://tools.ietf.org/html/rfc3329[RFC 3329] +
+Security Mechanism Agreement for the Session Initiation Protocol (SIP)
+
+[[_20]]
+[20] https://tools.ietf.org/html/rfc3603[RFC 3603] +
+Private Session Initiation Protocol (SIP) Proxy-to-Proxy Extensions for Supporting the PacketCable Distributed Call Signaling Architecture
+
+[[_21]]
+[21] https://tools.ietf.org/html/rfc3608[RFC 3608] +
+Session Initiation Protocol (SIP) Extension Header Field for Service Route Discovery During Registration
+
+[[_22]]
+[22] https://tools.ietf.org/html/rfc3891[RFC 3891] +
+The Session Initiation Protocol (SIP) ``Replaces'' Header
+
+[[_23]]
+[23] https://tools.ietf.org/html/rfc3892[RFC 3892] +
+The Session Initiation Protocol (SIP) Referred-By Mechanism
+
+[[_24]]
+[24] https://tools.ietf.org/html/rfc3903[RFC 3903] +
+Session Initiation Protocol (SIP) Extension for Event State Publication
+
+[[_25]]
+[25] https://tools.ietf.org/html/rfc3911[RFC 3911] +
+The Session Initiation Protocol (SIP) ``Join'' Header
+
+[[_26]]
+[26] https://tools.ietf.org/html/rfc3420[RFC 3420] +
+Internet Media Type message/sipfrag
+
+[[_27]]
+[27] https://tools.ietf.org/html/draft-levy-sip-diversion-08 +
+Diversion Indication in SIP - draft-levy-sip-diversion-08
+
+[[_28]]
+[28] https://tools.ietf.org/html/rfc4244[RFC 4244] +
+An Extension to the Session Initiation Protocol (SIP) for Request History Information
+
+[[_29]]
+[29] https://tools.ietf.org/html/rfc4488[RFC 4488] +
+Suppression of Session Initiation Protocol (SIP) REFER Method Implicit Subscription
+
+[[_30]]
+[30] https://tools.ietf.org/html/draft-ietf-sip-refer-with-norefersub-04 +
+Suppression of Session Initiation Protocol REFER Method Implicit Subscription
+
+[[_31]]
+[31] https://tools.ietf.org/html/draft-allen-sipping-poc-p-headers-01 +
+Private Header (P-Header) Extensions to the Session Initiation Protocol (SIP) for the Open Mobile Alliance (OMA) Push to talk over Cellular (PoC)
+
+[[_32]]
+[32] https://tools.ietf.org/html/rfc5009[RFC 5009] +
+Private Header (P-Header) Extension to the Session Initiation Protocol (SIP) for Authorization of Early Media
+
+[[_33]]
+[33] https://tools.ietf.org/html/draft-kaplan-sip-session-id-02 +
+A Session Identifier for the Session Initiation Protocol (SIP)
+
+[[_34]]
+[34] https://tools.ietf.org/html/rfc5502[RFC 5502] +
+The SIP P-Served-User Private-Header (P-Header) for the 3GPP IP Multimedia (IM) Core Network (CN) Subsystem
+
+[[_35]]
+[35] https://tools.ietf.org/html/rfc5002[RFC 5002] +
+The Session Initiation Protocol (SIP) P-Profile-Key Private Header (P-Header)
+
+[[_36]]
+[36] https://tools.ietf.org/html/rfc4457[RFC 4457] +
+The Session Initiation Protocol (SIP) P-User-Database Private-Header (P-Header)
+
+[[_37]]
+[37] CSCF Support of wildcarded IMPU
+
+[[_38]]
+[38] https://tools.ietf.org/html/rfc4412[RFC 4412] +
+Communications Resource Priority for the Session Initiation Protocol (SIP)
+
+[[_39]]
+[39] https://tools.ietf.org/html/draft-ott-sip-serv-indication-notification-00 +
+Private Header (P-Header) Extensions to the Session Initiation Protocol (SIP) for the support of the Services for the European Telecommunications Standards Institute
+
+[[_40]]
+[40] https://tools.ietf.org/html/rfc6442[RFC 6442] +
+Location Conveyance for the Session Initiation Protocol
+
+[[_41]]
+[41] Indication of features supported by proxy draft-holmberg-sipcore-proxy-feature-04
+
+[[_42]]
+[42] https://tools.ietf.org/html/rfc4538[RFC 4538] +
+Request Authorization through Dialog Identification in the Session Initiation Protocol (SIP)
+
+[[_43]]
+[43] https://tools.ietf.org/html/rfc6086[RFC 6086] +
+Session Initiation Protocol (SIP) INFO Method and Package Framework
+
+[[_44]]
+[44] https://tools.ietf.org/html/rfc6050[RFC 6050] +
+FEATURE CONCEPT STUDY ICBS and Flexible Charging Support for Japan
+
+[[_45]]
+[46] FEATURE CONCEPT STUDY +
+ICBS and Flexible Charging Support for Japan
+
+[[_46]]
+[45] CPM Conversation Functions +
+Open Mobile AllianceOMA-TS-CPM_Conv_Fnct-V1_0-20101012-Chttp://www.openmobilealliance.org
+
+[[_45]]
+[46] FEATURE CONCEPT STUDY +
+ICBS and Flexible Charging Support for Japan

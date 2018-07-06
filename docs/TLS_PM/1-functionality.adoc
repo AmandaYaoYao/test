@@ -1,0 +1,89 @@
+= Functionality
+
+Protocol modules implement the message structures of the related protocol in a formalized way, using the TTCN-3 language <<3-references.adoc#_1, [1]>>. This allows defining of test data (templates) in the TTCN-3 language and correctly encoding/decoding messages when executing test suites using the Titan TTCN-3 test environment
+
+== Protocol Version Implemented
+
+This set of protocol modules implements protocol messages and constants of the TLS protocol, v1.1 (see <<3-references.adoc#_3, [3]>>) with the modifications specified in <<modifications-deviations-related-to-the-protocol-specification, Modifications/Deviations Related to the Protocol Specification>>.)
+
+Implemented extensions:
+
+* Server Name Indication (SNI) in the Client Hello (RFC 6066)
+* Application Layer Protocol (RFC 7301)
+
+[[modifications-deviations-related-to-the-protocol-specification]]
+== Modifications/Deviations Related to the Protocol Specification
+
+The standard TLS protocol modules had to be changed in order to compile and become usable. These changes are detailed below.
+
+=== Unimplemented Messages, Information Elements and Constants
+
+None.
+
+[[protocol-modifications-deviations]]
+=== Protocol Modifications/Deviations
+
+Protocol modules contain the following modifications/deviations from <<3-references.adoc#_3, [3]>> changing the protocol message structure/behavior.
+
+[[if-a-handshake-message-decoding-fails-it-will-be-an-octetstring-with-tlstext-length-bytes-and-decoded-as-encrypted-handshake]]
+==== If a Handshake message decoding fails it will be an octetstring with _TLSText.length_ bytes and decoded as Encrypted Handshake.
+
+[[for-the-opportunity-to-extend-the-clienthello-message-new-field-named-extension-added]]
+==== For the opportunity to extend the `ClientHello` message, new field named `extension` added.
+
+[[keyexchangealgorithm-named-null-added-to-use-as-default-value-in-some-decoding-function]]
+==== `KeyExchangeAlgorithm` named `null` added, to use as default value in some decoding function.
+
+[[this-protocol-module-implementation-does-not-support-to-send-encrypted-messages-only-support-handshakes-alerts-and-cipher-spec-changes]]
+==== This protocol module implementation does not support to send encrypted messages, only support handshakes, alerts and cipher spec changes.
+
+== System Requirements
+
+Hence, protocol modules alone do not put specific requirements on the system used. However, in order to compile and execute a TTCN-3 test suite using the set of protocol modules the following system requirements must be satisfied:
+
+* TITAN TTCN-3 Test Executor version R7A or higher installed. For installation guide see <<3-references.adoc#_2, [2]>>.
+
+NOTE: This version of the protocol module is not compatible with TITAN releases earlier than R7A.
+
+== Installation
+
+The set of protocol modules can be used in developing TTCN-3 test suites using any text editor. However to make the work more efficient a TTCN-3-enabled text editor is recommended (e.g. `nedit`, `xemacs`). Since the TLS protocol is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<3-references.adoc#_2, [2]>>.
+
+== Examples
+
+=== Example for Message Length Calculation and Message Splitting
+
+To access this functionality, you have to use the IPL4 Testport’s <<3-references.adoc#_4, [4]>> function called `f_IPL4_fixedMsgLen`. It has two parameters. The first is the message in octetstring (stream), the second is a record of integers which has to be the following:
+
+[source]
+var ro_integer args := \{ 3, 2, 0, 1, 0 }
+
+Now your function call should looks like this:
+
+[source]
+var integer vl_len := f_IPL4_fixedMsgLen(stream, args)
+
+And now you can easily get one TLS message from the stream with the built-in substr function.
+
+[source]
+var octetstring vl_message := substr(stream, 0, len)
+
+== Encoder/Decoder Functions
+
+[[implemented-encoding-decoding-functions]]
+=== Implemented Encoding/Decoding Functions:
+
+[width="100%",cols="34%,33%,33%",options="header",]
+|===================================================================================================================
+|*Name* |*Type of formal parameters* |*Type of return value*
+|`enc_TLS_TLSPlaintexts` |TLSPlaintext |octetstring
+|`dec_TLS_TLSPlaintexts` |octetstring, TLSPlaintexts, KeyExchangeAlgorithm (optional) |integer
+|`enc_TLS_TLSCompressed` |TLSCompressed |octetstring
+|`dec_TLS_TLSCompressed` |octetstring, TLSCompressed, KeyExchangeAlgorithm (optional) |integer
+|`enc_TLS_SecurityParameters` |SecurityParameters |octetstring
+|`dec_TLS_SecurityParameters` |Octetstring, SecurityParameters |integer
+|`enc_TLS_TLSCiphertext` |TLSCiphertext, TLSCompressed, SecurityParameters |octetstring
+|`dec_TLS_TLSCiphertext` |octetstring, TLSCiphertext, TLSCompressed, SecurityParameters, KeyExchangeAlgorithm |integer
+|`enc_TLS_Extensions` |TLS_Extensions |octetstring
+|`dec_TLS_Extensions` |octetstring |TLS_Extensions
+|===================================================================================================================

@@ -1,0 +1,24 @@
+= Introduction
+
+== About This Document
+
+=== How to Read This Document
+
+This is the User Guide for the Telnet test port. The Telnet test port is developed for the TTCN-3 Toolset with TITAN. This document should be read together with Function Specification <<7_References.adoc#_4, [4]>>.
+
+=== Presumed Knowledge
+
+The knowledge of the TITAN TTCN-3 Test Executor <<7_References.adoc#_2, [2]>> and the TTCN-3 language <<7_References.adoc#_1, [1]>> is essential.
+
+
+== System Requirements
+
+In order to operate the Telnet test port the following system requirements must be satisfied:
+
+* TITAN TTCN-3 Test Executor version R8A (1.8.pl0) or higher installed. For installation guide see <<7_References.adoc#_3, [3]>>.
+NOTE: This version of the test port is not compatible with TITAN releases earlier than R8A.
+* Any operating system supported by TITAN, while only tested on Solaris.
+
+== Fundamental Concepts
+
+The test port establishes connection between the TTCN-3 test executor and SUT or accepts connection from the SUT, and transmits/receives messages.

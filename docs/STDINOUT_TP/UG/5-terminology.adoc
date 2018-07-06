@@ -1,0 +1,11 @@
+= Terminology
+
+None.
+
+= Abbreviations
+
+SUT:: System Under Test
+
+TP:: Test Port: Adaptation between TITAN TTCN-3 Test Executor and SUT.
+
+TTCN-3:: Testing and Test Control Notation version 3

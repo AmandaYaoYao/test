@@ -1,0 +1,168 @@
+= IPsec Support
+
+The Transport feature supports IPsec. Only IPL4 `transportType` can be used for IPsec. The Transport IPsec handler uses the XFRM API of `TCCUsefulFunctions`.
+
+The XFRM functions use the kernel to implement the IPsec functionality. For this, root privilege is required. Without root privilege, the IPsec functionality of the Transport will not work or no encryption will be used.
+
+NOTE: If the same machine is used for the source and the destination addresses, the kernel may not encrypt the messages even if IPsec is configured that way. Two different hosts are required to get encrypted messages on the network.
+
+== Initialization
+
+The Transport IPsec API can only be used after initializing the IPsec Handler of the Transport by calling the function:
+
+[source]
+----
+f_EPTF_Transport_IPsecHandler_init_CT(
+  in charstring pl_selfName,
+  in EPTF_CLL_Transport_IPsecHandler_Logging_Server_CT pl_LoggingIPSecServer_CT := null
+)
+----
+
+The parameter `pl_LoggingIPSecServer_CT` specifies the IPsec logging server component. If it is not specified or `_null_`, the IPsec data will not be sent to the IPsec logging server.
+
+The IPsec Handler is not initialized automatically in the Transport.
+
+== Checking Initialization
+
+The initialization of the Transport IPsec Handler can be checked by the function:
+
+`f_EPTF_Transport_IPsecHandler_initialized()`
+
+It returns true if `f_EPTF_Transport_IPsecHandler_init_CT` was called.
+
+== Allocating SPI
+
+To request a new security parameter index (SPI) from the kernel the following function can be used:
+
+[source]
+----
+f_EPTF_Transport_IPsecHandler_allocate_SPI(
+  in AllocSPI_Info pl_AllocSPI_info,
+  inout integer pl_spi
+) runs on EPTF_Transport_IPsecHandler_CT return XFRM_Result
+----
+
+It will return a free SPI in the `pl_spi` argument. The return value shows if the function call is successful or an error occurred.
+
+== Creating Security Policy
+
+The security policy (SP) can be created by the function:
+
+[source]
+----
+f_EPTF_Transport_IPsecHandler_createSP(
+  in SPAddInfo pl_sp_info
+) runs on EPTF_Transport_IPsecHandler_CT return XFRM_Result
+----
+
+The `pl_sp_info` argument specifies the source and destination addresses, the SPI, the IPsec protocol to use and other parameters that are necessary for the creation of Security Policy.
+
+The return value shows if the function call is successful or an error occurred.
+
+== Creating Security Association
+
+The security association (SA) can be created by the function:
+
+[source]
+----
+f_EPTF_Transport_IPsecHandler_createSA(
+  in SAAddInfo pl_sa_info
+) runs on EPTF_Transport_IPsecHandler_CT return XFRM_Result
+----
+
+The `pl_sa_info` argument specifies the source and destination addresses, the SPI, the IPsec protocol, the authentication and encryption algorithms and keys to use, and other parameters that are necessary for the creation of Security Association.
+
+The return value shows if the function call is successful or an error occurred.
+
+After the SA and SP is created for the connection (on both hosts) the messages will be sent encrypted in the configured direction.
+
+== Deleting Security Policy
+
+The security policy that has been added earlier can be deleted by the function:
+
+[source]
+----
+f_EPTF_Transport_IPsecHandler_deleteSP(
+  in SPDelInfo pl_sp_del_info
+) runs on EPTF_Transport_IPsecHandler_CT return XFRM_Result
+----
+
+The `pl_sp_del_info` argument specifies the parameters of the SP to be deleted.
+
+If the `f_EPTF_Transport_IPsecHandler_deleteSP` function is called for TCP protocol, this function will delete the SP information.
+
+The closing TCP messages (FIN, ACK) will only be encrypted if the SA/SP information is not deleted in neither side of the connection. If they are deleted before the TCP connection is closed, they will be sent unencrypted.
+
+== Deleting Security Association
+
+The security association that has been added earlier can be deleted by the function:
+
+[source]
+----
+f_EPTF_Transport_IPsecHandler_deleteSA(
+  in SADelInfo pl_sa_del_info
+) runs on EPTF_Transport_IPsecHandler_CT return XFRM_Result
+----
+
+The `pl_sa_del_info` argument specifies the parameters of the SA to be deleted.
+
+[[deleting-all-sa-sp]]
+== Deleting all SA/SP
+
+To delete all SA and SP data from the kernel, the following functions can be used respectively:
+
+[source]
+----
+f_EPTF_Transport_IPsecHandler_flushSP(
+) runs on EPTF_Transport_IPsecHandler_CT return XFRM_Result
+
+f_EPTF_Transport_IPsecHandler_flushSA(
+) runs on EPTF_Transport_IPsecHandler_CT return XFRM_Result
+----
+
+== `IPsec` Logging
+
+The IPsec Logging makes it possible to log IPsec data to a configurable log file. The following information is logged in CSV format:
+
+* Protocol
+* Source address
+* Destination Address
+* SPI
+* Encryption algorithm
+* CK (key for the encryption)
+* Authentication algorithm
+* IK (key for the authentication)
+
+These are logged automatically whenever an SA is created by the `f_EPTF_Transport_IPsecHandler_createSA` function and IPsec logging is enabled. The new information is appended to the file. If the file does not exist, it will be created automatically.
+
+The logging takes place on the IPsec Logging Server component. It can be started by its behavior function:
+
+[source]
+----
+f_EPTF_CLL_Transport_IPsecHandler_Logging_Server_behaviour(
+  in charstring pl_EPTF_CLL_Transport_IPsecHandler_Logging_IPSec_File_Path,
+  in charstring pl_EPTF_CLL_Transport_IPsecHandler_Logging_IPSec_File_Name
+)
+runs on EPTF_CLL_Transport_IPsecHandler_Logging_Server_CT
+----
+
+Its two parameters define the path and name of the log file that will be used to store the information.
+
+To enable `IPsec` logging, the `IPsec` logging server component should be passed to the Transport IPsec initializer function.
+
+== Summary table of all public functions for EPTF transport IPsec Handler
+
+[width="100%",cols="50%,50%",options="header",]
+|==========================================================================================================
+|*Function name* |*Description*
+|f_EPTF_Transport_IPsecHandler_init_CT () |Initializes the IPsecHandler component
+|`f_EPTF_Transport_IPsecHandler_initialized` |Returns true if IPsecHandler was initialized
+|`f_EPTF_Transport_IPsecHandler_createSP` |Creates Security Policy
+|`f_EPTF_Transport_IPsecHandler_createSA` |Creates Security Association
+|`f_EPTF_Transport_IPsecHandler_deleteSP` |Deletes Security Policy
+|`f_EPTF_Transport_IPsecHandler_deleteSA` |Deletes Security Association
+|`f_EPTF_Transport_IPsecHandler_flushSP` |Removes all SP from the kernel
+|`f_EPTF_Transport_IPsecHandler_flushSA` |Removes all SA from the kernel
+|`f_EPTF_Transport_IPsecHandler_allocate_SPI` |Requests a new, unused SPI from the kernel
+|`f_EPTF_CLL_Transport_IPsecHandler_Logging_Server_behaviour` |Behaviour function of the IPsec logging server
+|==========================================================================================================

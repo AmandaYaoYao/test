@@ -1,0 +1,35 @@
+= Error Messages
+
+`*The parent connection ID not found in the hash map*`
+
+`*The connection ID not found in the hash map*`
+
+`*Unknown SCTP event received*`
+
+`*LGenType not found in the hash map*`
+
+`*Buffer contains invalid data*`
+
+`*… The specified … transport type is invalid.*``
+
+All functions of the transport API have an argument which declares the transport type to be used (IPL4, IPL2, ALL, etc.) If a function implemented in the IPL4 transport got for example IPL2 as this argument, the function throws this error message. This message is thrown too if the argument inappropriate in the specified function, such as transport type is "ALL" in a send function.
+
+`*Function … is not implemented in transport type …*`
+
+There can be functions which are not implemented in all transport types. When the user calls a function of common transport layer of this kind width the transport type argument where the function is not implemented, this error message is thrown.
+
+`*LGenType must be specified.*`
+
+The `LGenType` argument of the registration function of the message length calculating callback must not be empty string.
+
+`*The incoming even type is unknown. Event: …*`
+
+This error can occur only if the version of the transport feature is older, than the version of the `Socket_API`. It should be updated.
+
+`*The received asp type is unknown. ASP: …*`
+
+This error can occur only if the version of the transport feature is older, than the version of the `Socket_API`. It should be updated.
+
+`*unsupported protocol …*`
+
+The specified protocol is not supported in the given transport type.

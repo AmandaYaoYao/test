@@ -1,0 +1,18 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 (2002) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] User Documentation for the TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] UDP Socket Test Port for TTCN-3 Toolset with TITAN, User Guide
+
+[[_4]]
+[4] Functional Test System Requirement Specification for GSN
+
+[[_5]]
+[5] https://tools.ietf.org/html/rfc768[RFC 768] (1980) +
+User Datagram Protocol

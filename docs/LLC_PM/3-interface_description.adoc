@@ -1,0 +1,33 @@
+= Interface Description
+
+== Top Level PDU
+
+The top level PDU is the TTCN-3 union `PDU_LLC`.
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product also contains encoding/decoding functions, which assure correct encoding of messages when sent from Titan and correct decoding of messages when received by Titan.
+
+=== Implemented Encoding and Decoding Functions
+
+[cols=3*,options=header]
+|===
+
+|Name |Type of formal parameters |Type of return value
+
+|`enc_PDU_LLC` |in PDU_LLC |octetstring
+
+|`dec_PDU_LLC` |in octetstring +
+in boolean |PDU_LLC
+|===
+
+The encoding function changes the `XID` parameter length format to the long length format in case the transmitted TTCN-3 template uses the short length format but the actual length value calculated by the RAW encoder makes the long length format necessary. (The XID parameter appears in the U frames when XID, SABM or UA format is selected.)
+
+The encoding function automatically calculates the `FCS` field when the `FCS` field is set to `__`'000000'O`__` or when it is omitted, otherwise its TTCN-3 value is sent out.
+
+The decoder checks the `FCS` field of the received frame. If the `FCS` is OK, the value `__`'000000'O`__` is set, otherwise the received value is returned to TTCN-3.
+
+It is possible to skip the CRC (FCS) check with setting the boolean parameter of the decoder function to `_false_`. Its default value is `_true_`.
+
+The `N202` parameter is defined as `_4_` in the beginning of the encoder function. The tester needs to edit this in the encoder if the value has to be changed. (For UI frames transmitted in unprotected mode the FCS is calculated over the frame header and N202 octets of the information.)

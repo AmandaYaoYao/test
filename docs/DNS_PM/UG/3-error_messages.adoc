@@ -1,0 +1,23 @@
+= Error Messages
+
+The following error messages can occur while using the DNS protocol module. The error messages are self-explanatory:
+
+`*Error decoding DNS header. Stream doesn’t contain enough octets.*`
+
+`*Error decoding query resource record: not enough octets.*`
+
+`*Error decoding label at octet #_n_: label length is greater than 63, but is not a pointer (_0xXX_).*`
+
+`*Label pointer at octet #_n_ in domain name refers after end of stream.*`
+
+`*Error decoding label: not enough octets. Remaining bytes: _n_, length of label: _m_*`
+
+`*Error decoding resource record: not enough octets. Resource record starts at octet #_n_, number of octets in message: _m_.*`
+
+`*Error encoding DNS header: field `z' must have a length of 3.*`
+
+`*Domain name should not start with a dot: "…".*`
+
+`*Domain name should not end with a dot: "…".*`
+
+`*Label in domain name is longer than 63 characters: "…"*`

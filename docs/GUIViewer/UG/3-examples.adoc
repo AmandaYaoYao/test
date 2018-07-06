@@ -1,0 +1,13 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* __GUIViewer_Demo.cfg__
+
+== Configuration File
+
+The used configuration file (__GUIViewer_Demo.cfg__) is for the `GUIViewer` example is placed in the demo directory.
+
+== Demo Module
+
+The demo module illustrates a typical usage of the `GUIViewer` feature. It is placed in the demo directory of the released feature.

@@ -1,0 +1,6 @@
+= Limitations
+
+* The test port at this time supports only IPv4 connections.
+* No restriction is possible on the used protocols (e.g. use only SSLv2), it is determined during SSL handshake between the peers.
+* SSL re-handshaking cannot be initiated from the test port.
+* The own certificate file(s), the own private key file and the trusted certificate authorities’ list file must be in PEM format. Other formats are not supported.

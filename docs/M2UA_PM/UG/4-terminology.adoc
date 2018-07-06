@@ -1,0 +1,21 @@
+= Terminology
+
+== Application Server Process (ASP)
+
+A process instance of an application Server. Examples of Application Server Processes are primary or backup MGC instances.
+
+= Abbreviations
+
+ASP:: Application Server Process
+
+ISDN:: Integrated Services Digital Network
+
+M2UA:: Message Transfer Part 2 User Application Layer Protocol
+
+MGC:: Media Gateway Controller
+
+PDU:: Protocol Data Unit
+
+TEI:: Terminal Endpoint Identifier
+
+TTCN-3:: Testing and Test Control Notation version 3

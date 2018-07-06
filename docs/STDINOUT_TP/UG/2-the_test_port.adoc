@@ -1,0 +1,52 @@
+= The Test Port
+
+== Overview
+
+The STDINOUT Test Port provides a simple interface between the TTCN-3 test suite and operator.
+
+The operator can enter text in a terminal (stdin) and the test port transmits this text as a charstring to the TTCN-3 test suite.
+
+The TTCN-3 test suite can send a charstring and the test port outputs this to the terminal (stdout).
+
+== Installation
+
+Since the STDINOUT Test Port is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of the STDINOUT Test Port. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<6-references.adoc#_3, [3]>>.
+
+=== Preparation
+
+The STDINOUT Test Port package contains the following files:
+
+* __STDINOUTmsg_PT.cc__
+* __STDINOUTmsg_PT.hh__
+* __STDINOUTmsg_PortType.ttcn__
+
+=== Description of the Files in the Package
+
+[[stdinoutmsg-porttype-ttcn]]
+==== __STDINOUTmsg_PortType.ttcn__
+
+This contains the STDINOUT Test Port definition.
+
+[[stdinoutmsg-pt-hh]]
+==== __STDINOUTmsg_PT.hh__
+
+This is the C++ header file of the STDINOUT Test Port
+
+[[stdinoutmsg-pt-cc]]
+==== __STDINOUTmsg_PT.cc__
+
+This is the C++ source file of the STDINOUT Test Port
+
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections (for example, `[TESTPORT_PARAMETERS]`) after each other. The usual suffix of configuration files is _.cfg_. For further information about the configuration file see <<6-references.adoc#_4, [4]>>.
+
+=== Test Port Parameters in the Test Port Configuration File
+
+No test port parameters are used for this Test Port.
+
+== Test Port Operation
+
+The STDINOUT Test Port has no ASPs. The Test Port can be used for sending and receiving TTCN-3 charstrings. The TTCN-3 `send` command followed by the necessary charstring in the TTCN-3 code will cause the text to be displayed at stdout (i.e.the terminal).The operator entered text at stdin (i.e. the terminal) is converted to TTCN-3 charstring by the test port when pressing "Enter". The `receive` command in the TTCN-3 code has to be used for the TTCN-3 test suite to receive this charstring.
+
+See the Examples section for example ways to use the STDINOUT Test Port in command line mode.

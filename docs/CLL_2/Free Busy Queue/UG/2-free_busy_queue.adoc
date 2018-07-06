@@ -1,0 +1,68 @@
+= Free Busy Queue
+
+== Overview
+
+The EPTF CLL Free Busy Queue component is a fundamental component providing an implementation of linked lists. It is used, among others, for dynamic memory allocation in a load test environment for the TTCN-3 language and sorting records of complex data structures without actually moving the data. The Free Busy Queue feature is based on the NQueue feature <<6-references.adoc#_7, [7]>> to implement the management of free and busy queues.
+
+[[description_of_files_in_this_feature]]
+== Description of Files in This Feature
+
+The EPTF CLL Free Busy Queue feature includes the following files:
+
+* Free Busy Queue
+** __EPTF_CLL_FBQ_Definitions.ttcn__: +
+This TTCN-3 module contains the type definitions for Free Busy Queue.
+** __EPTF_CLL_FBQ_Functions.ttcn__: T+
+his TTCN-3 module contains the implementation of the Free Busy Queue API functions.
+** __EPTF_CLL_FreeBusyQueue.grp__: +
+Group file for Titan prj files that contain all files of the Free Busy Queue feature.
+** __EPTF_CLL_FBQ.tpd__: +
+Titan project definition file for eclipse that contain all Free Busy Queue files.
+
+== Description of Required Files from Other Features
+
+The Free Busy Queue feature depends on other parts of the TitanSim EPTF Core Load Library (CLL). To use the FreeBusyQueue the user has to obtain the respective files from the following features:
+
+* `NQueue`
+* `Base`
+* `Common`
+
+== Installation
+
+Since EPTF CLL Free Busy Queue is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor see the relevant section of ‎<<6-references.adoc#_2, [2]>>.
+
+If not otherwise noted in the respective sections, the following are needed to use EPTF CLL Free Busy Queue:
+
+1. Copy the files listed in section <<description_of_files_in_this_feature, Description of Files in This Feature>> to the directory of the test suite or create symbolic links to them.
+2. Import the Free Busy Queue demo or write your own application using Free Busy Queue.
+3. Create _Makefile_ or modify the existing one. For more details see the relevant section of ‎<<6-references.adoc#_2, [2]>>.
+4. Edit the config file according to your needs, see section <<configuration, Configuration>>.
+
+[[configuration]]
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual suffix of configuration files is _.cfg_. For further information on the configuration file see ‎<<6-references.adoc#_2, [2]>>.
+
+The EPTF CLL Free Busy Queue feature defines TTCN-3 module parameters as defined in ‎<<6-references.adoc#_2, [2]>>, clause 4. Actual values of these parameters – when no default value or a different from the default actual value wished to be used – shall be given in the `[MODULE_PARAMETERS]` section of the configuration file.
+
+The Free Busy Queue feature defines the following module parameters:
+
+* `tsp_debug_QueueMgmt`
+
+This boolean type module parameter is defined in module `EPTF_CLL_FBQ_Definitions`, with a default value of `_false_`. This module parameter is no longer used by the Free Busy Queue. It is kept for backward compatibility.
+
+* `tsp_debugVerbose_QueueMgmt`
+
+This boolean type module parameter is defined in module `EPTF_CLL_FBQ_Definitions`, with a default value of `_false_`. This module parameter is no longer used by the Free Busy Queue. It is kept for backward compatibility.
+
+== Usage
+
+In order to use the EPTF CLL Free Busy Queue feature the user component should extend the `EPTF_FBQ_CT` component.
+
+This component should be initialized by the function `f_EPTF_FBQ_init_CT` before other functions of Free Busy Queue can be used.
+
+After the component is initialized new Free Busy queue instances can be created by the function `f_EPTF_FBQ_initFreeBusyQueue`. All Free Busy Queue API function requires the FreeBusyQueue object created by this function.
+
+The FreeBusyQueue object contains a built in data element that can be used to store an EPTF_IntegerList type of data for any queue items. But the Free Busy Queue feature can manage databases of any kind. The user has to create a *record of* type structure from the needed user data type and can use the Free Busy Queue API to organize the items into free and busy chains. The Free Busy Queue feature performs this chain management without modifying the underlying user database (i.e. no element of the *record of* are copied). The number of items managed by Free Busy Queue can be determined by the `f_EPTF_FBQ_getLengthOfQueue` function. The user database of the *record of* structure should contain at least this number of elements in order that the Free Busy Queue items correspond to valid elements in the *record of*. This correspondence can be e.g. that the _n_-th element of the *record of* corresponds to the Free Busy Queue item with index _n_. New items in the Free Busy Queue can be created by the functions `f_EPTF_FBQ_createFreeSlots` and `f_EPTF_FBQ_getOrCreateFreeSlot`. The new items will be placed into the free chain.
+
+Although Free Busy Queue provides ways to store internal data (list of integers) to queue items, it is advised that the user creates a parallel *record of* type database structure, because then the type of the data can be defined by the user.

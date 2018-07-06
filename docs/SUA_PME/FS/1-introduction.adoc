@@ -1,0 +1,13 @@
+= Introduction
+
+== How to Read This Document
+
+This is the Function Specification for the SUA Protocol Emulation (SUA PE). The SUA PE is developed for the TTCN-3 Toolset with TITAN according to the requirement specification ‎<<5-references.adoc#_5, [5]>>.
+
+== Scope
+
+The purpose of this document is to specify the functionality of the SUA Protocol Emulation (PE). Basic knowledge in TTCN-3 is advantage but not required when reading this document (see ‎‎<<5-references.adoc#_1, [1]>>).
+
+This specification is based on specifications of Signaling Connection Control Part User Adaptation Layer (SUA) defined by IETF ‎<<5-references.adoc#_6, ‎[6]>>.
+
+This document only describes the differences and the restrictions related to the above references, but does not repeat their content.

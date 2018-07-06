@@ -1,0 +1,5 @@
+= Examples
+
+The "test" directory of the deliverable contains the following examples:
+
+* __EPTF_Buffer_Test_Testcases.ttcn__

@@ -1,0 +1,5 @@
+= Change information
+
+== R7A
+
+'record of' and 'set of' type definitions have been added to the `General_Types` module in order to give type compatibility within TTCN-3 source codes.

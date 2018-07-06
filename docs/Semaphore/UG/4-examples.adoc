@@ -1,0 +1,21 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* __EPTF_Semaphore_test.ttcn__
+
+== Configuration File
+
+The used configuration file (_main.cfg_) sets only the parameters in the `[LOGGING]` section. No special configuration is needed.
+
+== Demo Module
+
+The demo module _EPTF_Semaphore_test.ttcn_ illustrates a typical usage of the Semaphore feature.
+
+The usage of create/lock/unlock/wait functions are shown.
+
+=== Detailed Description
+
+In the demo two semaphores are created. The first semaphore will be unlocked and the default `maxWait` time (infinity) is used in the wait function. The second semaphore is not unlocked, but the `maxWait` time is set the 1 second. After the semaphores are created the default altstep is activated and the wait function of the first semaphore is called with infinity wait time.
+
+The event that corresponds to a received message is `t_wait` timer’s timeout event. When this event handled in the activated default altstep it will wait for the second semaphore to be unlocked. This never happens, so its wait function will exit because the `maxWait` time elapses. Then it unlocks the first semaphore and calls repeat. At this point as the semaphore is unlocked its waiting function continues and the verdict is set to pass.

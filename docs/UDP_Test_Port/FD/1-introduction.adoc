@@ -1,0 +1,11 @@
+= Introduction
+
+== How to Read This Document
+
+This is the Function Specification for the UDP test port. The UDP test port is developed for the TTCN-3 Toolset with TITAN according to the Requirement Specification <<5-references.adoc#_5, [5]>>. This document is intended to be read together with the User’s Guide <<5-references.adoc#_3, [3]>>.
+
+== Scope
+
+The purpose of this document is to specify the functionality of the UDP test port. The document is primarily addressed to the end users of the product. Basic knowledge of TTCN-3 and TITAN TTCN-3 Test Executor is valuable when reading this document (see <<5-references.adoc#_1, [1]>> and <<5-references.adoc#_2, [2]>>).
+
+This document is based on specifications of User Datagram Protocol (UDP) defined by RFC 768 <<5-references.adoc#_5, [5]>>.

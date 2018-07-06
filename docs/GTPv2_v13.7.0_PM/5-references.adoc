@@ -1,0 +1,22 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 v4.4.1 (2012-04) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] User Guide for TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] Programmer’s Technical Reference for Titan TTCN–3 Test Executor
+
+[[_4]]
+[4] 3GPP TS 29.274 v13.7.0 (2016-11) +
+3rd Generation Partnership Project; +
+Technical Specification GroupCore Network and Terminals; +
+3GPP Evolved Packet System (EPS); +
+Evolved General Packet Radio Service (GPRS) Tunneling Protocol for Control plane (GTPv2-C); +
+Stage 3 (Release 13)
+
+[[_5]]
+[5] SGSN-MME Private Extensions under IANA Enterprise number 10923

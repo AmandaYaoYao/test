@@ -1,0 +1,29 @@
+= General Description
+
+This document specifies the Free Busy Queue feature of the TitanSim CLL.
+
+The EPTF Free Busy Queue feature makes it possible to:
+
+* Manage linked lists ("queues") over 'record of' data structures easily using index-arithmetics
+
+** Provide efficient iterators over the elements linked into the same list
+** Users can optionally store associated integer attributes with queue elements
+
+* Book-keep the allocated ("busy") and free status of elements of a 'record of' type efficiently
+
+** Provide efficient methods for moving elements back and forth between "free" and "busy" chains with computational complexity of O(1) (that is, constant), regardless of the length of the queue
+** Maintain up-to-date additional statistics about the number of elements in the "free", and "busy" chain, respectively
+
+The aim of the EPTF Free Busy Queue feature is to provide dynamic memory allocation for the TTCN-3 language in an efficient way.
+
+== Free Busy Queues for Resource Allocation
+
+Typically, a Free Busy Queue has an associated data array (record of a user defined type), with the same length as the queue. Each slot of the queue can have either busy or free state, also representing the allocation state of elements in the corresponding data array with the same index. Free and busy slots are chained in a free- and a busy queue respectively inside the Free Busy Queue. Allocating or freeing a new element is usually a matter of moving a slot from one chain to the other.
+
+It is up to the user of the Free Busy Queue to resize the data record-of in case the length of the queue increases (it never decreases). That is, when an index is returned from `f_EPTF_FBQ_getOrCreateFreeSlot` that is bigger than the biggest index of the user data array.
+
+Each slot in the queue has a record of integer field called `dataidx`, which can optionally be used either to point in a user defined data structure (data indices) or to store data directly (in which case, the associated data record-of may not be needed). This ``dataidx'' mechanism can also be used for associating the elements of the Free Busy Queue with a user data array of different length (For example, when used in conjunction with sparse arrays).
+
+== Free Busy Queues for Data Sorting
+
+Free Busy Queues can be also used for storing the ordering of user elements of user data arrays. If the order of the user data elements are stored as a linked list, reordering of complex data structures can be performed via integer index arithmetic only, that is, without moving the (possibly complex) user data itself.

@@ -1,0 +1,35 @@
+= References
+
+[[_1]]
+[1] https://tools.ietf.org/html/rfc7230[RFC 7230] +
+Message Syntax and Routing
+
+[[_2]]
+[2] https://tools.ietf.org/html/rfc7231[RFC 7231] +
+Semantics and Content
+
+[[_3]]
+[3] https://tools.ietf.org/html/rfc7232[RFC 7232] +
+Conditional Requests
+
+[[_4]]
+[4] https://tools.ietf.org/html/rfc7233[RFC 7233] +
+Range Requests
+
+[[_5]]
+[5] https://tools.ietf.org/html/rfc7234[RFC 7234] +
+Caching
+
+[[_6]]
+[6] https://tools.ietf.org/html/rfc7235[RFC 7235] +
+Authentication
+
+[[_7]]
+[7] ETSI ES 201 873-1 v4.5.1 (2013-02) +
+The Testing and Test Control Notation version 3; Part 1: Core Language
+
+[[_8]]
+[8] Programmer’s Technical Reference for the TITAN TTCN-3 Test Executor
+
+[[_9]]
+[9] User Guide for the TITAN TTCN-3 Test Executor

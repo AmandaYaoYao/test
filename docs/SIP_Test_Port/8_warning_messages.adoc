@@ -1,0 +1,33 @@
+= Warning Messages
+
+During the execution of the SIPmsg test suite the user is notified about useful information, discrepancies, non-critical errors that have no effect on the execution of the test suite but may be a result of some misconfiguration or other type of mistakes. They are self-explanatory so no description is given here.
+
+Example warning messages:
+
+`*Incorrect default sip port in config file, default value <port_num> is used.*`
+
+Invalid port number supplied in configuration file for `local_sip_port`. Default port number used.
+
+`*Incorrect default sip protocol in config file, default value <protocol> is used.*`
+
+Invalid protocol name supplied in configuration file for `default_sip_protocol`. Default protocol used.
+
+`*Incorrect destination sip port in config file, default value <port_num> is used.*`
+
+Invalid protocol name supplied in configuration file for `default_dest_port`. Default protocol used.
+
+`*TCP connection closed by peer.*`
+
+Remote host closed the TCP connection. The test port reopens the connection when needed.
+
+`*Source address differs from IUT address.*`
+
+The received SIPmsg message comes from an unexpected host.
+
+`*Error in SIPmsg start line. Message discarded.*`
+
+The SIPmsg start line contains unrecoverable error. The received message discarded.
+
+`*Missing mandatory headers. Message discarded.*`
+
+Some mandatory headers are missing from the SIPmsg message. The received message discarded.

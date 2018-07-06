@@ -1,0 +1,5 @@
+= DTE Handling
+
+When the scheduler executes the action handler at the scheduled time and a dynamic test case error occurs, the scheduler does not stop the execution of the component but prints out a warning message about the error. It is also possible to specify an error handler function in `f_EPTF_SchedulerComp_scheduleAction`. That handler is called when the DTE occurs and receives the event parameters and the error string. When no handler is specified (which is the default) only the warning message is displayed about the error and the scheduler goes on to execute the next event.
+
+By default DTE handling is disabled.

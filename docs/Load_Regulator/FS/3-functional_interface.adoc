@@ -1,0 +1,127 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading <<5-references.adoc#_4, [4]>>.
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_LoadRegulator` eg. `f_EPTF_LoadRegulator_behavior()`.
+
+== Public Functions
+
+=== Initialization
+
+Before using the EPTF Load Regulator functions the
+
+[source]
+----
+f_EPTF_LoadRegulator_init_CT(pl_getSutLoad,
+pl_calcNextCps,
+pl_postCalcCps,
+pl_EPTF_loadRegulator_measWinSize,
+pl_EPTF_loadRegulator_updateTimeout,
+pl_EPTF_loadRegulator_loadVarianceThreshold,
+pl_EPTF_loadregulator_cpsDelta,
+pl_EPTF_loadRegulator_errorTolerance,
+pl_EPTF_loadRegulator_smoothingFactor
+pl_dataSource_compRef )
+----
+
+function must be called. This initializes the EPTF Load Regulator feature.
+
+A function reference has to be passed to the function via the parameter `pl_getSutLoad`.
+
+Optionally, a function reference can be passed via the `pl_calcNextCps`. This function should calculate the next CPS based on the load. By default, this parameter is `_null_`, and in this case the function `f_EPTF_LoadRegulator_calculateNextCps` (see <<calc_next_CPS, Calculating the Next CPS>>) will be used.
+
+A user defined function that is called after updating the CPS can be specified via the optional parameter `pl_postCalcCps`. This function can be used e.g. to distribute the calculated CPS to a weighted CPS list.
+
+The following parameters are optional, by default they initialize component variables to module parameters. They can be overridden here. The parameter `pl_EPTF_loadRegulator_measWinSize` sets the measurement window size used in the `calculateNextCps` functions, the `pl_EPTF_loadRegulator_updateTimeout` sets the frequency of regulating, the `pl_EPTF_loadRegulator_loadVarianceThreshold` set the load variance threshold, the `pl_EPTF_loadregulator_cpsDelta` is the maximum value that the CPS value will be changed with, the `pl_EPTF_loadRegulator_errorTolerance` sets the precision of the target load measurement, the `pl_EPTF_loadRegulator_smoothingFactor` sets the amount of smoothing of the measured load values to avoid spikes (`_0.0_`: extreme smoothing, `_1,0_`: no smoothing).
+
+=== Cleanup
+
+Before stopping the Load Regulator component, the function
+
+`f__EPTF_LoadRegulator_cleanup_CT()_`
+
+should be called.
+
+[[calc_next_CPS]]
+=== Calculating the Next CPS
+
+`f_EPTF_LoadRegulator_calculateNextCps(loadToReach, oldCps)`
+
+This is the default CPS calculation function that is used if the function reference passed to the initialization function is null. It calculates the next CPS from the previous CPS and the last two loads, according to the specified load to reach. The load and load to reach can be CPU usage, or bandwidth in case of bandwidth limited traffic control.
+
+`f_EPTF_LoadRegulator_calculateNextCps_limitMax(loadToReach, oldCps)`
+
+A variation of the function `f_EPTF_LoadRegulator_calculateNextCps`. It only regulates the CPS if the current load reaches the target load setting. In this case the `f_EPTF_LoadRegulator_calculateNextCps` function is used to decrease the CPS to keep the load stable at the specified maximal load to reach setting. Below that boundary the original CPS is used, no regulation takes place. The original CPS is restored when the CPS that keeps the load at the target load setting would go above the original CPS level. When the regulator is registered into the `ExecCtrl` by the function `f_EPTF_LoadRegulator_registerToExecCtrl` this is indicated by a blue status LED with text _Auto-off_. The CPS level can only be changed when no regulation takes place via the `"EPTF_ExecCtrl.Regulator.totalValue."&v_selfName` variable or via the `RegulatedValue` parameter on the `ExecCtrl` GUI.
+
+=== Behavior Altstep
+
+`as_EPTF_LoadRegulator_behavior()`
+
+This altstep is the behavior for the EPTF Load Regulator. It is activated as default by the initialization function.
+
+=== Exponential Smoothing Function
+
+`f_EPTF_exponentialSmoothingFunction(pl_measuredLoad, pl_prevLoad, pl_smoothingFactor)`
+
+This function is used to smooth the measured load.
+
+== Summary Table of All Public Functions for EPTF Load Regulator
+
+See Summary of Load Regulator functions in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|==============================================================================
+|Function name |Description
+|`f_EPTF_LoadRegulator_init_CT` |initializes the Load Regulator component
+|`f_EPTF_LoadRegulator_cleanup_CT` |cleanup function for Load Regulator component
+|`f_EPTF_LoadRegulator_calculateNextCps` |default CPS calculation function
+|`as_EPTF_LoadRegulator_behavior` |behavior altstep
+|`f_EPTF_exponentialSmoothingFunction` |load smoothing function
+|==============================================================================
+
+== UI Handling With External Data Elements
+
+According to the customizable GUI concept `LoadRegulator` feature provides `DataSource` external data elements in order to create GUI using the XML GUI description. See also <<5-references.adoc#_5, [5]>>.
+
+Therefore the `LoadRegulator` feature provides the following external data elements:
+
+`Enabled`
+
+`CpsToReach`
+
+`LoadToReach`
+
+`CurrentLoad`
+
+`LoadIsStable`
+
+In order to use these external data elements the `pl_dataSource_compRef` parameter of the `init` function must be set to the appropriate `DataSource` server component reference.
+
+== Load Regulator UI
+
+The aim of the EPTF `LoadRegulatorUI` feature was to make a GUI for the `LoadRegulator` variables defined in EPTF `LoadRegulator` feature with the minimal user interaction. However, in the future the suggested way of GUI handling is the customizable GUI using `DataSource` external data elements.
+
+To be able to use EPTF `LoadRegulatorUI` the user should extend one `LoadRegulatorUI` component.
+
+=== Initialization of `LoadRegulatorUI`
+
+For using the EPTF `LoadRegulatorUI` function the
+
+[source]
+----
+f_EPTF_LoadRegulatorUI_init_CT ( pl_selfName, pl_getSutLoad, pl_calcNextCps, pl_parentid, pl_UIHandler, pl_loggingUi_compRef )
+----
+
+function should be called. This function initializes and starts the main `LoadRegulatorUI` component, which creates the GUI for `LoadRegulatorUI`. Input parameters are a name, a `getSUTLoad` function pointer, a `calculateNextCps` function pointer, the parent `widgetID`, where to put `LoadRegulator`, the `UIHandler` component of the application and `LoggingUI` component reference.
+
+== Summary Table of all public functions for EPTF `LoadRegulatorUI`
+
+See Summary of `LoadRegulatorUI` functions in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|================================================================================
+|Function name |Description
+|`f_EPTF_LoadRegulatorUI_init_CT` |Function to initialize `LoadRegulatorUI` component
+|================================================================================

@@ -1,0 +1,35 @@
+= Tips and Tricks
+
+[[deviation-from-the-standard-ldap-asn-1-type-definition-module]]
+== Deviation from the Standard LDAP ASN.1 Type Definition Module
+
+Please read Section 3.4.1 of <<8-references.adoc#_4, [4]>> carefully.
+
+[[f-importldif-tips-and-tricks]]
+== f_ImportLDIF Tips and Tricks
+
+Tips, concerning the parse of LDIF files.
+
+Because of empty or comment lines, the warning message might not tell the exact line number where the error was found. If, for example, an erroneous line is followed by comments, then it might happen, that the last comment line number will be reported as the erroneous line.
+
+There are some cases where a seemingly incorrect warning message is generated. This happens when the reason for error can’t be identified exactly. In these cases try to check for error in a bigger context. For example, if the warning reports a bad attribute, but all the attributes seem to be correct in the neighborhood of reported line number, you should check if you are using simple content records and change records in the same file.
+
+[[regenerate-lex-ldif-cc-and-ldif-tab-cc-hh]]
+== Regenerate lex.ldif.cc and ldif.tab.cc/hh
+
+These files are delivered in the product but it is possible to regenerate them from _ldif.lex_ and _ldif.y_.
+
+The scheme of generatation:
+
+_ldif.lex_ - _lex.ldif.cc_
+
+_ldif.yldif.tab.cc/hh_
+
+The commands:
+
+[source]
+----
+flex -Bs –Pldif_ -olex.ldif.cc ldif.lex
+
+bison –d -p ldif_ -o ldif.tab.cc ldif.y
+----

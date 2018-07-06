@@ -1,0 +1,23 @@
+= Interface Description
+
+== Top Level PDU
+
+The top level PDU is the TTCN-3 union MQTT_v3_1_1_Message.
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product also contains encoding/decoding functions, which assure correct encoding of messages when sent from TITAN and correct decoding of messages when received by TITAN.
+
+=== Implemented Encoding and Decoding Functions
+
+[cols=3*,options=header]
+|===
+
+|Name |Type of formal parameters |Type of return value
+
+|`f_MQTT_v3_1_1_enc` |in MQTT_v3_1_1_Message +
+out octetstring |integer
+|`f_MQTT_v3_1_1_dec` |in octetstring +
+out MQTT_v3_1_1_Message |integer
+|====

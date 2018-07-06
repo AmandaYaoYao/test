@@ -1,0 +1,72 @@
+= Error Messages
+
+The general form of an MTP3/MTP3b/M3UA Test Port error message is:
+
+[source]
+----
+<TTCN_ERROR> MTP3 Test Port(<port no>):
+
+<message>
+
+Fatal error in MTP3 Test Port <port name>
+----
+
+Where the <message> is one of the following:
+
+`*Parameter <__parameter__> is not set.*`
+
+The printed mandatory parameter is not defined in _.cfg_ file. It must be defined.
+
+`*Converting <__iid_string__> to MPH_IID failed.*`
+
+Invalid `IID_string`. Check parameter `MPH_SEA_COMPONENT_IID`.
+
+`*GetMphPort failed: <__error_string__>*`
+
+The `SEA` did not find the `MPH` Port Number. Check `Hostname` and `HttpPort` parameters.
+
+`*Opening connection to <__hostname__>: <__Mphport__> failed.*`
+
+Mph connection was refused by `SEA`. Check `Hostname` and `HttpPort` parameters. Check if `SEA` is running.
+
+`*Incorrect file descriptor: <__fd__>*`
+
+This is an unexpected error returned by the UNIX operating system. A typical reason for such errors is that you have run out of some resources, like file descriptors in your machine.
+
+`*Invalid MTP3ServiceType setting*`
+
+The `MTP3ServiceType` parameter has some other value as listed above. Check `MTP3ServiceType` parameter.
+
+`*Received NI is different from sent NI.*`
+
+The network indicator in the received message is not the same as the network indicator in the sent message. Check parameter NI
+
+= Error Messages in Target Mode
+
+The errors in Abstract Socket not listed here.
+
+`*Message was received before successful registration in SCTP server.*`
+
+Fault in M3UA Server.
+
+`*Unsuccessful unregistration.*`
+
+Fault in M3UA Server.
+
+`*Unsuccessful registration.*`
+
+Fault in M3UA Server.
+
+`*No response received for REGISTER message. Exiting after timeout.*`
+
+Fault in M3UA Server.
+
+`*No response received for UNREGISTER message. Exiting after timeout.*`
+
+Fault in M3UA Server.
+
+`*TargetM3UA not supported, since TARGET_TEST not in Makefile.*`
+
+`*TargetSTC not supported, since TARGET_TEST not in Makefile.*`
+
+In case of target test `-DTARGET_TEST` should be added to `CPPFLAGS` in _Makefile_. Start the compilation from the beginning after _Makefile_ updated.

@@ -1,0 +1,9 @@
+= General Description
+
+This document specifies the DsRestAPI feature of the CLL.
+
+The DsRestAPI feature provides the following functionality:
+
+* Data can be obtained from the Data Source through HTTP calls and a TTCN API function.
+* General HTTP requests are supported (GET, PUT)
+* The HTTP server can be started and stopped

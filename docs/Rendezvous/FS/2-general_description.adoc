@@ -1,0 +1,15 @@
+= General Description
+
+This document specifies the EPTF Rendezvous feature of the TitanSim CLL.
+
+The EPTF Rendezvous feature makes it possible to
+
+* Allow synchronization between various entities.
+* Support a set of Rendezvous types for components
+* Provide a server to store the requests
+
+The aim of the EPTF Rendezvous feature is, to make a _Rendezvous service_. Rendezvous service provides a generic solution for synchronization among/between various entities either locally and remotely.
+
+The feature provides a server component which stores the rendezvous requests. Clients can send initial rendezvous requests of specific rendezvous types to this server. Upon receiving the requests the server checks whether the rendezvous service of the given type exists. If not, then it creates the rendezvous service instance. If the given type exists, then the server notifies the requestors with a rendezvous response.
+
+To be able to use EPTF Rendezvous, the user should extend one `EPTF_Rendezvous_CT` component and every user components should extend an `EPTF_RendezvousClient_CT`. Their `init` functions must be run.

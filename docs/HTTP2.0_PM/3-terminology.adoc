@@ -1,0 +1,13 @@
+= Terminology
+
+No specific terminology is used.
+
+= Abbreviations
+
+HTTP:: Hypertext Transfer Protocol
+
+TTCN-3:: Testing and Test Control Notation version 3
+
+ETSI:: European Telecommunications Standards Institute
+
+ITU-T:: International Telecommunication Union - Telecommunication Standardization Sector

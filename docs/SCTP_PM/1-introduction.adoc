@@ -1,0 +1,17 @@
+= Introduction
+
+== How to Read This Document
+
+This is the Function Specification for the SCTP protocol modules. SCTP protocol modules are developed for the TTCN-3 Toolset with TITAN.
+
+== Scope
+
+The purpose of this document is to specify the content of the SCTP protocol modules. The document is primarily addressed to the end users of the product. Basic knowledge of TTCN-3 <<5-references.adoc#_2, [2]>> and TITAN TTCN-3 Test Executor <<5-references.adoc#_3, [3]>> is valuable when reading this document.
+
+== System Requirements
+
+Protocol modules are a set of TTCN-3 source code files that can be used as part of TTCN-3 test suites only. Hence, protocol modules alone do not put specific requirements on the system used. However, in order to compile and execute a TTCN-3 test suite using the set of protocol modules the following system requirements must be satisfied:
+
+* TITAN TTCN-3 Test Executor 1.8.pl0.pre2 or higher installed. For installation guide see <<5-references.adoc#_2, [2]>>.
+
+NOTE: This version of the protocol module can not be used for defining 32 bit unsigned or larger integers with TITAN versions earlier than 1.8.pl0.pre2. This version of the protocol module is not compatible with TITAN releases earlier than R7A.

@@ -1,0 +1,13 @@
+= References
+
+[[_1]]
+[1] EPTF Web GUI +
+https://login.microsoftonline.com/92e84ceb-fbfd-47ab-be52-080c6b87953f/saml2
+
+[[_2]]
+[2] DsRestAPI function description +
+https://erilink.ericsson.se/eridoc/erl/objectId/09004cff8b30d663?docno=39/15516-CNL113512Uen&action=current&format=msw8
+
+[[_3]]
+[3] UDsRestAPI user guide +
+https://erilink.ericsson.se/eridoc/erl/objectId/09004cff8b30d64a?docno=39/19817-CNL113512Uen&action=current&format=msw8

@@ -1,0 +1,7 @@
+= Functional Specification
+
+== Structure of the Source Code
+
+The source code is organized into the following directory structure:
+
+image:images/Source_code_structure.png[alt]

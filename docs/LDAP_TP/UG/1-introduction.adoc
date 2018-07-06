@@ -1,0 +1,30 @@
+= Introduction
+
+== About This Document
+
+=== How to Read This Document
+
+This is the User Guide for the LDAPasp_RFC4511 test port. The LDAP test port is developed for the TTCN-3 Toolset. This document should be read together with Function Specification <<8-references.adoc#_4, [4]>>.
+
+=== Presumed Knowledge
+
+The knowledge of the TITAN TTCN-3 Test Executor <<8-references.adoc#_3, [3]>> and the TTCN-3 language <<8-references.adoc#_1, [1]>> is essential. Basic knowledge of the LDAP and SSL protocols is valuable when reading this document.
+
+== System Requirements
+
+In order to operate the LDAP test port the following system requirements must be satisfied:
+
+* Platform: any platform supported by TITAN RTE and OpenSSL
+* TITAN TTCN-3 Test Executor version R8A (1.8.pl0) or higher installed. For installation guide see <<8-references.adoc#_2, [2]>>.
+
+NOTE: This version of the protocol module is not compatible with TITAN releases earlier than R8A.
+
+* The Abstract_Socket CNL 113 384, rev. R6A or later product has to be installed.
+
+If SSL is used, the same OpenSSL must be installed as used in TITAN. For installation guide see <<8-references.adoc#_5, [5]>>.
+
+== Fundamental Concepts
+
+The test port establishes connection between the TTCN-3 test executor and SUT and transmits/receives messages. The transport channel can be TCP or SSL.
+
+When used with connection ASPs, the test port provides ASPs to let the TTCN-3 code control the creation and closing of TCP connections or the open and close of TCP server listening port.

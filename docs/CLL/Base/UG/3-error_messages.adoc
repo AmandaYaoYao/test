@@ -1,0 +1,11 @@
+= Error Messages
+
+NOTE: Besides the below described error messages, error messages shown in ‎<<7-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+`*ERROR: f_EPTF_Base_init_CT is not called before calling f_EPTF_Base_RegisterCleanup for <cleanup-function>*`
+
+The Base feature was not initialized before trying to register a cleanup function.
+
+`*ERROR: Unexpected message received from <component>: <message>.*`
+
+The component sent an unexpected message.

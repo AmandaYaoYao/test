@@ -1,0 +1,61 @@
+= General Functions
+
+== Naming Conventions
+
+All functions of the `EPTF_UIHandler_CT` component have the prefix `f_EPTF_UIHandler_`.
+
+All functions of the `EPTF_UIHandlerClient_CT` component have the prefix `f_EPTF_UIHandlerClient_`.
+
+Functions of the `EPTF_UIHandler_CLI_CT` component have the prefix `f_EPTF_UIHandler_CLI_`.
+
+== Using Default UIHandler Component
+
+Although the UIHandlerClient components can use many UIHandler components in the executable, usually there is only one GUI; and consequently only one UIHandler. Therefore, the users can declare a default UIHandler component for a given UIHandlerClient and implicitly use it with all the UIHandler management functions.
+
+To support this, all of the UIHandlerClient component API functions have two forms: one with an explicit UIHandler component reference parameter and one without it. Functions having an explicit UIHandler component parameter manage the specified UIHandler component, the functions without this parameter manage the default UIHandler component.
+
+Users can specify the default UIHandler component in the `f_EPTF_UIHandlerClient_init_CT` initializer function.
+
+== Initialization
+
+Before using the functions of the UIHandler component, the
+
+[source]
+----
+function f_EPTF_UIHandler_init_CT(
+  in charstring pl_selfName,
+  in boolean pl_connectGUI := true,
+  in charstring pl_windowLayout := "" ,
+  in EPTF_CLI_CT pl_CLI_compRef := null,
+  in charstring pl_prefix := tsp_EPTF_UIHandler_CLIPrefix,
+  in boolean pl_simulationMode := false,
+  in charstring pl_simulation_buildDB_file := ")
+----
+
+function should be called. The `pl_selfName` parameter specifies the name of the component. The `pl_connecGUI` parameter can be used to force the UIHandler to connect to the Runtime GUI during its initialization in XTDP-client mode. This connection means not only the establishment of the TCP connection, but the successful XTDP handshake and authentication as well. The maximal wait time for connection establishment can be controlled by the module parameter `tsp_EPTF_UIHandler_maxGUIWaitTime`. If the TCP connection fails, but headless mode is enabled, this function will not wait for the XTDP session to be established and will exit before the maximal waiting time entering into headless mode.
+
+A predefined initial layout can be specified in the `pl_windowLayout` parameter. If this argument is given, the layout on the Runtime GUI will be replaced by the layout specified. The layout has to be given in a charstring value that can be decoded by the decode function `f_EPTF_UIHandler_XSD_decodeXUL` which is a wrapper for the decode function of the XTDP Protocol Module <<9-references.adoc#_8, [8]>>.
+
+Before using the functions of UIHandlerClient component, the
+
+[source]
+----
+function f_EPTF_UIHandlerClient_init_CT(
+    in charstring pl_selfName,
+    in EPTF_UIHandler_CT pl_DefaultUIHandler)
+----
+
+function should be called.
+
+Before using the functions of `UIHandler_CLI` component, the
+
+[source]
+----
+function f_EPTF_UIHandler_CLI_init_CT(
+  in charstring pl_selfName,
+  in boolean pl_connectGUI := true)
+----
+
+function should be called.
+
+The `pl_simulationMode` parameter can be used to initialize UIHandler in simulation mode. The `pl_simulation_buildDB_file` parameter defines the file, what will be used to save the database or load the database in simulation mode. More information about using these 2 parameters can be found in the UIHandler User Guide document.

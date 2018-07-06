@@ -1,0 +1,58 @@
+= Error Messages
+
+The error messages have the following general form:
+
+[source]
+Dynamic test case error: <error text>
+
+Error messages are written into the log file. In the log file a time stamp is also given before the message text.
+
+The list of the possible error messages is shown below. Note that this list contains the error messages produced by the test port. The error messages coming from the TITAN are not shown.
+
+`*set_parameter(): Invalid parameter value: %s for parameter %s. Only yes and no can be used!*`
+
+`*set_parameter(): Invalid parameter value: %s for parameter %s. It should be positive integer!*`
+
+`*set_parameter(): Invalid parameter value: %s for parameter %s. It should be enabled or disabled!*`
+
+`*Event handler: accept error (server mode)!*`
+
+`*Fcntl() error!*`
+
+`*user_map(): server mode and reconnect mode are mutually exclusive!*`
+
+`*user_map(): in server mode local_port must be defined!*`
+
+`*Listen error!*`
+
+`*ASP_SCTP_CONNECT is not allowed in server mode!*`
+
+`*Peer IP address should be defined!*`
+
+`*Peer port should be defined!*`
+
+`*ASP_SCTP_CONNECT called during active connection.*`
+
+`*Setsocketoptions error: UNBOUND value!*`
+
+`*In NORMAL mode the client_id field of ASP_SCTP should be set to a valid value and not to omit!*`
+
+`*In client mode the client_id field of ASP_SCTP_Close should be set to OMIT!*`
+
+`*In server mode the client_id field of ASP_SCTP should be set to a valid value and not to omit!*`
+
+`*In client mode the client_id field of ASP_SCTP should be set to OMIT!*`
+
+`*Bad client id! %d*`
+
+`*Forced reconnect failed! Remote end is unreachable!*`
+
+`*map_delete_item: index out of range (0-%d): %d*`
+
+`*Socket error: cannot create socket!*`
+
+`*Bind error!*`
+
+`*Gethostbyname error!*`
+
+`*Gethostbyname error! h->h_addr is NULL!*`

@@ -1,0 +1,25 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873-1 v4.4.1 (2012-04) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] User Guide for TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] Programmer’s Technical Reference for Titan TTCN–3 Test Executor
+
+[[_4]]
+[4] 3GPP TS 29.060 v13.5.0 (2016-06) +
+3rd Generation Partnership Project; +
+Technical Specification GroupCore Network and Terminals; +
+General Packet Radio Service (GPRS); +
+GPRS Tunnelling Protocol (GTP) across the Gn and Gp interface(Release 13)
+
+[[_5]]
+[5] 3GPP TS 29.281 v13.2.0 (2016-06) +
+3rd Generation Partnership Project; +
+Technical Specification GroupCore Network and Terminals; +
+General Packet Radio Service (GPRS); +
+GPRS Tunnelling Protocol (GTP) User Plane (GTPv1-U)(Release 13)

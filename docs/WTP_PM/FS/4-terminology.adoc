@@ -1,0 +1,10 @@
+= Terminology
+
+*TITAN:* +
+TTCN-3 Test Executor (see‎ <<5-references.adoc#_4, [4]>>).
+
+== Abbreviations
+
+WTP:: Wireless Transaction Protocol
+
+TTCN-3:: Testing and Test Control Notation version 3

@@ -1,0 +1,260 @@
+= Functional Interfaces
+
+== `ILogBase`
+
+=== Naming Conventions
+
+All function names start with `f_EPTF_ILogBase_` prefix.
+
+=== Public Functions
+
+==== Initialize the `ILogBase` Component
+
+Before using the EPTF `ILogBase` feature, the following function has to be called:
+
+`f_EPTF_ILogBase_init_CT(pl_selfName)`
+
+==== Register New Database
+
+The user can register a new user database by calling the following function:
+
+`f_EPTF_ILogBase_register_DB(pl_logItemFn, pl_paramList)`
+
+The function requires a reference to the callback function that will be used for logging out the log items that are stored in this database, and a user defined parameter list, which is an empty list by default. The function returns the database id. The user has to use this id as the input of those functions, which requires the database Id.
+
+==== Create New Chain
+
+To create a new chain the following function has to be used:
+
+`f_EPTF_ILogBase_newChain(pl_name, pl_type, pl_logHeaderFn, pl_paramList)`
+
+This function creates a new chain, or reuses an existing one. The chain name has to be defined. The `pl_type` parameter defines that the chain is detailed or short. The detailed chain means that all information about the traffic is logged out. The short chain contains less information about the same traffic.
+
+The default value of the parameter is `_detailed_`.
+
+The chain requires a callback function reference, which function creates the log header. The user also can define a parameter list in the `pl_paramList`.
+
+The default value of this parameter is an empty list.
+
+==== Add Elements to Chains
+
+The function `f_EPTF_ILogBase_addToChains(pl_dbId, pl_chainIdList)` provides the possibility to add a new element to multiple chains, which are defined in the `pl_chainIdList` parameter.
+
+The `pl_dbId` parameter requires a database Id that was created with the `f_EPTF_ILogBase_register_DB` function earlier.
+
+The function returns an integer value that is the index of the log element in the user side database and stores the `dbId` and the element index in the chains, where the log element was linked. The function returns -1, if any error occurred during the operation and the log item could not be registered.
+
+If the `pl_chainIdList` input parameter is an empty list, the function will link the log element into all registered detailed chains.
+
+==== Log Out the Content of a Chain
+
+The content of a chain can be logged out by using the `f_EPTF_ILogBase_logChain(pl_chainId, pl_deleteChain)` function. It logs out the chain, which is identified by the `pl_chainId` parameter.
+
+It can be defined with the `pl_deleteChain` parameter, that the chain should be deleted after the logging procedure or not.
+
+This parameter has a `_true_` default value.
+
+==== Log Out the Content of All Chains
+
+The function `f_EPTF_ILogBase_logAll(pl_deleteChains)` provides the possibility to log out the content of all valid chains. The function has one input parameter, which decides whether the chains have to be deleted after the logging procedure or not.
+
+The default value of this parameter is `_true_`.
+
+==== Delete a Chain
+
+To delete a chain, the user has to invoke the following function:
+
+`f_EPTF_ILogBase_deleteChain(pl_chainId)`. The `pl_chainId` parameter identifies the chain that will be deleted. This function marks the chain and the chain items free and decreases the number of chains that reference the log items that were contained by the deleted chain.
+
+If there is any log items that were referenced only by this chain, the function marks it free as well and this element can be reused in the user side database.
+
+==== Delete All Chains
+
+The `f_EPTF_ILogBase_deleteAll()` function deletes all the valid chains.
+
+==== Get the Name of a Chain
+
+The function `f_EPTF_ILogBase_getName(pl_chainId)` returns the name of the chain defined with the `pl_chainId` parameter. It returns an empty string, if the value of the parameter was invalid.
+
+== `ILog`
+
+[[naming-conventions-0]]
+=== Naming Conventions
+
+All function names start with `f_EPTF_ILog_` prefix.
+
+[[public-functions-0]]
+=== Public Functions
+
+==== Initialize the `ILog` Component
+
+Before using the EPTF `ILog` feature, the following function has to be called:
+
+`f_EPTF_ILog_init_CT(pl_selfName)`
+
+[[register-new-database-0]]
+==== Register New Database
+
+The following function registers a new user database:
+
+`f_EPTF_ILog_register_DB(pl_logItemFn, pl_paramList := \{} )`.
+
+This function invokes the `f_EPTF_ILogBase_register_DB` function with the parameters given in the input parameters. The role of this function is to hide the `ILogBase` layer.
+
+The function returns the database id that was returned by the `f_EPTF_ILogBase_register_DB` function.
+
+==== Create a New detailed and a New Short Chain
+
+In the `ILog` feature, the chains are created in pairs. When traffic is logged, a short chain registers log items of the upper layers as `AppLib` and the application, while the detailed chain logs both this information and the log items created on the bottom layer (transport).
+
+The function, which is called to create these two chains, is the following:
+
+[source]
+----
+f_EPTF_ILog_newChains(pl_eAbsIdx, pl_fsmCtx, pl_logHeaderDetailedFn,
+
+pl_paramDetailed, pl_logHeaderShortFn, pl_paramShort)
+----
+
+The function requires the entity index and the FSM context index, to which the chains are defined for. The function stores the chain ids in the application data of the FSM context. The remaining input parameters as the `logHeader` function references and the `pl_param` integer lists are used for calling the `f_EPTF_ILogBase_newChain` function. The default values of these parameters are null and empty list.
+
+==== Get the Id of a Chain
+
+The chain Ids are stored in the FSM context. The Id of the detailed and short chain can be retrieved by using the following function:
+
+`f_EPTF_ILog_getChainId(pl_eAbsIdx, pl_fsmCtx, pl_type)`
+
+The function needs the entity index, the FSM context index and the chain type as input parameters and returns the id of the chain as an integer value.
+
+==== Add Element to Chains
+
+The following function adds a new element to the chains, which Ids are stored in the application data:
+
+`f_EPTF_ILog_addToChains(pl_ptr, pl_dbIdx)`
+
+The `pl_ptr` input parameter contains the entity and the FSM index. These determine the chain Ids placed in FSM context, to which the element needs to be added. As the logging into the short chain is turned off by default, the function has to check the state of the logging with the `f_EPTF_ILog_shortLogEnabled` function (see description in <<check_if_short_log_is_enabled, Check if Short Log Is Enabled>>). If the short log enabled the function adds the new element to both chains, otherwise it adds only to the detailed chain.
+
+The function returns the index of the log element that identifies its place in the user side database.
+
+==== Logging Successful Traffic
+
+By using the following function the content of the short chain can be logged out by the appropriate step of the FSM:
+
+`f_EPTF_ILog_step_logSuccess(pl_ptr)`.
+
+The function logs out the content of the short chain, which defined with the `pl_ptr` pointer. The function also deletes the detailed chain, as it is no more used.
+
+==== Logging Failed Traffic
+
+In case of failed traffic, both the short and the detailed chain have to be logged out. The following function is used by the FSM step, which invokes the logging mechanism:
+
+`f_EPTF_ILog_step_logFailed(pl_ptr)`.
+
+This function creates the log for both detailed and short chains, which ids are retrieved by using the `f_EPTF_ILog_getChainId` function. The chains are deleted after the end of the logging mechanism.
+
+==== Delete Log
+
+In case of successful traffic, the Application level can delete both the detailed and the short chains by using a step in the FSM, which invokes the following function:
+
+`f_EPTF_ILog_step_deleteLog(pl_ptr)`.
+
+This function deletes the detailed and the short chain, which belongs to the entity identified by the `pl_ptr` input parameter.
+
+==== Enable Short Log for the Next Step
+
+By default the logging into the short chains is disabled and there is a possibility to enable it for one step at a time. The step, which enables the it calls the `f_EPTF_ILog_step_shortLogNext(pl_ptr)` function to set a flag in the `AppData` of the FSM context. The short chain logging is disabled at the end of the step that it was enabled for.
+
+==== Disable Short Log
+
+The short logging can be disabled with the following function, which sets an element in the application data assigned to the FSM context:
+
+`f_EPTF_ILog_disableShortLog(pl_ptr)`.
+
+[[check_if_short_log_is_enabled]]
+==== Check if Short Log Is Enabled
+
+The following function checks whether the short log enabled or not:
+
+`f_EPTF_ILog_shortLogEnabled(pl_eAbsIdx, pl_fsmCtx)`. It returns `_true_` if it is `_true_` and `_false_` otherwise.
+
+== `ILogString`
+
+[[naming-conventions-1]]
+=== Naming Conventions
+
+All function names start with ``f_EPTF_ILogString_`` prefix.
+
+[[public-functions-1]]
+=== Public Functions
+
+==== Initialize the ``ILogString`` Component
+
+Before using the EPTF ``ILogString`` feature, the following function should be called:
+
+`f_EPTF_ILogString_init_CT(pl_selfName)`
+
+[[create-new-chain-0]]
+==== Create New Chain
+
+The function `f_EPTF_ILogString_newChain (pl_name, pl_logHeaderFn, pl_paramList)` creates a new chain by using the `f_EPTF_ILogBase_newChain` function and returns the chain Id of the crated chain.
+
+==== Add New Element to Chains
+
+New element can be added to chains with the `f_EPTF_ILogString_addToChains(pl_chainIdList`, `pl_logElement`, `pl_timeOfLog)` function.
+
+This function stores the charstring given in the `pl_logElement` input parameter in its own database with the timestamp defined in the `pl_timeOfLog` parameter. The function returns 0, if the operation was successful and -1 otherwise.
+
+==== Log Header Function
+
+The header for the chains is created with the following function:
+
+`f_EPTF_ILogString_logHeader(pl_chainId, pl_paramList)`.
+
+It generates the following string to the start of the chain log:
+
+"It is the log of CHAIN NAME chain, with params: PARAMETERS"
+
+The CHAIN NAME identifies the name of the chain, which is retrieved with the `f_EPTF_ILogBase_getName` function and the PARAMETERS means the elements of the user defined parameter list.
+
+==== Log Item Function
+
+The content of the chains is logged out with the following function:
+
+`f_EPTF_ILogString_logItem (pl_elementIdx, pl_dbId, pl_chainId, pl_paramList).`
+
+It creates a string starting with the time stamp in milliseconds precision, the log items that were stored in the logged out chain, the database id and the user defined parameter list.
+
+== Summary Table of All Public Functions for EPTF `ILog`
+
+Table 1. Summary of `ILog` functions
+
+[width="100%",cols="50%,50%",options="header",]
+|=======================================================================================================================
+|Function name |Description
+|`f_EPTF_ILog_init_CT` |Initializes the `ILog` feature
+|`f_EPTF_ILog_register_DB` |Registers a new user database
+|`f_EPTF_ILog_newChains` |Create new chains: a short and a detailed chain
+|`f_EPTF_ILog_getChainId` |The function retrieves the id of a chain from the application data, assigned to the FSM context
+|`f_EPTF_ILog_addToChains` |Add log item to the detailed (and to the short) chain(s)
+|`f_EPTF_ILog_step_logSuccess` |Log out the sort chain and delete the detailed chain
+|`f_EPTF_ILog_step_logFailed` |Log out the short and the detailed chains
+|`f_EPTF_ILog_step_deleteLog` |Delete the short and the detailed chains
+|`f_EPTF_ILog_step_shortLogNext` |Enable the short chain log to the next step of the FSM
+|`f_EPTF_ILog_disableShortLog` |Disable the short chain log
+|`f_EPTF_ILog_shortLogEnabled` |Check if short log is enabled
+|`f_EPTF_ILogBase_init_CT` |Initializes the `ILogBase` feature
+|`f_EPTF_ILogBase_register_DB` |Registers a new user side database
+|`f_EPTF_ILogBase_newChain` |Creates a new chain
+|`f_EPTF_ILogBase_addToChains` |Add a new log item to chains
+|`f_EPTF_ILogBase_getName` |Returns the new of a chain
+|`f_EPTF_ILogBase_deleteChain` |Deletes a chain(marks it and its items free)
+|`f_EPTF_ILogBase_logChain` |Logs out the content of a chain and deletes it by default
+|`f_EPTF_ILogBase_logAll` |Logs out the content of all valid chains in the chain database and deletes them by default
+|`f_EPTF_ILogBase_deleteAll` |Deletes all valid chains using the `f_EPTF_ILogBase_deleteChain` function
+|`f_EPTF_ILogBase_dumpToPng` |Debug function to check the content of the chains and the FBQs of the user databases
+|`f_EPTF_ILogString_init_CT` |Initializes the `ILogString` feature
+|`f_EPTF_ILogString_newChain` |Creates a new chain
+|`f_EPTF_ILogString_addToChains` |Adds a new elements to chains and saves the element in its internal charstring database
+|`f_EPTF_ILogString_logHeader` |Callback function to create the log header to a chain
+|`f_EPTF_ILogString_logItem` |Callback function to log out a log item
+|=======================================================================================================================

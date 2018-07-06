@@ -1,0 +1,29 @@
+= References
+
+[[_1]]
+[1] http://www.ietf.org/rfc/rfc1035.txt?number=1035[RFC 1035] +
+Domain names – Implementation and specification
+
+[[_2]]
+[2] http://www.ietf.org/rfc/rfc2782.txt?number=2782[RFC 2782] +
+A DNS RR for specifying the location of services (DNS SRV)
+
+[[_3]]
+[3] http://www.ietf.org/rfc/rfc3403.txt?number=3403[RFC 3403] +
+Dynamic Delegation Discovery System (DDDS), Part Three: The Domain Name System (DNS) Database
+
+[[_4]]
+[4] ETSI ES 201 873-1 v3.1.1 (2005-06) +
+The Testing and Test Control Notation version 3; Part 1: Core Language
+
+[[_5]]
+[5] http://www.ietf.org/rfc/rfc3761.txt?number=3761[RFC 3761] +
+The E.164 to Uniform Resource Identifiers (URI) Dynamic Delegation Discovery System (DDDS) Application (ENUM)
+
+[[_6]]
+[6] http://www.ietf.org/rfc/rfc2136.txt?number=2136[RFC 2136] +
+Dynamic Updates in the Domain Name System (DNS UPDATE)
+
+[[_7]]
+[7] http://www.ietf.org/rfc/rfc1886.txt?number=1886[RFC 1886] +
+DNS Extensions to support IP version 6

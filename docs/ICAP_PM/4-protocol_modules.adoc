@@ -1,0 +1,30 @@
+= Protocol Modules
+
+== Overview
+
+Protocol modules implement the message structure of the related protocol in a formalized way, using the standard specification language TTCN-3. This allows defining of test data (templates) in the TTCN-3 language <<6-references.adoc#_3, [3]>> and correctly encoding/decoding messages when executing test suites using the Titan TTCN-3 test environment.
+
+== Installation
+
+The set of protocol modules can be used for developing TTCN-3 test suites using any text editor. However, to make the work more efficient a TTCN-3- enabled text editor is recommended (e.g. `nedit`, `xemacs`). Since the ICAP protocol is used as a part of a TTCN-3 test suite, this requires Titan TTCN-3 Test Executor be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<6-references.adoc#_4, [4]>>.
+
+== Configuration
+
+== Module Parameters
+
+No module parameters are used in the ICAP protocol module.
+
+== Parser Generation Rules
+
+In order to generate the _.c_ and _.h_ files from _.y_ and _.l_ the following _Makefile_ rules should be used:
+
+[source]
+----
+ICAP_parse_.tab.c ICAP _parse_.tab.h: ICAP.y
+          bison -dv -p ICAP _parse_ -b ICAP _parse_ $<
+
+lex. ICAP _parse_.c: ICAP.l
+          flex -Cfr -8 -Bvpp -P ICAP _parse_ ICAP.l
+----
+
+The _.h_ and _.c_ parser files should be generated during the protocol module development. Only the pregenerated files are needed for test case development and test execution.

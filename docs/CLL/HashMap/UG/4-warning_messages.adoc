@@ -1,0 +1,19 @@
+= Warning Messages
+
+NOTE: Besides the below described warning messages, warning messages shown in ‎<<7-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+`*Can't create new HashMap. HashMap name is not unique*`
+
+HashMap names must be unique. Creating a HashMap with the name already assigned to another HashMap will cause this warning. New HashMap will not be created.
+
+`*Can't get ID. No HashMap found with this name*`
+
+To get the ID of a wrong HashMap name will cause this warning.
+
+`*Can't get ID. HashMap not deleted. No HashMap found with this name*`
+
+Trying to delete an already deleted HashMap will cause this warning.
+
+`*Can't delete hasmap: No HashMap found with this id*`
+
+Trying to delete an already deleted HashMap by ID will cause this warning.

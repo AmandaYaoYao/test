@@ -1,0 +1,19 @@
+= Introduction
+
+== About This Document
+
+=== How to Read This Document
+
+This is the User Guide for the IUA protocol module. The IUA protocol module is developed for the TTCN-3 Toolset with TITAN. This document should be read together with Function Specification <<5-references.adoc#_3, [3]>>.
+
+=== Presumed Knowledge
+
+To use this protocol module the knowledge of the TTCN-3 language <<5-references.adoc#_1, [1]>> is essential.
+
+IUA is specified in the draft <<5-references.adoc#_4, [4]>>. A Function Specification was not available.
+
+== System Requirements
+
+Protocol modules are a set of TTCN-3 source code files that can be used as part of TTCN-3 test suites only. Hence, protocol modules alone do not put specific requirements on the system used. However in order to compile and execute a TTCN-3 test suite using the set of protocol modules the following system requirements must be satisfied:
+
+* TITAN TTCN-3 Test Executor R7A (1.7.pl0) or higher installed. For installation guide see <<5-references.adoc#_2, [2]>>. Please note: This version of the protocol module is not compatible with TITAN releases earlier than R7A.

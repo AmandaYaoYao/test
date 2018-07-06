@@ -1,0 +1,125 @@
+= Message Encoding Functions
+
+== Overview
+
+Encoding functions can be used to encode data to a specific format or decode encoded data.
+
+Encoding functions are implemented in the following files:
+
+* __TCCEncoding_Functions.ttcn__: external TTCN-3 function declarations
+* __TCCEncoding.cc__: source file of the functions
+
+== Function Definitions
+
+The following functions are defined in Encoding Functions:
+
+`external function enc_MIME_Base64(in octetstring p_msg) return charstring;`
+
+Encodes the octetstring parameter `msg` to MIME Base64 format according to <<5-references.adoc#_3, [3]>>.
+
+`external function dec_MIME_Base64(in charstring p_b64) return octetstring;`
+
+Decodes a MIME Base64 encoded character string to octetstring.
+
+`external function enc_LDIF_Base64(in octetstring p_msg) return charstring;`
+
+Encodes the parameter `msg` to LDIF Base64 format according to <<5-references.adoc#_5, [5]>>.
+
+`external function dec_LDIF_Base64(in charstring p_b64) return octetstring;`
+
+Decodes an LDIF Base64 encoded character string to octetstring.
+
+`function f_encGSM7bit(in universal charstring pl_str) return octetstring`
+
+Encodes the parameter `pl_str` (containing characters of the default alphabet) to octetstring containing USSD packing <<5-references.adoc#_12, [12]>>.
+
+NOTE: The Greek capital letters and the euro sign have to be represented in the "quadruple" notation (for example, the Greek capital letter delta is char(0, 0, 3, 148) )
+
+`function f_decGSM7bit(in octetstring pl_gsm7bit) return universal charstring`
+
+Decodes a USSD packed encoded octetstring to characters of the default alphabet <<5-references.adoc#_12, [12]>>.
+
+NOTE: Non-ASCII characters will be decoded into the quadruple notation. For example the Japanese yen symbol will be decoded to char(0, 0, 0, 165).
+
+`function f_is_TBCD(in charstring pl_number) return boolean;`
+
+Returns `_true_` if the `pl_number` contains only valid TBCD characters, otherwise returns `_false_`. The valid TBCD characters are 0-9, *,#,a,b,c.
+
+`external function f_enc_TBCD(in charstring pl_char) return octetstring;`
+
+Encodes the parameter `pl_char` (charstring containing valid TBCD characters) to octetstring using TBCD encoding <<5-references.adoc#_13, [13]>>. Valid TBCD characters are 0-9, *,#,a,b,c. If the encoding of an invalid character is attempted, an empty octetstring is returned with a warning.
+
+`external function f_dec_TBCD(in octetstring pl_oct) return charstring;`
+
+Decodes a valid TBCD encoded octetstring to charstring format <<5-references.adoc#_13, [13]>>. If the encoding is incorrect then an empty charstring is returned with a warning.
+
+`function f_encode_ISUP_Called_Party_Number(in ISUP_Called_Party_Number pl_ISUP_Called_Party_Number) return octetstring`
+
+Encodes `<ISUP_Called_Party_Number>` type to octetstring format. (Encoding defined in ISUP protocol <<5-references.adoc#_14, [14]>>, section 3.9)
+
+`function f_encode_ISUP_Calling_Party_Number(in ISUP_Calling_Party_Number pl_ISUP_Calling_Party_Number) return octetstring`
+
+Encodes `<ISUP_Calling_Party_Number>` type to octetstring format. (Encoding defined in ISUP protocol <<5-references.adoc#_14, [14]>>, section 3.10)
+
+`function f_encode_MobileL3_CalledPartyBCDNumber(in MobileL3_CalledPartyBCDNumber pl_MobileL3_CalledPartyBCDNumber) return octetstring`
+
+Encodes `<MobileL3_CalledPartyBCDNumber>` type to octetstring format. (Encoding defined in Mobile L3 protocol <<5-references.adoc#_15, [15]>>, section 10.5.4.7)
+
+`public function f_enc_TBCD_hex(in hexstring pl_hex) return octetstring`
+
+The function converts a hexstring into TBCD-String format.
+
+== Error Messages
+
+None.
+
+== Warning Messages
+
+`*Warning: Invalid character in Base64 encoded data: …*`
+
+This warning message is only printed by the function `dec_LDIF_Base64`, if the Base64 encoded data passed as a parameter contains one or more characters that are not defined in Base64 (i.e. a character other than [A-Z][a-z][0-9]/+). The decoded data may still be valid.
+
+`*Warning : Invalid character <character> will be encoded as space!*`
+
+Only characters contained in Section 6.2.1 of <<5-references.adoc#_12, [12]>> can be correctly encoded with `f_encGSM7bit`. Other characters will be encoded as space.
+
+`*Warning : Unknown extension character <extension code> will be decoded as space!*`
+
+Only extensions contained in section 6.2.1.1 of <<5-references.adoc#_12, [12]>> can be correctly decoded with `f_decGSM7bit`. Other extension characters will be decoded as space.
+
+`*Warning : Filler digit at invalid location!*`
+
+`f_dec_TBCD` returns an empty charstring and gives this warning if there is a filler digit at a location other than the msb side of the last octet.
+
+`*Warning : Invalid TBCD digit!*`
+
+`f_enc_TBCD` returns an empty octetstring and gives this warning if the encoding of an invalid TBCD character is attempted.
+
+== Examples
+
+[source]
+----
+module TCCEncoding_Example \{import from TCCEncoding_Functions all;type component test_CT \{ var charstring base64; var octetstring msg, dec;}testcase TC() runs on test_CT\{ msg := char2oct(``Test message.''); log(``Message is:'', msg); base64 := enc_MIME_Base64(msg); log(``MIME Base64 encoded message is:'', base64); dec := dec_MIME_Base64(base64); log(``Decoded message is:'', dec); if(dec != msg) \{ setverdict(fail); } else \{ setverdict(pass); }}
+
+testcase tc_2() runs on MyComp\{ var octetstring v_bit := f_encGSM7bit(``The last transaction cost $ 0.25. Your account balance is $ 39.50. To refill your account go to www.att.com/GoPhone.'')
+
+log(v_bit)
+
+var universal charstring v_char := f_decGSM7bit(v_bit);
+
+log(v_char)}
+
+testcase tc_3() runs on MyComp\{ //Encoding and decoding the Greek capital letter delta var octetstring v_bit := f_encGSM7bit(char(0, 0, 3, 148))
+
+log(v_bit)
+
+var universal charstring v_char := f_decGSM7bit(v_bit);
+
+log(v_char)}
+
+testcase tc_4() runs on MyComp\{log(f_dec_TBCD('01234F6789ABCDFE'O))
+
+log(f_enc_TBCD(“0123456789*#abc“))}
+
+control \{ execute(TC()); execute(tc_2()); execute(tc_3()); execute(tc_4());}}
+----

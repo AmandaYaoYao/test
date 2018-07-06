@@ -1,0 +1,431 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the EPTF Core Library Functions can be reached for on-line reading <<7-references.adoc#_4, [4]>>.
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_<<Feature Name>>_`.
+
+== The Routing Component
+
+=== Initialization
+
+The user has to only initialize the component with the following function:
+
+[source]
+----
+f_EPTF_Transport_Routing_init_CT (
+in f_EPTF_Routing_processMessage_FT pl_processOutgoingMsg
+in f_EPTF_Routing_processMessage_FT pl_processIncomingMsg )
+----
+
+The parameters of the routing init function are the call-back functions, which routing the incoming and outgoing messages.
+
+=== Process Incoming Message
+
+The user can use with this function the registered Process Incoming Message function.
+
+=== Process Outgoing Message
+
+The user can use with this function the registered Process Outgoing Message function.
+
+=== Summary Table of All Public Functions for EPTF Transport Routing
+
+[width="100%",cols="50%,50%",options="header",]
+|=======================================================================================================
+|*Function name* |*Description*
+|`f_EPTF_Routing_init_CT` |Initializes the Routing component
+|`f_EPTF_Routing_processIncomingMessage` |Calls the registered incoming message routing call-back function
+|`f_EPTF_Routing_processOutgoingMessage` |Calls the registered outgoing message routing call-back function
+|=======================================================================================================
+
+== The `MessageBufferManager` Component
+
+[[initialization-0]]
+=== Initialization
+
+The user has to only initialize the component with the following function:
+
+`f_EPTF_MessageBufferManager_init_CT ()`
+
+=== CleanUp
+
+The user has to use the following function to cleanup this component:
+
+`f_EPTF_MessageBufferManager_cleanup_CT function`
+
+=== Set Message to Buffer
+
+The user can set with the following function a message to the buffer with the given key:
+
+[source]
+----
+f_EPTF_MessageBufferManager_setMessageToBuffer(
+in octetstring pl_message,
+in charstring pl_information,
+in integer pl_key)
+----
+
+The first parameter of the functions is the message, the second parameter is a charstring, which can contains some other information to the message (for example routing information) and the last parameter is the key value. If the buffer reaches the limit, it clears itself – deletes all previous messages but stores the new message – and warns the user about this.
+
+=== Get Message from Buffer
+
+The user can get a message from the buffer with the following function:
+
+[source]
+----
+f_EPTF_MessageBufferManager_getMessageToBuffer(
+in integer pl_key,
+out octetstring pl_message,
+out charstring pl_information)
+----
+
+The first parameter of the functions is the key value, the second parameter is the founded message and the last parameter is the stored information. The message is deleted from the buffer while reading it out.
+
+[[summary-table-of-all-public-functions-for-eptf-transport-routing-0]]
+=== Summary Table of All Public Functions for EPTF Transport Routing
+
+[width="100%",cols="50%,50%",options="header",]
+|======================================================================================
+|*Function name* |*Description*
+|`f_EPTF_MessageBufferManager_init_CT()` |Initializes the `MessageBufferManager` component
+|`f_EPTF_MessageBufferManager_cleanup_CT` |Cleanups the `MessageBufferManager` component
+|`f_EPTF_MessageBufferManager_setMessageToBuffer` |Sets the given message into the buffer
+|`f_EPTF_MessageBufferManager_getMessageFromBuffer` |Gets the message from the buffer
+|======================================================================================
+
+== Transport Components
+
+There are several Transport component types, which have the same API, as it is described in 2.1. Since their API is the same, the import sections determine which communication port is used. Using the `EPTF_Transport_CT` component type the `pl_transportType` argument determines the transport type to be used.
+
+[[initialization-1]]
+=== Initialization
+
+The user has to only initialize the component with the following function:
+
+[source]
+----
+f_EPTF_Transport_init(
+in EPTF_Transport_TransportType pl_transportType,
+in charstring pl_selfName,
+in EPTF_Transport_InterfaceInformationList pl_interfaceList := {},
+in boolean pl_enableBufferManager := true)
+----
+
+The parameters are the transport type, the name of the component, the interface information list and the `enableBufferManager`. The first two parameters are mandatory. The last two are only optional and currently not used by IPL2. In IPL4 it is the same as in the old API.
+
+If the users want to use all transport types simultaneously, or they do not want to decide at initialization, the value `_"ALL"_` should be used.
+
+=== Registering Callback to Calculate the Message Length
+
+The user can set a `callbackfunction` to calculate the message with the following function:
+
+[source]
+----
+f_EPTF_Transport_registerMsgLenCallback4LGen (
+in EPTF_Transport_TransportType pl_transportType,
+in EPTF_Transport_getMsgLen_FT pl_function,
+in EPTF_IntegerList pl_msgLenArgs,
+in charstring pl_LGenType )
+----
+
+The second parameter of the function is a function reference to the callback function. The third parameter is an `IntegerList`, which contain the arguments of the `getMsgLen` function. The last parameter of the function is the `LGenType` identifier. The function will be set to this `LGenType`.
+
+=== Set the Message and Event Handler Functions
+
+The users can set the message and event handler functions with the following function:
+
+[source]
+----
+f_EPTF_Transport_registerMsgCallback (
+in EPTF_Transport_TransportType pl_transportType,
+in charstring pl_LGenType,
+in EPTF_Transport_MsgCallback_FT pl_msghandler,
+in EPTF_Transport_EventCallback_FT pl_eventhandler := null
+)
+----
+
+The message handler in the third parameter and the event handler in the last parameter will be registered to the `LGenType` defined in the second parameter.
+
+=== Connect
+
+The user can connect to an already opened socket on a host with the following function:
+
+[source]
+----
+f_EPTF_Transport_connect(
+in EPTF_Transport_TransportType pl_transportType,
+in ProtoTuple pl_proto,
+in HostName pl_localHost,
+in_PortNumber pl_localPort,
+in HostName pl_remoteHost,
+in PortNumber pl_remotePort,
+in charstring pl_LGenType,
+out Result pl_result,
+in boolean pl_automaticBuffering := false,
+in OptionList pl_options)
+----
+
+The second parameter defines the protocol to be used in the opening socket between `pl_localHost : pl_localPort` and `pl_remoteHost : pl_remotePort` to an `LGenType` (defined in parameters 3-8). The result of the function is given back in the `pl_result` parameter. The last two parameters are not used in IPL2, only in IPL4. `pl_options` can be used to enable SCTP multihoming.
+
+=== Listen
+
+The user can open a socket on a host with the following function:
+
+[source]
+----
+f_EPTF_Transport_listen(
+in EPTF_Transport_TransportType pl_transportType,
+in ProtoTuple pl_proto,
+in HostName pl_hostName,
+in PortNumber pl_portNumber,
+in charstring pl_LGenType,
+out Result pl_result,
+in boolean pl_automaticBuffering := false,
+in OptionList pl_options)
+----
+
+With `pl_proto` protocol a socket is opened on `pl_hostName : pl_PortNumber` to an `LGenType`. The last two parameters are not used in IPL2, only in IPL4.
+
+=== Send a Message
+
+The user can send a message on the socket with the following function:
+
+[source]
+----
+f_EPTF_Transport_send(
+in EPTF_Transport_TransportType pl_transportType,
+in ConnectionId pl_connId,
+in octetstring pl_msg,
+out Result pl_result,
+in boolean pl_needBuffering := false,
+in ProtoTuple pl_proto:={uspecified:={}})
+----
+
+The message `pl_msg` is sent through the connection identified by the `pl_connId`. The result of the function is given back in the `pl_result` parameter. The `pl_needBuffering` parameter is not used in IPL2, only in IPL4.
+
+=== Send a Message to a Remote Peer
+
+The user can send a message to a remote peer with the following function:
+
+[source]
+----
+f_EPTF_Transport_sendTo(
+in EPTF_Transport_TransportType pl_transportType,
+in ConnectionId pl_connId,
+in HostName pl_remoteHost,
+in PortNumber pl_remotePort,
+in octetstring pl_msg,
+out Result pl_result,
+in boolean pl_needBuffering := false,
+in ProtoTuple pl_proto:={uspecified:={}})
+----
+
+The message `pl_msg` is sent through the connection identified by the `pl_connId` to the host to `pl_remoteHost : pl_remotePort`. The result of the function is given back in the `pl_result` parameter. The `pl_needBuffering` parameter is not used in IPL2, only in IPL4.
+
+=== Close Connections
+
+The user can close a connection with the following function:
+
+[source]
+----
+f_EPTF_Transport_Close(
+in EPTF_Transport_TransportType pl_transportType,
+in ConnectionId pl_connId,
+out Result pl_result,
+in ProtoTuple pl_proto:={uspecified:={}})
+----
+
+The connection to close is identified by the `pl_connId`.
+
+=== Setup Interfaces
+
+The user can set up interfaces with the following function:
+
+[source]
+----
+f_EPTF_Transport_setUpInterfaces (
+in EPTF_Transport_TransportType pl_transportType,
+out Result pl_result)
+----
+
+This function sets up the interfaces that were passed to the transport in the init function.
+
+=== Append Interfaces
+
+The following function can be used to set up additional interfaces (that is, after init):
+
+[source]
+----
+f_EPTF_Transport_appendInterfaces(
+in EPTF_Transport_TransportType pl_transportType,
+in EPTF_Transport_InterfaceInformationList pl_interfaceList,
+out Result pl_result)
+----
+
+=== Remove Interfaces
+
+The user can set down interfaces with the following function:
+
+[source]
+----
+f_EPTF_Transport_setDownInterfaces (
+in EPTF_Transport_TransportType pl_transportType,
+out Result pl_result)
+----
+
+This function also sets down interfaces set up through `f_EPTF_Transport_appendInterfaces`.
+
+=== Activate Default Buffering Handler
+
+The user can activate the default buffering handler with the function:
+
+[source]
+----
+f_EPTF_Transport_activateDefaultBufferingHandler(
+  in EPTF_Transport_TransportType pl_transportType,
+  in charstring pl_LGenType := "")
+----
+
+For the IPL4 transport type the function activates the default buffer handler in IPL4 transport. However, for the IPL2 transport type the function does nothing.
+
+[[summary-table-of-all-public-functions-for-eptf-transport-ipl2-communication-port-eptf-cll-transport-and-the-ipl4-communication-port-new-api]]
+=== Summary Table of All Public Functions for EPTF Transport IPL2 Communication Port, `EPTF_CLL_Transport` and the IPL4 Communication Port new API
+
+[width="100%",cols="50%,50%",options="header",]
+|==========================================================================================
+|*Function name* |*Description*
+|`f_EPTF_Transport_init` |Initializes the component
+|`f_EPTF_Transport_cleanup_CT` |Cleanups component
+|`f_EPTF_Transport_registerMsgLenCallback4LGenType` |Sets a `getMessageLength` function
+|`f_EPTF_Transport_registerMsgCallback` |Sets a message handler and an event handler function
+|`f_EPTF_Transport_connect` |Function to connect to a socket
+|`f_EPTF_Transport_listen` |Function to listen on a socket
+|`f_EPTF_Transport_send` |Function to send a message over a socket
+|`f_EPTF_Transport_sendTo` |Function to send a message to a remote host
+|`f_EPTF_Transport_close` |Function to close a socket
+|`f_EPTF_Transport_setUpInterfaces` |Sets up the interfaces given at init
+|`f_EPTF_Transport_appendInterfaces` |Sets up additional interfaces
+|`f_EPTF_Transport_setDownInterfaces` |Sets down the interfaces
+|`f_EPTF_Transport_activateDefaultBufferingHandler` |Activates the default buffering handler
+|==========================================================================================
+
+== The IPL4 Communication Port Component with the Obsolete API
+
+This set of functions was made before the raise of the idea of the common transport layer. The names of its functions have IPL4-specific identifiers, and do not correspond to the function signatures of the common transport. There are functions which do not exist in the common API because they do not fit the new transport handling concept. By using this function set, it is impossible to write a user code where the IPL4 transport can be replaced easily with other transport type, for example IPL2 transport. This function set is obsolete. It is used only to be compatible with legacy code.
+
+The following sections describe the set of these functions.
+
+[[initialization-2]]
+=== Initialization
+
+The user has to only initialize the component with the following function:
+
+[source]
+----
+f_EPTF_CommPort_IPL4_init(
+in EPTF_CommPort_IPL4_InterfaceInformationList pl_interfaceList,
+in Boolean pl_enableBufferManager)
+----
+
+The parameters of the IPL4 communication port are the interface information list and the `enableBufferManager`. With the first parameter the user can define interface list, and these interfaces will be set up. With the second parameter the user enables the buffering mechanism in the IPL4 communication port component.
+
+=== Set `getMessageLength` function
+
+The user can set the getMessageLength function to the IPL4 testport with the following function:
+
+[source]
+----
+f_EPTF_CommPort_IPL4_setMsgLen (
+in integer pl_connId,
+in f_IPL4_getMsgLen pl_function,
+in ro_integer pl_msgLenArgs
+)
+----
+
+The first parameter of the function is the connection Id. The function will be set to this connection Id. The second parameter of the function is a function reference to the `getMessageLength` function. The last parameter is an `IntegerList` which contains the arguments of the `getMsgLen` function.
+
+=== Set Receive Template and Handler Function
+
+The user can set receive templates to the IPL4 tetstport and handler functions with the following function:
+
+[source]
+----
+f_EPTF_CommPort_IPL4_setReceive (
+in template EPTF_CommPort_IPL4_IncomingMessage pl_receiveTemplate,
+in f_EPTF_CommPort_IPL4_messageProcess_FT pl_msghandler
+)
+----
+
+The first parameter of the function is the receive template and the second parameter is the reference of the handler function. If the received message matches with the template, the registered handler function will be called.
+
+=== The Send Function
+
+The user can send general messages with the following function:
+
+[source]
+----
+f_EPTF_CommPort_IPL4_send(
+in EPTF_CommPort_IPL4_ASP_OutgoingMessage pl_data,
+in f_EPTF_CommPort_IPL4_messageProcess_FT pl_msghandler,
+in Boolean pl_needBuffering
+)
+----
+
+The first parameter of the function is the general message. This can be `Connection`, `Connection close`, `Send`, `SendTo`, or `Listen` messages. The second parameter is a function reference. This function will be called after the operation. The last parameter can be used to enable the Buffering mechanism to Send and `SendTo` operation. The buffering mechanism can be used only if one message or connection ID must wait in the buffer.
+
+=== The Activate Handler Function
+
+The user can set the default event handler with the following function:
+
+[source]
+f_EPTF_CommPort_IPL4_activateDefaultBufferingHandler
+
+=== Default Connection Result Event Handler
+
+The IPL4 test port component provides a default connection result handler function f_EPTF_CommPort_IPL4_defaultConnResultEventHandler ().
+
+The user can use this function to receive the Connection result event (`"IPL4_ERROR_AVAILABLE"`) and send the buffered message after the connection result received.
+
+=== Summary Table of All Public Functions for EPTF Transport `CommPortIPL4` legacy API
+
+[width="100%",cols="50%,50%",options="header",]
+|====================================================================================================
+|*Function name* |*Description*
+|`f_EPTF_CommPort_IPL4_init` |Initializes the IPL4 Communication Port component
+|`f_EPTF_CommPort_IPL4_setUpInterfaces` |Sets up the given interfaces
+|`f_EPTF_CommPort_IPL4_setDownInterfaces` |Sets down the given interfaces
+|`f_EPTF_CommPort_IPL4_cleanup_CT` |Cleanups the IPL4 Communication Port component
+|`f_EPTF_CommPort_IPL4_setMsgLen` |Sets a `getMessageLength` function to the IPL4 testport
+|`f_EPTF_CommPort_IPL4_setReceive` |Sets a receive template and a handler function to the IPL4 testport
+|`f_EPTF_CommPort_IPL4_send` |Function to send information over the IPL4 testport
+|`f_EPTF_CommPort_IPL4_activateDefaultBufferingHandler` |Function to activate the default event handler
+|`f_EPTF_CommPort_IPL4_defaultConnResultEventHandler` |Function to handle the Connection Result Event
+|====================================================================================================
+
+== IPL2 Support of Multiple Interfaces
+
+The IPL2 transport can be set to use either a single interface set through test port parameters in the configuration file, or multiple interfaces using the module parameter `tsp_EPTF_TransportIPL2_multipleInterfacesMode`.
+
+If this module parameter is true, the interfaces are configured using the interface list of the init function and, optionally, the interface list passed in to `f_EPTF_Tranport_appendInterfaces` after initialization. The pcap packet filters are generated automatically.
+
+The following charstring module parameters are used to set up the loopback interface in multiple interfaces mode:
+
+[cols=",",options="header",]
+|==============================================================
+|*module parameter* |*default value*
+|`tsp_EPTF_TransportIPL2_loopbackInterface` |`_"lo"_`
+|`tsp_EPTF_TransportIPL2_loopbackInterfaceAddress` |`_"127.0.0.0"_`
+|`tsp_EPTF_TransportIPL2_loopbackInterfaceMask` |`_"255.0.0.0"_`
+|`tsp_EPTF_TransportIPL2_openLoopbackInterface` |`_false_`
+|==============================================================
+
+In multiple interfaces mode, interfaces are opened in one of the following cases:
+
+* the loopback interface is implicitly opened at init if the module parameter `tsp_EPTF_TransportIPL2_openLoopbackInterface` is set to true
+* interfaces that are passed in the init function
+* interfaces added through `appendInterfaces` after init
+
+The loopback interface is opened regardless of `tsp_EPTF_TransportIPL2_openLoopbackInterface` if it is specified for the init function or for the `appendInterfaces` function.
+
+Outgoing messages are routed by the destination IP address using the route table of the transport. Incoming messages are accepted regardless of the `interface`, that is if a socket is opened, it will accept messages from any of the open `ethernet` interfaces.

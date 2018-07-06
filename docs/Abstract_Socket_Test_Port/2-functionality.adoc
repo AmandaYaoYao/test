@@ -1,0 +1,99 @@
+= Functionality
+
+== System Requirements
+In order to use the Abstract Socket test port the following system requirements must be satisfied:
+
+* Platform: any platform supported by TITAN RTE and OpenSSL
+* TITAN TTCN-3 Test Executor version R8A (1.8.pl0) or higher installed.
+
+NOTE: This Abstract Socket version is not compatible with TITAN releases earlier than R8A.
+
+If SSL is used, the same OpenSSL must be installed as used in TITAN. For an OpenSSL installation guide see <<8-references.adoc#_3, [3]>>.
+
+== Fundamental Concepts
+
+The test port establishes connection between the TTCN-3 test executor and SUT and transmits/receives messages. The transport channel can be TCP or SSL. The connect and listen operations can be initiated from the test suite using the `use_connection_ASPs` test port parameter.
+
+=== Module Structure
+
+The Abstract Socket common component is implemented in the following files:
+
+* __Abstract_Socket.hh__
+* __Abstract_Socket.cc__
+
+== Start Procedure
+
+=== Connection ASPs
+
+When choosing to use connection ASPs, the Abstract Socket is able to open a server listening port (acting like a server) or client connections at the same time.
+
+=== Server Mode
+
+When the test port is mapped by TITAN RTE, the server creates a TCP socket and starts listening on it. Depending on the transport channel specified in the runtime configuration file, it will accept either TCP or SSL connections.
+
+=== Client Mode
+
+When the test port is mapped by TITAN RTE, the client creates a TCP socket and tries to connect to the server. If the transport channel is SSL, the client starts an SSL handshake after the TCP connection is established. If the SSL handshake is successful, the SSL connection is established and the `map` operation is finished.
+
+The SSL handshake may fail due to several reasons (e.g. no shared ciphers, verification failure, etc.).
+
+[[sending-receiving-messages]]
+== Sending/Receiving Messages
+
+Only basic octetstring sending and receiving is handled by the Abstract Socket. This functionality probably must be extended in order to build a test port for the desired protocol. First the TTCN-3 mapping of the target protocol messages must be elaborated and then the message processing functions can be developed.
+
+== Logging
+
+The type of information that will be logged can be categorized into two groups. The first one consists of information that shows the flow of the internal execution of the test port, e.g. important events, which function that is currently executing etc. The second group deals with presenting valuable data, e.g. presenting the content of a PDU. The logging printouts will be directed to the RTE log file. The user is able to decide whether logging is to take place or not by setting appropriate configuration data.
+
+== Error Handling
+
+Erroneous behavior detected during runtime is directed into the RTE log file. The following two types of messages are taken care of:
+
+* Errors: information about errors detected is provided. If an error occurs the execution of the test case will stop immediately. The test ports will be unmapped.
+* Warnings: information about warnings detected is provided. The execution continues after the warning is shown.
+
+== Closing Down
+
+The connection can be shut down either performing the `unmap` operation on the port or if connection ASPs are used with the appropriate ASP.
+
+== IPv6 Support
+
+It is possible to select the address family used for server socket and client connections in the configuration file or during runtime. The following address families are supported: IPv4, IPv6 and UNSPEC.
+
+== SSL Functionality
+
+The Abstract Socket can use SSL or TCP as the transport channel. The same version of OpenSSL library must be used as in TITAN.
+
+The supported SSL/TLS versions are determined by the used OpenSSL library. It is possible to disable a specific TLS/SSL version in the run time configuration file.
+
+=== Compilation
+
+The usage of SSL and even the compilation of the SSL related code parts are optional. This is because SSL related code parts cannot be compiled without the OpenSSL installed.
+
+The compilation of SSL related code parts can be disabled by not defining the `AS_USE_SSL` macro in the _Makefile_ during the compilation. If the macro is defined in the _Makefile_, the SSL code parts are compiled to the executable test code. The usage of the SSL then can be enabled/disabled in the runtime configuration file. Naturally, the test port parameter will be ignored if the `AS_USE_SSL` macro is not defined during compilation.
+
+=== Authentication
+
+The Abstract Socket provides both server side and client side authentication. When authenticating the other side, a certificate is requested and the own trusted certificate authorities’ list is sent. The received certificate is verified whether it is a valid certificate or not (the public and private keys are matching). No further authentication is performed (e.g. whether hostname is present in the certificate). The verification can be enabled/disabled in the runtime configuration file.
+
+In server mode the test port will always send its certificate and trusted certificate authorities’ list to its clients. If verification is enabled in the runtime configuration file, the server will request for a client’s certificate. In this case, if the client does not send a valid certificate or does not send a certificate at all, the connection will be refused. If the verification is disabled, the connection will never be refused due to verification failure.
+
+In client mode the test port will send its certificate to the server on the server’s request. If verification is enabled in the runtime configuration file, the client will send its own trusted certificate authorities’ list to the server and will verify the server’s certificate as well. If the server’s certificate is not valid, the SSL connection will not be established. If verification is disabled, the connection will never be refused due to verification failure.
+
+The own certificate(s), the own private key file, the optional password protecting the own private key file and the trusted certificate authorities’ list file can be specified in the runtime configuration file.
+
+The test port will check the consistency between its own private key and the public key (based on the own certificate) automatically. If the check fails, a warning is issued and execution continues.
+
+=== Other Features
+
+The usage of SSL session resumption can be enabled/disabled in the runtime configuration file.
+
+The allowed ciphering suites can be restricted in the runtime configuration file, see.
+
+The SSL re-handshaking requests are accepted and processed, however re-handshaking cannot be initiated from the test port.
+
+=== Limitations
+
+* SSL re-handshaking cannot be initiated from the test port.
+* The own certificate file(s), the own private key file and the trusted certificate authorities’ list file must be in PEM format. Other formats are not supported.

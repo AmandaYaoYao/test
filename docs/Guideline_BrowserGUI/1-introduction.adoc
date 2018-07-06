@@ -1,0 +1,10 @@
+= Introduction
+
+== Knowledge Prerequisites
+
+The solution uses XML schema transformations (<<7-references.adoc#_5, [5]>>), HTML cascading style sheets (<<7-references.adoc#_6, [6]>>), and Java scripts (<<7-references.adoc#_7, [7]>>) as the most commonly used HTML data manipulation techniques. Most of this document assumes the knowledge of these technologies. However, some parts (for example, changing the lookup with replacing or editing files) can be used without any special knowledge.
+
+[[system_requirements]]
+== System Requirements
+
+In order to use the BrowserGUI feature the system requirements listed in EPTF CLL User Guide <<7-references.adoc#_4, [4]>> should be fulfilled. The minimum required web browser version is Mozilla Firefox 38.5.2 Extended Support Release (module name in AFS: firefox/38.5.2esr).

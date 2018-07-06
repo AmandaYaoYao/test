@@ -1,0 +1,85 @@
+= Feature List
+
+== Implementation
+
+The test port implements the communication between the network packets and the TTCN-3 LANL2 ASPs and PDUs.
+
+The test port is using Libpcap for capturing packets (see <<7-references.adoc#_5, [5]>>).
+
+== Start Procedure
+
+After the configuration is done correctly and the test port is mapped, it waits for incoming or outgoing messages.
+
+The mapping procedure opens a socket for sending and a socket with Libpcap for reading. The capture filtering is also done here.
+
+== Multi-Interface Support
+
+The LANL2 test port can operate in single or multi interface mode. In single interface mode the used interface should be configured in the run time configuration file.
+
+The multi interface mode the used interfaces should be opened via ASP messages.
+
+== Open and Close Interfaces in Multi-Interface Mode
+
+The network interface should be opened via `ASP_LANL2_open_interface` ASP. The used packet filter and default mac address can be set by the ASP.
+
+The interface can be closed by the `ASP_LANL2_close_interface` message.
+
+[[sending-receiving-lanl2-packets]]
+== Sending/Receiving LANL2 Packets
+
+=== Sending with LANL2 Test Port
+
+The LANL2 test port is able to send two types of messages: PDU and ASP. The `PDU_LANL2` contains only the payload of the Ethernet packet and the addresses are taken from the configuration file. The `ASP_LANL2` contains all the information in order to send the Ethernet packet (the addresses are given in the test suite). In multi interface mode the `ASP_v2_LANL2` should be used.
+
+The `PDU_LANL2` should be used when the MAC and/or IP addresses are not changing, they are fix, and can be set in the configuration file.
+
+The `ASP_LANL2` should be used when the MAC and/or IP addresses need to be changed during the test execution.
+
+[[sending-pdu-lanl2]]
+==== Sending PDU_LANL2
+
+The source and destination MAC address and the Ethernet type field is taken from the configuration file. The PDU contains only the user data (payload) of the Ethernet packet.
+
+The LANL2 test port makes the Ethernet header from the test port parameters (source MAC address, destination MAC address, Ethernet type), and sends the packet.
+
+[[sending-asp-lanl2]]
+==== Sending ASP_LANL2
+
+All Ethernet fields are taken from the ASP sent by the TITAN RTE. The user data is a `PDU_LANL2`, encapsulated in the ASP. When sending `ASP_LANL2`, no test port parameter has to be set according to the Ethernet packet (Ethernet II frame).
+
+The LANL2 test port makes the Ethernet packet (header and payload) from the ASP and sends it.
+
+=== Receiving with LANL2 Test Port
+
+The LANL2 test port uses Libpcap for filtering the received packets. The filtering expression should be set in the configuration file. When expression is not set, all packets are captured.
+
+The test port makes an `ASP_LANL2` or `ASP_v2_LAN2` from the received Ethernet packet, and sends it to TITAN RTE.
+
+== Closing Down
+
+By calling unmap the Test Port will close down the sockets towards the SUT and terminate.
+
+The execution of the test suite can be stopped at any time by pressing `<Ctrl>-c`. Even when execution is interrupted with `<Ctrl>-c` the sockets are still closed.
+
+== Logging
+
+The type of information that will be logged can be categorized into two groups. The first one consists of information that shows the flow of the internal execution of the test port, for example, important events, which function that is currently executing etc. The second group deals with presenting valuable data, for example, presenting the content of a PDU. The logging printouts will be directed to the RTE log file. The user is able to decide whether logging is to take place or not by setting appropriate configuration data.
+
+== Error Handling
+
+Erroneous behavior detected during runtime is shown on the console and directed into the RTE log file. The following two types of messages are taken care of:
+
+* Errors - information about errors is detected. If an error occurs the execution will stop immediately.
+* Warnings - information about warnings is detected. The execution continues after the warning is shown.
+
+== Limitations
+
+Only Linux and Solaris platforms are supported.
+
+=== Linux
+
+The LANL2 test port uses Packet Socket for communication. Packet Socket is a new feature in Linux 2.2. This type of socket is implemented for Linux only (see <<7-references.adoc#_4, [4]>>). Root access is necessary for Packet Socket.
+
+=== Solaris
+
+The LANL2 test port uses the DLPI interface <<7-references.adoc#_6, [6]>> supported by the device driver, which provides the user-level applications with a direct channel to the link layer. This is accomplished by using the DLIOCRAW mode, supported in Solaris 2.5, 2.6, 7, 8 and later. Root access is necessary.

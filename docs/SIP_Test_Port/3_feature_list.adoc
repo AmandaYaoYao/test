@@ -1,0 +1,109 @@
+= Feature List
+
+== Message Handling
+
+The test port can handle SIP request and SIP response messages and it can use both UDP and TCP connection to send and receive messages.
+
+=== Encoding Messages
+
+The built in encoder can encode SIP request and SIP response messages and it is possible to send raw and fragmented <<12_references.adoc#_27,[27]>> messages through the test port.
+
+The encoding consists of three steps:
+
+1.  Encoding the request or response line
+2.  Encoding headers
+3.  Adding message body.
+
+The name of the header can be encoded in short or long format. Multiple header fields can be encoded as a comma separated list or several header rows. The behavior of the test port is controlled by test port parameter.
+
+=== Decoding Messages
+
+After all headers are received the messages are parsed. The parser is implemented using Bison and Flex. The parser accepts all valid message formats.
+
+The error behavior of the test port is controlled by test port parameters. The test port can ignore any decoding errors and discard the message silently or pass the erroneous message to the test case as a RAW message or issue an error.
+
+The parser can be deactivated by test port parameter. In that case the received messages are passed in raw format to the test case.
+
+After the parsing is finished the message body is extracted from the buffer if it exists.
+
+== Network Handling
+
+The test port has two different network handling method:
+
+* Basic mode
+
+* Advanced mode
+
+The local host name and port number can be set in both modes.
+
+=== Source Port Number of The Sent Messages
+
+When the SIP test port sends UDP packets the source port number can be either the listening port number or a random port number chosen by the operating system. The behavior of the test port is controlled by the parameter `random_udp_sending_port`. When the SIP test port establishes a TCP connection the source port is always selected by the operating system because it is not possible to open more than one TCP connection from one TCP port.
+
+=== Basic Mode
+
+In basic mode the test port can handle only one TCP connection or one UDP socket. It is not possible to send and receive messages using both protocols at the same time, but the test port can switch between protocols and remote hosts.
+
+==== Start-Up Operation
+
+During the map operation the test port checks the default protocol and the default target host name. If the default target host name is specified in the config file the port establishes connection with the specified host. That means the port opens a TCP connection if the default protocol is TCP or the port opens a UDP socket if the default protocol is UDP.
+
+If no default target host is specified the port opens a listening socket (UDP or TCP according to the default SIP protocol) if listening is enabled.
+
+==== Accepting TCP Connections
+
+The test port can accept only one incoming TCP connection if listening is enabled. After the port accepts the incoming connection request, the listening socket will not be closed but the port also will not accept new connections until the current TCP connection is closed.
+
+==== Receive Messages
+
+The port can receive messages through the opened TCP connection or on the opened UDP socket.
+
+In the case of TCP the test port uses a buffer to assemble the whole message if it is received in multiple TCP packets.
+
+==== Sending Messages
+
+When sending of a message is requested the port first compares the parameters (target host name, port number and protocol) of the current connection with the requested parameters.
+
+If there is any difference in the parameters the test port closes the current connection and opens a new one.
+
+If the size of the message exceeds the MTU size and the protocol applied is UDP the messages will not be sent and a TTCN error will be generated. The MTU size check can be disabled. The default MTU length is 1300 octets.
+
+=== Advanced Mode
+
+In advanced mode the test port can handle several TCP connections and listen on both UDP and TCP ports at the same time.
+
+Each connection is distinguished by the protocol id, remote host name and the remote port number.
+
+Any connection including the listening sockets can be opened and closed during run time using the `ASP_SIP_open` and `ASP_SIP_close` messages.
+
+[[start-up-operation-0]]
+==== Start-up Operation
+
+During map operation the test port opens the listening socket according to the listen settings. The port opens a UDP socket or TCP listening socket or both.
+
+If the target host name is specified and the default protocol is TCP the test port opens a TCP connection to the specified host.
+
+[[accepting-tcp-connections-0]]
+==== Accepting TCP Connections
+
+The port can accept any number of connection requests on the listening port. After accepting a connection the port is ready to send and receive messages over it and it is able to accept a new one.
+
+[[receive-messages-0]]
+==== Receive Messages
+
+The port can receive messages through any opened TCP connections or on the opened UDP socket at the same time
+
+In case of TCP the test port uses a buffer to assemble a full message if it is received in multiple TCP packets. Every TCP connection has its own buffer.
+
+[[sending-messages-0]]
+==== Sending Messages
+
+When sending of a message is requested the port first compares the parameters (target host name, port number and protocol) of the current connections with the requested parameters.
+
+If there is no open connection towards the requested host and port the test port will open a new one.
+
+If the size of the message exceeds the MTU size and the protocol applied is UDP the messages will not be sent and a TTCN error will be generated or an `ASP_SIP_error` will be sent to the test case. The MTU size check can be disabled. The default MTU length is 1300 octets.
+
+==== Transport Error Handling
+
+The test port is able to generate TTCN error or send `ASP_SIP_error` message to the test case in the case of the transport layer error (eg. send or receive operation failed). The test port behavior is configured via run time configuration file.

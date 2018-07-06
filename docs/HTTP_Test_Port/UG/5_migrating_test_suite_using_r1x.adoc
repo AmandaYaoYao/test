@@ -1,0 +1,25 @@
+= Migrating Test Suite Using R1x
+
+With the release of the port version R2A it has been decided to add four new received ASPs and a new message field to the test port types. This modification has been made to fulfil the requirement of a HTTP server handling multiple parallel client connections. The change causes test suites written for R1x port to fail the compilation. However, the transition to the R2 port is straightforward.
+
+Steps to compile older test suites with HTTP port R2:
+
+* Decide whether SSL will be used or not in the test. If yes, please see <<8_examples.adoc, makefile, Makefile>> about editing the _Makefile_ to allow SSL in the test. If SSL is not used in the test, then SSL specific parts can be removed from the _Makefile_.
+
+NOTE: `OPENSSL_DIR` and `–lssl` are still needed to compile the executable.
+
+* Remove _buffer.cc_ and _buffer.hh_ from the (user) sources, and add __Abstract_Socket.cc__ and __Abstract_Socket.hh__.
+
+* Do not set the `use_notification_ASPs` to `_"yes"_` unless you do not modify the test suite to handle the incoming `Close`, `Connect_result`, `Client_connected` and `Listen_result` ASPs. It is recommended to consider the usage of these ASPs since they allow the test suite to implement more complex TCP event handling. For example, a client test case can wait for a server to be started up by checking if the `client_id` is `_–1_` in the returned `Connect_result` ASP.
+
+* Add the `client_id := omit` assignment to every `HTTPRequest` , `HTTPResponse`, `HTTPRequest_binary_body`, `HTTPResponse_binary_body`, `erronous_msg`, `Half_close` and `Close` variables and templates.
+
+Example:
+
+[source]
+
+----
+var HTTPRequest r := \{ method := ``GET'', uri := ``/'', version_major := 1, version_minor := 1, header := hd, body := ``''}has to be modified to: var HTTPRequest r := \{ client_id := omit, method := ``GET'', uri := ``/'', version_major := 1, version_minor := 1, header := hd, body := ``''}
+----
+
+The new ASPs are only received by the test if the `use_notification` ASPs := `_"yes"_` is specified in the runtime configuration file.

@@ -1,0 +1,26 @@
+= Terminology
+
+*Protocol Emulation:*: +
+An instance which implements messages and dynamic behavior of a given protocol layer.
+
+= Abbreviations
+
+ASP:: Abstract Service Primitive
+
+IETF:: Internet Engineering Task Force
+
+IUT:: Implementation Under Test
+
+PDU:: Protocol Data Unit
+
+PE:: Protocol Emulation
+
+SCCP:: Signalling Connection Control Part
+
+SUA:: SCCP User Adaptation Layer
+
+SUA PE:: SUA Protocol Emulation
+
+SS7:: Signalling System No 7
+
+TTCN-3:: Testing and Test Control Notation version 3.

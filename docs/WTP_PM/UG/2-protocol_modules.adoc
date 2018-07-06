@@ -1,0 +1,30 @@
+= Protocol Modules
+
+== Overview
+
+Protocol modules implement the messages structure of the related protocol in a formalized way, using the standard specification language TTCN-3. This allows defining of test data (templates) in the TTCN-3 language <<4-references.adoc#_1, [1]>> and correctly encoding/decoding messages when executing test suites using the TITAN TTCN-3 test environment <<4-references.adoc#_2, [2]>> Protocol modules are using TITAN’s RAW encoding attributes <<4-references.adoc#_4, [4]>> and hence are usable with the TITAN test toolset only.
+
+== Installation
+
+The set of protocol modules can be used in developing TTCN-3 test suites using any text editor. However, to make the work more efficient a TTCN-3-enabled text editor is recommended (e.g. `nedit`, `xemacs`). Since the WTP protocol is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<4-references.adoc#_5, ‎[5]>>.
+
+== Configuration
+
+None.
+
+[[encoding-decoding-functions]]
+== Encoding/Decoding Functions
+
+This product also contains encoding/decoding functions, which assure correct RAW encoding of messages when sent from TITAN and correct RAW decoding of messages when received by TITAN. Implemented encoding/decoding functions:
+
+[cols=3*,options=header]
+|===
+
+|Name |Type of formal parameters |Type of return value
+|`enc_PDU_WTP` |PDU_WTP |octetstring
+|`dec_PDU_WTP` |octetstring |PDU_WTP
+|===
+
+During the encoding of `WTP_Concatenation` messages Titan automatically fills in the `lengthType` and `pDU_Length` fields depending on the actual length of the `pDU_WTP` field. If the length of `pDU_WTP` is larger than 127 bytes the long format is automatically chosen. If the length of `pDU_WTP` is 127 bytes or smaller the short length form is automatically chosen. In both cases the actual length value is also automatically filled in. (The user needs to apply dummy values which will be overwritten. It is recommended to use the `short_len` with value `_0_` in the message to be encoded.)
+
+During encoding of `Info_TPI` and `Option_TPI` the selection of long or short format is not automatic. If short format is selected but the value is long then it will result in an encoding error. Therefore the user must calculate the length of the value first with the TTCN-3 `lengthof` operation and based on the result set `short_len` or `long_len.` The actual length value is however calculated automatically.

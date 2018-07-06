@@ -1,0 +1,13 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following example:
+
+* __EPTF_CLL_DataSource_Demo.ttcn__
+
+== Demo Module
+
+There is a demo for the DataSource feature. It shows how the DataSource feature can be used.
+
+The `MTC` is the main data source component. It is a data source client at the same time. Another PTC is created as a datasource client. Both clients register data sources, and the main data source component checks the data value.
+
+In another test case the DataSource CLI is initialized. The `MTC` is the main CLI component as well. This demo test case can be used to try the Command Line Interface and execute DataSource commands in it. The telnet command can be used to connect to the Command Line Interface. The port number to connect to is given in the CFG file.

@@ -1,0 +1,97 @@
+= Functional Interface
+
+Apart from this description a cross-linked reference guide for the TitanSim CLL Functions can be reached for on-line reading ‎<<‎5-references.adoc#_4, [4]>>.
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_RNA`.
+
+== Public Functions
+
+=== Initialization
+
+Before using an EPTF Random N Array the
+
+`f_EPTF_RNA_initRNA(pl_size,_ _pl_numOfLists, pl_queue)`
+
+function should be called with the queue as the parameter. This initializes the RNA containing `pl_numOfLists` number of lists or states. List number 0 will contain `pl_size` elements.
+
+The RFBA can be initialized with the function
+
+`f_EPTF_RNA_initRFBA(pl_size,_ _pl_queue)`
+
+It will have only two lists or states can be called Free and Busy.
+
+=== Getting or Creating Slots
+
+The function `f_EPTF_RNA_getRndOrCreateSlot(pl_listNum, pl_queue)` can be used to get an element from a random slot from a list specified by `pl_listNum`. The function resizes the list if there are no slots available there.
+
+Function `f_EPTF_RNA_createSlots (pl_number, pl_listNum, pl_queue)` can be used to create several new slot items at once in the list specified by `pl_listNum`.
+
+Function `f_EPTF_RNA_getRndSlot(pl_listNum, pl_queue)` can be used to get an element from a random slot from a list specified by `pl_listNum`. This function cannot resize the list, and returns with a negative index if there are no free slots.
+
+The function `f_EPTF_RNA_getRndOrCreateFreeSlot( pl_queue)` can be used to get an element from a random slot from the free list in an RFBA. The function resizes the list if there are no slots available there.
+
+Function `f_EPTF_RNA_createFreeSlots (pl_number, pl_queue)` can be used to create several new slot items at once in the free list in an RFBA.
+
+Function `f_EPTF_RNA_getRndFreeSlot(pl_queue)` can be used to get an element from a random slot from the free list in an RFBA. This function cannot resize the list, and returns with a negative index if there are no free slots.
+
+=== Moving a Slot
+
+The following functions can be used to move a slot:
+
+`f_EPTF_RNA_moveSlot(pl_elementIdx, pl_listTo, pl_queue)`
+
+can be used to move an element to a list specified by the parameter `pl_listTo`.
+
+`f_EPTF_FBQ_moveFromFreeToBusySlot(pl_elementIdx, pl_queue)` can be used to move an element from the free list into the busy list in an RFBA.
+
+`f_EPTF_FBQ_moveFromBusyToFreeSlot(pl_elementIdx, pl_queue)` can be used to move an element from the busy list into the free list in an RFBA.
+
+=== Checking the State of an Element
+
+The following functions can be used to check if an element is in a given state (or list) in an RFBA:
+
+`f_EPTF_RNA_itemIsBusy(pl_elementIdx, pl_queue)` returns true if the element is in the busy list,
+
+`f_EPTF_RNA_itemIsFree(pl_elementIdx, pl_queue)` returns true if the element is in the free list.
+
+=== Getting the Location of an Element
+
+The function
+
+`f_EPTF_RNA_getList(pl_elementIdx, pl_queue)`
+
+can be used to get the index of the list where `pl_elementIdx` located.
+
+=== Getting the Length of a List
+
+The function `f_EPTF_RNA_getLengthOfList(pl_listNum, pl_queue)` can be used To get a length of the list specified by `pl_listNum.`
+
+The functions `f_EPTF_RNA_getLengthOfBusyList(pl_queue)` and `f_EPTF_RNA_getLengthOfFreeList(pl_queue)` can be used to get the length of the busy and the free list respectively in an RFBA.
+
+== Summary Table of All Public Functions for EPTF Random N Array
+
+See summary of Random N Array functions in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|==============================================================================================================
+|Function name |Description
+|`f_EPTF_RNA_initRNA` |Initializes a Random N Array
+|`f_EPTF_RNA_getRndOrCreateSlot` |Returns an index to an existing or a newly created element
+|`f_EPTF_RNA_createSlots` |Creates slots in a list
+|`f_EPTF_RNA_getRndSlot` |Returns an element from a random slot
+|`f_EPTF_RNA_moveSlot` |Moves a slot to an other list
+|`f_EPTF_RNA_getLengthOfList` |Returns the length of a specified list
+|`f_EPTF_RNA_getList` |Gets the location of an element
+|`f_EPTF_RNA_initRFBA` |Initializes a Random Free Busy Array
+|`f_EPTF_RNA_getRndOrCreateFreeSlot` |Returns an index to an existing or a newly created element in the free list
+|`f_EPTF_RNA_createFreeSlots` |Creates slots in the free list
+|`f_EPTF_RNA_getRndFreeSlot` |Returns an element from a random slot in the free list
+|`f_EPTF_RNA_moveFromFreeToBusySlot` |Moves a slot from the free list to the busy list
+|`f_EPTF_RNA_moveFromBusyToFreeSlot` |Moves a slot from the busy list to the free list
+|`f_EPTF_RNA_getLengthOfFreeList` |Returns the length of the free list
+|`f_EPTF_RNA_getLengthOfBusyList` |Returns the length of the busy list
+|`f_EPTF_RNA_itemIsBusy` |Returns true if the item is in the busy list
+|`f_EPTF_RNA_itemIsFree` |Returns true if the item is in the free list
+|==============================================================================================================

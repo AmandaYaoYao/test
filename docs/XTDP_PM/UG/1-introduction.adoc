@@ -1,0 +1,15 @@
+= Introduction
+
+== How to Read This Document
+
+This is the User Guide for the XTDP protocol module, which is developed for the TTCN-3 Toolset with TITAN.
+
+== Presumed Knowledge
+
+To use this protocol module the knowledge of the TTCN-3 language <<4-references.adoc#_1, ‎[1]>>, the TITAN Test Executor ‎<<4-references.adoc#_2, [2]>> and the XML to TTCN-3 mapping <<4-references.adoc#_4, ‎[4]>> is essential.
+
+== System Requirements
+
+Protocol module is a set of TTCN-3 source code files that can be used as part of TTCN-3 test suites only. So in order to compile and execute a TTCN-3 test suite using the XTDP protocol module the TITAN TTCN-3 Test Executor version R8A (1.8.pl0) or higher must be installed. For installation guide see ‎<<4-references.adoc#_2, [2]>>.
+
+NOTE: This version of the protocol module is not compatible with TITAN releases earlier than R8A.

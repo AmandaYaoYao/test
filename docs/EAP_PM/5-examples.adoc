@@ -1,0 +1,33 @@
+= Examples
+
+== EAP Packet Encoding and Decoding
+
+The following example shows how an EAP packet can be encoded and decoded.
+
+[source]
+----
+var PDU_EAP v_EAP_PDU;
+var octetstring data;
+
+data:= enc_PDU_EAP(v_EAP_PDU);
+
+v_EAP_PDU := dec_PDU_EAP(data);
+----
+
+== Computation of MAC Parameter in an EAP Message
+
+The following example shows how an EAP packet MAC parameter can be computed with the
+
+[source]
+----
+import from TCCSecurity_Functions all;
+[…]
+var EAP_PDU v_packetToSend_EAP;
+var octetstring v_ck, v_ik, v_name;
+
+var octetstring vl_mk:= eap_akaprime_derive_mk(v_name, v_ik,v_ck);
+var octetstring vl_k_aut := substr(vl_mk,16,32);
+var octetstring vl_macFull :=
+f_calculate_HMAC_SHA256 (vl_k_aut,enc_PDU_EAP(v_packetToSend_EAP),32);
+var octetstring vl_mac :=substr(vl_macFull,0,16);
+----

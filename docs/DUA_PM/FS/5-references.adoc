@@ -1,0 +1,17 @@
+= References
+
+[[_1]]
+[1] http://www.ietf.org/internet-drafts/draft-ietf-sigtran-dua-08.txt[draft-ietf-sigtran-dua-08.txt] +
+DPNSS/DASS 2 extensions to the IUA protocol
+
+[[_2]]
+[2] http://www.ietf.org/internet-drafts/draft-ietf-sigtran-rfc3057bis-02.txt[draft-ietf-sigtran-rfc3057bis-02.txt] +
+ISDN Q.921-User Adaptation Layer
+
+[[_3]]
+[3] ETSI ES 201 873-1 v.2.2.1 (02/2003) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_4]]
+[4] 1/1553-CRL 113 200 Uen +
+User Documentation for the TITAN TTCN-3 Test Executor

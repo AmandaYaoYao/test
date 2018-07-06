@@ -1,0 +1,13 @@
+= Abbreviations
+
+CLL:: Core Load Library
+
+EPTF:: Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+TitanSim:: Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+TTCN-3:: Testing and Test Control Notation version 3 <<4-references.adoc#_1, [1]>>.
+
+PTC:: Parallel Test Component
+
+PTCD:: PTC Deployment

@@ -1,0 +1,75 @@
+= Error Messages
+
+NOTE: Besides the below described error messages, error messages shown in ‎<<7-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+`*EPTF_Var[<idx>] content is not and <type>Type reference*`
+
+The `f_EPTF_Var_get<type>Value` function is called for a referenced content EPTF Variable with a different type.
+
+`*EPTF_Var[<idx>] has invalid content*`
+
+One of the `f_EPTF_Var_get<some type>Value` functions was called for a variable that has invalid content
+
+`*EPTF_Var[<idx>] is not a referenced variable*`
+
+The `f_EPTF_Var_getValueRef` function was called for a variable which is not a referenced content variable
+
+`*Cannot set local provider for EPTF_Var[<idx>]. It has already a provider*`
+
+The function `f_EPTF_Var_subscribeLocal` was called for a variable which already has a provider
+
+`*Cannot adjust the content of the EPTF_Var[<idx>]. It has a local provider! <the data of the variable>*`
+
+The `f_EPTF_Var_adjustContent` function was called for a variable that has a local provider. These kinds of variables cannot be adjusted.
+
+`*Cannot adjust the content of the EPTF_Var[<idx>]. It has a local top-provider! <the data of the variable>*`
+
+The `f_EPTF_Var_adjustContent` function was called for a variable that is a subscriber of a remote variable, but the top level provider is a calculated variable.
+
+`*New EPTF Variable name is not unique: <name> Already defined by EPTF_Var[<idx>]: <the data of the variable>*`
+
+When a new EPTF Variable was created the name specified is already in use by an existing variable
+
+`*Cannot convert invalid content to direct content <directContent>.*`
+
+The content of the EPTF Variable to be converted is invalid
+
+`*Cannot convert direct content <directContent> to direct content <content> Types are incompatible*`
+
+Cannot set the given `directContent` into the EPTF Variable. It has a different content type.
+
+`*Cannot convert direct content <directContent> to string.*`
+
+The given content cannot be converted to string.
+
+`*Variable <subscriberVarName> on component < provider.compRef> does not exist. Subscribe failed by the subscriber: <subscriber>*`
+
+Subscribe failed. The variable with the given name does not exist on the specified component.
+
+`*Auto-generated name <autoName> for subscriber EPTF_Var[<subscriber.idx>] is not unique. Already defined by EPTF_Var[<idx>]: <Variable data>*`
+
+The local name for the subscriber variable was not specified, so it was auto-generated. But the auto-generated name already exists.
+
+`*Callback function for AdjustRemoteContentResp handler not found. Database error!*`
+
+This is an internal error. Internal database of call-back functions is corrupt.
+
+`*SyncBuffer does not contain data for component <remoteCompRef>*`
+
+The syncBuffer database is corrupt.
+
+`*Cannot adjust the content of the EPTF_Var[<idx>]. It has a local provider! <variable data> EPTF_Var_Msg_AdjustContent message dropped.*`
+
+An adjust request is received for a variable that cannot be adjusted. This is an internal error. This message should not have been sent.
+
+`*Callback function not found. Database error!*`
+
+Internal error.
+
+`*Unexpected message received from <senderComp>: <msg data>*`
+
+Unexpected message received on the Variable internal interface.
+
+`*<some text> Assertion failed! <some text>*`
+
+Internal error.

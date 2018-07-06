@@ -1,0 +1,19 @@
+= Examples
+
+== Error Messages
+
+`*Cannot open socket*`
+
+The socket system call fails.
+
+`*User_map*`
+
+`Conn_list` or `conn_list_server` is not Null
+
+`*Send system call failed: <n> bytes was sent instead of <m>*`
+
+The send system call fails.
+
+`*Send system call failed: Write error*`
+
+The send system call fails.

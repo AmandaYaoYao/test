@@ -1,0 +1,43 @@
+= Using the APIs
+
+DsRestAPI provides three APIs that can communicate with the Data Source.
+
+== JavaScript
+
+See the description of the `f_EPTF_DsRestAPI_start` function in [5] to correctly configure the HTTP server before using the JavaScript API.
+
+The _DsRestAPIComm.js_ and _DsRestAPI.js_ files have to be included into a web application and a new instance of DsRestAPI has to be created.
+
+Afterwards, the functions described in the JavaScript specific part of <<8-references.adoc#_5, [5]>> can be used.
+
+== Python
+
+The _DsRestAPI.py_ can be used in two ways.
+
+We can use it as a script with the following command line arguments:
+
+* `-?` print local help (for usage, examples, and types)
+* `-h source element` print Data Source help for the given source and element (element or both are optional)
+* `-u http://address:port`: the address of the HTTP server
+* `-f file.json`: send the request found in the JSON file
+* `-j 'json string'`: send the JSON string as the request
+
+To issue specific `getData` requests, use the following parameters:
+
+* `-source SomeSource`
+* `-element SomeElement`
+* `-params ParamName1 ParamValue1 ParamName2 ParamValue2`
+* `-ptcname SomePTCName`
+
+In addition to these, a `setData` request must contain the following parameters:
+
+* `-content TheContent`
+* `-tp SomeInt` (see <<8-references.adoc#_5, [5]>> for more details)
+
+For further explanations about the arguments, see the Python specific part of <<8-references.adoc#_5, [5]>>.
+
+We can also import the Python script as a module and use the API class similarly to the JavaScript API.
+
+== TTCN
+
+The full description of the API function can be found in <<8-references.adoc#_5, [5]>>.

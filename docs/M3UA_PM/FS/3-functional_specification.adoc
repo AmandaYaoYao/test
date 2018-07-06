@@ -1,0 +1,43 @@
+= Functional Specification
+
+== Protocol Version Implemented
+
+This protocol module contains the protocol messages and elements of the M3UA protocol (see <<5-references.adoc#_4, [4]>>).
+
+[[modifications-deviations-related-to-the-protocol-specification]]
+== Modifications/Deviations Related to the Protocol Specification
+
+=== Implemented Messages
+
+All message types listed in protocol description <<5-references.adoc#_4, [4]>> are implemented.
+
+[[protocol-modifications-deviations]]
+=== Protocol Modifications/Deviations
+
+None.
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product contains encoding/decoding functions that provide for the correct encoding of messages when sent from TITAN and correct decoding of messages when received by TITAN. For encoding and decoding the message two functions are available:
+
+* Function `enc_PDU_M3UA` makes simple RAW encoding without any modification on the input M3UA message.
+* Function `dec_PDU_M3UA` makes simple RAW decoding without any modification on the input octetstring.
+
+Implemented encoding/decoding functions:
+
+[cols=3*,options=header]
+|===
+
+|Name
+|Type of formal parameters
+|Type of return value
+
+|enc_PDU_M3UA
+|PDU_M3UA
+|octetstring
+
+|dec_PDU_M3UA
+|octetstring
+|PDU_M3UA
+|===

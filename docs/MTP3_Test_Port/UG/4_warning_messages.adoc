@@ -1,0 +1,34 @@
+== Warning Messages
+
+The general form of an `MTP3`/`MTP3b`/`M3UA` Test Port warning message is:
+
+[source]
+<TTCN_WARNING> MTP3 Test Port(<port no>):<message>
+
+Where the `<message>` is one of the followings:
+
+`*0 byte long message received -> packet dropped.*`
+
+`*Incompatible M3UA protocol version in header -> packet dropped.*`
+
+`*Length in common header (<decimal value>) mismatches received buffer length ((<decimal value>), Assuming that it is because of the omission of final parameter padding in indicated length.*`
+
+`*Unsupported M3UA msg class M3UA_RKM -> packet dropped.*`
+
+`*Unsupported M3UA msg class -> packet dropped.*`
+
+`*Unknown MTPServiceType!!!*`
+
+`*Invalid length in APC parameter -> not processed*`
+
+`*Unsupported masking (mask=<mask>) for PC=<decimal value> in APC parameter -> ignored.*`
+
+`*MTP3<version>:len< <5/6/8>. Too short message!*`
+
+=== Warning Messages in Target Mode
+
+The warnings in Abstract Socket not listed here.
+
+`*Invalid STATUS message received from M3UA server with status code=<decimal value>.*`
+
+`*Invalid message received from M3UA server.*`

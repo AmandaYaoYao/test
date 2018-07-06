@@ -1,0 +1,121 @@
+= Functionality
+
+The functions described in this document are TTCN-3 or external TTCN-3 functions. TTCN-3 functions are implemented in TTCN-3 language; external TTCN-3 functions are implemented in C++.
+
+== Implemented Protocols
+
+None.
+
+== Supported Standards
+
+None.
+
+== Routing Functionality
+
+Routing functionality is not performed.
+
+== Modified and Non-Implemented Protocol Elements
+
+None.
+
+== Backward Incompatibilities
+
+=== R35A
+
+The non-open source `TCCSecurity_Functions` are moved to a separate product.
+
+The TCC Security Functions CNL 113 874 should be added to the project if the moved functions are used.
+
+If the non-moved functions are used in the project the `TCCOpenSecurity_Functions` should be imported instead of `TCCSecurity_Functions`
+
+* Moved files:
+
+_TCCSecurity.cc_
+
+__TCCSecurity_Functions.ttcn__
+
+__aka_algorythm_set.c__
+
+__aka_algorythm_set.h__
+
+_snow3g.c_
+
+_snow3g.h_
+
+_zuc.c_
+
+_zuc.h_
+
+* Moved functions:
+
+[source]
+----
+f_TCCSecurity_hex2char
+
+f_IMSAKA_f1
+
+f_IMSAKA_f1_opc
+
+f_IMSAKA_f2
+
+f_IMSAKA_f2_opc
+
+f_IMSAKA_f3
+
+f_IMSAKA_f3_opc
+
+f_IMSAKA_f4
+
+f_IMSAKA_f4_opc
+
+f_IMSAKA_f2345
+
+f_IMSAKA_f2345_opc
+
+f_IMSAKA_f5
+
+f_IMSAKA_f5_opc
+
+f_IMSAKA_f1star
+
+f_IMSAKA_f1star_opc
+
+f_IMSAKA_f5star
+
+f_IMSAKA_f5star_opc
+
+f_EAPSIM_A3A8
+
+f_IMSAKA_calculateAUTN
+
+f_calculate128_EEA3
+
+f_calculate128_EIA3
+
+f_calculate128_EEA1
+
+f_calculate128_EIA1
+
+f_calculate128_EIA2
+
+f_calculate128_EEA2
+----
+
+== System Requirements
+
+In order to operate any of the Useful Functions the following system requirements must be satisfied:
+
+* TITAN TTCN-3 Test Executor version 6.3.pl0 (CRL 113 200/6 R3A) or higher installed. For installation guide see <<5-references.adoc#_2, [2]>>.
+
+Further system requirements, if any, are listed in the consecutive section of each function.
+
+== Installation
+
+Since the Useful Functions are used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<5-references.adoc#_2, [2]>>.
+
+If not otherwise noted in the respective sections, the following are needed to use the Useful Functions:
+
+Copy the files listed in the section related to the specific functions to the directory of the test suite or create symbolic links to them.
+
+* Import the TTCN-3 module containing the declaration of the functions to the modules that will use them.
+* Create _Makefile_ or modify the existing one. For more detail see the relevant section of <<5-references.adoc#_3, [3]>>.

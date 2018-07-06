@@ -1,0 +1,7 @@
+= General
+
+The Test Port and the included protocol modules implement message structures of the related protocol in a formalized way, using the standard specification language TTCN-3. Thus allowing definition of test data (using templates) in TTCN-3 core-language format <<5-references.adoc#_4, [4]>>. The Test Port assures encoding/decoding of messages during test suite execution using the TITAN TTCN-3 test environment.
+
+The DNS protocol modules use external encoding and decoding functions.
+
+The DNS PDU in TTCN-3 is represented in an uncompressed format.

@@ -1,0 +1,57 @@
+= Protocol Modules
+
+== Overview
+
+Protocol modules implement the message structure of the related protocol in a formalized way, using the standard specification language TTCN-3. This allows defining of test data (templates) in the TTCN-3 language <<6-references.adoc#_1, [1]>> and correctly encoding/decoding messages when executing test suites using the Titan TTCN-3 test environment.
+
+Protocol module uses Titan’s TEXT encoding attributes <<6-references.adoc#_3, [3]>> for SDP encoding and decoding and hence is usable with the Titan test toolset only.
+
+== Installation
+
+The set of protocol modules can be used for developing TTCN-3 test suites using any text editor. However, to make the work more efficient a TTCN-3-enabled text editor is recommended (e.g. `nedit`, `xemacs`). Since the H.248 protocol is used as a part of a TTCN-3 test suite, this requires Titan TTCN-3 Test Executor be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<6-references.adoc#_4,[4]>>.
+
+In order to build an executable with H248 protocol module the following files need to be added to the project file (see 4.3 of <<6-references.adoc#_2, [2]>>) or the _Makefile_ (see 12.1.1 of <<6-references.adoc#_2, [2]>>):
+
+* __H248_Types.ttcn__
+
+* __H248_SDP_Types.ttcn__
+
+* __H248_EncDec.cc__
+
+* __H248_SDP_EncDec.cc__
+
+* __H248_p_types.hh__
+
+* __H248_p.hh__
+
+* __H248_p.cc__
+
+* __H248_la.cc__
+
+== Configuration
+
+The protocol module has the following module parameters:
+
+`par_H248_EncDec_debug`
+
+These Boolean module parameter controls the debug functionality of the decoder. Its default value is `_false_`, thus in order to have debug information it must be set to `_true_` in the test suite configuration file in the `[MODULE_PARAMETERS]` section.
+
+`par_H248_Enc_header_format`
+
+These enumerated module parameter controls the encoded format of the H248 tokens.
+
+Possible values:
+
+* `_H248_LONG_TOKENS_` - The encoder use long token names. Default.
+
+* `_H248_SHORT_TOKENS_` - The encoder use the short format of the tokens.
+
+* `_H248_RANDOM_TOKENS_` - The encoder use both sort and long formats of the token in random way.
+
+[source]
+----
+[MODULE_PARAMETERS]
+par_H248_EncDec_debug := true,
+par_H248_Enc_header_format := H248_SHORT_TOKENS
+…
+----

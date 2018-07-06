@@ -1,0 +1,45 @@
+= Warning Messages
+
+NOTE: Besides the below described warning messages, warning messages shown in <<7-references.adoc#_2, [2]>> or those of other used features or product may also appear.
+
+`*f_EPTF_LB_selectLoadGen: WARNING: no free LGens found.*`
+
+The load balancing feature did not find a free load generator.
+
+`*f_EPTF_CS_Admin_declareTrafficCase: WARNING: traffic case selector <selector> assigned to traffic case <traffic-case> is already used by <another-traffic-case>*`
+
+The traffic case selector <selector> was assigned to more than one traffic case.
+
+`*f_EPTF_CS_Admin_sanityCheck: WARNING: no traffic case was declared. Traffic case selectors will be auto-assigned.*`
+
+No traffic case was declared from the user init function. Traffic cases will be assigned a selector automatically, in the order of definition in the configuration file.
+
+`*WARNING: f_EPTF_CS_SelectAndTriggerLGen: no trigger message is buffered.*`
+
+`f_EPTF_CS_SelectAndTriggerLGen` was called without traffic cases in the buffer.
+
+`*WARNING: f_EPTF_CS_SelectAndTriggerLGen: no free LGen: saturation!!!*`
+
+No free load generators are available to send the trigger to.
+
+=== DataSource Warning Messages
+
+`*f_EPTF_CS_DSProcessData: Invalid iterator or externalData or parameter:*`
+
+This warning message is reported, when the DataSource functionality is used and something with the request was wrong. Wrong iterator or externalData or parameter(s) were used.
+
+`*f_EPTF_CS_DSProcessData: Unhandled element:*`
+
+This warning message is reported, when the DataSource functionality is used and the current data element is unknown for the feature.
+
+`*f_EPTF_CS_getParams: Parameters are not correct:*`
+
+This warning message is reported, when the DataSource functionality is used and the parameters of the current data element are not correct. For example the name of the parameter was incorrect.
+
+`*f_EPTF_CS_getParams: Too few parameter is given:*`
+
+This warning message is reported, when the DataSource functionality is used and the parameters of the current data element are less than required.
+
+`*f_EPTF_CS_getParams: Too many parameters are given:*`
+
+This warning message is reported, when the DataSource functionality is used and the parameters of the current data element are more than required.

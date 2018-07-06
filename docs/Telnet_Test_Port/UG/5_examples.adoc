@@ -1,0 +1,72 @@
+= Examples
+
+[[configuration_file]]
+== Configuration File
+
+Using the client:
+
+[LOGGING]
+
+[source]
+LogFile := ``Telnet.log''
+
+[EXECUTE]
+
+[source]
+Telnet.control
+
+[TESTPORT_PARAMETERS]
+
+[source]
+----
+[LOGGING]
+LogFile := “Telnet.log”
+
+[EXECUTE]
+Telnet.control
+
+[TESTPORT_PARAMETERS]
+system.telnet.CTRL_HOSTNAME := “my_hostname”
+system.telnet.CTRL_PORTNUM := “23”
+system.telnet.CTRL_USERNAME := “egbotat”
+system.telnet.CTRL_PASSWORD := “abcd”
+system.telnet.CTRL_READMODE := “buffered”
+system.telnet.CTRL_LOGIN_SKIPPED := “no”
+system.telnet.PROMPT1 := “Enter command: ”
+system.telnet.PROMPT2 := “egbotat ~> ”
+system.telnet.REGEX_PROMPT3 := “egbotat?*[>#]?” system.telnet.CTRL_DETECT_SERVER_DISCONNECTED := “yes”
+system.telnet.CTRL_DETECT_CONNECTION_ESTABLISHMENT_
+RESULT := “yes”
+system.telnet. CTRL_CLIENT_CLEANUP_LINEFEED := “no”
+system.telnet.CTRL_TERMINAL_TYPE := “xterm”
+system.telnet.CTRL_ECHO := “no”
+system.telnet.CTRL_CRLF := “yes”
+system.telnet.CTRL_WINDOW_WITDH := “80”
+system.telnet.CTRL_WINDOW_HEIGHT := “24”
+system.T_Client_PCO.RAW_REGEX_PROMPT1 := "^(.*)(ezolm >)(.*)$"
+
+----
+
+Using the server:
+
+[source]
+----
+[LOGGING]
+LogFile := “Telnet.log”
+
+[EXECUTE]
+Telnet.control
+
+[TESTPORT_PARAMETERS]
+system.telnet.CTRL_PORTNUM := “23”
+system.telnet.CTRL_LOGIN_SKIPPED := “no”
+system.telnet.CTRL_USERNAME_CLIENT := “egergft”
+system.telnet.CTRL_PASSWORD_CLIENT := “asdfg”
+system.telnet.CTRL_SERVER_PROMPT := “Enter command: ”.
+system.telnet.CTRL_LOGINNAME_PROMPT := “The LoginName: ”
+system.telnet.CTRL_PASSWORD_PROMPT := “The Password: ”
+system.telnet.CTRL_MODE := “server”
+system.telnet.CTRL_SERVER_ATTACH_PROMPT := “yes”
+system.telnet.CTRL_DETECT_SERVER_DISCONNECTED := “yes”
+system.telnet.CTRL_SERVER_FAILSAFE_SENDING := “yes”
+----

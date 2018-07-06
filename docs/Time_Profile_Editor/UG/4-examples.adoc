@@ -1,0 +1,38 @@
+= Examples
+
+The "demo" directory of the deliverable contains the _TimeProfileEditor.cfg_ main configuration file and the __edited_time_profiles.cfg__ generated configuration file with example time sequences and time profiles used to generate screenshots of the section <<3-use.adoc, Use>> ‎3.
+
+== Main Configuration File
+
+The used main configuration file (_TimeProfileEditor.cfg_) defines the following settings (only TPE-specific settings are listed):
+
+`[MODULE_PARAMETERS]`
+
+`tsp_TimeProfileEditor_GuiPortListenAddr := localhost`
+
+TPE listens for Runtime GUI connections on the localhost IP interface.
+
+`tsp_TimeProfileEditor_GuiPortListenPort := 7331`
+
+TPE listens for Runtime GUI connections on port 7331. In this case the Runtime GUI has to be started with:
+
+[source]
+java –jar TitanRuntimeGUI.jar –connect localhost:7331
+
+`tsp_TimeProfileEditor_ConfigFilename := "/home/user/edited_time_profiles.cfg"`
+
+TPE will write the generated configuration file into "/home/user/__edited_time_profiles.cfg__". This setting has to be modified in the user’s environment.
+
+`[EXECUTE]`
+
+`EPTF_CLL_TimeProfileEditor.tc_TimeProfileEditor`
+
+Specifies the main TPE testcase to be run automatically if the TITAN GUI or the TITAN Executor Plugin is used.
+
+`[INCLUDE]`
+
+`"/home/user/edited_time_profiles.cfg"`
+
+Adds configuration file settings stored in the "/home/user/__edited_time_profiles.cfg__" file to the current configuration.
+
+NOTE: This is exactly the same setting as specified in the `tsp_TimeProfileEditor_ConfigFilename`. This causes the previously saved _time profile_ settings to be loaded by TPE on the next start-up.

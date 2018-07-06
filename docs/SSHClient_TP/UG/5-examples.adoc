@@ -1,0 +1,42 @@
+= Examples
+
+== Configuration File
+
+[source]
+----
+[LOGGING]
+
+FileMask := LOG_ALL | TTCN_DEBUG
+ConsoleMask := TTCN_ERROR | TTCN_TESTCASE | TTCN_STATISTICS
+LogFile := "%e.%h-%r.log"
+LogEventTypes := Yes
+LogSourceInfo := Yes
+
+[MODULE_PARAMETERS]
+
+[EXTERNAL_COMMANDS]
+
+[MAIN_CONTROLLER]
+TCPPort := 5678
+NumHCs := 1
+KillTimer := 30.0
+
+[TESTPORT_PARAMETERS]
+
+*.SSH_PCO.debug := "yes"
+*.SSH_PCO.remote_host := "dummy"
+*.SSH_PCO.remote_port := "22"
+*.SSH_PCO.ip_version := "4"
+*.SSH_PCO.EOL := "UNIX"
+*.SSH_PCO.assignEOL := "yes"
+*.SSH_PCO.supressEcho := "yes"
+*.SSH_PCO.supressPrompt := "no"
+*.SSH_PCO.pseudoPrompt := "no"
+*.SSH_PCO.regex_prompt1:="*t[a-z]#(3,3)rb@Proc_m0_s1:~> "
+*.SSH_PCO.readmode := "buffered"
+*.SSH_PCO.detectServerDisconnected := "yes"
+*.SSH_PCO.empty_echo := “yes”
+*.SSH_PCO.raw_regex_prompt1 := "^(.*)(localhost@.*>)$"
+
+[EXECUTE]
+----

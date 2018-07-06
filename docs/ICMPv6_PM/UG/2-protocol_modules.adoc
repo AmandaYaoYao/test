@@ -1,0 +1,68 @@
+= Protocol Modules
+
+== Overview
+
+Protocol modules implement the message structures of the corresponding protocol in a formalized way, using the standard specification language TTCN-3. This allows defining of test data (templates) in the TTCN-3 language <<4-references.adoc#_1, [1]>> and correctly encoding/decoding messages when executing test suites using the TITAN TTCN-3 test environment.
+
+Protocol modules are using TITAN’s RAW encoding attributes <<4-references.adoc#_2, [2]>> and hence are usable with the TITAN test toolset only.
+
+The table below contains the implemented ICMPv6 messages and the corresponding TTCN-3 type records. Using those type records, templates can be defined to send and receive a given message.
+
+[width="100%",cols="40%,10%,50%",options="header",]
+|=========================================================================
+|Message name |Reference |Corresponding type record in __ICMPv6_Types.ttcn__
+|Destination Unreachable |<<4-references.adoc#_5, [5]>> 3.1 |`ICMPv6_DestinationUnreachable`
+|Packet Too Big |<<4-references.adoc#_5, [5]>> 3.2 |`ICMPv6_PacketTooBig`
+|Time Exceeded Message |<<4-references.adoc#_5, [5]>> 3.3 |`ICMPv6_TimeExceeded`
+|Parameter Problem |<<4-references.adoc#_5, [5]>> 3.4 |`ICMPv6_ParameterProblem`
+|Echo Request |<<4-references.adoc#_5, [5]>> 4.1 |`ICMPv6_EchoRequest`
+|Echo Reply |<<4-references.adoc#_5, [5]>> 4.2 |`ICMPv6_EchoReply`
+|=========================================================================
+
+== Installation
+
+The set of protocol modules can be used in developing TTCN-3 test suites using any text editor. However to make the work more efficient a TTCN-3-enabled text editor is recommended, for example nedit, xemacs. Since the ICMPv6 protocol module is used as a part of a TTCN-3 test suite, this requires TTCN-3 Test Executor and a C compiler be installed before the module can be compiled and executed together with other parts of the test suite. For more details on the installation of TTCN-3 Test Executor see the relevant parts of <<4-references.adoc#_2, [2]>>.
+
+== Configuration
+
+None.
+
+== Encoding, Decoding, Checksum Calculation
+
+Implemented encoding/decoding functions:
+
+[cols=3*,options=header]
+|===
+
+|Name
+|Type of formal parameters
+|Type of return value
+
+|`f_enc_PDU_ICMPv6`
+|PDU_ICMPv6,OCT16, OCT16
+|octetstring
+
+|`f_dec_PDU_ICMPv6`
+|octetstring
+|PDU_ICMPv6
+|===
+
+The encoding function `f_enc_PDU_ICMPv6` performs basic RAW encoding <<4-references.adoc#_2, [2]>>. In addition to encoding functionality this function can calculate the checksum field. The checksum is automatically calculated during encoding if the user sets the `PDU_ICMPv6’s` `checksum` field to `_'0000'O_`. For calculating the correct checksum the user needs to provide 2 additional parameters to the encoding function. These parameters are the `srcaddr` and `dstaddr`. The value of `srcaddr` is the source address in the IPv6 packet. The value of `dstaddr` is the destination address in the IPv6 packet. The default value for `srcaddr` is the dummy value `__`'00000000000000000000000000000000'O`__`. The default value for `dstaddr` is the dummy value `__`'00000000000000000000000000000000'O`__`. If the user sets the PDU_ICMPv6’s `checksum` field to a value different from `__`'0000'O`__` then this user defined value will appear in the encoded message.
+
+The decoding function `f_dec_PDU_ICMPv6` performs basic RAW decoding <<4-references.adoc#_2, [2]>>. The `checksum` field is not verified during decoding.
+
+There is an additional function which verifies the `checksum` field in an encoded ICMPv6 message:
+
+[cols=3*,options=header]
+|===
+
+|Name
+|Type of formal parameters
+|Type of return value
+
+|`f_ICMPv6_verify_checksum`
+|octetstring, OCT16, OCT16
+|boolean
+|===
+
+The inputs into this function are the encoded ICMPv6 message and the source and destination addresses of the IPv6 packet. The default value for `srcaddr` is the dummy value `_'00000000000000000000000000000000'O_`. The default value for `dstaddr` is the dummy value `_'00000000000000000000000000000000'O_`. The function returns `_true_` if the checksum is correct and `_false_` if it is incorrect.

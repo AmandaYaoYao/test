@@ -1,0 +1,5 @@
+= Error Messages
+
+`*Only one STDINOUT Test Port entity can be mapped on the same time*`
+
+The TTCN-3 map function can be used only once on a component for this test Port. If the map function is repeated then this error message is displayed.

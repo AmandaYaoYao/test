@@ -1,0 +1,27 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* __EPTF_LGenBaseDemo_CallerDefinitions.ttcn__
+* __EPTF_LGenBaseDemo_CallerFunctions.ttcn__
+* __EPTF_LGenBaseDemo_Definitions.ttcn__
+* __EPTF_LGenBaseDemo_Functions.ttcn__
+* __EPTF_LGenBaseDemo_ResponderDefinitions.ttcn__
+* __EPTF_LGenBaseDemo_ResponderFunctions.ttcn__
+* __EPTF_LGenBaseDemo_SiblingFsmDefinitions.ttcn__
+* __EPTF_LGenBaseDemo_SiblingFsmFunctions.ttcn__
+* __EPTF_LGenBaseDemo_TemplateFunctions.ttcn__
+* __EPTF_LGenBaseDemo_TransportDefinitions.ttcn__
+* __EPTF_LGenBaseDemo_TransportFunctions.ttcn__
+* __EPTF_LGenBaseDemo_msgReRegisterTemplate.txt__
+* __EPTF_LGenBaseDemo_msgRegisterTemplate.txt__
+
+== Configuration File
+
+The used configuration file (_demo.cfg_) is for the LGenBase example is placed in the demo directory.
+
+== Demo Module
+
+The demo module (__GenFSM_Demo.ttcn__) illustrates a typical usage of the LGenBase feature and performs some tests.
+
+The demo module (__WeightedTraffic_Demo.ttcn__) illustrates some typical usage of weighted scenario.

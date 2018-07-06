@@ -1,0 +1,69 @@
+= Semaphore
+
+== Overview
+
+The EPTF CLL Semaphore component is a fundamental component providing an implementation for Semaphore in a load test environment.
+
+[[description_of_files_in_this_feature]]
+== Description of Files in This Feature
+
+The EPTF CLL Semaphore API includes the following files:
+
+* Semaphore
+** __EPTF_CLL_Semaphore_Definitions.ttcn__ - This TTCN-3 module contains common type definitions that should be used in all Semaphore Components.
+** __EPTF_CLL_Semaphore_Functions.ttcn__ - This TTCN-3 module contains the implementation of Semaphore main functions.
+
+[[description_of_required_files_from_other_features]]
+== Description of Required Files From Other Features
+
+The Semaphore feature is part of the TitanSim EPTF Core Load Library (CLL). It relies on several features of the CLL. The user has to obtain the products/files to be found under the respective feature names:
+
+* `Base`
+* `FreeBusyQueue`
+
+== Installation
+
+Since EPTF CLL Semaphore is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor see the relevant section of ‎<<6-references.adoc#_2, [2]>>.
+
+If not otherwise noted in the respective sections, the following are needed to use EPTF CLL Semaphore:
+
+* Copy the files listed in section <<description_of_files_in_this_feature, Description of Files in This Feature>> and <<description_of_required_files_from_other_features,  Description of Required Files From Other Features>> to the directory of the test suite or create symbolic links to them.
+* Import the `NameService` demo or write your own application using `NameService`.
+* Create _Makefile_ or modify the existing one. For more details see the relevant section of ‎<<6-references.adoc#_2, [2]>>.
+* Edit the config file according to your needs, see following section <<configuration, Configuration>>.
+
+[[configuration]]
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual suffix of configuration files is _.cfg_. For further information on the configuration file see ‎‎<<6-references.adoc#_2, [2]>>.
+
+The EPTF Semaphore feature defines TTCN-3 module parameters as defined in ‎<<6-references.adoc#_2, ‎[2]>>, clause 4. Actual values of these parameters – when there is no default value or a different from the default actual value to be used – shall be given in the `[MODULE_PARAMETERS]` section of the configuration file.
+
+The EPTF Semaphore feature defines the following module parameters:
+
+`boolean EPTF_CLL_Semaphore_Definitions.tsp_debugVerbose_PoolMgmt`
+
+The debug messages of the semaphore pool can be enabled by this module parameter.
+
+Default: `_false_`.
+
+== Usage
+
+To use the EPTF Semaphore feature
+
+* Extend one of your component with the `EPTF_Semaphore_CT`
+* Call the init function of the Semaphore to initialize the feature
+* Use its public functions to create/wait for/unlock a semaphore
+
+NOTE: The init function registers the cleanup function of the Semaphore, so it is not necessary to call it explicitly.
+
+Do not access the component variables in `EPTF_Semaphore_CT` directly! Use the API functions instead.
+
+When the `f_EPTF_Semaphore_waitForUnlock` function is called on a locked semaphore it blocks execution until the semaphore is unlocked. To be able to unlock the Semaphore the altstep that handles the unlock event and calls the unlock function should be activated as default before calling the wait function.
+
+The basic steps you have to do to use the Semaphore when you have to wait the response after the request was sent:
+
+* Create a semaphore and store its id (or send with the message, and put it into the response)
+* Send the message of which response should be received
+* In the default altstep write the handler function of the response so that it unlocks the semaphore
+* In the place where you want to be sure, that the response is received call the `waitForUnlock` function.

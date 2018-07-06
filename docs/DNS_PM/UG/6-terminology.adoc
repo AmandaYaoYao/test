@@ -1,0 +1,19 @@
+= Terminology
+
+No specific terminology is used.
+
+= Abbreviations
+
+ASP:: Abstract Service Primitive
+
+DDDS:: Dynamic Delegation Discovery System
+
+DNS:: Domain Name System
+
+DNS RR:: Domain Name System Resource Record
+
+PDU:: Protocol Data Unit
+
+RFC:: Request For Comments
+
+TTCN-3:: Testing and Test Control Notation version 3

@@ -1,0 +1,49 @@
+= Examples
+
+The "demo" directory of the deliverable contains symlinks for the files of the src directory and additionally __MSRP_Demo.ttcn__, _MSRP.cfg_ and _Makefile_.
+
+[[msrp-demo-module]]
+== `MSRP_Demo` Module
+
+The module contains simple examples how to use templates and provides as a basic test of the protocol. It encodes and decodes the MSRP messages, compares the receiving and sending templates with each other and logs the results of the matching.
+
+It contains the following test cases:
+
+[source]
+----
+tc_CheckMsrpSendRequestTemplate_Normal
+tc_CheckMsrpResponseTemplate_Normal
+tc_CheckMsrpSendRequestTemplate_CpimChunkedData
+tc_CheckMsrpSendRequestTemplate_SessionIdLengthTest
+tc_CheckMsrpReportRequestTemplate_Normal
+tc_CheckMsrpSendRequestTemplate_tooShortMessageId
+----
+
+== _Makefile_
+
+It is the _Makefile_ that compiles the contents of the demo directory together.
+
+== Configuration File
+
+_MSRP.cfg_ contains the config information for the example.
+
+For `tsp_MSRP_EncDec_debug` see ‎<<2-functionality.adoc#ericsson_specific_changes, Ericsson-Specific Changes>>.
+
+Module parameter `tsp_requestInfo_Alice2Bob_Normal` provides default information for creating message "MSRP request".
+
+[source]
+----
+*[MODULE_PARAMETERS]*
+*tsp_MSRP_EncDec_debug := true,*
+*tsp_requestInfo_Alice2Bob_SEND := \{…}*
+----
+
+For explanation other config file parameters see <<8-references.adoc#_3, ‎[3]>>.
+
+== How to Use Template Generating Functions
+
+The demo module provides simple examples of how to use template variable generating functions and version handling. The basic idea is to pass all field values different from the default value for the generating functions in a single structure (`Struct_MsrpRequestInfo` and `Struct_MsrpResponseInfo`). The fields of these structures have the default value `_"omit"_`. They are initialized by dedicated functions. A field having the value `_"omit"_` orders the generating function not to omit this field but to use the default value of this field. If the user wants to modify this default value, he modifies the field of the structure for the desired value. After the template generating function has exited, the `_"return"_` value can be modified. This way the user has maximal flexibility with a minimum of effort.
+
+The other parameter of the template generating functions contains the version information. For MSRP it is especially useful for receiving templates because the requirements can be ordered according to different specifications.
+
+The module also demonstrates how module parameters can be used for supporting template creation.

@@ -1,0 +1,16 @@
+= Usage as Protocol Module
+
+The HTTP test port can be used as a protocol module, i.e. only a protocol data structure description with the appropriate encoding and decoding functions. The data structure definitions are the same as in case of http test port, they can be found in file _HTTPmsg_Types.ttcn._ The encoding and decoding functions are declared as external functions in file _HTTPmsg_Types.ttcn_ but they are implemented in files _HTTPmsg_PT.cc/hh._
+
+The available functions are as follows:
+
+[cols=",,",options="header",]
+|=====================================================
+|Name |Type of formal parameters |Type of return value
+|`enc_HTTPMessage` |HTTPMessage |octetstring
+|`dec_HTTPMessage` |in octetstring stream +
+inout HTTPMessage msg +
+in boolean socket debugging |integer
+|=====================================================
+
+If the test port used as protocol module, the Makefile is the same as in normal case i.e _HTTPmsg_PT.cc/hh_ is used and the port definition file _HTTPmsg_PortType.ttcn_ is also used but (generally) there will not be defined any port of this port type ``HTTPmsg_PT``.

@@ -1,0 +1,9 @@
+= General Description
+
+This document specifies the Central Scheduling feature of the TitanSim CLL.
+
+The EPTF Central Scheduling feature makes it possible to write load test cases using similar methodology than in function test. Load testing means executing several traffic cases in parallel. Such traffic cases might or might not be parameterized. If coordination is necessary then a traffic case parameter database is needed. For efficiency reasons such database must be located within the Central Scheduling Application admin component.
+
+Traffic Cases are handled by Load Generator PTCs, each running one traffic case at a time. The Load Generator is written entirely by the user (for an example, see the demo directory).
+
+To be able to use EPTF Central Scheduling, the user written Central Scheduling Application Admin component should extend the `EPTF_CS_ApplAdminBase_CT` component.

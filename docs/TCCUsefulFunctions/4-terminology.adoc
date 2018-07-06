@@ -1,0 +1,13 @@
+= Terminology
+
+No specific terminology used.
+
+== Abbreviations
+
+ES:: ETSI Standard
+
+ETSI:: European Telecommunications Standards Institute
+
+RFC:: Request for Comments
+
+TTCN-3:: Testing and Test Control Notation version 3

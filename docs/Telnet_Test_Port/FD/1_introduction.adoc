@@ -1,0 +1,9 @@
+= Introduction
+
+== How to Read this Document
+
+This is the Function Specification for the Telnet test port. The Telnet test port is developed for the TTCN-3 Toolset with TITAN. 
+
+== Scope
+
+The purpose of this document is to specify the functionality of the Telnet test port.

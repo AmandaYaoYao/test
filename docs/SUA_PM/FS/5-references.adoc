@@ -1,0 +1,12 @@
+= References
+
+[[_1]]
+[1] http://www.apps.ietf.org/rfc/rfc3868.html +
+Signaling Connection Control Part User Adaptation Layer (SUA)
+
+[[_2]]
+[2] ETSI ES 201 873-1 v.3.1.1 (06/2005) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_3]]
+[3] User Documentation for the TITAN TTCN-3 Test Executor

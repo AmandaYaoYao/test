@@ -1,0 +1,92 @@
+= Interface Description
+
+== Top Level PDU
+
+The top level PDUs are the TTCN-3 records PDU_L3_MS_SGSN, PDU_L3_SGSN_MS, PDU_ML3_NW_MS, PDU_ML3_MS_NW.
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product also contains encoding/decoding functions, which assure correct RAW encoding of messages when sent from TITAN and correct RAW decoding of messages when received by TITAN.
+
+=== Implemented Encoding and Decoding Functions
+
+[cols=3*,options=header]
+|===
+
+|Name |Type of formal parameters |Type of return value
+
+|`enc_PDU_L3_MS_SGSN` |PDU_L3_MS_SGSN |octetstring
+|`enc_PDU_L3_MS_SGSN_fast` |in PDU_L3_MS_SGSN, +
+out octetstring |
+|`dec_PDU_L3_MS_SGSN` |octetstring |PDU_L3_MS_SGSN
+|`dec_PDU_L3_MS_SGSN_backtrack` |in octetstring, +
+out PDU_L3_MS_SGSN |integer (0: success, +
+1: decoding failed)
+|`enc_PDU_L3_SGSN_MS` |PDU_L3_SGSN_MS |octetstring
+|`enc_PDU_L3_SGSN_MS_fast` |in PDU_L3_SGSN_MS, +
+out octetstring |
+|`dec_PDU_L3_SGSN_MS` |octetstring |PDU_L3_SGSN_MS
+|`dec_PDU_L3_SGSN_MS_backtrack` |in octetstring, +
+integer |(0: success, +
+1: decoding failed)
+|`enc_PDU_ML3_NW_MS` |PDU_ML3_NW_MS |octetstring
+|`enc_PDU_ML3_NW_MS_fast` |in PDU_ML3_NW_MS, +
+out octetstring |
+|`dec_PDU_ML3_NW_MS` |octetstring |PDU_ML3_NW_MS
+|`dec_PDU_ML3_NW_MS_backtrack` |in octetstring, +
+out PDU_ML3_NW_MS |integer (0: success, +
+1: decoding failed)
+|`enc_PDU_ML3_MS_NW` |PDU_ML3_MS_NW |octetstring
+|`enc_PDU_ML3_MS_NW_fast` |in PDU_ML3_MS_NW, +
+out octetstring |
+|`dec_PDU_ML3_MS_NW` |octetstring |PDU_ML3_MS_NW
+|`dec_PDU_ML3_MS_NW_backtrack` |in octetstring, +
+out PDU_ML3_MS_NW |integer (0: success, +
+1: decoding failed)
+|`enc_SS_FacilityInformation` |SS_FacilityInformation |octetstring
+|`dec_SS_FacilityInformation` |octetstring |SS_FacilityInformation
+|`dec_SS_FacilityInformation` |in octetstring, +
+out SS_FacilityInformation |integer (0: success, +
+1: decoding failed)
+|`enc_TPDU_RP_DATA_MS_SGSN_fast` |in TPDU_RP_DATA_MS_SGSN +
+out octetstring |
+|`dec_TPDU_RP_DATA_MS_SGSN_backtrack` |in octetstring +
+out TPDU_RP_DATA_MS_SGSN |integer (0: success, +
+1: decoding failed)
+|`enc_TPDU_RP_DATA_SGSN_MS_fast` |in TPDU_RP_DATA_SGSN_MS +
+out octetstring |
+|`dec_TPDU_RP_DATA_SGSN_MS_backtrack` |in octetstring +
+out TPDU_RP_DATA_SGSN_MS |integer (0: success, +
+1: decoding failed)
+|`enc_TPDU_RP_ACK_MS_SGSN_fast` |in TPDU_RP_ACK_MS_SGSN +
+out octetstring |
+|`dec_TPDU_RP_ACK_MS_SGSN_backtrack` |in octetstring +
+out TPDU_RP_ACK_MS_SGSN |integer (0: success, +
+1: decoding failed)
+|`enc_TPDU_RP_ACK_SGSN_MS_fast` |in TPDU_RP_ACK_SGSN_MS +
+out octetstring |
+|`dec_TPDU_RP_ACK_SGSN_MS_backtrack` |in octetstring +
+out TPDU_RP_ACK_SGSN_MS |integer (0: success, +
+1: decoding failed)
+|`enc_TPDU_RP_ERROR_MS_SGSN_fast` |in TPDU_RP_ERROR_MS_SGSN +
+out octetstring |
+|`dec_TPDU_RP_ERROR_MS_SGSN_backtrack` |in octetstring +
+out TPDU_RP_ERROR_MS_SGSN |integer (0: success, +
+1: decoding failed)
+|`enc_TPDU_RP_ERROR_SGSN_MS_fast` |in TPDU_RP_ERROR_SGSN_MS +
+out octetstring |
+|`dec_TPDU_RP_ERROR_SGSN_MS_backtrack` |in octetstring +
+out TPDU_RP_ERROR_SGSN_MS |integer (0: success, +
+1: decoding failed)
+|`enc_RPDU_SGSN_MS_fast` |in RPDU_SGSN_MS +
+out octetstring |
+|`dec_RPDU_SGSN_MS_backtrack` |in octetstring +
+out RPDU_SGSN_MS |integer (0: success, +
+1: decoding failed)
+|`enc_RPDU_MS_SGSN_fast` |in RPDU_MS_SGSN +
+out octetstring |
+|`dec_RPDU_MS_SGSN_backtrack` |in octetstring +
+out RPDU_MS_SGSN |integer (0: success, +
+1: decoding failed)
+|===

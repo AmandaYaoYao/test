@@ -1,0 +1,215 @@
+[[eptf-statcapture-ct-component-api]]
+= EPTF_StatCapture_CT Component API
+
+== Naming Conventions
+
+All functions have the prefix `f_EPTF_StatCapture_`.
+
+== Public Functions
+
+=== Initialization
+
+Before using the EPTF Statistics Capture Control functions the
+
+`f_EPTF_StatCapture_init(componentname)`
+
+function should be called. This initializes the EPTF Statistics Capture Control feature.
+
+=== Creating a Logfile for a Capture Group
+
+`f_EPTF_StatCapture_openNewStatLogFile (userfilename)`
+
+This function should be called instead of `FileIO` functions to create a statistics `logfile`. It creates a file with the defined `userfilename`, appends self-name and component ID, and then the actual time and date to its filename, and immediately writes the `TimeStampBase` data and capture file version into the file.
+
+The created file should have the following format:
+
+For example: _FirstFile_main_mtc_2007-11-16_14.00.02.txt_ or _FirstFile_ptc1_3_2007-11-16_14.00.02.txt_
+
+corresponding to the `<username>_<selfname>_<component ID>_<y-m-d>_<h.m.s>` format.
+
+The `selfname` is the test component self-name and the component ID is the component identifier. The `TimeStampBase` means not only that the actual date and time is printed to the file, but also that a capture timer is started for that time. Later on, when data is printed to this capture file, it always has a relative time value compared to the `TimeStampBase`.
+
+=== Creating Statistics for Capture
+
+`f_EPTF_StatCapture_createStatforCapture(statID, statname, periodicreset := false, activestat := true)`
+
+In order to enable Statistics settings for the capture, this function must be called. The user first creates a Variable with (`EPTF_Variable` ‎<<9-references.adoc#_5, [5]>>), then creates a Statistics for this Variable (with `EPTF_StatMeasure` ‎<<9-references.adoc#_6, [6]>>). Then, to define capture data for this Statistics, the `createStatforCapture` function should be called.
+
+The `statID` is the ID returned by `StatMeasure`. It is important, that it is not allowed to create more Statistics for capture with the same `statID`. The `statname` can be set by the user. The last two parameters are optional, by default, the created Statistics is not reset on Sampling Time intervals (`periodicrese`_), and they are set to active (`activestat`), i.e. their values are printed out to the capture files.
+
+If the function is called with more than two parameters (`statID`, `statname`, `_true_`, `_false_`), the reset functionality and the statistics state can be changed. If the Statistics should be reset periodically after capture, then the `periodicreset` parameter should be set to `_true_`. This means, that after having added this Statistics to a capture group (or several capture groups), its value is reset at sampling intervals of the capture group.
+
+NOTE: These Statistics with `periodicreset` set to `_true_` can be added to _one and only one_ capture group.
+
+=== Capture Group Creation
+
+[[f-eptf-statcapture-addnewgroup-groupname-timerperiod-logfiles-statisticslist]]
+==== `f_EPTF_StatCapture_addNewGroup(groupname,timerperiod,logfiles, statisticsList,groupidx, groupstatidxList)`
+
+This function creates a capture group with a unique group name; a sampling period (`timerperiod`) and a list of `logfiles` are assigned as output `logfiles` for the capture group. If no `logfiles` are passed to this function, the capture group is printed to the log file specified by the Module Parameter `tsp_EPTF_StatCapture_def_capture_file` in the config file.
+
+Additionally, if the `statisticsList` parameter is set (by default it is empty), the function adds a list of statistics to the capture group. In this case, the created statistics indices are also returned.
+
+NOTE: There is no restriction for adding one statistics to several capture groups if it is a Statistics with periodic reset set to `_true_`. Also, logging several capture groups into the same `logfile` is possible.
+
+The index of the created group is returned in the `groupidx` argument. This index can be used later to access this capture group. Any EPTF Capture Group is uniquely identified by the component reference where it is created and by this index.
+
+[[f-eptf-statcapture-parseconfiggroup]]
+==== `f_EPTF_StatCapture_parseConfigGroup()`
+
+Apart from calling API functions, it is also possible to create Capture Groups from the configuration file with module parameters. Then, in the demo application, this function should be called after the local Variables (which we would like to capture) are created. This function then reads in the configuration parameters and creates Capture Groups with the defined parameters (for example `groupname`, `timer period`, `Statistics`.)
+
+NOTE: Statistics are created on-the-fly from the configuration file according to Variable Name (on the demo component, local Variable which we would like to capture), Statistics type and Name, for example:
+
+[source]
+----
+varName := "var1",
+statType := delta,   //content, delta, deltaSum, min, max,
+		          // mean, standardDev
+statName := "MyDelta"
+----
+
+NOTE: As a best practice, it is advised not to use both options (API capture group creation and group creation from configuration file) at the same time in order to avoid conflicts such as group name or variable name collision.
+
+=== Adding Statistics to Capture Group
+
+A capture group consists of a unique group name, a sampling period, a list of file descriptors to print the group and a list of Statistics (references to Statistics) each containing statistics content or statistical data.
+
+Statistics can be either active or inactive in the capture group. By default, they are active, that means their content is printed out to the log files belonging to the capture group. When switched to inactive, a "-" sign is printed to the log files instead of their value. Activity state of Statistics can be modified during run-time.
+
+The reset of Statistics is carried out at each sampling interval of the capture group after they are captured for all Statistics, which have been created with the `periodicreset` field set to `_true_`.
+
+Adding one or more statistics triggers the writing of a statistics header line on the next write of the statistics to the capture file.
+
+Statistics can be added to the group one by one or as a list.
+
+==== Adding a Single Statistics
+
+`f_EPTF_StatCapture_addStatistics(groupindex, stat, groupstatindex)`
+
+The input parameters are the `groupindex`, i.e. the unique identifier of the capture group where we would like to add the new Statistics, and the Statistics descriptor `stat` which contains the Statistics reference, its name, the active flag, which is set to true by default and the `periodicreset` flag, which is set to false by default. On successful insertion, the index of the Statistics inside the capture group is returned in `_groupstatindex`.
+
+==== Adding a List of Statistics
+
+`f_EPTF_StatCapture_addListOfStatistics(groupindex, statList, groupstatidxList)`
+
+A batch alternative of the previous function. The identifier of the capture group, and the list of Statistics descriptors `statList` are the input parameters, and a list of created Statistics indexes inside the capture group `groupstatidxList` is returned.
+
+[[get-set-functions]]
+=== Get/Set Functions
+
+[[setting-modifying-the-sampling-time-of-a-capture-group]]
+==== Setting/Modifying the Sampling Time of a Capture Group:
+
+`f_EPTF_StatCapture_setTimerPeriod(groupindex, timerperiod)`
+
+The sampling time period of the capture group specified by the `groupindex` parameter can be set during run-time to the float `timerperiod` input parameter (expressed in seconds). Every time the timer period is changed successfully, the new timer period is printed to the log files assigned to the capture group. From then on, the active Statistics of the capture group is captured and printed to file at these intervals.
+
+==== Modifying the Capture State of a Statistics
+
+[source]
+----
+f_EPTF_StatCapture_InactivateStatistics(groupindex, groupstatidx)
+
+f_EPTF_StatCapture_ActivateStatistics(groupindex, groupstatidx)
+----
+
+These functions set the capture state of a Statistics specified by its index `groupstatidx` and the capture group `groupindex` it belongs to. By default, the state of the Statistics is active, that means, at each sampling period, when the capture group is captured, the content of the Statistics is printed out to the log files belonging to the capture group. During run-time, the capture state of the Statistics can be changed. If the state is set to inactive, instead of printing out Statistics content, a "-" sign is printed out to the log files.
+
+NOTE: If this Statistics is included in other capture groups, then its state can be set independently for each capture group.
+
+==== Finding a Statistics in a Capture Group
+
+`f_EPTF_StatCapture_getStatisticsID (stat, groupindex, groupstatidx) returns boolean`
+
+This function returns the Statistics index of the input parameter `stat` inside the Capture group specified by the input parameter `groupindex`.
+
+If the Statistics is not contained in the capture group, `_false_` is returned.
+
+=== Starting/Stopping Capture, Capture Control by API
+
+Starting and stopping capture can be done anytime during runtime. Only deleted capture groups cannot be restarted again.
+
+==== Start Capturing a Capture Group
+
+`f_EPTF_StatCapture_startGroupCapture(groupindex)`
+
+This function starts capturing a capture group defined by `groupindex`. First, it checks whether the group is not deleted, then prints the actual sampling time, groupname and Statistics value headers for the group to each `logfile` specified at capture group creation. At the end of each sampling interval, the contents of the capture group Statistics are printed out, until the capturing is stopped.
+
+==== Start Capturing All Capture Groups
+
+`f_EPTF_StatCapture_startCaptureAll()`
+
+This function starts capturing all (not deleted) capture groups. It calls the `startGroupCapture` function for each capture group.
+
+==== Stop Capturing a Capture Group
+
+`f_EPTF_StatCapture_stopGroupCapture(groupindex)`
+
+This functions stops capturing a capture group defined by `groupindex`. As an effect, the content of the capture group is not printed out to the `logfiles`.
+
+==== Stop Capturing All Capture Groups
+
+`f_EPTF_StatCapture_stopCaptureAll()`
+
+This function stops the capture of all capture groups.
+
+=== Deleting a Capture Group
+
+`f_EPTF_StatCapture_deleteGroup(groupindex)`
+
+Capture groups can be deleted during run-time. This means, that their content is not printed to file any more. Note that field contents of the group are deleted and the group cannot be restarted again.
+
+== Summary Table of the Public Functions for EPTF Statistics Capture Control feature
+
+See Summary of Statistics Capture Control functions belonging to the EPTF_StatCapture_CT component in the table below:
+
+[width="100%",cols="50%,50%",options="header",]
+|==============================================================================================================================================================================
+|Function name |Description
+|`f_EPTF_StatCapture_init_CT` |Initializes the StatCapture component.
+|`f_EPTF_StatCapture_openNewStatLogFile` |Opens a new statistics logfile with the actual time and date appended to the filename and prints the TimeStampBase value into the file.
+|`f_EPTF_StatCapture_createStatforCapture` |Creates Statistics for Capture.
+|`f_EPTF_StatCapture_addNewGroup` |Adds a new Capture Group.
+|`f_EPTF_StatCapture_parseConfigGroup()`` |Creates Statistics and adds new Capture Groups from parameters specified in the configuration file.
+|`f_EPTF_StatCapture_addStatistics` |Adds Statistics to the Capture Group.
+|`f_EPTF_StatCapture_addListOfStatistics` |Adds a list of Statistics to the Capture Group.
+|f `_EPTF_StatCapture_setTimerPeriod` |Sets the Timer Period (sampling time) of the Capture Group.
+|`f_EPTF_StatCapture_setLogFiles` |Sets capture files belonging to the Capture Group.
+|`f_EPTF_StatCapture_InactivateStatistics` |Inactivates Statistics in a given Capture Group.
+|`f_EPTF_StatCapture_ActivateStatistics` |Activates Statistics in a given Capture Group.
+|`f_EPTF_StatCapture_getStatisticsID` |Looks up a Statistics in a Capture Group according to the Statistics ID.
+|`f_EPTF_StatCapture_startGroupCapture` |Starts the Capture of a Capture Group.
+|`f_EPTF_StatCapture_startCaptureAll` |Start Capturing all Capture Groups.
+|`f_EPTF_StatCapture_stopGroupCapture` |Stops the Capture of a Capture Group.
+|`f_EPTF_StatCapture_stopCaptureAll` |Stops Capturing all Capture Groups.
+|`f_EPTF_StatCapture_deleteGroup` |Deletes a Capture Group.
+|==============================================================================================================================================================================
+
+== Private Functions
+
+These functions _should not be called_ by the user of the EPTF Statistics Capture feature.
+
+=== Logging Mechanism at Sampling Intervals
+
+[[f-eptf-statcapture-handleevent-actionid-eventindex]]
+==== `f_EPTF_StatCapture_handleEvent(actionID, eventindex)`
+
+is a private function, it serves for logging the content of the capture group to the log files belonging to the capture group at sampling intervals. Inactive Statistics are printed out with "-".
+
+NOTE: This function should not be called by the user, the mechanism is automatic.
+
+=== Cleanup Function
+
+[[f-eptf-statcapture-cleanup]]
+==== `f_EPTF_StatCapture_cleanup()`
+
+This function is responsible for a peaceful cleanup after termination of the program module or in case of errors.
+
+NOTE: This is a private function; it should not be called by the user. On the other hand, it is important that the user application should _register this cleanup function_ in its init function with
+
+`f_EPTF_Base_RegisterCleanup(refers(f_EPTF_StatCapture_cleanup())`
+
+and make sure that you call the `f_EPTF_Base_cleanup_CT()` function (not the private `StatCapture_cleanup` function!) before terminating the component execution. See more details on the usage of the EPTF Base functions in its Function Description ‎<<9-references.adoc#_7, [7]>>.
+
+NOTE: Other private functions not mentioned in the documentation can be found in the source code after the //Private Functions comment. These functions should not be called by the user.

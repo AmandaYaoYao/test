@@ -1,0 +1,33 @@
+= Functional Specification
+
+== Protocol Versions Implemented
+
+This Protocol Module implements protocol messages and constants of the DNS protocol as decribed in <<5-references.adoc#_1, [1]>>, <<5-references.adoc#_2, [2]>>, <<5-references.adoc#_3, [3]>>, <<5-references.adoc#_6, [6]>>, <<5-references.adoc#_7, [7]>> with the modifications specified in <<modifications-deviations-related-to-the-protocol-specification, Modifications/Deviations Related to the Protocol Specification>> Also, valid NAPTR queries and responses needed by the ENUM protocol (specified in <<5-references.adoc#_5, [5]>>) can be sent and received via the Test Port.
+
+[[modifications-deviations-related-to-the-protocol-specification]]
+== Modifications/Deviations Related to the Protocol Specification
+
+=== Unimplemented Messages, Message Fields and Constants
+
+Only the message fields related to Internet and IP are implemented. DNS resource records with class `CS` (CSNET), `CH` (CHAOS) and `HS` (Hesoid) are not supported but will be decoded into a TTCN-3 octetstring.
+
+[[protocol-modifications-deviations]]
+=== Protocol Modifications/Deviations
+
+None.
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product also contains encoding/decoding functions, which assure correct encoding and compression of messages when sent from TITAN, and correct decoding and decompression of messages when received by TITAN. Implemented encoding/decoding functions:
+
+[cols=",,",options="header",]
+|=====================================================
+|Name |Type of formal parameters |Type of return value
+|`enc_PDU_DNS` |PDU_DNS, boolean, boolean |octetstring
+|`dec_PDU_DNS` |octetstring |PDU_DNS
+|=====================================================
+
+The decoder function can handle both compressed and uncompressed format and the PDU will be visible in uncompressed format in TTCN-3.
+
+The encoder function can be instructed by a boolean parameter to perform compression and by a second boolean parameter to automatically calculate length fields.

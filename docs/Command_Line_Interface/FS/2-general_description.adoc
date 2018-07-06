@@ -1,0 +1,23 @@
+= General Description
+
+The EPTF `CommandLineInterface` feature makes it possible that user defined commands in a user terminal can be used to execute custom functions implemented in TTCN3. The terminal is accessible by the Telnet protocol.
+
+The EPTF `CommandLineInterface` feature provides two terminals:
+
+1.	A normal terminal where commands can be entered and their result is shown
+2.	A display terminal that can be used to show messages periodically. The display terminal can be used to execute the same commands as on the normal terminal as well.
+
+The EPTF `CommandLineInterface` contains two components: The CLI and the CLI Client.
+
+The CLI component
+*	opens the telnet server port for the user terminal to connect to
+*	manages command registration
+*	routes user commands coming from the terminal to the corresponding PTC where they should be executed
+*	prints out the command result on the terminal for commands executed on a PTC
+
+The CLI Client component
+*	registers new commands
+*	executes the commands when the user enters them on the terminal by automatically invoking the registered handler function with the command arguments
+*	sends messages to the display terminal
+
+To be able to use EPTF CLI, at least one user component should extend the `EPTF_CLI_CT` component, and the component where the commands are handled (i.e. executed) should extend the `EPTF_CLI_Client_CT`.

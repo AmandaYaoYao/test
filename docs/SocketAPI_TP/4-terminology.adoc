@@ -1,0 +1,5 @@
+= Terminology
+
+== Abbreviations
+
+TTCN-3 Testing and Test Control Notation version 3

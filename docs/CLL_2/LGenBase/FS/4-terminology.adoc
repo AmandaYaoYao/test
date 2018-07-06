@@ -1,0 +1,136 @@
+= Terminology
+
+*Application Library (Applib):* +
+It is that part of the TitanSim software that is although protocol, or application-area dependent, but can be reused across many TitanSim applications. Applibs are dependent on the CLL.
+
+*Behavior context:* +
+It is an index-able (set of) data record(s) that stores data and state information of a given entity with respect to a given behavior type. Storage for behavior contexts is to be provided by the respective Applibs.
+
+*Behavior type:* +
+It is a concept for collectively referring a set of behavior contexts, FSM inputs, test steps, and functions realizing methods conforming to given function signatures prescribed by the LGenBase feature. Behavior types are to be declared dynamically during run-time to the LGenBase by the component-type initialization function of some Applib. Usually an Applib product has only one behavior type, but it is permitted for Applibs to declare more than one behavior types, if necessary. Behavior types are identified by their indices determined by the order of declaration and the declarations are stored in `v_LGenBase_behaviorTypes`.
+
+*Control Logic:* +
+It is that part of the TitanSim software that is specific to a particular TitanSim application program. It is usually not directly reusable and is built upon the CLL and several AppLibs.
+
+*Entities:* +
+They are "things/objects" that are simulated by the LGen. Such "things" are usually the "users", "calls", "servers", "terminations", or anything whose external behavior is to be simulated by the LGen. Usually an LGen simulates more than one entity.
+
+*Entity context:* +
+It is an index-able generic data record describing an entity. It stores index cross-references to behavior contexts and it directly stores the FSM contexts of the entity. The entity contexts are identified via their indices with respect to the entity context database stored in the `v_LGenBase_entities` component variable.
+
+*Entity group:* +
+A group of entities with the same entity type. The indices of the entities of the group make a continuous interval that does not overlap with the index range of any other entity group.
+
+*Entity type:* +
+It is a named list of references to declared behavior types. As such, it declares what type of behavior contexts is available on entities of this type.
+
+*Event listener:* +
+It is a call-back function to be dynamically registered that will be called whenever an event reporter calls `f_EPTF_LGenBase_dispatchEvent`.
+
+*Event reporter:* +
+It is an altstep, or function of a given behavior type that eventually calls `f_EPTF_LGenBase_dispatchEvent`.
+
+*Finite State Machine:* +
+It is a formal description of Control Logic. It is a tabular description of what test steps to call when a given reported event occurs, when the entity is in a given declared state of the FSM. After executing these test steps an optional next FSM state can be also defined.
+
+*FSM table:* +
+It is a formal specification of the communication rules of Finite State Machines. These indexable records are stored in `v_LGenBase_fsmTables`. FSM tables realizing traffic cases must obey certain rules.
+
+*FSM state:* +
+It is a locally indexed declaration of a state within an FSM table.
+
+*FSM timer:* +
+It is a locally indexed declaration of a timer within an FSM table.
+
+*Group finish condition:* +
+It is list of conditions that defines situations when a traffic case is over on group level, that is, no new traffic is launched on that group. Group finish conditions are evaluated whenever any entity of the group reports the event that it has just finished executing a traffic instance of that traffic case.
+
+*Group finish actions:* +
+It is a list of actions that are executed when any of the group finish conditions have been met.
+
+*LGenBaseStats:* +
+It is an extension of the LGenBase. It provides accessibility to component variables of traffic cases through `EPTF_Var` variables.
+
+*LGenBaseStatsUI:* +
+It is an extension of the LGenBaseStats, which provides GUI support for LGenBase traffic cases and scenarios using the `EPTF_Var` support of the LGenBaseStats.
+
+*Named functions:* +
+They are functions that have an associated name (label), are declared to LGenBase metadata with that label; and can be referred by their labels.
+
+*Reportable event:* +
+It is a declared notification message of a given behavior type that can be distributed to event listeners by event reporters via `f_EPTF_LGenBase_dispatchEvent`.
+
+*Reported event:* +
+It is an instance of a reportable event supplied with reported arguments that is actually being distributed via `f_EPTF_LGenBase_dispatchEvent`.
+
+*Scenario:* +
+It is a collection of traffic cases deployed on an entity group
+
+*StatHandler:* +
+It is a feature of the CLL. See <<5-references.adoc#_5, [5]>>, <<5-references.adoc#_6, [6]>>.
+
+*StatMeasure:* +
+It is a feature of the CLL. See <<5-references.adoc#_5, [5]>>.
+
+*Test step:* +
+Test steps are functions whose signature conforms to a given function type. They must not contain TTCN-3 statements with blocking semantics.
+
+*EPTF Core Library (CLL):* +
+It is that part of the TitanSim software that is totally project independent. (i.e., which is not protocol-, or application-dependent). The Core Library is to be supplied and supported by the TCC organization. Any Core Library development is to be funded centrally by Ericsson.
+
+*Traffic case type:* +
+It is a prototype used as an input for instantiating traffic case instances on a specific entity group. It defines which FSM table to use, which entity type must be used by the entity group where the traffic case is to be deployed.
+
+*Traffic case:* +
+It is a behavior, defined by an FSM table, that is executed on a given entity group. All entities of the entity group participate in executing the traffic case. An entity group may have more than one concurrent traffic cases.
+
+*User finish actions:* +
+It is list of action that is executed when any of the user finish conditions have been met.
+
+*User finish condition:* +
+It is list of conditions that defines situations when a traffic case is over for a given entity, that is, the entity is not considered for selection for launching a new traffic, even if the entity returns to its idle state. User finish conditions are evaluated whenever any entity of the group reports finishing the traffic case, that is, returning to the ``idle'' state of the respective FSM context.
+
+*External templates:* +
+They are parameterized text modules are stored by LGenBase. Parameter values can be substituted dynamically during run-time.
+
+*Template type:* +
+It is a named declaration of a template assigned to a behavior type.
+
+*Template set:* +
+It is set of templates belonging to a traffic case. It is a list of <template type, external template> pairs.
+
+= Abbreviations
+
+CLL:: Core Library
+
+CSCF:: Call Session Control Function
+
+EPTF:: Ericsson Performance Test Framework
+
+EPTF_Var:: is the abridged name of the EPTF_CLL_Variable type variables
+
+FBQ:: Free-busy queue
+
+FSM:: Finite State Machine
+
+FSM:: variables are EPTF_CLL_Variables declared in FSM table declarations
+
+GGSN:: Gateway GPRS Support Node
+
+GUI:: Graphical User Interface
+
+IMS:: IP Multimedia Subsystem
+
+ISUP:: Integrated Services Digital Network (ISDN) User Part Protocol
+
+LGen:: Load Generator
+
+SIP:: Session Initiation Protocol
+
+SUT:: System Under Test
+
+TitanSim:: New synonym for the EPTF Framework
+
+TTCN-3:: Testing and Test Control Notation version 3 [1]
+
+UA:: User Agent

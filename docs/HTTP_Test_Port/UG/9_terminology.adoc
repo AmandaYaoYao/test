@@ -1,0 +1,19 @@
+= Terminology
+
+None.
+
+= Abbreviations
+
+ASP:: Abstract Service Primitive
+
+IUT:: Implementation Under Test (HTTP 1.1 server or client)
+
+RTE:: Run-Time Environment
+
+HTTP:: Hypertext Transfer Protocol
+
+SUT:: System Under Test
+
+SSL:: Secure Sockets Layer
+
+TTCN-3:: Testing and Test Control Notation version 3

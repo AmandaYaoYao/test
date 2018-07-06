@@ -1,0 +1,9 @@
+= Terminology
+
+== Abbreviations
+
+PDU:: Protocol Data Unit
+
+IMAP:: Internet Message Access Protocol - Version 4rev1
+
+TTCN-3:: Testing and Test Control Notation version 3

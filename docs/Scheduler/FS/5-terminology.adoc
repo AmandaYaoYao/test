@@ -1,0 +1,17 @@
+= Terminology
+
+*EPTF Core Library (CLL):* +
+It is that part of the TitanSim software that is totally project independent. (That is, which is not protocol-, or application-dependent). The EPTF CLL is to be supplied and supported by the TCC organization. Any EPTF CLL development is to be funded centrally by Ericsson.
+
+*Red Black Tree:* +
+The EPTF Red Black Tree feature is a self-balancing binary search tree. It can be used to store indexes into an associated array.
+
+= Abbreviations
+
+CLL:: Core Library
+
+EPTF:: Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+TitanSim:: Ericsson Load Test Framework, formerly TITAN Load Test Framework
+
+TTCN-3:: Testing and Test Control Notation version 3 <<6-references.adoc#_1, [1]>>

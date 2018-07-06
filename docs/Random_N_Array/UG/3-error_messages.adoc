@@ -1,0 +1,9 @@
+= Error Messages
+
+NOTE: Besides the below described error messages, error messages shown in <<7-references.adoc#_2, ‎[2]>> or those of other used features or product may also appear.
+
+The Random N Array feature may log one of the following error messages (and stop execution):
+
+`*Error: f_EPTF_RNA_initRNA: Size of a list should be at least 0*`
+
+`*Error: f_EPTF_RNA_initRNA: Number of lists should be at least 1*`

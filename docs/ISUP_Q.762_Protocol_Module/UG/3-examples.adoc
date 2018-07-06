@@ -1,0 +1,21 @@
+= Examples
+
+The demo directory of the deliverable contains the following additional files:
+
+_Makefile_ +
+used for controlling the compiling procedure.
+
+__General_Types.ttcn__ +
+contains types which are used by several protocols. ISUP ITU-T imports information from this file.
+
+__ISUP_Mapping.ttcn__ +
+contains component definitions and encoding decoding function for ISUP ITU-T.
+
+The following files are needed for the MTP3 test port:
+
+__MTP3asp_PT.cc__ +
+__MTP3asp_PT.hh__ +
+__MTP3asp_PortType.ttcn__ +
+__MTP3asp_Types.ttcn__ +
+__mphclib.h__ +
+__libmphclib.a__

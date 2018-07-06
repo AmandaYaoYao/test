@@ -1,0 +1,15 @@
+= Terminology
+
+No specific terminology is used.
+
+= Abbreviations
+
+IPv4:: Internet Protocol version 4
+
+IPv6:: Internet Protocol version 6
+
+RFC:: Request For Comments
+
+TTCN-3:: Testing and Test Control Notation version 3
+
+UDP:: User Datagram Protocol

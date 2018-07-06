@@ -1,0 +1,45 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* __EPTF_ Rendezvous_Demo.ttcn__
+
+== Demo Module
+
+The demo module (__EPTF_ Rendezvous_Demo.ttcn__) illustrates a typical usage of the EPTF Rendezvous feature.
+
+Starting a "Wait For A Trigger" type rendezvous:
+
+[source]
+----
+function f_RendezvousClient_Behaviour(in charstring pl_selfName, in EPTF_Rendezvous_CT pl_server) runs on Client_CT{
+  f_EPTF_RendezvousClient_init_CT(pl_selfName,pl_server);
+
+  var integer vl_Idx;
+  vl_Idx:=f_EPTF_RendezvousClient_WaitForATrigger(100);
+
+  if(f_EPTF_RendezvousClient_WaitForResponse(vl_Idx))
+  {
+    log("---Trigger received---");
+  }
+  setverdict(pass);
+  f_EPTF_Base_cleanup_CT();
+}
+----
+
+Starting a "Wait For N Trigger" type rendezvous:
+
+[source]
+----
+f_EPTF_RendezvousClient_init_CT(pl_selfName,pl_server);
+  var integer vl_Idx;
+  vl_Idx:=f_EPTF_RendezvousClient_WaitForNTrigger(100,3);
+  // rendezvous ID=100, number of requestors=3
+  if(f_EPTF_RendezvousClient_WaitForResponse(vl_Idx))
+  {
+    log("---Trigger received---");
+  }
+  setverdict(pass);
+  f_EPTF_Base_cleanup_CT();
+}
+----

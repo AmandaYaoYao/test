@@ -1,0 +1,8 @@
+= Examples
+
+The "demo" directory of the deliverable contains the following examples:
+
+* __EPTF_FreeBusyQueue_demo.cfg__
+* __EPTF_FreeBusyQueue_demo.ttcn__
+* __EPTF_FreeBusyQueue_demo.prj__
+* __EPTF_FreeBusyQueue_demo.tpd__

@@ -1,0 +1,16 @@
+= References
+
+[[_1]]
+[1] https://tools.ietf.org/html/rfc1701[RFC 1701] +
+Generic Routing Encapsulation (GRE)
+
+[[_2]]
+[2] https://tools.ietf.org/html/rfc1702[RFC 1702] +
+Generic Routing Encapsulation over IPv4 networks
+
+[[_3]]
+[3] ETSI ES 201 873-1 v.3.2.1 (02/2007) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_4]]
+[4] User Guide for the TITAN TTCN-3 Test Executor

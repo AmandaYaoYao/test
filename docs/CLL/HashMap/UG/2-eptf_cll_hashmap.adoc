@@ -1,0 +1,53 @@
+= EPTF CLL HashMap
+
+== Overview
+
+The EPTF CLL HashMap component is a fundamental component that provides acces to a well-tested, industry standard GCC HashMap implementation located in STL. For gcc versions above 4.0 the HashMap feature uses the `std::tr1::unordered_map` library. HashMap is a hashed associate container that associates object of type key with object of type data. Looking up an element in a HashMap by its key is efficient, so HashMap is useful for "dictionaries" where the order of elements is irrelevant. The key in HashMap must be unique.
+
+[[description_of_files_in_this_feature]]
+== Description of Files in This Feature
+
+The EPTF CLL HashMap API includes the following files:
+
+* Common files: Common functions and type definitions for all type of hash maps:
+** __EPTF_CLL_HashMap_Definitions.ttcn__: Defines the HashMap component
+** __EPTF_CLL_HashMap_Functions.ttcn__: Defines general functions like init for all HashMaps.
+** __EPTF_CLL_HashMap_ExternalFunctions.hh__: Template functions for all types of HashMap.
+* str2int files: The functions using hashmaps containing `<charstring, integer>` `<key, data>` pairs
+** __EPTF_CLL_HashMapStr2Int_Functions.ttcn__: This TTCN-3 module contains function definitions to GCC HashMap functions
+** __EPTF_CLL_HashMapStr2Int_ExternalFunctions.cc__: This c++ source file contains the implementations of functions to call standard GCC HashMap handling and maintenance functions.
+* oct2int files: The functions using hash maps containing `<octetstring, integer>` `<key, data>` pairs
+** __EPTF_CLL_HashMapOct2Int_Functions.ttcn__: This TTCN-3 module contains function definitions to GCC HashMap functions
+** __EPTF_CLL_HashMapOct2Int_ExternalFunctions.cc__: This c++ source file contains the implementations of functions to call standard GCC HashMap handling and maintenance functions.
+* int2int files: The functions using hash maps containing `<integer, integer>` `<key, data>` pairs
+** __EPTF_CLL_HashMapInt2Int_Functions.ttcn__: This TTCN-3 module contains function definitions to GCC HashMap functions
+** __EPTF_CLL_HashMapInt2Int_ExternalFunctions.cc__: This c++ source file contains the implementations of functions to call standard GCC HashMap handling and maintenance functions.
+
+[[description_of_required_files_from_other_features]]
+== Description of Required Files from Other Features
+
+The HashMap feature is part of the TitanSim EPTF Core Load Library (CLL).
+
+It requires files from these CLL features:
+
+* `EPTF_CLL_Base`
+
+== Installation
+
+Since `EPTF_CLL_HashMap` is used as a part of the TTCN-3 test environment this requires TTCN-3 Test Executor to be installed before any operation of these functions. For more details on the installation of TTCN-3 Test Executor see the relevant section of <<7-references.adoc#_2, ‎[2]>>.
+
+If not otherwise noted in the respective sections, the following are needed to use `EPTF_CLL_HashMap`:
+
+* Copy the files listed in sections <<description_of_files_in_this_feature, Description of Files in This Feature>> and <<description_of_required_files_from_other_features, Description of Required Files from Other Features>> to the directory of the test suite or create symbolic links to them.
+* Import the HashMap demo or write your own application using HashMap.
+* Create _Makefile_ or modify the existing one. For more details see the relevant section of ‎<<7-references.adoc#_2, [2]>>.
+* Edit the config file according to your needs, see following section <<configuration, Configuration>>.
+
+[[configuration]]
+== Configuration
+
+The executable test program behavior is determined via the run-time configuration file. This is a simple text file, which contains various sections. The usual suffix of configuration files is _.cfg_. For further information on the configuration file see ‎<<7-references.adoc#_2, [2]>>.
+
+This feature defines TTCN-3 module parameters as defined in <<7-references.adoc#_2, ‎[2]>>, clause 4. Actual values of these parameters – when no default value or a different from the default actual value wished to be used – shall be given in the `[MODULE_PARAMETERS]` section of the configuration file.
+
+This feature defines no module parameters.

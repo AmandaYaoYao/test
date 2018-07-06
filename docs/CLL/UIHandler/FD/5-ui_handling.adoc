@@ -1,0 +1,521 @@
+= UI Handling
+
+== User Interactions
+
+All the user interactions using the runtime GUI is mapped to EPTF Variable management. User input widgets can be connected to variables, and when the user changes them – for example, types into a tree cell, or presses a button – the runtime GUI sends a message to the UIHandler component. Then the UIHandler component changes the content of the associated variable as described in <<2-general_description.adoc#data_manipulation_using_the_runtime_GUI, Data Manipulation Using the Runtime GUI>>.
+
+Table below describes the permitted mapping of widgets to of EPTF Variable types.
+
+See Widget types and EPTF Variable types that can be assigned to
+
+[cols=",",options="header",]
+|==========================================
+|Widget type |EPTF Variable type
+|Button |intVal
+|Toolbarbutton |intVal
+|TreeCell of checkbox |boolVal
+|TreeCell of floatField |floatVal
+|TreeCell of pushButton |intVal
+|TreeCell of integerField |intVal
+|TreeCell of string |charstringVal
+|TreeCell of statusLEDOfText |charstringVal
+|TreeCell of statusLED |charstringVal
+|Chart |floatVal
+|==========================================
+
+== GUI Handling
+
+=== Layout Manipulation
+
+As described in Section <<2-general_description.adoc#overview, Overview>> the UIHandlerClient components own their EPTF Variables and they might choose to associate them to widgets of the GUI. Therefore, they may have to change the GUI layout: add or remove, enable or disable those widgets, or set the focus to a particular widget. To support this, the UIHandler and UIHandlerClient components have widget adding, removing, enabling, disabling and set focus functions.
+
+In order to prepare an initial GUI layout `EPTF_UIHandler_CT` component type has widget adding and removing functions. The widget enabling and disabling functionalities are related to handling the particular EPTF Variables, therefore such functions are provided by the UIHandlerClient components. The `set focus' functionality is available by the UIHandlerClient components as well.
+
+When adding, removing, manipulating elements on the GUI as described in this section, all widget IDs must conform to the restrictions in the XTDP protocol module XSD <<9-references.adoc#_8, [8]>>.
+
+UIHandlerClient provides a group of convenience functions as well. Using them makes it easy to create specific widgets on the GUI, as button, text label, spacer, chart, tabbed box and horizontal box.
+
+==== Add Widgets
+
+Using the
+
+[source]
+----
+function f_EPTF_UIHandlerClient_XSD_addElementToGUITo(
+    in Widgets pl_xul,
+    in EPTF_UIHandler_WidgetIdString pl_parentWidgetId,
+    in EPTF_UIHandler_CT pl_UIHandler)
+----
+
+function users can add a widget or a tree of widgets under the parent widget `pl_parentWidgetId` on the GUI connected to the specified UIHandler component.
+
+The `pl_xul` parameter describes the hierarchy of widgets to add to the GUI. See <<9-references.adoc#_6, [6]>>.
+
+The pair of this function without UIHandler component parameter is
+
+[source]
+----
+function f_EPTF_UIHandlerClient_XSD_addElementToGUI(
+    in Widgets pl_xul,
+    in EPTF_UIHandler_WidgetIdString pl_parentWidgetId)
+----
+
+In the UIHandler component the corresponding function is:
+
+[source]
+----
+function f_EPTF_UIHandler_XSD_addElementToGui(
+  in Widgets pl_xul,
+  in EPTF_UIHandler_WidgetIdString pl_parentWidgetID := "",
+  inout boolean pl_widgetExists,
+  in boolean pl_updateDb := true)
+----
+
+The `pl_updateDb` parameter can be used to disable the internal database update in UIhandler.
+
+==== Remove Widgets
+
+Using the
+
+[source]
+----
+function f_EPTF_UIHandlerClient_removeElementFromGUITo(
+    in EPTF_UIHandler_WidgetIdString pl_Widget2Remove,
+    in EPTF_UIHandler_CT pl_UIHandler)
+----
+
+function users can remove a widget and its children from the GUI connected to the specified UIHandler component.
+
+The pair of this function without UIHandler component parameter is
+
+[source]
+----
+function f_EPTF_UIHandlerClient_removeElementFromGUI(
+    in EPTF_UIHandler_WidgetIdString pl_Widget2Remove)
+----
+
+In the UIHandler component the similar function is:
+
+[source]
+----
+function f_EPTF_UIHandler_removeElementFromGui(
+    in EPTF_UIHandler_WidgetIdString pl_widgetId)
+----
+
+==== Enable Widgets
+
+Using the
+
+[source]
+----
+function f_EPTF_UIHandlerClient_enableGUIElementTo(
+    in EPTF_UIHandler_WidgetIdString pl_WidgetID,
+    in EPTF_UIHandler_CT pl_UIHandler)
+----
+
+function users can enable a widget on the GUI connected to the specified UIHandler component.
+
+The pair of this function without UIHandler component parameter is
+
+[source]
+----
+function f_EPTF_UIHandlerClient_enableGUIElement(
+    in EPTF_UIHandler_WidgetIdString pl_WidgetID)
+----
+
+==== Disable Widgets
+
+Using the
+
+[source]
+----
+function f_EPTF_UIHandlerClient_disableGUIElementTo (
+    in EPTF_UIHandler_WidgetIdString pl_WidgetID,
+    in EPTF_UIHandler_CT pl_UIHandler)
+----
+
+function users can disable a widget on the GUI connected to the specified UIHandler component.
+
+The pair of this function without UIHandler component parameter is
+
+[source]
+----
+function f_EPTF_UIHandlerClient_disableGUIElement(
+    in EPTF_UIHandler_WidgetIdString pl_WidgetID)
+----
+
+==== Setting the Focused Widget
+
+Using the
+
+[source]
+----
+function f_EPTF_UIHandlerClient_setFocusToGUIElementTo (
+    in EPTF_UIHandler_WidgetIdString pl_WidgetID,
+    in EPTF_UIHandler_CT pl_UIHandler)
+----
+
+function users can set the focus to a widget on the GUI connected to the specified UIHandler component.
+
+The pair of this function without UIHandler component parameter is
+
+[source]
+----
+function f_EPTF_UIHandlerClient_disableGUIElement(
+    in EPTF_UIHandler_WidgetIdString pl_WidgetID)
+----
+
+There is another function specialized for Tabboxes. The
+
+[source]
+----
+function f_EPTF_UIHandlerClient_setFocusToTabTo (
+    in EPTF_UIHandler_WidgetIdString pl_TabboxID,
+    in integer pl_TabIndex,
+    in EPTF_UIHandler_CT pl_UIHandler)
+----
+
+function allows the user to select a particular tab of tabbox on the GUI connected to the specified UIHandler component.
+
+The pair of this function without UIHandler component parameter is
+
+[source]
+----
+function f_EPTF_UIHandlerClient_setFocusTo Tab(
+    in EPTF_UIHandler_WidgetIdString pl_TabboxID,
+    in integer pl_TabIndex)
+----
+
+==== Checking Existence of Widgets
+
+[source]
+----
+function f_EPTF_UIHandlerClient_widgetExistsOn(
+    in EPTF_UIHandler_WidgetIdString pl_WidgetID,
+    in EPTF_UIHandler_CT pl_UIHandler)
+----
+
+The pair of this function without UIHandler component parameter is
+
+[source]
+----
+function f_EPTF_UIHandlerClient_widgetExists(
+    in EPTF_UIHandler_WidgetIdString pl_WidgetID)
+----
+
+==== Clear the GUI and Create a New Window
+
+Function `f_EPTF_UIHandler_clearGUI(`) removes all the widgets from the GUI, even the window widget.
+
+The `f_EPTF_UIHandler_addWindow()` function creates a new window widget on an empty GUI. The id, the height, width and the title of the new window widget can be defined with the `tsp_EPTF_GUI_Main_Window_WidgetId`, `tsp_EPTF_GUI_Main_Window_Height`, `tsp_EPTF_GUI_Main_Window_Width` and `tsp_EPTF_GUI_Main_Window_Title` module parameters.
+
+==== Get the Description of the Current GUI, and Save It into a File
+
+The `f_EPTF_UIHandler_snapshot()` function returns the XUL representation of the current GUI in a charstring. This description can be stored into a file with the `f_EPTF_UIHandler_saveLayout` function.
+
+==== Create Custom GUI from XML
+
+It is possible to load widgets from XML to the GUI. The XML is decoded into the Widgets type defined in the XTDP Protocol Module. The following function puts the widgets in XML under the given parent widget id:
+
+[source]
+----
+public function f_EPTF_UIHandler_createGUI (
+    in charstring pl_xul,
+    in charstring pl_parentWidgetId := "" )
+  runs on EPTF_UIHandler_Private_CT
+return boolean
+----
+
+The XML has to be in a format that can be decoded by `f_EPTF_UIHandler_XSD_decodeXUL` function. If the XML contains iterators, external values, external data and conditions, they are processed by the UIHandler which uses the DataSource feature to determine the value of the external data. This means that it is possible to put content to the GUI for which the value is determined dynamically. For example without knowing how many traffic cases are defined, it is possible to define an XML that puts the CPS value for all traffic cases to the GUI.
+
+The enabled/disabled state of the widget is determined automatically from the subsCanAdjust flag of the EPTF Variable containing the data for the data source element. See the relevant section of <<9-references.adoc#_5, [5]>>.
+
+Here is a simple XML that puts some variables to the GUI:
+
+[source]
+----
+<window xmlns='http://ttcn.ericsson.se/protocolModules/xtdp/xtdl' height='386.000000' id='EPTF_Main_Window' orientation='vertical' title='TTCN constructed window' width='820.000000'>
+    <hbox id='EPTF_Main_hbox' orientation='vertical'>
+      <hbox id='Params' orientation='vertical'>
+          <label disabled='false' flex='0.000000' value='Available variables' />
+          <textbox id='Var.AllVars.value' readonly='true' value=''>
+              <externaldata element='VarValue' source='VarProvider'>
+                  <params>
+                      <dataparam name='VarValue' value='allVar'></dataparam>
+                  </params>
+              </externaldata>
+          </textbox>
+          <iterator element='VarList' id='VarList' source='VarProvider'>
+              <label disabled='false' flex='0.000000' value='Value of %VarList% :'/>
+              <textbox id='Var.%VarList%.value' readonly='true' value=''>
+                  <externaldata element='VarValue' source='VarProvider'>
+                      <params>
+                          <dataparam name='VarValue' value='%VarList%'></dataparam>
+                      </params>
+                  </externaldata>
+              </textbox>
+          </iterator>
+      </hbox>
+    </hbox>
+</window>
+----
+
+In the example above there is a data source registered with the dataSource name `"VarProvider"`. This data source supports the following elements: `"VarValue"` and `"VarList"`. The `"VarValue"` element returns the value of a given variable of which the name is given in the parameters. The name of the parameter is also called `"VarValue"`. In this XML in the first hbox the value of the `"allVar"` variable is shown. Then there is a `"VarList"` iterator (element is `"VarList"`) with id `"VarList"`. This iterator iterates through all the variables in `"VarProvider"`. The value of the iterator is accessible by the iterator id written between `"%"`s like `%VarList%`. In the example this is given to the external data `"VarValue"` as the parameter. So the example creates textboxes for all variables in `"VarProvider"` and puts their values into them. A label is placed before the textbox with the name of the variable. The value shown in the textbox will change dynamically if the value of the variable changes.
+
+There is also the possibility to access the index of the iterator by writing `"::idx"` added to the iterator id between `"%"`s like `%VarList::idx%`. It can be used for example in widget ids where the value of the iterator cannot be used (because of illegal characters or any other reason). Writing `"::count"` added to the iterator id between `"%"s` like `%VarList::count%` means the number of iterated elements in the iterator. This can be used for example in conditions where if this number is lower than a specific number then put some widget onto the GUI, else do something else.
+
+The `externalvalue` element works as an iterator on a single value. The attributes and parameters are the same as in case of the iterators. The %ID% reference returns the given variable value in charstring format. The %ID::ref% returns the variable name. Can be used in all places, where the iterators can.
+
+The values of iterators and `externalvalues` can change during running. If this happens, the gui is re-organized according to the change, so widgets can appear or disappear.
+
+There is a special widget type called "htmlcode". This widget will not appear in RuntimeGUI, only in the browser. It is possible to insert any html code to this value of this widget. The written html code has to be escaped, because the supported TITAN version does not allow the unescaped characters. Here is an example of using the html code widget:
+
+[source]
+----
+<window xmlns='http://ttcn.ericsson.se/protocolModules/xtdp/xtdl' height='386.000000' id='EPTF_Main_Window' orientation='vertical' title='TTCN constructed window' width='820.000000'>
+  <hbox id='EPTF_Main_hbox' orientation='vertical'>
+    <htmlcode>
+     <value>&lt;a href=”http://ttcn.ericsson.se”&gt;LINK&lt;/a&gt;</value>
+    </htmlcode>
+  </hbox>
+</window>
+----
+
+It is possible to use externaldata in "htmlcode" widget. The value of the html code will be replaced by the value of the externaldata.
+
+[[converting-widgets-to-from-charstring-in-xml-format]]
+==== Converting Widgets to/from charstring in XML format
+
+The Widget type defined in the XTDP protocol module can be converted to charstring in XML format by the function:
+
+[source]
+----
+public function f_EPTF_UIHandler_XSD_encodeXUL(in Widgets pl_widgets)
+  return charstring{
+    var octetstring vl_ret := enc_Widgets(pl_widgets);
+    return oct2char(vl_ret)
+}
+To decode the XML into the TTCN-3 Widgets type the following function can be used:
+public function f_EPTF_UIHandler_XSD_decodeXUL(in charstring pl_widgets)
+  return Widgets{
+    var Widgets vl_ret;
+    var integer vl_dummy;
+    vl_dummy := dec_Widgets(char2oct(pl_widgets), vl_ret);
+
+    return vl_ret;
+}
+----
+
+=== Progress Information During Startup
+
+UIHandler provides dataSources to display progress information during startup. The `"progressBar"` dataSource can be changed from any component in case of a new progress information should be displayed.
+
+On the UIHandler component the function
+
+[source]
+----
+public function f_EPTF_UIHandler_updateProgress(in charstring pl_progressInfo, in float vl_progressPercent := -1.0) runs on EPTF_UIHandler_Private_CT
+----
+
+can be used to update the progress information.
+
+All changes to the `"progressBar"` dataSource are accumulated into the `"progressBarHistory"` dataSource, with each value is written into a separate line. This is done automatically by the UIHandler. The `"progressBarHistory"` dataSource is read-only.
+
+It is possible to switch on/off the UIHandler’s own progress information by calling the function
+
+[source]
+public function f_EPTF_UIHandler_enableOwnProgress(in boolean pl_enableOwnProgress) runs on EPTF_UIHandler_Private_CT
+
+after the UIHandler is initialized. If own progress is disabled, progress information of UIHandler will not show up in the `"progressBar"` history, whereas changes set by other components will.
+
+=== Convenience Functions in UIHandlerClient
+
+These functions allow an easy way to create instances of the most commonly used widget types on the GUI. The following functions are provided by UIHandlerClient component:
+
+The `f_EPTF_UIHandlerClient_XUL_addButton()` function allows to put a new button to the GUI.
+
+`f_EPTF_UIHandlerClient_XUL_addSpacer()` function adds a new spacer to a parent widget on the GUI.
+
+`f_EPTF_UIHandlerClient_XUL_addLabel()` function creates a new text label.
+
+`f_EPTF_UIHandlerClient_XUL_addEmptyHbox()` function creates a new horizontal box.
+
+`f_EPTF_UIHandlerClient_XUL_addEmptyTabbox()` function creates a new tabbed box.
+
+`f_EPTF_UIHandlerClient_XUL_addTabpanel()` function creates a new tab panel.
+
+`f_EPTF_UIHandlerClient_XUL_addTab()` function creates a new tab on a tabbed box.
+
+`f_EPTF_UIHandlerClient_XUL_addEmptyChart()` function creates a new chart.
+
+`f_EPTF_UIHandlerClient_XUL_addTrace2Chart()` function adds a new trace to a chart.
+
+== `HostAdminUI` Functions
+
+The HostAdminUI component named `EPTF_HostAdminUI_CT` can be used as the original HostAdmin component, but it provides an extra function, that can be used to start the component with
+
+Starting the HostAdminUI component with the function
+
+[source]
+f_EPTF_HostAdminUI_behavior(in charstring pl_selfname, in charstring pl_hostname, in EPTF_UIHandler_CT pl_UIHandler)
+
+will result variables put by the component and measure the CPU load.
+
+== `LoadRegulator` UI Functions
+
+The LoadRegulatorUI component named `EPTF_LoadRegulatorUI_CT` can be used as the original LoadRegulator component, but it provides an extra function, that can be used to put the Regulator to the GUI.
+
+The function `f_EPTF_LoadRegulatorUI_putUI(in charstring pl_parentid)` can be used to put its own widgets to the GUI. This widget is a simple box, it could be placed anywhere. Therefore a parent Id should be specified.
+
+== `StatCaptureUI` Functions
+
+The StatCaptureUI component named `EPTF_StatCaptureUI_CT` can be used as the original StatCapture component, but it provides an extra function, that can be used to put the Capturer to the GUI. It is only capable to display its configuration.
+
+The function `f_EPTF_StatCaptureUI_putUI(inEPTF_StatCapture_CaptureGroupsConfig pl_groups)` can be used to put its own widgets to the GUI. This widget is a tab with a tabpanel. The parent widget’s Id could be configured thru a module parameter, also the configuration parameter to the function should be the proper module parameter of the `StatCapture` feature.
+
+== XTDP Operation Modes of UIHandler
+
+While the XTDP protocol <<9-references.adoc#_6, [6]>> is symmetrical protocol between the GUI and its handler component, the user shall decide the mode for the XTDP connection initialization. The party who opens the XTDP-listener port and awaits for incoming connections is called the XTDP server. The party who connects to this XTDP-listener port is called the XTDP-client.
+
+The UIHandler component can act as either an XTDP-server, or as an XTDP-client. The two modes are different from the point of view of handling XTDP-authentication on one hand and XTDP-connection loss from the other hand.
+
+After the XTDP ports are connected, the XTDP session is always started from the Runtime GUI. Runtime GUI sends the XTDP-HandshakeRequest which is then answered by the UIHandler. After that if enabled, the XTDP-authentication takes place. UIHandler sends the XTDP-Authentication Request to the Runtime GUI with a challenge question configured in `tsp_EPTF_UIHandler_Authmsg`. The response can be entered on the Runtime GUI and is sent back to the UIHandler which checks if it matches with the configured value given in `tsp_EPTF_UIHandler_Authresp`. After successful authentication the XTDP session is up. The authentication can be switched off in the configuration file by setting `tsp_EPTF_UIHandler_Authresp` to empty string.
+
+=== XTDP-Client Mode
+
+The XTDP-client mode is the default behavior. In this mode the Runtime GUI opens the XTDP-listen port and waits for incoming connection.
+
+The TitanSim executable initiates the connection (via the UIHandler). Upon XTDP connection-loss — which can happen if the GUI has been shut-down by the user, for example — it enters _headless mode_, see Section <<headless_mode, Headless Mode>>. During the headless mode it periodically attempts to reconnect.
+
+In order to avoid long timeouts in XTDP connection attempts, UIHandler first "pings" the server via UDP. It attempts to initiate an XTDP-connect only after the GUI starts to answer to these "pings".
+
+On incoming XTDP connection XTDP handshake and if enabled, authentication is performed: the UIHandler will prompt (challenge string) the user for a password (response string) via the GUI.
+
+Both the challenge and the response strings are read from modules parameters, given in the configuration file.
+
+By default the XTDP authentication is turned off.
+
+=== XTDP-Server Mode
+
+In server mode of the UIHandler, the XTDP port will be configured to act like a server, so it will listen on the specified port and wait for a Runtime GUI to connect. Since it might be quite possible that several TitanSim application is running on the same network concurrently, it might happen that a user connects its GUI to a wrong TitanSim application.
+
+To minimize the impact of such misconfiguration problems, an authentication is possible: the UIHandler will prompt (challenge string) the user for a password (response string) via the GUI.
+
+Both the challenge and the response strings are read from modules parameters, given in the configuration file.
+
+By default XTDP-server mode is turned off.
+
+== Shadow GUI
+
+In server mode, it is possible to connect multiple Runtime GUIs to the TTCN application. The first connected GUI will be a Master GUI, which can control the execution. UIHandler will accept XTDP massages only from the Master GUI, but will send out its messages to every GUI connected. This way, the "shadowed" GUIs are only able to monitor the execution. In case the Master GUI disappears, the next connected GUI becomes the Master GUI for UIHandler.
+
+[[headless_mode]]
+== Headless Mode
+
+Headless mode is a feature of the UIHandler functionality, what allows the user to continue work or tests even when the Runtime GUI disconnected from the test executable. If headless mode is disabled, the UHandler will start up only if it can establish connection and XTDP authentication with the Runtime GUI during initialization. If the Runtime GUI is closed during test execution UIhandler will enter into headless mode automatically regardless of the headless mode setting (`tsp_EPTF_UIHandler_headlessmode`). In headless mode when the GUI is not present, the UIHandler will not perform any XTDP message passing, but will keep track of the changes that are supposed to affect the GUI. Thus, when the GUI (re-)connected to the running test executable again, it will show the actual layout and data on the GUI.
+
+If the UIHandler is configured to be an XTDP-client to the GUI, auto reconnection will be performed if the GUI is present again. By default it is turned on.
+
+== CLI Handling
+
+Users can handle the values of the shared EPTF Variables of the UIHandlerClient components via TELNET terminal. The names of the EPTF Variables in these commands are the names with which the UIHandler component created its subscribing EPTF Variables. (see `pl_destParamName` parameter of the subscription ordering functions in Section <<4-variable_handling.adoc#order_the_UIHandler_component_to_subscibe_to_an_EPTF_variable, Order the UIHandler Component to Subscribe to an EPTF Variable>>.
+
+The commands are case independent.
+
+=== Data Manipulation
+
+==== Set the Value of a Variable
+
+*Command:* SET
+
+*Syntax:* `SET variable_name := value`
+
+*Purpose:* sets the value of a variable.
+
+==== Get the Value of a Variable
+
+*Command:* GET
+
+*Syntax:* `GET variable_name`
+
+*Purpose:* gets the value of a variable and displays it on the command TELNET terminal, to which the user typed the command in.
+
+==== List all Variables and Their Values
+
+*Command:* LS
+
+*Syntax:* `LS`
+
+*Purpose:* lists all GUI variables and their current values.
+
+==== List Read-Only Variables
+
+*Command:* LSREADONLY
+
+*Syntax:* `LSREADONLY`
+
+*Purpose:* lists read-only GUI variables and their current values.
+
+==== List Writable Variables
+
+*Command:* LSWRITABLE
+
+*Syntax:* `LSWRITABLE`
+
+*Purpose:* lists GUI variables that can be set using the SET command and their current values.
+
+=== Monitor the Values of Variables
+
+UIHandler CLI component periodically sends the value of the selected EPTF Variables to the display TELNET terminal in the form of:
+
+`variable_name := value`
+
+Users can add EPTF Variables to the list of EPTF Variables to display, and remove from it.
+
+==== Display Periodically
+
+*Command:* DISPLAY
+
+*Syntax:* `DISPLAY variable_name`
+
+*Purpose:* Periodically displays the value of the variable on the display TELNET terminal.
+
+==== Stop Displaying
+
+*Command:* HIDE
+
+*Syntax:* `HIDE variable_name`
+
+*Purpose:* Stops periodical display the value of the variable on the display TELNET terminal.
+
+*Command:* HIDE
+
+*Syntax:* `HIDE`
+
+*Purpose:* Stops displaying the values of all the EPTF Variables.
+
+=== Other Commands
+
+==== Help
+
+*Command:* HELP
+
+*Syntax:* `HELP`
+
+*Purpose:* Displays a short help sting on the command TELNET terminal.
+
+==== Quit
+
+*Command:* QUIT
+
+*Syntax:* `QUIT`
+
+*Purpose:* Disconnects the command TELNET terminal.
+
+==== Stop
+
+*Command:* STOP
+
+*Syntax:* `STOP`
+
+*Purpose:* Stops the test execution and disconnects the command TELNET terminal.

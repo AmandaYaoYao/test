@@ -1,0 +1,95 @@
+= Examples
+
+== Configuration File
+
+[source]
+----
+[TESTPORT_PARAMETERS]
+// CLIENT settings
+*.LDAP_PCO.remote_address := ``127.0.0.1''
+*.LDAP_PCO.remote_port := ``5019''
+*.LDAP_PCO.socket_debugging := ``YES''
+*.LDAP_PCO.ssl_certificate_chain_file := ``certificates/CAcert.pem''
+*.LDAP_PCO.ssl_private_key_password := ``abcd''
+*.LDAP_PCO.ssl_private_key_file := ``certificates/CAkey.pem''
+*.LDAP_PCO.ssl_trustedCAlist_file := ``certificates/CAcert.pem''
+*.LDAP_PCO.ssl_use_ssl := ``yes''
+*.LDAP_PCO.use_non_blocking_socket := ``yes''
+
+// SERVER settings
+*.LDAP_PCO_server.server_mode:=``yes''
+*.LDAP_PCO_server.local_port:=``5019''
+*.LDAP_PCO_server.socket_debugging := ``YES''
+*.LDAP_PCO_server.ssl_certificate_chain_file := ``certificates/CAcert.pem''
+*.LDAP_PCO_server.ssl_private_key_password := ``abcd''
+*.LDAP_PCO_server.ssl_private_key_file := ``certificates/CAkey.pem''
+*.LDAP_PCO_server.ssl_trustedCAlist_file := ``certificates/CAcert.pem''
+*.LDAP_PCO_server.ssl_use_ssl:=``yes''
+----
+
+[[makefile]]
+== Makefile
+
+In this section the most important parameters are listed in the _Makefile_. The following gives some detail about them:
+
+`PLATFORM =`
+
+Specifies which platform you are using. If you are using the test port on Solaris, you have to set the `PLATFORM` macro to the proper value. It shall be `_SOLARIS_` in case of Solaris 6 (SunOS 5.6) and `_SOLARIS8_` in case of Solaris 8 (SunOS 5.8). In case you are using the test port on other platform, please refer to <<8-references.adoc#_2, [2]>>.
+
+`OPENSSL_DIR =`
+
+Specifies the OpenSSL installation directory. It has to contain the _lib/libssl.a_ file and the include/ directory.
+
+`CPPFLAGS = -Dlatexmath:[$(PLATFORM) -DAS_USE_SSL -I$](TTCN3_DIR)/include -I$(OPENSSL_DIR)/include`
+
+This line includes the OpenSSL header files and enables SSL code. It shall be used if SSL is used.
+
+If no SSL is used, the generated _Makefile_ by TITAN is suitable.
+
+`LDFLAGS = -lssl`
+
+This line specifies the OpenSSL runtime library. It shall be used if SSL is used.
+
+`TTCN3_MODULES =`
+
+The list of TTCN-3 modules needed.
+
+`USER_SOURCES = LDAPasp_PT.cc Abstract_Socket.cc ldif.tab.cc lex.ldif.cc`
+
+`USER_HEADERS = $(USER_SOURCES:.cc=.hh)`
+
+The list of other external C++ source and header files.
+
+== Example Use of ImportLDIF Function
+
+[source]
+----
+module LDAPtest \{
+
+import from LDAPasp_PortType all;
+import from LDAPasp_Types all;
+import from Lightweight_Directory_Access_Protocol_V3 language ``ASN.1:1997'' all;
+import from LDIF all;
+type component LDAPcomp_CT \{
+port LDAPasp_PT LDAP;
+}
+
+testcase tc1() runs on LDAPcomp \{
+
+  map(system:LDAP, self:LDAP);
+  timer T2 := 100.0;
+  T2.start;
+
+  var LDIFData information;
+  information := f_ImportLDIF(``test1.ldif'',false);
+  f_PopulateLDAPServer(information,false,LDAP);
+
+  setverdict(pass);
+  timer T3 := 3.0;
+  T3.start;
+  T3.timeout;
+
+  unmap(system:LDAP, self:LDAP);
+}
+}
+----

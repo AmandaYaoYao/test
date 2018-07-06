@@ -1,0 +1,12 @@
+= References
+
+[[_1]]
+[1] https://tools.ietf.org/html/rfc4960[RFC 4960] +
+Stream Control Transmission Protocol
+
+[[_2]]
+[2] ETSI ES 201 873-1 v3.2.1 (2007-02) +
+The Testing and Test Control Notation version 3; Part 1: Core Language
+
+[[_3]]
+[3] User Guide for the TITAN TTCN-3 Test Executor

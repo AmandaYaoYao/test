@@ -1,0 +1,218 @@
+== Date and Time Functions
+
+=== Overview
+
+Date and Time Functions enable you to handle date and time from TTCN-3.
+
+These Date and Time Functions were tested under Linux/Solaris/Cygwin platforms.
+
+Date and Time Functions are implemented in the following files:
+
+* __TCCDateTime_Functions.ttcn__
+* _TCCDateTime.cc_
+
+=== Function Definitions
+
+The following Date and Time Functions are defined. For the exact API check the generated NaturalDocs documentation.
+
+`external function f_time() return integer;`
+
+Provides the current calendar time of the system in seconds.
+
+`external function f_time_ms() return integer;`
+
+Provides the current calendar time of the system in milliseconds.
+
+`external function f_ctime(integer pl_sec) return charstring;`
+
+Convert a time value in seconds to human readable string in local system time.
+
+`external function f_ctime_ms(integer pl_msec) return charstring;`
+
+Convert a time value in milliseconds to human readable string in local system time.
+
+`external function f_ctime_UTC(integer pl_sec) return charstring;`
+
+Convert a time value in seconds to human readable string in UTC.
+
+`external function f_ctime_ms_UTC(integer pl_msec) return charstring;`
+
+Convert a time value in milliseconds to human readable string in UTC.
+
+`external function f_getTimeFormatted(integer pl_sec, charstring pl_format) return charstring;`
+
+Provide the current calendar time in a formatted way. Format string:
+
+[width="100%",cols="15%,60%,25%",options="header",]
+|==============================================================================
+|*specifier* |*Replaced by* |*Example*
+|%a |Abbreviated weekday name * |Thu
+|%A |Full weekday name * |Thursday
+|%b |Abbreviated month name * |Aug
+|%B |Full month name * |August
+|%c |Date and time representation * |Thu Aug 23 14:55:02 2001
+|%d |Day of the month (01-31) |23
+|%H |Hour in 24h format (00-23) |14
+|%I |Hour in 12h format (01-12) |02
+|%j |Day of the year (001-366) |235
+|%m |Month as a decimal number (01-12) |08
+|%M |Minute (00-59) |55
+|%p |AM or PM designation |PM
+|%S |Second (00-61) |02
+|%U |Week number with the first Sunday as the first day of week one (00-53) |33
+|%w |Weekday as a decimal number with Sunday as 0 (0-6) |4
+|%W |Week number with the first Monday as the first day of week one (00-53) |34
+|%x |Date representation * |08/23/01
+|%X |Time representation * |14:55:02
+|%y |Year, last two digits (00-99) |01
+|%Y |Year |2001
+|%Z |Timezone name or abbreviation |CDT
+|%% |A % sign |%
+|==============================================================================
+
+The specifiers whose description is marked with an asterisk (*) are locale-dependent.
+
+`external function f_time2sec(integer pl_year, integer pl_mon, integer pl_day, integer pl_hour, integer pl_min, integer pl_sec) return integer;`
+
+Convert date format to seconds since January 1, 1970. The date treated as local time.
+
+`external function f_time2sec_UTC(integer pl_year, integer pl_mon, integer pl_day, integer pl_hour, integer pl_min, integer pl_sec) return integer;`
+
+Convert date format to seconds since January 1, 1970. The date treated as UTC time.
+
+`external function f_getCurrentDateWithOffset(integer pl_sec) return charstring;`
+
+Generate a date from the actual date and time plus the parameter in seconds, for example `getSdate(30)` will return a charstring containing the date and time of 30 seconds later
+
+`external function f_getCurrentGMTDate() return charstring;`
+
+Return the current GMT date in format RFC 1123-Date ex: Sat Nov 13 23:30:02 2010
+
+`external function f_getCurrentGMTDate_ms() return charstring;`
+
+Return the current GMT date in format Www Mmm dd hh:mm:ss.SSS yyyy ex: Sat Nov 13 23:30:02.347 2010
+
+`external function f_tic() return integer;`
+
+Return the number of clock ticks used by the application since the program was launched.
+
+WARNING: Functionality depends on the used library. Man page shall be read for clock() function.
+
+`external function f_toc() return charstring;`
+
+Return the elapsed seconds since time t.
+
+WARNING: Functionality depends on the used library. Man page shall be read for clock() function. `f_toc`() depends on `f_tic`().
+
+`external function f_timeDiff(integer t_stop, integer t_start) return integer;`
+
+Return the difference between two time values.
+
+=== Error Messages
+
+None.
+
+=== Warning Messages
+
+None.
+
+=== Examples
+
+The following code part shows some examples for date and time functions.
+
+The first test case returns the current time in seconds (for example, 1195459285):
+
+[source]
+----
+testcase f_test_time() runs on DateTime_CT
+
+\{
+
+log(" ———– f_time ———– “);
+
+log(``Time (f_time):'', f_time());
+
+setverdict(pass);
+
+}
+----
+
+The second test case converts time in seconds into time string. Note that time is in format Www Mmm dd hh:mm:ss yyyy and awaited result is current local time minus an hour because of subtraction of 3600 seconds from input.
+
+[source]
+----
+testcase f_test_ctime() runs on DateTime_CT
+
+\{
+
+log(" ———– f_ctime ———– “);
+
+log(``CTime (f_ctime) - an hour before:'',
+
+f_ctime(f_time() - 3600));
+
+setverdict(pass);
+
+}
+----
+
+The third test case returns time as specified in format string
+
+(for example, 1195459285 + ``%m %I:%M%p.'' -> 11 **09:01**AM.)
+
+[source]
+----
+testcase f_test_getTimeFormatted() runs on DateTime_CT
+
+\{
+
+log(" ———– f_getTimeFormatted ———– “);
+
+log(``TimeFormatted (f_getTimeFormatted):'',
+
+f_getTimeFormatted(f_time(),``Now is %m %I:%M%p.''));
+
+setverdict(pass);
+
+}
+----
+
+The fourth test case returns current time with offset seconds defined by input. (For example,  with no input offset: Mon Nov 19 *09:01*:25 2007)
+
+[source]
+----
+testcase f_test_getCurrentDateWithOffset() runs on DateTime_CT
+
+\{
+
+log(" ——– f_getCurrentDateWithOffset ——– “);
+
+log(``Date (f_ getCurrentDateWithOffset):'',
+
+f_getCurrentDateWithOffset(0));
+
+setverdict(pass);
+
+}
+----
+
+The fifth test case returns GMT time. Notice bolded time value compared to `f_getTimeFormatted`() and `f_getCurrentDateWithOffset`().
+
+(For example, 1195459285 -> Mon Nov 19 *08:01*:25 2007)
+
+[source]
+----
+testcase f_test_getCurrentGMTDate() runs on DateTime_CT
+
+\{
+
+log(" ———– f_getCurrentGMTDate ———– “);
+
+log(``GMT Date (f_getCurrentGMTDate):'',
+
+f_getCurrentGMTDate());
+
+setverdict(pass);
+
+}
+----

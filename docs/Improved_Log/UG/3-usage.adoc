@@ -1,0 +1,43 @@
+= Usage
+
+The ILog feature consists of three modules; each of them can be used independently.
+
+== `ILogBase`
+
+The `ILogBase` is the common layer. It is provides the base functionality and can be used by the user or by other modules as well.
+
+In order to use the EPTF CLL `ILogBase` feature the user component should extend the `EPTF_ILogBase_CT` component.
+
+This component should be initialized by the function `f_EPTF_ILogBase_init_CT` before other functions of `ILogBase` can be used.
+
+In order to use this feature, the user has to create one or more `LogHeader` and a `LogItem` functions, which create the log based on the chains that contain the log items.
+
+There has to be at least one user side database, which contains the log items. The record type, used for this database, depends on the user. The database can be registered in the `ILogBase` component by using the `f_EPTF_ILogBase_register_DB` function. This function returns with an integer value, which is the Id of that database. This Id has to be used, when a new element is added to a chain.
+
+The chain can be created by using the `f_EPTF_ILogBase_newChain` function. This function also returns an integer value that is the Id of that chain. When a new log item is joined to a chain with the `f_EPTF_ILogBase_addToChains` function, the Ids returned by the previous functions have to be used. This function returns with the element index of the new log item. This index should be use to store the item in the user side database.
+
+The chains can be logged out or deleted at the end of the operation.
+
+== `ILog`
+
+In the first step, shall be implemented the `ILog` feature in application libraries handling session-based protocols.
+
+A supported possible use case can be the following:
+
+* The application writes a detailed log, and a short summary. In case of successful message flow, the short summary is written down. In case of failed message flow, the short summary is written down (like a header), and then the detailed log.
+
+* The test steps (provided by the application and the application libraries) and the transport layer always log into the detailed log.
+
+* The test steps mentioned above can log into the short summary too. This logging can be turned on/off by test steps. This way the users can manage from the FSM, which steps to write into the short description.
+
+Several test steps can be used to start a traffic flow in a scenario, and in another scenario they are inside a traffic flow. Only the business logic implemented in the Application level can decide when to start a new chain. Therefore, the chains can be started by an FSM test step and obviously logging out the chains can be initiated by an FSM test step too.
+
+The user can log out both the detailed and the short chain in case of failed traffic with using the `f_EPTF_ILog_step_logSuccess` function, and only the short chain in case of successful traffic by using the `f_EPTF_ILog_step_logFailed` function. It is also possible to delete both chains, when the traffic is successfully ended; this functionality is implemented in the `f_EPTF_ILog_step_deleteLog` function.
+
+This layer of the feature can be used on the application and the `AppLib` levels. All the functions are accessible that are provided by the `ILogBase` layer, which means that the user can register new databases, create new detailed and short chain pairs, add elements to the log chains and log out and delete the log chains by using only this upper layer.
+
+== `ILogString`
+
+The `ILogString` feature provides charstring logging functionality. It has a built-in database that has records, which consist of a charstring and a float value that contains a timestamp.
+
+To use this feature, it has to be initialized with the `f_EPTF_ILogString_init_CT` function. The initialization creates the built-in database as well. The functionalities of this feature are the same as those ones provided by the `ILogBase`. The difference between these two layers is that in case of `ILogString`, the user has to store only the Ids of the chains that were created; everything else is administered by the feature. The log item and the log header functions are also provided by the `ILogString` layer, which means that these functions are not customizable by the user.

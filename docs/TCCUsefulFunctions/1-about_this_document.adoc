@@ -1,0 +1,9 @@
+= About This Document
+
+== How to Read This Document
+
+This is the Function Specification for the TCC Useful Functions. The modules are developed for the TTCN-3 Toolset with TITAN.
+
+== Presumed Knowledge
+
+The knowledge of the TITAN TTCN-3 Test Executor <<5-references.adoc#_3, [3]>> and the TTCN-3 language <<5-references.adoc#_1, [1]>> is essential. Other documents that the reader should be familiar with are referenced in the consecutive section of each function.

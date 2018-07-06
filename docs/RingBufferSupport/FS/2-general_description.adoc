@@ -1,0 +1,7 @@
+= General Description
+
+TitanSim Ring Buffer component provides a general ring buffer (or circular buffer) implementation. Ring buffer is a http://en.wikipedia.org/wiki/Data_structure[data structure] that uses a single, fixed-size http://en.wikipedia.org/wiki/Buffer_%28computer_science%29[buffer] as if it were connected end-to-end. This structure can be easily used for buffering http://en.wikipedia.org/wiki/Data_stream[data streams].
+
+TitanSim Ring Buffer is a sequence of elements with maximized size, called capacity. It allows random access to elements and provides constant time insertion and removal at both front-end and back-end of the sequence. If you insert a new element to a full buffer (i.e. number of elements is equal with buffer capacity), the element at the other end is being overwritten.
+
+TitanSim Ring Buffer component provides ring buffer implementation both for integer and generic types. Generic (type independent) ring buffer support is implemented through macro-preprocessor of C++ compiler.

@@ -1,0 +1,61 @@
+= Error Messages
+
+`*ERROR: Wrong media type setting!*`
+
+`*ERROR: INIT__CODEC: empty filename is not allowed`ERROR: INIT__CODEC: Block size must be a positive integer*`
+
+`*ERROR: INIT__CODEC: There is not enough memory.*`
+
+`*ERROR: “INIT__CODEC: Cannot open file '%s'", filename*`
+
+`*ERROR: INIT__CODEC: Cannot create file '%s'", filename*`
+
+`*ERROR: INIT__CODEC: Wrong init_type setting! Available: OPEN, CREATE.*`
+
+`*ERROR: INIT__CODEC: Cannot gather file info*`
+
+`*ERROR: GET_CONTENT: There is not enough memory.*`
+
+`*ERROR: GET_CONTENT: unsuccesful read (%d), read_data*`
+
+`*ERROR: Get_Media_Header: Header offset must be a non-negative integer!*`
+
+`*ERROR: Get_Media_Header: Size of file %s is smaller than the size of header!, filename*`
+
+`*ERROR: ``Count_JPEG_Header_Offset: Cannot set the starting position in file %s'', filename*`
+
+`*ERROR: Count_JPEG_Header_Offset: There is not enough memory.*`
+
+`*ERROR: Count_JPEG_Header_Offset: unsuccesful read (%d), read_data*`
+
+`*ERROR: PUT_CONTENT: unsuccesful write to file*`
+
+`*ERROR: CLOSE__CODEC: There is not enough memory*`
+
+`*ERROR: CLOSE__CODEC: Unknown file descriptor (%d), fd*`
+
+`*ERROR: Fileinfo_Check: Unknown file descriptor (%d), fd*`
+
+`*ERROR: Fileinfo_Check: file info list is empty*`
+
+`*ERROR: Fileinfo_Check: inconsistent file info list (filename is missing)*`
+
+`*ERROR: Fileinfo_Check: inconsistent file info list*`
+
+`*ERROR: Fileinfo_Check: Cannot gather file info*`
+
+`*ERROR: Operation_Check: The number of blocks to read must be a non-negative integer*`
+
+`*ERROR: Operation_Check: Starting block position must be a non-negative integer*`
+
+`*ERROR: Operation_Check: Header offset must be a non-negative integer*`
+
+`*ERROR: Operation_Check: Size of file %s is smaller than the starting block position, filename*`
+
+`*ERROR: Operation_Check: Cannot set the starting position in file %s, filename*`
+
+`*ERROR: Operation_Check: Wrong OPERATION setting! Available: READ, WRITE.*`
+
+`*ERROR: RTP_Hdr_enc: The incoming parameter (hdr) is unbound!*`
+
+`*ERROR: RTP_Data_enc: The incoming parameter (rtp_data) is unbound!*`

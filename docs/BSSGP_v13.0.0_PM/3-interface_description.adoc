@@ -1,0 +1,22 @@
+= Interface Description
+
+== Top Level PDU
+
+The top level PDU is the TTCN-3 union `PDU_BSSGP`.
+
+[[encoding-decoding-and-other-related-functions]]
+== Encoding/Decoding and Other Related Functions
+
+This product also contains encoding/decoding functions, which assure correct encoding of messages when sent from Titan and correct decoding of messages when received by Titan.
+
+=== Implemented Encoding and Decoding Functions
+
+[cols=3*,options=header]
+|===
+
+|Name |Type of formal parameters |Type of return value
+|enc_PDU_BSSGP |in PDU_BSSGP |octetstring
+|dec_PDU_BSSGP |in octetstring |PDU_BSSGP
+|dec_PDU_BSSGP_backtrack |in octetstring, out PDU_BSSGP |integer
+|dec_PDU_BSSGP_fast |in PDU_BSSGP, out octetstring |integer
+|===

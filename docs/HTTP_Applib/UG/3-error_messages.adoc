@@ -1,0 +1,20 @@
+= Error Messages
+
+[[eptf-http-functions-ttcn]]
+== __EPTF_HTTP_Functions.ttcn__
+
+`*Unhandled HTTP method: <METHOD>*`
+
+The HTTP user’s context element refers to an invalid HTTP method
+
+[[eptf-http-logger-functions-ttcn]]
+== __EPTF_HTTP_Logger_Functions.ttcn__
+
+`*None exists.*`
+
+[[eptf-http-transport-functions-ttcn]]
+== __EPTF_HTTP_Transport_Functions.ttcn__
+
+`*Group name: <NAME> is not unique*`
+
+The provided port / port group name is not unique. If name is not necessary, then omitting it during creation of the port or port group will automatically generate an unique name.

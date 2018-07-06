@@ -1,0 +1,52 @@
+= References
+
+[[_1]]
+[1] ETSI ES 201 873–1 v.3.2.1 (2007-02) +
+The Testing and Test Control Notation version 3. Part 1: Core Language
+
+[[_2]]
+[2] Programmer’s Technical Reference for the TITAN TTCN-3 Test Executor
+
+[[_3]]
+[3] Installation Guide for the TITAN TTCN-3 Test Executor
+
+[[_4]]
+[4] PPP Protocol Modules for TTCN-3 Toolset with TITAN, Function Specification
+
+[[_5]]
+[5] IETF https://tools.ietf.org/html/rfc1661[RFC 1661] +
+The Point-to-Point Protocol
+
+[[_6]]
+[6] IETF https://tools.ietf.org/html/rfc1332[RFC 1332] +
+The PPP Internet Protocol Control Protocol (IPCP)
+
+[[_7]]
+[7] IETF https://tools.ietf.org/html/rfc1877[RFC 1877] +
+PPP Internet Protocol Control Protocol Extensions for Name Server Addresses
+
+[[_8]]
+[8] IETF https://tools.ietf.org/html/rfc1994[RFC 1994] +
+PPP Challenge Handshake Authentication Protocol (CHAP)
+
+[[_9]]
+[9] IETF https://tools.ietf.org/html/rfc1334[RFC 1334] +
+PPP Authentication Protocols
+
+[[_10]]
+[10] IETF https://tools.ietf.org/html/rfc1662[RFC 1662] +
+PPP in HDLC-like Framing
+
+[[_11]]
+[11] IETF https://tools.ietf.org/html/rfc3748[RFC 3748] +
+Extensible Authentication Protocol (EAP)
+
+[[_12]]
+[12] Extensible Authentication Protocol Method for GSM Subscriber Identity Modules (EAP-SIM) +
+https://tools.ietf.org/html/draft-haverinen-pppext-eap-sim-16 (2004-12)
+
+[[_13]]
+[13] Extensible Authentication Protocol Method for 3rd Generation Authentication and Key Agreement + https://tools.ietf.org/html/draft-arkko-pppext-eap-aka-15 (2004-12)
+
+[[_14]]
+[14] IP Protocol Modules for TTCN-3 Toolset with TITAN, Function Specification
