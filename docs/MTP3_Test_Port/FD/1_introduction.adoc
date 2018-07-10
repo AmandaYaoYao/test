@@ -20,6 +20,6 @@ This specification is based on the specifications created by `ITU-T`, `ANSI`, `T
 
 In several nodes the `GCP` over `SCTP` is implemented, meaning the `M3UA` layer is missing. In order to minimize the impact on existing `GCP` over `M3UA` test suites new modes are added to `MTP3`/`M3UA` Test Port, which simulate the lack of `MTP3`/`M3UA` layer:
 
-`MTP3ServiceType=’STC’` used for testing with `SEA`. See chapter <<5_function_specification_for_testing_with_sea_in_stc.adoc, 5>>
+`MTP3ServiceType=’STC’` used for testing with `SEA`. See chapter <<5_function_specification_for_testing_with_sea_in_stc.adoc, Function Specification for Testing with SEA in STC Mode>>
 
-`MTP3ServiceType=’TargetSTC’` used for testing real target through M3UA Server. See chapter <<6_function_specification_for_testing_with_real_target in STC mode.adoc, Function Specification for Testing with Real Target in STC Mode>>.
+`MTP3ServiceType=’TargetSTC’` used for testing real target through M3UA Server. See chapter <<6_function_specification_for_testing_with_real_target_in_STC_mode.adoc, Function Specification for Testing with Real Target in STC Mode>>.
