@@ -29,11 +29,19 @@ https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html.
 The contents of this document are subject to revision without notice due to continued progress in methodology, design and manufacturing. Ericsson shall have no liability for any error or damage of any kind resulting from the use of this document.
 
 include::1-introduction.adoc[]
+
 include::2-test_ports.adoc[]
+
 include::3-logger_plug-ins.adoc[]
+
 include::4-encoding_and_decoding.adoc[]
+
 include::5-mapping_ttcn3_data_types_to_c++_constructs.adoc[]
+
 include::6-tips_&_troubleshooting.adoc[]
+
 include::7-references.adoc[]
+
 include::8-list_of_tables.adoc[]
+
 include::9-abbreviations.adoc[]
