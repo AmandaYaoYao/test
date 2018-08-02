@@ -1,0 +1,39 @@
+---
+Author: Jeno Balasko
+Version: 6/198 17-CRL 113 200/6 Rev. PE1
+Date: 2018-06-18
+
+---
+= API Technical Reference for TITAN TTCN-3 Test Executor
+:author: Jeno Balasko
+:revnumber: 6/198 17-CRL 113 200/6 Rev. PE1
+:revdate: 2018-06-18
+:toc:
+:title-logo-image: images/titan_logo.png
+
+image::images/titan_logo.png[alt]
+
+*Abstract*
+
+This document describes detailed information on the TITAN Application Programming Interface (API) on C++ level, advanced TTCN–3 programming, and background information on the TITAN TTCN–3 Test Executor project.
+
+*Copyright*
+
+Copyright (c) 2000-2018 Ericsson Telecom AB +
+All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v2.0 that accompanies this distribution, and is available at
+
+https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html.
+
+*Disclaimer*
+
+The contents of this document are subject to revision without notice due to continued progress in methodology, design and manufacturing. Ericsson shall have no liability for any error or damage of any kind resulting from the use of this document.
+
+include::1-introduction.adoc[]
+include::2-test_ports.adoc[]
+include::3-logger_plug-ins.adoc[]
+include::4-encoding_and_decoding.adoc[]
+include::5-mapping_ttcn3_data_types_to_c++_constructs.adoc[]
+include::6-tips_&_troubleshooting.adoc[]
+include::7-references.adoc[]
+include::8-list_of_tables.adoc[]
+include::9-abbreviations.adoc[]

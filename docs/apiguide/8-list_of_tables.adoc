@@ -1,0 +1,71 @@
+= List of Tables
+
+link:2-test_ports.md#417143991217033-_Toc433725964[Table 1 Outgoing and incoming operations 20]
+
+link:2-test_ports.md#417143991217033-_Toc433725965[Table 2 Protected attributes 20]
+
+link:4-encoding_and_decoding.md#417143991217033-_Toc433725966[Table 3 Common error types 33]
+
+link:4-encoding_and_decoding.md#417143991217033-_Toc433725967[Table 4 Possible values of error_behavior_t 33]
+
+link:4-encoding_and_decoding.md#417143991217033-_Toc433725968[Table 5 BER-coding errors 37]
+
+link:4-encoding_and_decoding.md#417143991217033-_Toc433725969[Table 6 RAW-coding errors 39]
+
+link:4-encoding_and_decoding.md#417143991217033-_Toc433725970[Table 7 XER coding errors 43]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725971[Table 8 Public member functions of the class INTEGER 49]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725972[Table 9 Public member functions of the class FLOAT 52]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725973[Table 10 Public member functions of the class BOOLEAN 53]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725974[Table 11 Public member functions of the class VERDICTTYPE 55]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725975[Table 12 Public member functions of the class BITSTRING 56]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725976[Table 13 Public member functions of the class BITSTRING_ELEMENT 58]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725977[Table 14 Public member functions of the class HEXSTRING 59]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725978[Table 15 Public member functions of the class HEXSTRING_ELEMENT 62]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725979[Table 16 Public member functions of the class OCTETSTRING 63]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725980[Table 17 Public member functions of the class OCTETSTRING_ELEMENT 66]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725981[Table 18 Public member functions of the class CHARSTRING 67]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725982[Table 19 Public member functions of the class CHARSTRING_ELEMENT 70]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725983[Table 20 Public member functions of the class UNIVERSAL_CHARSTRING 72]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725984[Table 21 Public member functions of the class UNIVERSAL_CHARSTRING_ELEMENT 77]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725985[Table 22 Public member functions of the class OBJID 79]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725986[Table 23 Predefined component references 80]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725987[Table 24 Public member functions of the class COMPONENT 80]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725988[Table 25 Public member functions of the class Dummy 82]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725989[Table 26 Public member functions of the class t3 83]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725990[Table 27 Public member functions of the class OPTIONAL<t2> 84]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725991[Table 28 Public member functions of the class t3 86]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725992[Table 29 Public member functions of the class t2 88]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725993[Table 30 Pre-generated classes for record of/set of predefined types 90]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725994[Table 31 Public member functions of the class Day 93]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725995[Table 32 Public member functions of the class MyProc_call 100]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725996[Table 33 Public member functions of the class MyProc_reply 101]
+
+link:5-mapping_ttcn3_data_types_to_c++_constructs.md#417143991217033-_Toc433725997[Table 34 Public member functions of the class MyProc_exception 101]
+
+link:6-tips_&_troubleshooting.md#417143991217033-_Toc433725998[Table 35 TTCN–3 formal parameters and their C++ equivalents 104]
